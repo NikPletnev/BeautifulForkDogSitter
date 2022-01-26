@@ -15,7 +15,8 @@ namespace DogSitter.DAL.Entity
         public string Seria { get; set; }
         public string Number { get; set; }
         public DateTime IssueDate { get; set; }
-        public string? DivisionCode { get; set; }
+        public string Division { get; set; }
+        public string DivisionCode { get; set; }
         public string? Registration { get; set; }
     }
 }
