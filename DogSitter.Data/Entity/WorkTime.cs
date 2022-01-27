@@ -6,6 +6,6 @@
         public Sitter Sitter { get; set; }
         public DateTime DateStart { get; set; }
         public DateTime DateClouse { get; set; }
-        public int Weekdays { get; set; }
+        public Weekdays Weekdays { get; set; }
     }
 }
