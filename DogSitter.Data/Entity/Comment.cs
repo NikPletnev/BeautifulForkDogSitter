@@ -11,6 +11,6 @@ namespace DogSitter.DAL.Entity
         public int Id { get; set; }
         public string Сommentary { get; set; }
         public DateTime Date { get; set; }
-        public Order? Order { get; set; }
+        public Order Order { get; set; }
     }
 }
