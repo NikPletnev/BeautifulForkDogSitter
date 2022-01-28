@@ -15,6 +15,7 @@ namespace DogSitter.DAL.Entity
         public string? Description { get; set; }
         public string Breed { get; set; }
         public Customer Customer { get; set; }
+        public bool IsDeleted { get; set; }
 
     }
 }
