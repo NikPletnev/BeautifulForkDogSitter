@@ -16,7 +16,7 @@ namespace DogSitter.DAL.Entity
         public string ContactEmail { get; set; }
         public string ContactPhone { get; set; }
         public List<Dog> Dogs { get; set; }
-        public List<Sitter> {get; set;}
+        public List<Sitter> aaa {get; set;}
         public Address Address { get; set; }
 
     }

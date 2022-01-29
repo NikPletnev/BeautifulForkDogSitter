@@ -14,7 +14,7 @@ namespace DogSitter.DAL.Entity
         public DateTime OrderDate { get; set; }
         public Customer Customer { get; set; }
         public Sitter Sitter { get; set; }
-        public List<Pet> Pets { get; set; }
+        public List<Dog> Pets { get; set; }
         public decimal Price { get; set; }
         public List<Servise> ServiceList { get; set; }
         public Comment Comment { get; set; }
