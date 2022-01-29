@@ -16,7 +16,7 @@ namespace DogSitter.DAL.Entity
         public Sitter Sitter { get; set; }
         public List<Dog> Pets { get; set; }
         public decimal Price { get; set; }
-        public List<Servise> ServiceList { get; set; }
+        public List<Serviсe> ServiceList { get; set; }
         public Comment Comment { get; set; }
         public int Mark { get; set; }
     }
