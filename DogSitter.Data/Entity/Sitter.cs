@@ -14,7 +14,7 @@ namespace DogSitter.DAL.Entity
         public string Information { get; set; }
         public double Raiting { get; set; }
         public List<Order> Orders { get; set; } 
-        public List<Servise> ServiceList { get; set; }
+        public List<Serviсe> ServiceList { get; set; }
         public List<WorkTime> WorkTime { get; set; }
 
     }
