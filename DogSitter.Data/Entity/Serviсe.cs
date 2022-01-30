@@ -3,12 +3,12 @@
     public class Serviсe
     {
         public int Id { get; set; }
-        public Order Order { get; set; }
-        public Sitter Sitter { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public double DurationHours { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public virtual Order Order { get; set; }
+        public virtual Sitter Sitter { get; set; } 
     }
 }
