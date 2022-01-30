@@ -14,7 +14,7 @@ namespace DogSitter.DAL.Entity
         public string LastName { get; set; }
         public string /*Contact*/ Email { get; set; }
         public string /*Contact*/ Phone { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
     }
 }
