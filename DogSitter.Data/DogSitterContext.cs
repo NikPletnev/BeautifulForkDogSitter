@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using DogSitter.DAL.Entity;
+﻿using DogSitter.DAL.Entity;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -26,5 +20,8 @@ namespace DogSitter.DAL
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Dog> Dogs { get; set; }
         public DbSet<Passport> Passports { get; set; }
+        public DbSet<Serviсe> Services { get; set; }
+        public DbSet<WorkTime> WorkTimes { get; set; }
+
     }
 }
