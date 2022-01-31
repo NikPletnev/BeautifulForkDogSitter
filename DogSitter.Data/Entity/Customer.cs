@@ -6,18 +6,10 @@ using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Entity
 {
-    public class Customer
+    public class Customer : User
     {
-        public int Id { get; set; }
-        public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public virtual List<Contact> Contacts { get; set; }
         public virtual List<Dog> Dogs { get; set; }
         public virtual List<Sitter> Sitter { get; set;}
         public virtual Address Address { get; set; }
-        public bool IsDeleted { get; set; } = false;
-
-
     }
 }
