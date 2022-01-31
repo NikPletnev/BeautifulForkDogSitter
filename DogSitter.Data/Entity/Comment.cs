@@ -11,7 +11,7 @@ namespace DogSitter.DAL.Entity
         public int Id { get; set; }
         public string Text { get; set; }
         public DateTime Date { get; set; }
-        public Order Order { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public Order Order { get; set; }
     }
 }

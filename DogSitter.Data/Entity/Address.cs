@@ -14,8 +14,8 @@ namespace DogSitter.DAL.Entity
         public string Street { get; set; }
         public string House { get; set; }   
         public string Apartament { get; set; }
-        public List<SubwayStation> SubwayStations { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public List<SubwayStation> SubwayStations { get; set; }
 
 
     }
