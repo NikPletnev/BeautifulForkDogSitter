@@ -31,6 +31,7 @@ namespace DogSitter.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Default IsDeleted = 0
             modelBuilder.Entity<Address>()
             .Property(a => a.IsDeleted)
             .HasDefaultValue(0);
@@ -83,7 +84,9 @@ namespace DogSitter.DAL
             .Property(w => w.IsDeleted)
             .HasDefaultValue(0);
 
-            #region metro
+            #endregion
+
+            #region Subway Stations
             modelBuilder.Entity<SubwayStation>().HasData(
                             new SubwayStation[]
                             {
