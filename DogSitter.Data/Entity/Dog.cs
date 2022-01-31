@@ -14,8 +14,8 @@ namespace DogSitter.DAL.Entity
         public double Weight { get; set; }
         public string? Description { get; set; }
         public string Breed { get; set; }
-        public virtual Customer Customer { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public virtual Customer Customer { get; set; }
 
     }
 }

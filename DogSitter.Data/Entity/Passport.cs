@@ -18,7 +18,7 @@ namespace DogSitter.DAL.Entity
         public string Division { get; set; }
         public string DivisionCode { get; set; }
         public string? Registration { get; set; }
-        public virtual Sitter Sitter { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public virtual Sitter Sitter { get; set; }
     }
 }
