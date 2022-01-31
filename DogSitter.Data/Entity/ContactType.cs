@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Entity
 {
-    public class Comment
+    public class ContactType
     {
         public int Id { get; set; }
-        public string Text { get; set; }
-        public DateTime Date { get; set; }
-        public Order Order { get; set; }
+        public string Name { get; set; }
         public bool IsDeleted { get; set; } = false;
     }
 }

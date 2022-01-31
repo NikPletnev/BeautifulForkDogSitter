@@ -12,12 +12,14 @@ namespace DogSitter.DAL.Entity
         public int Id { get; set; }
         public Status Status { get; set; }
         public DateTime OrderDate { get; set; }
-        public Customer Customer { get; set; }
-        public Sitter Sitter { get; set; }
-        public List<Dog> Pets { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Sitter Sitter { get; set; }
+        public virtual List<Dog> Dogs { get; set; }
         public decimal Price { get; set; }
-        public List<Serviсe> ServiceList { get; set; }
-        public Comment Comment { get; set; }
-        public int Mark { get; set; }
+        public virtual List<Serviсe> ServiceList { get; set; }
+        public virtual Comment Comment { get; set; }
+        public int? Mark { get; set; }
+        public bool IsDeleted { get; set; } = false;
+
     }
 }
