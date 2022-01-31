@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,9 @@ namespace DogSitter.DAL.Entity
     public class SubwayStation
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
-        public bool IsDeleted { get; set; } = false;
-        public virtual List<Address> Adress { get; set; }
+        public bool IsDeleted { get; set; }
+        public virtual ICollection<Address> Adress { get; set; }
     }
 }

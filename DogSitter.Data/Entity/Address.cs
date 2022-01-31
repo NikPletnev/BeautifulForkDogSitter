@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Entity
 {
-    public  class Address
+    public class Address
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string City { get; set; }
+        [Required]
         public string Street { get; set; }
-        public string House { get; set; }   
-        public string Apartament { get; set; }
-        public bool IsDeleted { get; set; } = false;
-        public List<SubwayStation> SubwayStations { get; set; }
+        [Required]
+        public int House { get; set; }
+        [Required]
+        public int Apartament { get; set; }
+        public bool IsDeleted { get; set; }
+        public virtual ICollection<SubwayStation> SubwayStations { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
 
 
     }
