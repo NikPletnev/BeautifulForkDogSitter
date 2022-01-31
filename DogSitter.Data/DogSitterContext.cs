@@ -21,7 +21,9 @@ namespace DogSitter.DAL
         public DbSet<Dog> Dogs { get; set; }
         public DbSet<Passport> Passports { get; set; }
         public DbSet<Serviсe> Services { get; set; }
+        public DbSet<SubwayStation> SubwayStations { get; set; }
         public DbSet<WorkTime> WorkTimes { get; set; }
+
 
     }
 }

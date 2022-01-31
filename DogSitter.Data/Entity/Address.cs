@@ -14,7 +14,7 @@ namespace DogSitter.DAL.Entity
         public string Street { get; set; }
         public string House { get; set; }   
         public string Apartaments { get; set; }
-        public List<string> SubwayStantions { get; set; }
+        public List<SubwayStation> SubwayStations { get; set; }
 
 
     }
