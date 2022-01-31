@@ -34,6 +34,7 @@ namespace DogSitter.DAL
             modelBuilder.Entity<Customer>().ToTable("Customer");
             modelBuilder.Entity<Sitter>().ToTable("Sitter");
 
+            #region metro
             modelBuilder.Entity<SubwayStation>().OwnsOne(s => s.Name).HasData(
                 new { Id = 1, Name = "Девяткино" },
                 new { Id = 2, Name = "Гражданский проспект" },
@@ -106,8 +107,10 @@ namespace DogSitter.DAL
                 new { Id = 69, Name = "Международная" },
                 new { Id = 70, Name = "Проспект Славы" },
                 new { Id = 71, Name = "Дунайская" },
-                new { Id = 72, Name = "Шушары" }
+                new { Id = 72, Name = "Шушуары" }
                 );
+                #endregion
+
         }
 
     }
