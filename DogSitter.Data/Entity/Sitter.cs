@@ -7,17 +7,8 @@ using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Entity
 {
-    public class Sitter 
+    public class Sitter : User
     {
-        public int Id { get; set; }
-        [Required]
-        public string Password { get; set; }
-        [Required]
-        public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; }
-        public virtual ICollection<Contact> Contacts { get; set; }
-        public bool IsDeleted { get; set; }
         [Required]
         public int PassportId { get; set; }
         public virtual Passport Passport { get; set; }
