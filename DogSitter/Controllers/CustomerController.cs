@@ -15,34 +15,28 @@ namespace DogSitter.Controllers
         }
 
         [HttpGet]
-
-        public ActionResult<Customer> GetAllCustomer()
+        public ActionResult<List<Customer>> GetAllCustomers()
         {
             return Ok();
         }
 
-
         [HttpPost("{customer}")]
-
         public ActionResult AddCustomer(Customer customer)
         {
             return Ok();
         }
 
         [HttpPut("{customer}")]
-
         public ActionResult UpdateCustomer(Customer customer)
         {
             return Ok();
         }
 
         [HttpDelete("{id}")]
-
         public ActionResult DeleteCustomer(int id)
         {
             return Ok();
         }
-
     }
 
 }
