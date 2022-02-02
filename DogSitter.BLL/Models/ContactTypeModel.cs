@@ -8,7 +8,6 @@ namespace DogSitter.BLL.Models
 {
     public class ContactTypeModel
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
     }
