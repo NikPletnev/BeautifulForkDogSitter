@@ -1,4 +1,6 @@
-﻿using DogSitter.BLL.Models;
+﻿using DogSitter.API.Configs;
+using DogSitter.API.Models;
+using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +12,8 @@ namespace DogSitter.API.Controllers
     public class DogsController : Controller
     {
         private DogService _service = new DogService();
-
+        
+        //api/dogs/42
         [HttpDelete("{id}")]
         public IActionResult DeleteDog(int id)
         {
@@ -18,6 +21,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
+        //api/dogs/42
         [HttpPatch("{id}")]
         public IActionResult RestoreDog(int id)
         {
@@ -25,34 +29,37 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
+        //api/dogs/42
         [HttpPut("{id}")]
-        public IActionResult UpdateDog(int id, DogModel dog)
+        public IActionResult UpdateDog(int id, DogUpdateOutputModel dog)
         {
-            _service.UpdateDog(id, dog);
+            _service.UpdateDog(id, CustomMapper.GetInstance().Map<DogModel>(dog));
             return NoContent();
         }
 
+        //api/dogs
         [HttpPost]
-        public ActionResult<DogModel> AddDog(DogModel dog)
+        public ActionResult<DogInsertInputModel> AddDog(DogInsertInputModel dog)
         {
-            _service.AddDog(dog);
+            _service.AddDog(CustomMapper.GetInstance().Map<DogModel>(dog));
             return StatusCode(StatusCodes.Status201Created, dog);
         }
 
+        //api/dogs/42
         [HttpGet("{id}")]
-        public ActionResult<DogModel> GetDogById(int id)
+        public ActionResult<DogUpdateOutputModel> GetDogById(int id)
         {
             //if dog exist
-            var dog = _service.GetDogById(id);
+            var dog = CustomMapper.GetInstance().Map<DogModel>(_service.GetDogById(id));
             return Ok(dog);
             //if dog not found
             return NotFound($"Dog {id} not found");
         }
 
         [HttpGet]
-        public ActionResult<List<DogModel>> GetAllDogs()
+        public ActionResult<List<DogUpdateOutputModel>> GetAllDogs()
         {
-            var dogs = _service.GetAllDogs();
+            var dogs = CustomMapper.GetInstance().Map < List <DogUpdateOutputModel>>(_service.GetAllDogs());
             return Ok(dogs);
         }
     }

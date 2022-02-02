@@ -3,6 +3,6 @@
     public class ContactInsertInputModel
     {
         public string Value { get; set; }
-        public ContactTypeModel ContactType { get; set; }
+        public int ContactTypeId { get; set; }
     }
 }

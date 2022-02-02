@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Models;
+using DogSitter.API.Models;
+using DogSitter.API.Configs;
 
 namespace DogSitter.API.Controllers
 {
@@ -9,7 +11,7 @@ namespace DogSitter.API.Controllers
     public class ContactsController : Controller
     {
         private ContactService _service = new ContactService();
-
+        //api/contacts/42
         [HttpDelete("{id}")]
         public IActionResult DeleteContact(int id)
         {
@@ -17,6 +19,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
+        //api/contacts/42
         [HttpPatch("{id}")]
         public IActionResult RestoreContact(int id)
         {
@@ -24,34 +27,38 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
+        //api/contacts/42
         [HttpPut("{id}")]
-        public IActionResult UpdateContact(int id, ContactModel сontact)
+        public IActionResult UpdateContact(int id, [FromBody] ContactUpdateOutputModel сontact)
         {
-            _service.UpdateContact(id, сontact);
+            _service.UpdateContact(id, CustomMapper.GetInstance().Map<ContactModel> (сontact));
             return NoContent();
         }
 
+        //api/contacts
         [HttpPost]
-        public ActionResult<ContactModel> AddContact(ContactModel сontact)
+        public ActionResult<ContactInsertInputModel> AddContact(ContactInsertInputModel сontact)
         {
-            _service.AddContact(сontact);
+            _service.AddContact(CustomMapper.GetInstance().Map<ContactModel>(сontact));
             return StatusCode(StatusCodes.Status201Created, сontact);
         }
 
+        //api/contacts/42
         [HttpGet("{id}")]
-        public ActionResult<ContactModel> GetContactById(int id)
+        public ActionResult<ContactUpdateOutputModel> GetContactById(int id)
         {
             //if сontact exist
-            var сontact = _service.GetContactById(id);
+            var сontact = CustomMapper.GetInstance().Map<ContactUpdateOutputModel>(_service.GetContactById(id));
             return Ok(сontact);
             //if сontact not found
             return NotFound($"Contact {id} not found");
         }
 
+        //api/contacts
         [HttpGet]
-        public ActionResult<List<ContactModel>> GetAllContacts()
+        public ActionResult<List<ContactUpdateOutputModel>> GetAllContacts()
         {
-            var сontacts = _service.GetAllContacts();
+            var сontacts = CustomMapper.GetInstance().Map<List<ContactUpdateOutputModel>>(_service.GetAllContacts());
             return Ok(сontacts);
         }
     }

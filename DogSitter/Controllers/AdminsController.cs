@@ -1,4 +1,6 @@
-﻿using DogSitter.BLL.Models;
+﻿using DogSitter.API.Configs;
+using DogSitter.API.Models;
+using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,30 +25,30 @@ namespace DogSitter.API.Controllers
         public IActionResult RestoreAdmin(int id)
         {
             _service.RestoreAdmin(id);
-            return NoContent();
+            return Ok();
         }
 
         //api/admins/42
         [HttpPut("{id}")]
-        public IActionResult UpdateAdmin(int id, AdminModel admin)
+        public IActionResult UpdateAdmin(int id, [FromBody] AdminUpdateOutputModel admin)
         {
-            _service.UpdateAdmin(id, admin);
+            _service.UpdateAdmin(id, CustomMapper.GetInstance().Map<AdminModel>(admin));
             return NoContent();
         }
 
         [HttpPost]
-        public ActionResult<AdminModel> AddAdmin(AdminModel admin)
+        public ActionResult<AdminInsertInputModel> AddAdmin([FromBody] AdminInsertInputModel admin)
         {
-            _service.AddAdmin(admin);
+            _service.AddAdmin(CustomMapper.GetInstance().Map<AdminModel>(admin));
             return StatusCode(StatusCodes.Status201Created, admin);
         }
 
         //api/admins/42
         [HttpGet("{id}")]
-        public ActionResult<AdminModel> GetAdminById(int id)
+        public ActionResult<AdminOutputModel> GetAdminById(int id)
         {
+            var admin = CustomMapper.GetInstance().Map<AdminOutputModel>(_service.GetAdminById(id));
             //if admin exist
-            var admin = _service.GetAdminById(id);
             return Ok(admin);
             //if admin not found
             return NotFound($"Admin {id} not found");
@@ -54,9 +56,10 @@ namespace DogSitter.API.Controllers
 
         //api/admins
         [HttpGet]
-        public ActionResult<List<AdminModel>> GetAllAdmins()
+        public ActionResult<List<AdminOutputModel>> GetAllAdmins()
         {
-            var admins = _service.GetAllAdmins();
+            var admins = CustomMapper.GetInstance().Map<List<AdminOutputModel>>
+                                                                (_service.GetAllAdmins());
             return Ok(admins);
         }
     }

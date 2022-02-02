@@ -1,9 +1,9 @@
 ﻿namespace DogSitter.API.Models
 {
-    public class ContactOutputModel
+    public class ContactUpdateOutputModel
     {
         public string Value { get; set; }
-        public ContactTypeUpdateOutputModel contactType { get; set; }
+        public ContactTypeInsertInputModel ContactType { get; set; }
 
     }
 }
