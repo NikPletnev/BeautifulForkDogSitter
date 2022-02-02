@@ -40,10 +40,10 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateContact(int id, bool IsDeleted)
+        public void UpdateContact(int id, bool isDeleted)
         {
             var entity = GetContactById(id);
-            entity.IsDeleted = IsDeleted;
+            entity.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
 

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
-    public class ContactServise
+    public class ContactService
     {
         private ContactRepository _rep;
 
-        public ContactServise()
+        public ContactService()
         {
             _rep = new ContactRepository();
         }
@@ -56,7 +56,7 @@ namespace DogSitter.BLL.Services
             _rep.UpdateContact(id, false);
         }
 
-        public void AddContactType(ContactModel contact)
+        public void AddContact(ContactModel contact)
         {
             _rep.AddContact(ContactMapper.GetInstance().Map<Contact>(contact));
         }

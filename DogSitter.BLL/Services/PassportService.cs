@@ -36,7 +36,7 @@ namespace DogSitter.BLL.Services
             _rep.AddPassport(PassportMapper.GetInstance().Map<Passport>(passportModel));
         }
 
-        public PassportModel GetPassporBbyId(int id)
+        public PassportModel GetPassportById(int id)
         {
             var passport = _rep.GetPassportById(id);
             if (passport == null)

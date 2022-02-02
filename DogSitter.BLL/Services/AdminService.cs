@@ -43,7 +43,7 @@ namespace DogSitter.BLL.Services
             _rep.UpdateAdmin(id, true);
         }
 
-        public void RectoreAdmin(int id)
+        public void RestoreAdmin(int id)
         {
             var admin = _rep.GetAdminById(id);
             if (admin == null)
