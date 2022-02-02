@@ -12,7 +12,12 @@ namespace DogSitter.BLL.Services
 {
     public class CustomerService
     {
-        private CustomerRepository _repository = new CustomerRepository();
+        private CustomerRepository _repository;
+
+        public CustomerService()
+        {
+            _repository = new CustomerRepository();
+        }
 
         public CustomerModel GetCustomerById(int id)
         {

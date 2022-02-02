@@ -15,7 +15,6 @@ namespace DogSitter.DAL.Repositories
         public CustomerRepository()
         {
             _context = DogSitterContext.GetInstance();
-            _context = new DogSitterContext();
         }
 
         public Customer GetCustomerById(int id) =>
@@ -36,9 +35,7 @@ namespace DogSitter.DAL.Repositories
             var entity = GetCustomerById(customer.Id);
             entity.FirstName = customer.FirstName;
             entity.LastName = customer.LastName;
-            entity.Password = customer.Password;
             entity.Contacts = customer.Contacts;
-            entity.IsDeleted = customer.IsDeleted;
             entity.Dogs = customer.Dogs;
             entity.Sitter = customer.Sitter;
             entity.Address = customer.Address;
@@ -48,12 +45,9 @@ namespace DogSitter.DAL.Repositories
 
         public void DeleteCustomerById(int id)
         {
-            if (_context.Customers.Any(x => x.Id == id))
-            {
                 var customer = GetCustomerById(id);
                 _context.Customers.Remove(customer);
                 _context.SaveChanges();
-            }
         }
 
         public void UpdateCustomer(int id, bool IsDeleted)
