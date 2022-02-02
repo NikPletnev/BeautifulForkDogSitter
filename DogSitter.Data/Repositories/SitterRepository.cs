@@ -16,21 +16,21 @@ namespace DogSitter.DAL.Repositories
             _context = DogSitterContext.GetInstance();
         }
 
-        public Sitter GetSitterById(int id) =>
+        public Sitter GetById(int id) =>
             _context.Sitters.FirstOrDefault(x => x.Id == id);
 
-        public List<Sitter> GetAllSitters() => 
+        public List<Sitter> GetAll() => 
             _context.Sitters.Where(d => d.IsDeleted).ToList();
 
-        public void AddSitter(Sitter sitter)
+        public void Add(Sitter sitter)
         {
             _context.Sitters.Add(sitter);
             _context.SaveChanges();
         }
 
-        public void UpdateSitter(Sitter sitter)
+        public void Update(Sitter sitter)
         {
-            var entity = GetSitterById(sitter.Id);
+            var entity = GetById(sitter.Id);
             entity.Passport = sitter.Passport;
             entity.FirstName = sitter.FirstName;
             entity.LastName = sitter.LastName;
@@ -43,16 +43,16 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateSitter(int id, bool isDeleted)
+        public void Update(int id, bool isDeleted)
         {
-            Sitter sitter = GetSitterById(id);
+            Sitter sitter = GetById(id);
             sitter.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
 
-        public void DeleteSitterById(int id)
+        public void DeleteById(int id)
         {
-            var sitter = GetSitterById(id);
+            var sitter = GetById(id);
             _context.Sitters.Remove(sitter);
             _context.SaveChanges();
         }
