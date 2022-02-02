@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Entity
 {
-    public class Sitter
+    public class Sitter 
     {
         public int Id { get; set; }
         [Required]
@@ -18,7 +18,6 @@ namespace DogSitter.DAL.Entity
         public string LastName { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
         public bool IsDeleted { get; set; }
-
         [Required]
         public int PassportId { get; set; }
         public virtual Passport Passport { get; set; }

@@ -10,10 +10,22 @@ namespace DogSitter.DAL
         Persist Security Info=True;User ID = student; Password=qwe!23; Pooling=False; MultipleActiveResultSets=False; 
         Connect Timeout = 60; Encrypt=False; TrustServerCertificate=False";
 
+        private static DogSitterContext _instance;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_conectionString);
         }
+
+        public static DogSitterContext GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new DogSitterContext();
+            }
+            return _instance;
+        }
+
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
@@ -33,9 +45,6 @@ namespace DogSitter.DAL
         {
             #region Default IsDeleted = 0
 
-            modelBuilder.Entity<Admin>().HasBaseType<User>();
-            modelBuilder.Entity<Customer>().HasBaseType<User>();
-            modelBuilder.Entity<Sitter>().HasBaseType<User>();
             
             modelBuilder.Entity<Address>()
             .Property(a => a.IsDeleted)
