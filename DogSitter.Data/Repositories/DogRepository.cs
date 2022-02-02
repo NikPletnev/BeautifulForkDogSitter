@@ -29,13 +29,6 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteDog(int id)
-        {
-            Dog dog = GetDogById(id);
-            _context.Dogs.Remove(dog);
-            _context.SaveChanges();
-        }
-
         public void UpdateDog(Dog dog)
         {
             var entity = GetDogById(dog.Id);

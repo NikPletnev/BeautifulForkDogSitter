@@ -40,7 +40,18 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Администратор не найден");
             }
 
-            _rep.DeleteAdmin(id);
+            _rep.UpdateAdmin(id, true);
+        }
+
+        public void RectoreAdmin(int id)
+        {
+            var admin = _rep.GetAdminById(id);
+            if (admin == null)
+            {
+                throw new Exception("Администратор не найден");
+            }
+
+            _rep.UpdateAdmin(id, false);
         }
 
         public void AddAdmin(AdminModel adminModel)
