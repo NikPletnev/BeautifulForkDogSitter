@@ -33,7 +33,6 @@ namespace DogSitter.DAL.Repositories
             var entity = GetById(comment.Id);
             entity.Text = comment.Text;
             entity.Date = comment.Date;
-            entity.Orders = comment.Orders;
             _context.SaveChanges();
         }
 
@@ -41,13 +40,6 @@ namespace DogSitter.DAL.Repositories
         {
             Comment comment = GetById(id);
             comment.IsDeleted = IsDeleted;
-            _context.SaveChanges();
-        }
-
-        public void DeleteById(int id)
-        {
-            var comment = GetById(id);
-            _context.Comments.Remove(comment);
             _context.SaveChanges();
         }
     }
