@@ -15,7 +15,9 @@ namespace DogSitter.DAL
             optionsBuilder.UseSqlServer(_conectionString);
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Sitter> Sitters { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -32,9 +34,6 @@ namespace DogSitter.DAL
         {
             #region Default IsDeleted = 0
 
-            modelBuilder.Entity<Admin>().HasBaseType<User>();
-            modelBuilder.Entity<Customer>().HasBaseType<User>();
-            modelBuilder.Entity<Sitter>().HasBaseType<User>();
             
             modelBuilder.Entity<Address>()
             .Property(a => a.IsDeleted)
