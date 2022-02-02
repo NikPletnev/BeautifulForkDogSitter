@@ -10,9 +10,20 @@ namespace DogSitter.DAL
         Persist Security Info=True;User ID = student; Password=qwe!23; Pooling=False; MultipleActiveResultSets=False; 
         Connect Timeout = 60; Encrypt=False; TrustServerCertificate=False";
 
+        private static DogSitterContext _instance;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_conectionString);
+        }
+
+        public static DogSitterContext GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new DogSitterContext();
+            }
+            return _instance;
         }
 
         public DbSet<User> Users { get; set; }
