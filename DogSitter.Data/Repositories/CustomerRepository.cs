@@ -50,10 +50,10 @@ namespace DogSitter.DAL.Repositories
                 _context.SaveChanges();
         }
 
-        public void UpdateCustomer(int id, bool IsDeleted)
+        public void UpdateCustomer(int id, bool isDeleted)
         {
             Customer customer = GetCustomerById(id);
-            customer.IsDeleted = IsDeleted;
+            customer.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
 
