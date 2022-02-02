@@ -26,7 +26,7 @@ namespace DogSitter.DAL.Entity
         public string Information { get; set; }
         public double Rating { get; set; }
         public virtual ICollection<Order> Orders { get; set; } 
-        public virtual ICollection<Serviсe> Service { get; set; }
+        public virtual ICollection<Serviсe> Services { get; set; }
         public virtual ICollection<WorkTime> WorkTime { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
     }
