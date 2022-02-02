@@ -35,7 +35,6 @@ namespace DogSitter.DAL.Repositories
             entity.Price = order.Price;
             entity.Status = order.Status;
             entity.Mark = order.Mark;
-            entity.Customer = order.Customer;
             entity.Sitter = order.Sitter;
             entity.Comment = order.Comment;
             _context.SaveChanges();
@@ -45,13 +44,6 @@ namespace DogSitter.DAL.Repositories
         {
             Order order = GetById(id);
             order.IsDeleted = IsDeleted;
-            _context.SaveChanges();
-        }
-
-        public void DeleteById(int id)
-        {
-            var order = GetById(id);
-            _context.Orders.Remove(order);
             _context.SaveChanges();
         }
     }
