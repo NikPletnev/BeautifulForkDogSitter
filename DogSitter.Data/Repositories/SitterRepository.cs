@@ -37,8 +37,6 @@ namespace DogSitter.DAL.Repositories
             entity.Contacts = sitter.Contacts;
             entity.Address = sitter.Address;
             entity.Information = sitter.Information;
-            entity.Rating = sitter.Rating;
-            entity.Orders = sitter.Orders;
             entity.Services = sitter.Services;
             _context.SaveChanges();
         }
