@@ -54,11 +54,7 @@ namespace DogSitter.DAL.Repositories
 
         public void UpdateAdmin(int id, bool IsDeleted)
         {
-            var entity = GetAdminById(id);
-            foreach (var c in entity.Contacts)
-            {
-                c.IsDeleted = true;
-            }
+            var entity = GetAdminById(id);          
             entity.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
