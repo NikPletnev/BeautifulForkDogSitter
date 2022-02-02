@@ -14,7 +14,7 @@ namespace DogSitter.DAL.Repositories
 
         public ContactRepository()
         {
-            _context = new DogSitterContext();
+            _context = DogSitterContext.GetInstance();
         }
 
         public List<Contact> GetAllContacts() =>

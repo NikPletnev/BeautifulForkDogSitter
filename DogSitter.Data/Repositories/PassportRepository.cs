@@ -14,7 +14,7 @@ namespace DogSitter.DAL.Repositories
 
         public PassportRepository()
         {
-            _context = new DogSitterContext();
+            _context = DogSitterContext.GetInstance();
         }
   
 

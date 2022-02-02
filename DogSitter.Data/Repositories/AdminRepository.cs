@@ -14,7 +14,7 @@ namespace DogSitter.DAL.Repositories
 
         public AdminRepository()
         {
-            _context = new DogSitterContext();
+            _context = DogSitterContext.GetInstance();
         }
 
         public List<Admin> GetAllAdmins() =>

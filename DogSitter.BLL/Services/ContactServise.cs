@@ -1,4 +1,5 @@
-﻿using DogSitter.BLL.Models;
+﻿using DogSitter.BLL.Configs;
+using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using System;
@@ -11,19 +12,24 @@ namespace DogSitter.BLL.Services
 {
     public class ContactServise
     {
-        private ContactRepository _rep = new ContactRepository();
-        private MMapper _map = new MMapper();
+        private ContactRepository _rep;
+
+        public ContactServise()
+        {
+            _rep = new ContactRepository();
+        }
 
         public void UpdateContact(int id, ContactModel contactModel)
         {
+            var entity = ContactMapper.GetInstance().Map<Contact>(contactModel);
             var contact = _rep.GetContactById(id);
 
             if (contact == null)
             {
-                throw new Exception("Rонтакт не найден");
+                throw new Exception("Контакт не найден");
 
             }          
-            _rep.UpdateContact(_map.MapContactModelToContact(contactModel));
+            _rep.UpdateContact(entity);
         }
 
         public void DeleteContact(int id)
@@ -52,7 +58,7 @@ namespace DogSitter.BLL.Services
 
         public void AddContactType(ContactModel contact)
         {
-            _rep.AddContact(_map.MapContactModelToContact(contact));
+            _rep.AddContact(ContactMapper.GetInstance().Map<Contact>(contact));
         }
 
         public ContactModel GetContactById(int id)
@@ -64,12 +70,12 @@ namespace DogSitter.BLL.Services
 
             }
             
-            return _map.MapContactToContactModel(contact);
+            return ContactMapper.GetInstance().Map<ContactModel>(contact);
         }
 
         public List<ContactModel> GetAllContacts()
         {
-            return _map.MapContactToContactModel(_rep.GetAllContacts());
+            return ContactMapper.GetInstance().Map<List<ContactModel>>(_rep.GetAllContacts());
         }
     }
 }
