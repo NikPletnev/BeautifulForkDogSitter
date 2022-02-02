@@ -15,6 +15,6 @@ namespace DogSitter.DAL.Entity
         [Required]
         public DateTime Date { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual Order Order { get; set; }
+        public virtual Order Orders { get; set; }
     }
 }
