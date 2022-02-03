@@ -28,6 +28,7 @@ namespace DogSitter.BLL.Config
             {
                 cfg.CreateMap<Customer, CustomerModel>().ReverseMap();
                 cfg.CreateMap<Sitter, SitterModel>().ReverseMap();
+                cfg.CreateMap<Order, OrderModel>().ReverseMap();
 
             }));
 

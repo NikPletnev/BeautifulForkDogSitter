@@ -32,6 +32,7 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Ситтер не найден");
             }
         }
+
         public List<SitterModel> GetAll()
         {
             var sitters = _repository.GetAll();
