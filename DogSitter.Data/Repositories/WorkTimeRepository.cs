@@ -25,7 +25,7 @@ namespace DogSitter.DAL.Repositories
 
         public void DeleteWorkTime(int id)
         {
-            WorkTime workTime = GetWorkTimeById(id);
+            var workTime = GetWorkTimeById(id);
             _context.WorkTimes.Remove(workTime);
             _context.SaveChanges();
         }

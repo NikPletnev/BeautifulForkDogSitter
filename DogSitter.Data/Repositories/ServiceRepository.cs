@@ -25,7 +25,7 @@ namespace DogSitter.DAL.Repositories
 
         public void DeleteService(int id)
         {
-            Serviсe service = GetServiceById(id);
+            var service = GetServiceById(id);
             _context.Services.Remove(service);
             _context.SaveChanges();
         }
