@@ -4,7 +4,7 @@
 
 namespace DogSitter.DAL.Migrations
 {
-    public partial class Create : Migration
+    public partial class Inheritance : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
