@@ -1,6 +1,6 @@
 ﻿namespace DogSitter.API.Models
 {
-    public class PassportInsertInputModel
+    public class PassportUpdateInputModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -11,6 +11,5 @@
         public string Division { get; set; }
         public string DivisionCode { get; set; }
         public string Registration { get; set; }
-        public SitterOutputModel Sitter { get; set; }
     }
 }

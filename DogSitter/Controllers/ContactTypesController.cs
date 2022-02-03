@@ -11,9 +11,16 @@ namespace DogSitter.API.Controllers
     public class ContactTypesController : Controller
     {
 
-        private ContactTypeService _service = new ContactTypeService();
+        private ContactTypeService _service;
+        private CustomMapper _map;
 
-        //api/contactTypes/42
+        public ContactTypesController()
+        {
+            _service = new ContactTypeService();
+            _map = new CustomMapper();
+        }
+
+        //api/contacttypes/42
         [HttpDelete("{id}")]
         public IActionResult DeleteContactType(int id)
         {
@@ -21,7 +28,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        //api/contactTypes/42
+        //api/contacttypes/42
         [HttpPatch("{id}")]
         public IActionResult RestoreContactType(int id)
         {
@@ -29,37 +36,37 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        //api/contactTypes/42
+        //api/contacttypes/42
         [HttpPut("{id}")]
-        public IActionResult UpdateContactType(int id, ContactTypeUpdateOutputModel сontactType)
+        public IActionResult UpdateContactType(int id, [FromBody] ContactTypeInputModel сontactType)
         {
-            _service.UpdateContactType(id, CustomMapper.GetInstance().Map<ContactTypeModel>(сontactType));
+            _service.UpdateContactType(id, _map.GetInstance().Map<ContactTypeModel>(сontactType));
             return NoContent();
         }
 
-        //api/contactTypes
+        //api/contacttypes
         [HttpPost]
-        public ActionResult<ContactTypeInsertInputModel> AddContactType(ContactTypeInsertInputModel сontactType)
+        public ActionResult<ContactTypeOutputModel> AddContactType( [FromBody] ContactTypeInputModel сontactType)
         {
-            _service.AddContactType(CustomMapper.GetInstance().Map<ContactTypeModel>(сontactType));
-            return StatusCode(StatusCodes.Status201Created, сontactType);
+            _service.AddContactType(_map.GetInstance().Map<ContactTypeModel>(сontactType));
+            return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map< ContactTypeOutputModel > (сontactType));
         }
 
-        //api/contactTypes/42
+        //api/contacttypes/42
         [HttpGet("{id}")]
-        public ActionResult<ContactTypeUpdateOutputModel> GetContactTypeById(int id)
+        public ActionResult<ContactTypeOutputModel> GetContactTypeById(int id)
         {
             //if сontactType exist
-            var сontactType = CustomMapper.GetInstance().Map<ContactTypeUpdateOutputModel>(_service.GetContactTypeById(id));
+            var сontactType = _map.GetInstance().Map<ContactTypeOutputModel>(_service.GetContactTypeById(id));
             return Ok(сontactType);
             //if сontactType not found
             return NotFound($"ContactType {id} not found");
         }
 
         [HttpGet]
-        public ActionResult<List<ContactTypeUpdateOutputModel>> GetAllContactTypes()
+        public ActionResult<List<ContactTypeOutputModel>> GetAllContactTypes()
         {
-            var сontactTypes = CustomMapper.GetInstance().Map<List<ContactTypeUpdateOutputModel>>(_service.GetAllContactTypes());
+            var сontactTypes = _map.GetInstance().Map<List<ContactTypeOutputModel>>(_service.GetAllContactTypes());
             return Ok(сontactTypes);
         }
     }

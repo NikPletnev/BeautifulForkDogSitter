@@ -10,7 +10,16 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class ContactsController : Controller
     {
-        private ContactService _service = new ContactService();
+        private ContactService _service;
+        private CustomMapper _map;
+
+
+        public ContactsController()
+        {
+            _service = new ContactService();
+            _map = new CustomMapper();
+        }
+
         //api/contacts/42
         [HttpDelete("{id}")]
         public IActionResult DeleteContact(int id)
@@ -29,26 +38,26 @@ namespace DogSitter.API.Controllers
 
         //api/contacts/42
         [HttpPut("{id}")]
-        public IActionResult UpdateContact(int id, [FromBody] ContactUpdateOutputModel сontact)
+        public IActionResult UpdateContact(int id, [FromBody] ContactUpdateInputModel сontact)
         {
-            _service.UpdateContact(id, CustomMapper.GetInstance().Map<ContactModel> (сontact));
+            _service.UpdateContact(id, _map.GetInstance().Map<ContactModel> (сontact));
             return NoContent();
         }
 
         //api/contacts
         [HttpPost]
-        public ActionResult<ContactInsertInputModel> AddContact(ContactInsertInputModel сontact)
+        public ActionResult<ContactOutputModel> AddContact(ContactInsertInputModel сontact)
         {
-            _service.AddContact(CustomMapper.GetInstance().Map<ContactModel>(сontact));
-            return StatusCode(StatusCodes.Status201Created, сontact);
+            _service.AddContact(_map.GetInstance().Map<ContactModel>(сontact));
+            return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map<ContactOutputModel>(сontact));
         }
 
         //api/contacts/42
         [HttpGet("{id}")]
-        public ActionResult<ContactUpdateOutputModel> GetContactById(int id)
+        public ActionResult<ContactOutputModel> GetContactById(int id)
         {
             //if сontact exist
-            var сontact = CustomMapper.GetInstance().Map<ContactUpdateOutputModel>(_service.GetContactById(id));
+            var сontact = _map.GetInstance().Map<ContactOutputModel>(_service.GetContactById(id));
             return Ok(сontact);
             //if сontact not found
             return NotFound($"Contact {id} not found");
@@ -56,9 +65,9 @@ namespace DogSitter.API.Controllers
 
         //api/contacts
         [HttpGet]
-        public ActionResult<List<ContactUpdateOutputModel>> GetAllContacts()
+        public ActionResult<List<ContactOutputModel>> GetAllContacts()
         {
-            var сontacts = CustomMapper.GetInstance().Map<List<ContactUpdateOutputModel>>(_service.GetAllContacts());
+            var сontacts = _map.GetInstance().Map<List<ContactOutputModel>>(_service.GetAllContacts());
             return Ok(сontacts);
         }
     }

@@ -6,9 +6,9 @@ namespace DogSitter.API.Configs
 {
     public class CustomMapper
     {
-        private static Mapper _instance;
+        private Mapper _instance;
 
-        public static Mapper GetInstance()
+        public Mapper GetInstance()
         {
             if (_instance == null)
             {
@@ -17,21 +17,30 @@ namespace DogSitter.API.Configs
             return _instance;
         }
 
-        public static void InitMapper()
+        public void InitMapper()
         {
             _instance = new Mapper(new MapperConfiguration(
             conf =>
             {
-                conf.CreateMap<AdminUpdateOutputModel, AdminModel>().ReverseMap();
                 conf.CreateMap<AdminInsertInputModel, AdminModel>().ReverseMap();
-                conf.CreateMap<ContactUpdateOutputModel, ContactModel>().ReverseMap();
-                conf.CreateMap<ContactTypeInsertInputModel, ContactTypeModel>().ReverseMap();
-                conf.CreateMap<ContactTypeUpdateOutputModel, ContactTypeModel>().ReverseMap();
+                conf.CreateMap<AdminUpdateInputModel, AdminModel>().ReverseMap();
                 conf.CreateMap<AdminOutputModel, AdminModel>().ReverseMap();
-                conf.CreateMap<DogUpdateOutputModel, DogModel>().ReverseMap();
+
+                conf.CreateMap<ContactUpdateInputModel, ContactModel>().ReverseMap();
+                conf.CreateMap<ContactOutputModel, ContactModel>().ReverseMap();
+                conf.CreateMap<ContactInsertInputModel, ContactModel>().ReverseMap();
+
+                conf.CreateMap<ContactTypeInputModel, ContactTypeModel>().ReverseMap();
+                conf.CreateMap<ContactOutputModel, ContactModel>().ReverseMap();
+
+                conf.CreateMap<DogUpdateInputModel, DogModel>().ReverseMap();
                 conf.CreateMap<DogInsertInputModel, DogModel>().ReverseMap();
+                conf.CreateMap<DogOutputModel, DogModel>().ReverseMap();
+
                 conf.CreateMap<PassportInsertInputModel, PassportModel>().ReverseMap();
-                conf.CreateMap<PassportUpdateOutputModel, PassportModel>().ReverseMap();
+                conf.CreateMap<PassportUpdateInputModel, PassportModel>().ReverseMap();
+                conf.CreateMap<PassportOutputModel, PassportModel>().ReverseMap();
+
             }));
         }
     }
