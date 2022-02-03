@@ -20,7 +20,7 @@ namespace DogSitter.API.Controllers
             _map = new CustomMapper();
         }
 
-        //api/contacttypes/42
+        //api/contact-types/42
         [HttpDelete("{id}")]
         public IActionResult DeleteContactType(int id)
         {
@@ -28,7 +28,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        //api/contacttypes/42
+        //api/contact-types/42
         [HttpPatch("{id}")]
         public IActionResult RestoreContactType(int id)
         {
@@ -36,7 +36,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        //api/contacttypes/42
+        //api/contact-types/42
         [HttpPut("{id}")]
         public IActionResult UpdateContactType(int id, [FromBody] ContactTypeInputModel сontactType)
         {
@@ -44,7 +44,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        //api/contacttypes
+        //api/contact-types
         [HttpPost]
         public ActionResult<ContactTypeOutputModel> AddContactType( [FromBody] ContactTypeInputModel сontactType)
         {
@@ -52,7 +52,7 @@ namespace DogSitter.API.Controllers
             return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map< ContactTypeOutputModel > (сontactType));
         }
 
-        //api/contacttypes/42
+        //api/contact-types/42
         [HttpGet("{id}")]
         public ActionResult<ContactTypeOutputModel> GetContactTypeById(int id)
         {
