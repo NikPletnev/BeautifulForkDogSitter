@@ -47,12 +47,5 @@ namespace DogSitter.DAL.Repositories
             sitter.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
-
-        public void DeleteById(int id)
-        {
-            var sitter = GetById(id);
-            _context.Sitters.Remove(sitter);
-            _context.SaveChanges();
-        }
     }
 }
