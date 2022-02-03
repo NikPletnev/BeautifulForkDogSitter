@@ -12,13 +12,13 @@ namespace DogSitter.API.Controllers
     {
 
         [HttpGet("{id}")]
-        public ActionResult<Sitter> GetbyId(int id)
+        public ActionResult<SitterModel> GetbyId(int id)
         {
             return Ok();
         }
 
         [HttpGet]
-        public ActionResult<List<Sitter>> GetAll(int id)
+        public ActionResult<List<SitterModel>> GetAll(int id)
         {
             return Ok();
         }
