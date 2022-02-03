@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DogSitter.DAL.Entity;
 
 namespace DogSitter.BLL.Models
 {
-    internal class WorkTimeModel
+    public class WorkTimeModel
     {
+        public int Id { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public Weekday Weekdays { get; set; }
+        public virtual List<Sitter> Sitter { get; set; }
     }
 }

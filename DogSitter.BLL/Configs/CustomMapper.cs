@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace DogSitter.BLL.Config
@@ -28,7 +23,8 @@ namespace DogSitter.BLL.Config
             {
                 cfg.CreateMap<Customer, CustomerModel>().ReverseMap();
                 cfg.CreateMap<Sitter, SitterModel>().ReverseMap();
-
+                cfg.CreateMap<Serviсe, ServiceModel>().ReverseMap();
+                cfg.CreateMap<WorkTime, WorkTimeModel>().ReverseMap();
             }));
 
         }
