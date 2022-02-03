@@ -4,18 +4,18 @@ namespace DogSitter.DAL.Repositories
 {
     public class ServiceRepository
     {
-        private DogSitterContext _context;
+        private readonly DogSitterContext _context;
 
         public ServiceRepository()
         {
-            _context = new DogSitterContext();
+            _context = DogSitterContext.GetInstance();
         }
 
         public List<Serviсe> GetAllServices() =>
-                    _context.Services.Where(d => !d.IsDeleted).ToList();
+                    _context.Services.Where(s => !s.IsDeleted).ToList();
 
         public Serviсe GetServiceById(int id) =>
-                     _context.Services.FirstOrDefault(x => x.Id == id);
+                     _context.Services.FirstOrDefault(s => s.Id == id);
 
         public void AddService(Serviсe service)
         {

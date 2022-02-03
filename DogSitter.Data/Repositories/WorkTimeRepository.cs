@@ -4,18 +4,18 @@ namespace DogSitter.DAL.Repositories
 {
     public class WorkTimeRepository
     {
-        private DogSitterContext _context;
+        private readonly DogSitterContext _context;
 
         public WorkTimeRepository()
         {
-            _context = new DogSitterContext();
+            _context = DogSitterContext.GetInstance();
         }
 
-        public List<WorkTime> GetAllServices() =>
-                    _context.WorkTimes.Where(d => !d.IsDeleted).ToList();
+        public List<WorkTime> GetAllWorkTimes() =>
+                    _context.WorkTimes.Where(w => !w.IsDeleted).ToList();
 
         public WorkTime GetWorkTimeById(int id) =>
-                     _context.WorkTimes.FirstOrDefault(x => x.Id == id);
+                     _context.WorkTimes.FirstOrDefault(w => w.Id == id);
 
         public void AddWorkTime(WorkTime workTime)
         {
