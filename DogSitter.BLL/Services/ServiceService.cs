@@ -1,4 +1,5 @@
-﻿using DogSitter.BLL.Config;
+﻿using AutoMapper;
+using DogSitter.BLL.Config;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -8,18 +9,20 @@ namespace DogService.BLL.Services
     public class ServiceService
     {
         private ServiceRepository _repository;
+        private readonly IMapper _mapper;
 
         public ServiceService()
         {
             _repository = new ServiceRepository();
+            _mapper = CustomMapper.GetInstance();
         }
 
         public ServiceModel GetServiceById(int id)
         {
             try
             {
-                var Service = _repository.GetServiceById(id);
-                return CustomMapper.GetInstance().Map<ServiceModel>(Service);
+                var service = _repository.GetServiceById(id);
+                return _mapper.Map<ServiceModel>(service);
             }
             catch (Exception)
             {
@@ -29,31 +32,30 @@ namespace DogService.BLL.Services
 
         public List<ServiceModel> GetAllServices()
         {
-            var Services = _repository.GetAllServices();
-            return CustomMapper.GetInstance().Map<List<ServiceModel>>(Services);
+            var services = _repository.GetAllServices();
+            return _mapper.Map<List<ServiceModel>>(services);
         }
 
-        public void AddService(ServiceModel ServiceModel)
+        public void AddService(ServiceModel serviceModel)
         {
-            var Service = CustomMapper.GetInstance().Map<Serviсe>(ServiceModel);
+            var service = _mapper.Map<Serviсe>(serviceModel);
 
-            _repository.AddService(Service);
+            _repository.AddService(service);
         }
 
-        public void UpdateService(ServiceModel ServiceModel)
+        public void UpdateService(ServiceModel serviceModel)
         {
-            var Service = CustomMapper.GetInstance().Map<Serviсe>(ServiceModel);
+            var service = _mapper.Map<Serviсe>(serviceModel);
             try
             {
-                var entity = _repository.GetServiceById(ServiceModel.Id);
+                var entity = _repository.GetServiceById(serviceModel.Id);
             }
             catch (Exception)
             {
-
                 throw new Exception("Сeрвис не найден!");
             }
 
-            _repository.UpdateService(Service);
+            _repository.UpdateService(service);
         }
 
         public void UpdateService(int id)

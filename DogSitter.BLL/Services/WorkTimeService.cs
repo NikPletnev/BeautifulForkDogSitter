@@ -1,4 +1,5 @@
-﻿using DogSitter.BLL.Config;
+﻿using AutoMapper;
+using DogSitter.BLL.Config;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Entity;
@@ -8,18 +9,20 @@ namespace DogSitter.BLL.WorkTimes
     public class WorkTimeService
     {
         private WorkTimeRepository _repository;
+        private readonly IMapper _mapper;
 
         public WorkTimeService()
         {
             _repository = new WorkTimeRepository();
+            _mapper = CustomMapper.GetInstance();
         }
 
         public WorkTimeModel GetWorkTimeById(int id)
         {
             try
             {
-                var WorkTime = _repository.GetWorkTimeById(id);
-                return CustomMapper.GetInstance().Map<WorkTimeModel>(WorkTime);
+                var workTime = _repository.GetWorkTimeById(id);
+                return _mapper.Map<WorkTimeModel>(workTime);
             }
             catch (Exception)
             {
@@ -29,31 +32,30 @@ namespace DogSitter.BLL.WorkTimes
 
         public List<WorkTimeModel> GetAllWorkTimes()
         {
-            var WorkTimes = _repository.GetAllWorkTimes();
-            return CustomMapper.GetInstance().Map<List<WorkTimeModel>>(WorkTimes);
+            var workTimes = _repository.GetAllWorkTimes();
+            return _mapper.Map<List<WorkTimeModel>>(workTimes);
         }
 
-        public void AddWorkTime(WorkTimeModel WorkTimeModel)
+        public void AddWorkTime(WorkTimeModel workTimeModel)
         {
-            var WorkTime = CustomMapper.GetInstance().Map<WorkTime>(WorkTimeModel);
+            var workTime = _mapper.Map<WorkTime>(workTimeModel);
 
-            _repository.AddWorkTime(WorkTime);
+            _repository.AddWorkTime(workTime);
         }
 
-        public void UpdateWorkTime(WorkTimeModel WorkTimeModel)
+        public void UpdateWorkTime(WorkTimeModel workTimeModel)
         {
-            var WorkTime = CustomMapper.GetInstance().Map<WorkTime>(WorkTimeModel);
+            var workTime = _mapper.Map<WorkTime>(workTimeModel);
             try
             {
-                var entity = _repository.GetWorkTimeById(WorkTimeModel.Id);
+                var entity = _repository.GetWorkTimeById(workTimeModel.Id);
             }
             catch (Exception)
             {
-
                 throw new Exception("Рабочее время не найдено!");
             }
 
-            _repository.UpdateWorkTime(WorkTime);
+            _repository.UpdateWorkTime(workTime);
         }
 
         public void UpdateWorkTime(int id)

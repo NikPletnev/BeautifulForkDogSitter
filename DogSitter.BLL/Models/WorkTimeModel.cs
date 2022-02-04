@@ -8,6 +8,6 @@ namespace DogSitter.BLL.Models
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public Weekday Weekdays { get; set; }
-        public virtual List<Sitter> Sitter { get; set; }
+        public List<Sitter> Sitter { get; set; }
     }
 }
