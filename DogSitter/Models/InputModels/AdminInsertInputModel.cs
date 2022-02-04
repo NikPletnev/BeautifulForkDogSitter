@@ -2,7 +2,7 @@
 
 namespace DogSitter.API.Models
 {
-    public class AdminInsertInputModel 
+    public class AdminInsertInputModel
     {
         //добавление
 

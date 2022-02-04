@@ -46,10 +46,10 @@ namespace DogSitter.API.Controllers
 
         //api/contact-types
         [HttpPost]
-        public ActionResult<ContactTypeOutputModel> AddContactType( [FromBody] ContactTypeInputModel сontactType)
+        public ActionResult<ContactTypeOutputModel> AddContactType([FromBody] ContactTypeInputModel сontactType)
         {
             _service.AddContactType(_map.GetInstance().Map<ContactTypeModel>(сontactType));
-            return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map< ContactTypeOutputModel > (сontactType));
+            return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map<ContactTypeOutputModel>(сontactType));
         }
 
         //api/contact-types/42

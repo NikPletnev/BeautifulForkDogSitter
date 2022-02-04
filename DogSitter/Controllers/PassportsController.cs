@@ -29,7 +29,7 @@ namespace DogSitter.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PassportOutputModel> AddPassport( [FromBody] PassportInsertInputModel passport)
+        public ActionResult<PassportOutputModel> AddPassport([FromBody] PassportInsertInputModel passport)
         {
             _service.AddPassport(_map.GetInstance().Map<PassportModel>(passport));
             return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map<PassportOutputModel>(passport));

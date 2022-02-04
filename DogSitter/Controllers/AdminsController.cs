@@ -46,7 +46,7 @@ namespace DogSitter.API.Controllers
         [HttpPost]
         public ActionResult<AdminOutputModel> AddAdmin([FromBody] AdminInsertInputModel admin)
         {
-            _service.AddAdmin(_map.GetInstance().Map<AdminModel>(admin));        
+            _service.AddAdmin(_map.GetInstance().Map<AdminModel>(admin));
             return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map<AdminOutputModel>(admin));
         }
 

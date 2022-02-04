@@ -1,10 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -18,7 +12,7 @@ namespace DogSitter.DAL.Repositories
         }
 
         public List<Admin> GetAllAdmins() =>
-                     _context.Admins.Where(a => !a.IsDeleted).ToList();      
+                     _context.Admins.Where(a => !a.IsDeleted).ToList();
 
         public Admin GetAdminById(int id) =>
                      _context.Admins.FirstOrDefault(x => x.Id == id);
@@ -54,7 +48,7 @@ namespace DogSitter.DAL.Repositories
 
         public void UpdateAdmin(int id, bool isDeleted)
         {
-            var entity = GetAdminById(id);          
+            var entity = GetAdminById(id);
             entity.IsDeleted = isDeleted;
             _context.SaveChanges();
         }

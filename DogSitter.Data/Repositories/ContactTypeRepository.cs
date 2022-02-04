@@ -1,10 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -16,31 +10,31 @@ namespace DogSitter.DAL.Repositories
         {
             _context = DogSitterContext.GetInstance();
         }
-        
+
         public List<ContactType> GetAllContactTypes() =>
-                _context.ContactTypes.Where(c => !c.IsDeleted).ToList();        
-        
+                _context.ContactTypes.Where(c => !c.IsDeleted).ToList();
+
         public ContactType GetContactTypeById(int id) =>
-                _context.ContactTypes.FirstOrDefault(c => c.Id == id);      
-        
+                _context.ContactTypes.FirstOrDefault(c => c.Id == id);
+
         public void AddContactType(ContactType contactType)
         {
             _context.ContactTypes.Add(contactType);
             _context.SaveChanges();
         }
-        
+
         public void UpdateContactType(int id, bool isDeleted)
         {
             var entity = GetContactTypeById(id);
             entity.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
-        
+
         public void UpdateContactType(ContactType contactType)
         {
             var entity = GetContactTypeById(contactType.Id);
             entity.Name = contactType.Name;
             _context.SaveChanges();
-        }   
+        }
     }
 }

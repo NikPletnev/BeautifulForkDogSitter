@@ -1,10 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -20,7 +14,7 @@ namespace DogSitter.DAL.Repositories
         public Customer GetCustomerById(int id) =>
              _context.Customers.FirstOrDefault(x => x.Id == id);
 
-        public List<Customer> GetAllCustomers() => 
+        public List<Customer> GetAllCustomers() =>
             _context.Customers.Where(d => !d.IsDeleted).ToList();
 
         public void AddCustomer(Customer customer)
@@ -28,8 +22,8 @@ namespace DogSitter.DAL.Repositories
             _context.Customers.Add(customer);
             _context.SaveChanges();
         }
-            
-            
+
+
         public void UpdateCustomer(Customer customer)
         {
             var entity = GetCustomerById(customer.Id);
@@ -45,9 +39,9 @@ namespace DogSitter.DAL.Repositories
 
         public void DeleteCustomerById(int id)
         {
-                var customer = GetCustomerById(id);
-                _context.Customers.Remove(customer);
-                _context.SaveChanges();
+            var customer = GetCustomerById(id);
+            _context.Customers.Remove(customer);
+            _context.SaveChanges();
         }
 
         public void UpdateCustomer(int id, bool isDeleted)

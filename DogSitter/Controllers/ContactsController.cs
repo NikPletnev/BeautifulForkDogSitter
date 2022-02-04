@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DogSitter.BLL.Services;
-using DogSitter.BLL.Models;
+﻿using DogSitter.API.Configs;
 using DogSitter.API.Models;
-using DogSitter.API.Configs;
+using DogSitter.BLL.Models;
+using DogSitter.BLL.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
 {
@@ -40,7 +40,7 @@ namespace DogSitter.API.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateContact(int id, [FromBody] ContactUpdateInputModel сontact)
         {
-            _service.UpdateContact(id, _map.GetInstance().Map<ContactModel> (сontact));
+            _service.UpdateContact(id, _map.GetInstance().Map<ContactModel>(сontact));
             return NoContent();
         }
 

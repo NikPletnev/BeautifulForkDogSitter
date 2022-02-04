@@ -2,18 +2,13 @@
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
     public class PassportService
     {
         private PassportRepository _rep;
-        
+
         public PassportService()
         {
             _rep = new PassportRepository();
@@ -27,12 +22,12 @@ namespace DogSitter.BLL.Services
             {
                 throw new Exception("Паспорт не найден");
             }
-            _rep.UpdatePassport(entity);          
-            
+            _rep.UpdatePassport(entity);
+
         }
 
         public void AddPassport(PassportModel passportModel)
-        {     
+        {
             _rep.AddPassport(CustomMapper.GetInstance().Map<Passport>(passportModel));
         }
 
