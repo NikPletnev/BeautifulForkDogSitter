@@ -7,7 +7,7 @@ namespace DogSitter.BLL.Models
         public int Id { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public Weekday Weekdays { get; set; }
-        public List<Sitter> Sitter { get; set; }
+        public Weekday Weekday { get; set; }
+        public List<Sitter> Sitters { get; set; }
     }
 }

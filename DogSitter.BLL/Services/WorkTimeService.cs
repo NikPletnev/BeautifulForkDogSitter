@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using DogSitter.BLL.Config;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Entity;
+using DogSitter.BLL.Configs;
 
 namespace DogSitter.BLL.WorkTimes
 {
