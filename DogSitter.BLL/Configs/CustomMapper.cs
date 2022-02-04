@@ -3,7 +3,7 @@ using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 
 
-namespace TournamentOrganizer.BusinessLayer.Configuration
+namespace DogSitter.BLL.Config
 {
     public static class CustomMapper
     {
@@ -22,6 +22,7 @@ namespace TournamentOrganizer.BusinessLayer.Configuration
             _instance = new Mapper(new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Customer, CustomerModel>().ReverseMap();
+                cfg.CreateMap<Sitter, SitterModel>().ReverseMap();
 
             }));
 
