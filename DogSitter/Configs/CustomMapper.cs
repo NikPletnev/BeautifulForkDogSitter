@@ -6,9 +6,9 @@ namespace DogSitter.API.Configs
 {
     public class CustomMapper
     {
-        private Mapper _instance;
+        private  Mapper _instance;
 
-        public Mapper GetInstance()
+        public  Mapper GetInstance()
         {
             if (_instance == null)
             {
@@ -17,7 +17,7 @@ namespace DogSitter.API.Configs
             return _instance;
         }
 
-        public void InitMapper()
+        public  void InitMapper()
         {
             _instance = new Mapper(new MapperConfiguration(
             conf =>
