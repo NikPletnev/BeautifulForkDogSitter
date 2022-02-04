@@ -20,14 +20,14 @@ namespace DogSitter.Controllers
             return Ok();
         }
 
-        [HttpPost("{customer}")]
-        public ActionResult AddCustomer(Customer customer)
+        [HttpPost]
+        public ActionResult AddCustomer([FromBody] Customer customer)
         {
-            return Ok();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
-        [HttpPut("{customer}")]
-        public ActionResult UpdateCustomer(Customer customer)
+        [HttpPut]
+        public ActionResult UpdateCustomer([FromBody] Customer customer)
         {
             return Ok();
         }
@@ -35,7 +35,7 @@ namespace DogSitter.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeleteCustomer(int id)
         {
-            return Ok();
+            return StatusCode(StatusCodes.Status204NoContent);
         }
     }
 
