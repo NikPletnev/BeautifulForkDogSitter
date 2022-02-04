@@ -21,10 +21,10 @@ namespace DogSitter.BLL.Configs
         {
             _instance = new Mapper(new MapperConfiguration(conf =>
             {
-                cfg.CreateMap<Customer, CustomerModel>().ReverseMap();
-                cfg.CreateMap<Sitter, SitterModel>().ReverseMap();
-                cfg.CreateMap<Serviсe, ServiceModel>().ReverseMap();
-                cfg.CreateMap<WorkTime, WorkTimeModel>().ReverseMap();
+                conf.CreateMap<Customer, CustomerModel>().ReverseMap();
+                conf.CreateMap<Sitter, SitterModel>().ReverseMap();
+                conf.CreateMap<Serviсe, ServiceModel>().ReverseMap();
+                conf.CreateMap<WorkTime, WorkTimeModel>().ReverseMap();
                 conf.CreateMap<Customer, CustomerModel>().ReverseMap();
                 conf.CreateMap<Sitter, SitterModel>().ReverseMap();
                 conf.CreateMap<Admin, AdminModel>().ReverseMap();
