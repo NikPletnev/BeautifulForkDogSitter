@@ -1,19 +1,14 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
-namespace DogSitter.BLL.Config
+namespace DogSitter.BLL.Configs
 {
     public static class CustomMapper
     {
         private static Mapper _instance;
-
+         
         public static Mapper GetInstance()
         {
             if (_instance == null)
@@ -24,10 +19,17 @@ namespace DogSitter.BLL.Config
         }
         public static void InitCustomMapper()
         {
-            _instance = new Mapper(new MapperConfiguration(cfg =>
+            _instance = new Mapper(new MapperConfiguration(conf =>
             {
-                cfg.CreateMap<Customer, CustomerModel>().ReverseMap();
-                cfg.CreateMap<Sitter, SitterModel>().ReverseMap();
+                conf.CreateMap<Customer, CustomerModel>().ReverseMap();
+                conf.CreateMap<Sitter, SitterModel>().ReverseMap();
+                conf.CreateMap<Admin, AdminModel>().ReverseMap();
+                conf.CreateMap<Contact, ContactModel>().ReverseMap();
+                conf.CreateMap<ContactType, ContactTypeModel>().ReverseMap();
+                conf.CreateMap<Contact, ContactModel>().ReverseMap();
+                conf.CreateMap<ContactType, ContactTypeModel>().ReverseMap();
+                conf.CreateMap<Dog, DogModel>().ReverseMap();
+                conf.CreateMap<Passport, PassportModel>().ReverseMap();
 
             }));
 
