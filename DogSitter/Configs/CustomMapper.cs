@@ -23,7 +23,7 @@ namespace DogSitter.API.Configs
             conf =>
             {
                 conf.CreateMap<AddressOutputModel, AddressModel>().ReverseMap();
-                conf.CreateMap<AddressInputModel, AddressInputModel>().ReverseMap();
+                conf.CreateMap<AddressInputModel, AddressModel>().ReverseMap();
                 conf.CreateMap<SubwayStationOutputModel, SubwayStationOutputModel>().ReverseMap();
                 conf.CreateMap<SubwayStationInputModel, SubwayStationModel>().ReverseMap();
 

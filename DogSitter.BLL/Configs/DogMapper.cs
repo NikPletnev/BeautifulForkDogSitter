@@ -30,6 +30,7 @@ namespace DogSitter.BLL.Configs
             {
                 conf.CreateMap<Dog, DogModel>();
                 conf.CreateMap<Customer, CustomerModel>().ReverseMap();
-            });
+            }));
+        }
     }
 }

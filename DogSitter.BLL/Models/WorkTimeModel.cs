@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Models
 {
-    internal class WorkTimeModel
+    public class WorkTimeModel
     {
     }
 }
