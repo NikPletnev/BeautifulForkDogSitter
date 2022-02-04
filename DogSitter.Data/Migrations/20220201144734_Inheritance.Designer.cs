@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogSitter.DAL.Migrations
 {
     [DbContext(typeof(DogSitterContext))]
-    [Migration("20220201140648_Inheritance")]
+    [Migration("20220201144734_Inheritance")]
     partial class Inheritance
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

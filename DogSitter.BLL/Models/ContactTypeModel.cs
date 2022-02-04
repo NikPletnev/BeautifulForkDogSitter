@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Models
 {
-    public class ContactModel
+    public class ContactTypeModel
     {
-        public int Id { get; set; }
-        public string Value { get; set; }
+        public string Name { get; set; }
         public bool IsDeleted { get; set; }
-        public ContactTypeModel ContactType { get; set; }
     }
 }

@@ -1,12 +1,7 @@
-﻿using DogSitter.BLL.Models;
+﻿using DogSitter.BLL.Config;
+using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TournamentOrganizer.BusinessLayer.Configuration;
 
 namespace DogSitter.BLL.Services
 {

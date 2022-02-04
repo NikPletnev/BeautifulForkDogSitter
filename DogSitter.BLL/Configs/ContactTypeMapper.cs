@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace TournamentOrganizer.BusinessLayer.Configuration
+namespace DogSitter.BLL.Configs
 {
-    public static class CustomMapper
+    public class ContactTypeMapper
     {
         private static Mapper _instance;
 
@@ -18,17 +17,19 @@ namespace TournamentOrganizer.BusinessLayer.Configuration
         {
             if (_instance == null)
             {
-                InitCustomMapper();
+                InitContactTypeMapper();
             }
             return _instance;
         }
-        public static void InitCustomMapper()
-        {
-            _instance = new Mapper(new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Customer, CustomerModel>().ReverseMap();
 
-            }));
+
+        public static void InitContactTypeMapper()
+        {
+            _instance = new Mapper(new MapperConfiguration(
+                conf =>
+                {
+                    conf.CreateMap<ContactType, ContactTypeModel>().ReverseMap();
+                }));
 
         }
     }
