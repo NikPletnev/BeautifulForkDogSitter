@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 
@@ -31,6 +26,6 @@ namespace DogSitter.BLL.Configs
                 conf.CreateMap<Sitter, SitterModel>().ReverseMap();
             }));
         }
-  
+
     }
 }
