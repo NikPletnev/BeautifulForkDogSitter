@@ -2,12 +2,13 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class ServiceRepository
+    public class ServiceRepository : IServiceRepository
     {
         private readonly DogSitterContext _context;
-
+        private bool _isInitialized;
         public ServiceRepository()
         {
+            _isInitialized = true;
             _context = DogSitterContext.GetInstance();
         }
 

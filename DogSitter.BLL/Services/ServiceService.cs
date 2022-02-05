@@ -6,14 +6,14 @@ using DogSitter.DAL.Repositories;
 
 namespace DogService.BLL.Services
 {
-    public class ServiceService
+    public class ServiceService : IServiceService
     {
-        private ServiceRepository _repository;
+        private readonly IServiceRepository _serviceRepository;
         private readonly IMapper _mapper;
 
-        public ServiceService()
+        public ServiceService(IServiceRepository serviceRepository)
         {
-            _repository = new ServiceRepository();
+            _serviceRepository = serviceRepository;
             _mapper = CustomMapper.GetInstance();
         }
 
@@ -21,7 +21,7 @@ namespace DogService.BLL.Services
         {
             try
             {
-                var service = _repository.GetServiceById(id);
+                var service = _serviceRepository.GetServiceById(id);
                 return _mapper.Map<ServiceModel>(service);
             }
             catch (Exception)
@@ -32,7 +32,7 @@ namespace DogService.BLL.Services
 
         public List<ServiceModel> GetAllServices()
         {
-            var services = _repository.GetAllServices();
+            var services = _serviceRepository.GetAllServices();
             return _mapper.Map<List<ServiceModel>>(services);
         }
 
@@ -40,7 +40,7 @@ namespace DogService.BLL.Services
         {
             var service = _mapper.Map<Serviсe>(serviceModel);
 
-            _repository.AddService(service);
+            _serviceRepository.AddService(service);
         }
 
         public void UpdateService(ServiceModel serviceModel)
@@ -48,21 +48,32 @@ namespace DogService.BLL.Services
             var service = _mapper.Map<Serviсe>(serviceModel);
             try
             {
-                var entity = _repository.GetServiceById(serviceModel.Id);
+                var entity = _serviceRepository.GetServiceById(serviceModel.Id);
             }
             catch (Exception)
             {
                 throw new Exception("Сeрвис не найден!");
             }
 
-            _repository.UpdateService(service);
+            _serviceRepository.UpdateService(service);
+        }
+        public void UpdateService(int id, ServiceModel serviceModel)
+        {
+            var entity = _mapper.Map<Serviсe>(serviceModel);
+            var service = _serviceRepository.GetServiceById(id);
+            if (service == null)
+            {
+                throw new Exception("Сервис не найден");
+            }
+
+            _serviceRepository.UpdateService(entity);
         }
 
-        public void UpdateService(int id)
+        public void DeleteService(int id)
         {
             try
             {
-                var entity = _repository.GetServiceById(id);
+                var entity = _serviceRepository.GetServiceById(id);
             }
             catch (Exception)
             {
@@ -70,14 +81,14 @@ namespace DogService.BLL.Services
             }
             bool delete = true;
 
-            _repository.UpdateService(id, delete);
+            _serviceRepository.UpdateService(id, delete);
         }
 
         public void RestoreService(int id)
         {
             try
             {
-                var entity = _repository.GetServiceById(id);
+                var entity = _serviceRepository.GetServiceById(id);
             }
             catch (Exception)
             {
@@ -85,7 +96,7 @@ namespace DogService.BLL.Services
             }
             bool Delete = false;
 
-            _repository.UpdateService(id, Delete);
+            _serviceRepository.UpdateService(id, Delete);
         }
     }
 }
