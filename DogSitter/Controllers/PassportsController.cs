@@ -12,12 +12,12 @@ namespace DogSitter.API.Controllers
     {
 
         private PassportService _service;
-        private CustomMapper _map;
+        private ICustomMapper _map;
 
-        public PassportsController()
+        public PassportsController(ICustomMapper customMapper)
         {
             _service = new PassportService();
-            _map = new CustomMapper();
+            _map = customMapper;
         }
 
 
