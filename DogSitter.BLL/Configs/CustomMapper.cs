@@ -5,7 +5,7 @@ using DogSitter.DAL.Entity;
 
 namespace DogSitter.BLL.Configs
 {
-    public class CustomMapper
+    public class CustomMapper : ICustomMapper
     {
         private Mapper _instance;
 

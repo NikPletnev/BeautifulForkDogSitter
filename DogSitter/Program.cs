@@ -1,3 +1,4 @@
+using DogSitter.BLL.Configs;
 using DogSitter.BLL.Services;
 using DogSitter.DAL;
 using DogSitter.DAL.Repositories;
@@ -29,6 +30,8 @@ builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
 builder.Services.AddScoped<IContactTypeService, ContactTypeService>();
 builder.Services.AddScoped<IContactTypeRepository, ContactTypeRepository>();
+
+builder.Services.AddScoped<ICustomMapper, CustomMapper>();
 
 var app = builder.Build();
 

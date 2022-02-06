@@ -8,12 +8,12 @@ namespace DogSitter.BLL.Services
     public class PassportService : IPassportService
     {
         private readonly IPassportRepository _rep;
-        private readonly CustomMapper _map;
+        private readonly ICustomMapper _map;
 
-        public PassportService(IPassportRepository passportRepository)
+        public PassportService(IPassportRepository passportRepository, ICustomMapper mapper)
         {
             _rep = passportRepository;
-            _map = new CustomMapper();
+            _map = mapper;
         }
 
         public void UpdatePassport(int id, PassportModel passportModel)

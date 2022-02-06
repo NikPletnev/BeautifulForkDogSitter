@@ -8,12 +8,12 @@ namespace DogSitter.BLL.Services
     public class AdminService : IAdminService
     {
         private readonly IAdminRepository _rep;
-        private readonly CustomMapper _map;
+        private readonly ICustomMapper _map;
 
-        public AdminService(IAdminRepository adminRepository)
+        public AdminService(IAdminRepository adminRepository, ICustomMapper mapper)
         {
             _rep = adminRepository;
-            _map = new CustomMapper();
+            _map = mapper;
         }
 
         public void UpdateAdmin(int id, AdminModel adminModel)

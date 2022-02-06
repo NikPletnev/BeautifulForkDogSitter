@@ -9,11 +9,12 @@ namespace DogSitter.BLL.Services
     public class ContactService : IContactService
     {
         private readonly IContactRepository _rep;
-        private readonly CustomMapper _map;
+        private readonly ICustomMapper _map;
 
-        public ContactService(IContactRepository contactRepository)
+        public ContactService(IContactRepository contactRepository, ICustomMapper mapper)
         {
             _rep = contactRepository;
+            _map = mapper;
         }
 
         public void UpdateContact(int id, ContactModel contactModel)
