@@ -2,13 +2,13 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class AdminRepository
+    public class AdminRepository : IAdminRepository
     {
         private DogSitterContext _context;
 
-        public AdminRepository()
+        public AdminRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+           _context = context; 
         }
 
         public List<Admin> GetAllAdmins() =>

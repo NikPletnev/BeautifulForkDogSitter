@@ -8,15 +8,17 @@ namespace DogSitter.BLL.Services
     public class DogService
     {
         private DogRepository _rep;
+        private readonly CustomMapper _map;
 
         public DogService()
         {
             _rep = new DogRepository();
+            _map = new CustomMapper();
         }
 
         public void UpdateDog(int id, DogModel dogModel)
         {
-            var entity = CustomMapper.GetInstance().Map<Dog>(dogModel);
+            var entity = _map.GetInstance().Map<Dog>(dogModel);
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
@@ -50,7 +52,7 @@ namespace DogSitter.BLL.Services
 
         public void AddDog(DogModel dogModel)
         {
-            _rep.AddDog(CustomMapper.GetInstance().Map<Dog>(dogModel));
+            _rep.AddDog(_map.GetInstance().Map<Dog>(dogModel));
         }
 
         public DogModel GetDogById(int id)
@@ -61,12 +63,12 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Собака не найдена");
             }
 
-            return CustomMapper.GetInstance().Map<DogModel>(dog);
+            return _map.GetInstance().Map<DogModel>(dog);
         }
 
         public List<DogModel> GetAllDogs()
         {
-            return CustomMapper.GetInstance().Map<List<DogModel>>(_rep.GetAllDogs());
+            return _map.GetInstance().Map<List<DogModel>>(_rep.GetAllDogs());
         }
     }
 }

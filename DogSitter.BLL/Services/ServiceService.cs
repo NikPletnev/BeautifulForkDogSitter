@@ -9,12 +9,12 @@ namespace DogService.BLL.Services
     public class ServiceService
     {
         private ServiceRepository _repository;
-        private readonly IMapper _mapper;
+        private readonly CustomMapper _mapper;
 
         public ServiceService()
         {
             _repository = new ServiceRepository();
-            _mapper = CustomMapper.GetInstance();
+            _mapper = new CustomMapper();
         }
 
         public ServiceModel GetServiceById(int id)
@@ -22,7 +22,7 @@ namespace DogService.BLL.Services
             try
             {
                 var service = _repository.GetServiceById(id);
-                return _mapper.Map<ServiceModel>(service);
+                return _mapper.GetInstance().Map<ServiceModel>(service);
             }
             catch (Exception)
             {
@@ -33,19 +33,19 @@ namespace DogService.BLL.Services
         public List<ServiceModel> GetAllServices()
         {
             var services = _repository.GetAllServices();
-            return _mapper.Map<List<ServiceModel>>(services);
+            return _mapper.GetInstance().Map<List<ServiceModel>>(services);
         }
 
         public void AddService(ServiceModel serviceModel)
         {
-            var service = _mapper.Map<Serviсe>(serviceModel);
+            var service = _mapper.GetInstance().Map<Serviсe>(serviceModel);
 
             _repository.AddService(service);
         }
 
         public void UpdateService(ServiceModel serviceModel)
         {
-            var service = _mapper.Map<Serviсe>(serviceModel);
+            var service = _mapper.GetInstance().Map<Serviсe>(serviceModel);
             try
             {
                 var entity = _repository.GetServiceById(serviceModel.Id);

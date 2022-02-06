@@ -5,11 +5,11 @@ using DogSitter.DAL.Entity;
 
 namespace DogSitter.BLL.Configs
 {
-    public static class CustomMapper
+    public class CustomMapper
     {
-        private static Mapper _instance;
+        private Mapper _instance;
 
-        public static Mapper GetInstance()
+        public Mapper GetInstance()
         {
             if (_instance == null)
             {
@@ -17,7 +17,7 @@ namespace DogSitter.BLL.Configs
             }
             return _instance;
         }
-        public static void InitCustomMapper()
+        public void InitCustomMapper()
         {
             _instance = new Mapper(new MapperConfiguration(conf =>
             {

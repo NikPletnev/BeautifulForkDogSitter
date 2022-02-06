@@ -6,15 +6,17 @@ namespace DogSitter.DAL
 {
     public class DogSitterContext : DbContext
     {
-        private const string _conectionString = @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB; 
-        Persist Security Info=True;User ID = student; Password=qwe!23; Pooling=False; MultipleActiveResultSets=False; 
-        Connect Timeout = 60; Encrypt=False; TrustServerCertificate=False";
 
         private static DogSitterContext _instance;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DogSitterContext(DbContextOptions<DogSitterContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(_conectionString);
+
+        }
+
+        public DogSitterContext()
+        {
+            //удалить после ред всех реп
         }
 
         public static DogSitterContext GetInstance()
@@ -25,6 +27,7 @@ namespace DogSitter.DAL
             }
             return _instance;
         }
+
 
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Customer> Customers { get; set; }

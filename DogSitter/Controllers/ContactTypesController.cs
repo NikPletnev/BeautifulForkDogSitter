@@ -11,12 +11,12 @@ namespace DogSitter.API.Controllers
     public class ContactTypesController : Controller
     {
 
-        private ContactTypeService _service;
+        private readonly IContactTypeService _service;
         private CustomMapper _map;
 
-        public ContactTypesController()
+        public ContactTypesController(IContactTypeService contactTypeService)
         {
-            _service = new ContactTypeService();
+            _service = contactTypeService;
             _map = new CustomMapper();
         }
 

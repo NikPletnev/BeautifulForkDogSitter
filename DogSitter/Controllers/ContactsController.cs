@@ -10,13 +10,13 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class ContactsController : Controller
     {
-        private ContactService _service;
-        private CustomMapper _map;
+        private readonly IContactService _service;
+        private readonly CustomMapper _map;
 
 
-        public ContactsController()
+        public ContactsController(IContactService contactService)
         {
-            _service = new ContactService();
+            _service = contactService;
             _map = new CustomMapper();
         }
 

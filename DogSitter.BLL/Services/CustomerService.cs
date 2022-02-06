@@ -8,10 +8,12 @@ namespace DogSitter.BLL.Services
     public class CustomerService
     {
         private CustomerRepository _repository;
+        private readonly CustomMapper _map;
 
         public CustomerService()
         {
             _repository = new CustomerRepository();
+            _map = new CustomMapper();
         }
 
         public CustomerModel GetCustomerById(int id)
@@ -22,24 +24,24 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Клиент не найден");
 
             }
-            return CustomMapper.GetInstance().Map<CustomerModel>(customer);
+            return _map.GetInstance().Map<CustomerModel>(customer);
         }
 
         public List<CustomerModel> GetAllCustomers()
         {
             var customers = _repository.GetAllCustomers();
-            return CustomMapper.GetInstance().Map<List<CustomerModel>>(customers);
+            return _map.GetInstance().Map<List<CustomerModel>>(customers);
         }
 
         public void AddCustomer(CustomerModel customer)
         {
-            var customerModel = CustomMapper.GetInstance().Map<Customer>(customer);
+            var customerModel = _map.GetInstance().Map<Customer>(customer);
             _repository.AddCustomer(customerModel);
         }
 
         public void UpdateCustomer(CustomerModel customer)
         {
-            var customerModel = CustomMapper.GetInstance().Map<Customer>(customer);
+            var customerModel = _map.GetInstance().Map<Customer>(customer);
             var entity = _repository.GetCustomerById(customer.Id);
             if (entity == null)
             {

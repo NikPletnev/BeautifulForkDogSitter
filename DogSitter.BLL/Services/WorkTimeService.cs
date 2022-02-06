@@ -9,12 +9,12 @@ namespace DogSitter.BLL.WorkTimes
     public class WorkTimeService
     {
         private WorkTimeRepository _repository;
-        private readonly IMapper _mapper;
+        private readonly CustomMapper _mapper;
 
         public WorkTimeService()
         {
             _repository = new WorkTimeRepository();
-            _mapper = CustomMapper.GetInstance();
+            _mapper = new CustomMapper ();
         }
 
         public WorkTimeModel GetWorkTimeById(int id)
@@ -22,7 +22,7 @@ namespace DogSitter.BLL.WorkTimes
             try
             {
                 var workTime = _repository.GetWorkTimeById(id);
-                return _mapper.Map<WorkTimeModel>(workTime);
+                return _mapper.GetInstance().Map<WorkTimeModel>(workTime);
             }
             catch (Exception)
             {
@@ -33,19 +33,19 @@ namespace DogSitter.BLL.WorkTimes
         public List<WorkTimeModel> GetAllWorkTimes()
         {
             var workTimes = _repository.GetAllWorkTimes();
-            return _mapper.Map<List<WorkTimeModel>>(workTimes);
+            return _mapper.GetInstance().Map<List<WorkTimeModel>>(workTimes);
         }
 
         public void AddWorkTime(WorkTimeModel workTimeModel)
         {
-            var workTime = _mapper.Map<WorkTime>(workTimeModel);
+            var workTime = _mapper.GetInstance().Map<WorkTime>(workTimeModel);
 
             _repository.AddWorkTime(workTime);
         }
 
         public void UpdateWorkTime(WorkTimeModel workTimeModel)
         {
-            var workTime = _mapper.Map<WorkTime>(workTimeModel);
+            var workTime = _mapper.GetInstance().Map<WorkTime>(workTimeModel);
             try
             {
                 var entity = _repository.GetWorkTimeById(workTimeModel.Id);
