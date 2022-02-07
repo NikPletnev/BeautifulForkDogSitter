@@ -6,9 +6,9 @@ namespace DogSitter.API.Configs
 {
     public class CustomMapper : ICustomMapper
     {
-        private Mapper _instance;
+        private  Mapper _instance;
 
-        public Mapper GetInstance()
+        public  Mapper GetInstance()
         {
             if (_instance == null)
             {
@@ -17,7 +17,7 @@ namespace DogSitter.API.Configs
             return _instance;
         }
 
-        public void InitMapper()
+        public  void InitMapper()
         {
             _instance = new Mapper(new MapperConfiguration(
             conf =>
@@ -40,6 +40,10 @@ namespace DogSitter.API.Configs
                 conf.CreateMap<PassportInsertInputModel, PassportModel>().ReverseMap();
                 conf.CreateMap<PassportUpdateInputModel, PassportModel>().ReverseMap();
                 conf.CreateMap<PassportOutputModel, PassportModel>().ReverseMap();
+                conf.CreateMap<AddressOutputModel, AddressModel>().ReverseMap();
+                conf.CreateMap<AddressInputModel, AddressModel>().ReverseMap();
+                conf.CreateMap<SubwayStationOutputModel, SubwayStationOutputModel>().ReverseMap();
+                conf.CreateMap<SubwayStationInputModel, SubwayStationModel>().ReverseMap();
 
             }));
         }
