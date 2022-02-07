@@ -56,7 +56,7 @@ namespace DogSitter.DAL.Tests
                 _context.Admins.AddRange(admins);
                 _context.SaveChanges();
 
-                var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = true};
+                var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false};
 
                 //when
                 var actual = _rep.GetAdminById(2);

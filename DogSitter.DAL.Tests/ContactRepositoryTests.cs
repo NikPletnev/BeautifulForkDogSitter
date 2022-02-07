@@ -1,5 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
+using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -27,44 +28,16 @@ namespace DogSitter.DAL.Tests
             _rep = new ContactRepository(_context);
         }
 
-        [Test]
-        public void GetAllContactsTest()
+        [TestCaseSource(typeof(ContactTestCaseSource))]
+        public void GetAllContactsTest(List <Contact> contacts)
         {
             //given
-            List<Contact> Contacts = new List<Contact>() {
-              new Contact()
-                {
-                 Value = "89871234567",
-                 IsDeleted = false
-                },
-              new Contact()
-                {
-                 Value = "@qwerty",
-                 IsDeleted = false
-                },
-              new Contact()
-                {
-                 Value = "qwerty123@icloud.com",
-                 IsDeleted = true
-                }
-            };
-
-            _context.Contacts.AddRange(Contacts);
+            _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
             var expected = new List<Contact>() {
-              new Contact()
-                {
-                 Id = 1,
-                 Value = "89871234567",
-                 IsDeleted = false
-                },
-              new Contact()
-                {
-                  Id = 2,
-                 Value = "@qwerty",
-                 IsDeleted = false
-                },
+              new Contact() { Id = 1, Value = "89871234567", IsDeleted = false },
+              new Contact() { Id = 2, Value = "@qwerty", IsDeleted = false }
             };
 
             //when
@@ -74,38 +47,14 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void GetContactByIdTest()
+        [TestCaseSource(typeof(ContactTestCaseSource))]
+        public void GetContactByIdTest(List<Contact> contacts)
         {
-            //given
-            List<Contact> Contacts = new List<Contact>() {
-              new Contact()
-                {
-                 Value = "89871234567",
-                 IsDeleted = false
-                },
-              new Contact()
-                {
-                 Value = "@qwerty",
-                 IsDeleted = false
-                },
-              new Contact()
-                {
-                 Value = "qwerty123@icloud.com",
-                 IsDeleted = true
-                }
-            };
-
-            _context.Contacts.AddRange(Contacts);
+            //given          
+            _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
-            var expected =
-              new Contact()
-              {
-                  Id = 3,
-                  Value = "qwerty123@icloud.com",
-                  IsDeleted = true
-              };
+            var expected = new Contact() {Id = 3, Value = "qwerty123@icloud.com", IsDeleted = true };
 
             //when
             var actual = _rep.GetContactById(3);
@@ -118,19 +67,8 @@ namespace DogSitter.DAL.Tests
         public void AddContactTest()
         {
             //given
-            var contact =
-              new Contact()
-              {
-                  Value = "qwerty123@icloud.com",
-              };
-
-            var expected =
-              new Contact()
-              {
-                  Id = 1,
-                  Value = "qwerty123@icloud.com",
-                  IsDeleted = false
-              };
+            var contact = new Contact() { Value = "qwerty123@icloud.com"};
+            var expected = new Contact() {Id = 1, Value = "qwerty123@icloud.com", IsDeleted = false };
 
             //when
             _rep.AddContact(contact);
@@ -142,38 +80,14 @@ namespace DogSitter.DAL.Tests
 
         }
 
-        [Test]
-        public void DeleteContactTest()
+        [TestCaseSource(typeof(ContactTestCaseSource))]
+        public void DeleteContactTest(List <Contact> contacts)
         {
             //given
-            List<Contact> Contacts = new List<Contact>() {
-              new Contact()
-                {
-                 Value = "89871234567",
-                 IsDeleted = false
-                },
-              new Contact()
-                {
-                 Value = "@qwerty",
-                 IsDeleted = false
-                },
-              new Contact()
-                {
-                 Value = "qwerty123@icloud.com",
-                 IsDeleted = false
-                }
-            };
-
-            _context.Contacts.AddRange(Contacts);
+            _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
-            var expected =
-              new Contact()
-              {
-                  Id = 3,
-                  Value = "qwerty123@icloud.com",
-                  IsDeleted = true
-              };
+            var expected = new Contact() {Id = 3, Value = "qwerty123@icloud.com", IsDeleted = true };
 
             //when
             _rep.UpdateContact(3, true);
@@ -183,45 +97,17 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void UpdateContactTest()
+        [TestCaseSource(typeof(ContactTestCaseSource))]
+        public void UpdateContactTest(List<Contact> contacts)
         {
             //given
-            List<Contact> Contacts = new List<Contact>() {
-              new Contact()
-                {
-                 Value = "89871234567",
-                 IsDeleted = false
-                },
-              new Contact()
-                {
-                 Value = "@qwerty",
-                 IsDeleted = false
-                },
-              new Contact()
-                {
-                 Value = "qwerty123@icloud.com",
-                 IsDeleted = false
-                }
-            };
 
-            _context.Contacts.AddRange(Contacts);
+            _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
-            var newContact =
-                new Contact()
-                {
-                    Id = 3,
-                    Value = "NewNewNew@icloud.com",
-                };
+            var newContact = new Contact() { Id = 3, Value = "NewNewNew@icloud.com"};
 
-            var expected =
-              new Contact()
-              {
-                  Id = 3,
-                  Value = "NewNewNew@icloud.com",
-                  IsDeleted = false
-              };
+            var expected = new Contact() { Id = 3, Value = "NewNewNew@icloud.com", IsDeleted = true };
 
             //when
             _rep.UpdateContact(newContact);
