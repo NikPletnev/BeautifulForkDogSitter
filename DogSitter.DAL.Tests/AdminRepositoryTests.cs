@@ -10,6 +10,7 @@ namespace DogSitter.DAL.Tests
     public class AdminRepositoryTests
     {
         private DogSitterContext _context;
+        private AdminRepository _rep;
 
         [SetUp]
         public void Setup()
@@ -22,6 +23,8 @@ namespace DogSitter.DAL.Tests
 
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
+
+            _rep = new AdminRepository(_context);
         }
 
         [Test]
@@ -72,10 +75,8 @@ namespace DogSitter.DAL.Tests
               }
             };
 
-            var rep = new AdminRepository(_context);
-
             //when
-            var actual = rep.GetAllAdmins();
+            var actual = _rep.GetAllAdmins();
 
             //then
             Assert.AreEqual(expected, actual);
@@ -109,11 +110,10 @@ namespace DogSitter.DAL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
+                IsDeleted = true
             };
 
-            var rep = new AdminRepository(_context);
-
-            var actual = rep.GetAdminById(2);
+            var actual = _rep.GetAdminById(2);
 
             //then
             Assert.AreEqual(expected, actual);
@@ -137,8 +137,7 @@ namespace DogSitter.DAL.Tests
                 Password = "2VANYA1234",
             };
 
-            var rep = new AdminRepository(_context);
-            rep.AddAdmin(admin);
+            _rep.AddAdmin(admin);
 
             var actual = _context.Admins.FirstOrDefault(z => z.Id == expected.Id);
 
@@ -178,9 +177,7 @@ namespace DogSitter.DAL.Tests
                 IsDeleted = true
             };
 
-            var rep = new AdminRepository(_context);
-
-            rep.UpdateAdmin(2, true);
+            _rep.UpdateAdmin(2, true);
             var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
 
             //then
@@ -228,9 +225,7 @@ namespace DogSitter.DAL.Tests
                 IsDeleted = false
             };
 
-            var rep = new AdminRepository(_context);
-
-            rep.UpdateAdmin(newAdmin);
+            _rep.UpdateAdmin(newAdmin);
 
             var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
 

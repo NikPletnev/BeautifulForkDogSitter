@@ -11,6 +11,7 @@ namespace DogSitter.DAL.Tests
     public class PassportRepositoryTests
     {
         private DogSitterContext _context;
+        private PassportRepository _rep;
 
         [SetUp]
         public void Setup()
@@ -23,6 +24,8 @@ namespace DogSitter.DAL.Tests
 
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
+
+            _rep = new PassportRepository(_context);
         }
 
         [Test]
@@ -90,10 +93,8 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = false
               };
 
-            var rep = new PassportRepository(_context);
-
             //when
-            var actual = rep.GetPassportById(3);
+            var actual = _rep.GetPassportById(3);
 
             //then
             Assert.AreEqual(expected, actual);
@@ -133,10 +134,8 @@ namespace DogSitter.DAL.Tests
                  IsDeleted = false
              };
 
-            var rep = new PassportRepository(_context);
-
             //when
-            rep.AddPassport(passport);
+            _rep.AddPassport(passport);
             var actual = _context.Passports.FirstOrDefault(z => z.Id == 1);
 
             //then
@@ -223,10 +222,8 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = false
               };
 
-            var rep = new PassportRepository(_context);
-
             //when
-            rep.UpdatePassport(newPassport);
+            _rep.UpdatePassport(newPassport);
             var actual = _context.Passports.FirstOrDefault(z => z.Id == newPassport.Id);
 
             //then

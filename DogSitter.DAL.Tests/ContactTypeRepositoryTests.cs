@@ -10,6 +10,7 @@ namespace DogSitter.DAL.Tests
     public class ContactTypeRepositoryTests
     {
         private DogSitterContext _context;
+        private ContactTypeRepository _rep;
 
         [SetUp]
         public void Setup()
@@ -22,6 +23,8 @@ namespace DogSitter.DAL.Tests
 
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
+
+            _rep = new ContactTypeRepository(_context);
         }
 
         [Test]
@@ -64,10 +67,8 @@ namespace DogSitter.DAL.Tests
                 },
             };
 
-            var rep = new ContactTypeRepository(_context);
-
             //when
-            var actual = rep.GetAllContactTypes();
+            var actual = _rep.GetAllContactTypes();
 
             //then
             Assert.AreEqual(expected, actual);
@@ -106,10 +107,8 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = true
               };
 
-            var rep = new ContactTypeRepository(_context);
-
             //when
-            var actual = rep.GetContactTypeById(3);
+            var actual = _rep.GetContactTypeById(3);
 
             //then
             Assert.AreEqual(expected, actual);
@@ -133,16 +132,12 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = false
               };
 
-            var rep = new ContactTypeRepository(_context);
-
             //when
-            rep.AddContactType(contactType);
+            _rep.AddContactType(contactType);
             var actual = _context.ContactTypes.FirstOrDefault(z => z.Id == 1);
 
             //then
             Assert.AreEqual(expected, actual);
-
-
         }
 
         [Test]
@@ -178,10 +173,8 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = true
               };
 
-            var rep = new ContactTypeRepository(_context);
-
             //when
-            rep.UpdateContactType(3, true);
+            _rep.UpdateContactType(3, true);
             var actual = _context.ContactTypes.FirstOrDefault(z => z.Id == 3);
 
             //then
@@ -228,10 +221,8 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = false
               };
 
-            var rep = new ContactTypeRepository(_context);
-
             //when
-            rep.UpdateContactType(newContactType);
+            _rep.UpdateContactType(newContactType);
             var actual = _context.ContactTypes.FirstOrDefault(z => z.Id == 3);
 
             //then

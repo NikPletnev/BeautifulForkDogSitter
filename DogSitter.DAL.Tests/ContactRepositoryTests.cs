@@ -10,6 +10,7 @@ namespace DogSitter.DAL.Tests
     public class ContactRepositoryTests
     {
         private DogSitterContext _context;
+        private ContactRepository _rep;
 
         [SetUp]
         public void Setup()
@@ -22,6 +23,8 @@ namespace DogSitter.DAL.Tests
 
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
+
+            _rep = new ContactRepository(_context);
         }
 
         [Test]
@@ -64,10 +67,8 @@ namespace DogSitter.DAL.Tests
                 },
             };
 
-            var rep = new ContactRepository(_context);
-
             //when
-            var actual = rep.GetAllContacts();
+            var actual = _rep.GetAllContacts();
 
             //then
             Assert.AreEqual(expected, actual);
@@ -106,10 +107,8 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = true
               };
 
-            var rep = new ContactRepository(_context);
-
             //when
-            var actual = rep.GetContactById(3);
+            var actual = _rep.GetContactById(3);
 
             //then
             Assert.AreEqual(expected, actual);
@@ -133,10 +132,8 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = false
               };
 
-            var rep = new ContactRepository(_context);
-
             //when
-            rep.AddContact(contact);
+            _rep.AddContact(contact);
             var actual = _context.Contacts.FirstOrDefault(z => z.Id == 1);
 
             //then
@@ -178,10 +175,8 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = true
               };
 
-            var rep = new ContactRepository(_context);
-
             //when
-            rep.UpdateContact(3, true);
+            _rep.UpdateContact(3, true);
             var actual = _context.Contacts.FirstOrDefault(z => z.Id == 3);
 
             //then
@@ -228,10 +223,8 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = false
               };
 
-            var rep = new ContactRepository(_context);
-
             //when
-            rep.UpdateContact(newContact);
+            _rep.UpdateContact(newContact);
             var actual = _context.Contacts.FirstOrDefault(z => z.Id == 3);
 
             //then
