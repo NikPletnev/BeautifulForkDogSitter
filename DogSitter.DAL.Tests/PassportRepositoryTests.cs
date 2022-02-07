@@ -1,5 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
+using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
@@ -28,70 +29,26 @@ namespace DogSitter.DAL.Tests
             _rep = new PassportRepository(_context);
         }
 
-        [Test]
-        public void GetPassportByIdTest()
+        [TestCaseSource(typeof(PassportTestCaseSource))]
+        public void GetPassportByIdTest(List<Passport> passports)
         {
             //given
-            List<Passport> Passports = new List<Passport>() {
-              new Passport()
-                {
-                  FirstName = "Иванов",
-                  LastName = "Иван",
-                  DateOfBirth = new DateTime( 1987, 11, 11),
-                  Seria = "4556",
-                  Number = "123456",
-                  IssueDate = new DateTime( 1987, 11, 11),
-                  Division = "МВД по РТ",
-                  DivisionCode = "160-098",
-                  Registration = "г. Казань, ул. Фучика, д. 45, кв. 4",
-                  IsDeleted = false
-                },
-              new Passport()
-                {
-                  FirstName = "Мария",
-                  LastName = "Нефедова",
-                  DateOfBirth = new DateTime(1234, 11, 1),
-                  Seria = "1234",
-                  Number = "567890",
-                  IssueDate = new DateTime(1564, 1, 1),
-                  Division = "МВД по Верхне-услонскому району",
-                  DivisionCode = "234-567",
-                  Registration = "г. Иннополис, ул. Спортивная, д. 126, кв. 33",
-                  IsDeleted = false
-                },
-              new Passport()
-                {
-                  FirstName = "Денис",
-                  LastName = "Денискин",
-                  DateOfBirth = new DateTime(1999, 2, 3),
-                  Seria = "3456",
-                  Number = "876543",
-                  IssueDate = new DateTime(1976, 5, 23),
-                  Division = "МВД",
-                  DivisionCode = "345-555",
-                  Registration = "г. Казань, ул. Академика Павлова, д. 10, кв. 90",
-                  IsDeleted = false
-                }
-            };
-
-            _context.Passports.AddRange(Passports);
+            _context.Passports.AddRange(passports);
             _context.SaveChanges();
-
-            var expected =
-              new Passport()
-              {
-                  Id = 3,
-                  FirstName = "Денис",
-                  LastName = "Денискин",
-                  DateOfBirth = new DateTime(1999, 2, 3),
-                  Seria = "3456",
-                  Number = "876543",
-                  IssueDate = new DateTime(1976, 5, 23),
-                  Division = "МВД",
-                  DivisionCode = "345-555",
-                  Registration = "г. Казань, ул. Академика Павлова, д. 10, кв. 90",
-                  IsDeleted = false
-              };
+            var expected = new Passport()
+            {
+                Id = 3,
+                FirstName = "Денис",
+                LastName = "Денискин",
+                DateOfBirth = new DateTime(1999, 2, 3),
+                Seria = "3456",
+                Number = "876543",
+                IssueDate = new DateTime(1976, 5, 23),
+                Division = "МВД",
+                DivisionCode = "345-555",
+                Registration = "г. Казань, ул. Академика Павлова, д. 10, кв. 90",
+                IsDeleted = false
+            };
 
             //when
             var actual = _rep.GetPassportById(3);
@@ -143,53 +100,11 @@ namespace DogSitter.DAL.Tests
 
         }
 
-        [Test]
-        public void UpdatePassportTest()
+        [TestCaseSource(typeof(PassportTestCaseSource))]
+        public void UpdatePassportTest(List<Passport> passports)
         {
-            //given
-            List<Passport> Passports = new List<Passport>() {
-              new Passport()
-                {
-                  FirstName = "Иванов",
-                  LastName = "Иван",
-                  DateOfBirth = new DateTime( 1987, 11, 11),
-                  Seria = "4556",
-                  Number = "123456",
-                  IssueDate = new DateTime( 1987, 11, 11),
-                  Division = "МВД по РТ",
-                  DivisionCode = "160-098",
-                  Registration = "г. Казань, ул. Фучика, д. 45, кв. 4",
-                  IsDeleted = false
-                },
-              new Passport()
-                {
-                  FirstName = "Мария",
-                  LastName = "Нефедова",
-                  DateOfBirth = new DateTime(1234, 11, 1),
-                  Seria = "1234",
-                  Number = "567890",
-                  IssueDate = new DateTime(1564, 1, 1),
-                  Division = "МВД по Верхне-услонскому району",
-                  DivisionCode = "234-567",
-                  Registration = "г. Иннополис, ул. Спортивная, д. 126, кв. 33",
-                  IsDeleted = false
-                },
-              new Passport()
-                {
-                  FirstName = "Денис",
-                  LastName = "Денискин",
-                  DateOfBirth = new DateTime(1999, 2, 3),
-                  Seria = "3456",
-                  Number = "876543",
-                  IssueDate = new DateTime(1976, 5, 23),
-                  Division = "МВД",
-                  DivisionCode = "345-555",
-                  Registration = "г. Казань, ул. Академика Павлова, д. 10, кв. 90",
-                  IsDeleted = false
-                }
-            };
-
-            _context.Passports.AddRange(Passports);
+            //given            
+            _context.Passports.AddRange(passports);
             _context.SaveChanges();
             var newPassport =
               new Passport()
