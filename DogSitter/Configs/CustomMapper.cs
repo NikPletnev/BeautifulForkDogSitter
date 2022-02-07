@@ -4,7 +4,7 @@ using DogSitter.BLL.Models;
 
 namespace DogSitter.API.Configs
 {
-    public class CustomMapper
+    public class CustomMapper : ICustomMapper
     {
         private Mapper _instance;
 

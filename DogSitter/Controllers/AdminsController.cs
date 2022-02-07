@@ -11,12 +11,12 @@ namespace DogSitter.API.Controllers
     public class AdminsController : Controller
     {
         private AdminService _service;
-        private CustomMapper _map;
+        private ICustomMapper _map;
 
-        public AdminsController()
+        public AdminsController(ICustomMapper customMapper)
         {
             _service = new AdminService();
-            _map = new CustomMapper();
+            _map = customMapper;
         }
 
         //api/admins/42
