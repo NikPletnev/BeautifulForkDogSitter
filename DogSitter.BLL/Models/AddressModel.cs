@@ -9,7 +9,7 @@
         public int House { get; set; }
         public int Apartament { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual List<SubwayStationModel> SubwayStations { get; set; }
+        public  List<SubwayStationModel> SubwayStations { get; set; }
 
     }
 }

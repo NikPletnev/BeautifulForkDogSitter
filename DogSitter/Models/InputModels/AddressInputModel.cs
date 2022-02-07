@@ -8,6 +8,6 @@ namespace DogSitter.API.Models
         public string Street { get; set; }
         public int House { get; set; }
         public int Apartament { get; set; }
-        public virtual List<SubwayStationInputModel> SubwayStations { get; set; }
+        public List<SubwayStationInputModel> SubwayStations { get; set; }
     }
 }

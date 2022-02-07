@@ -1,4 +1,4 @@
-﻿using DogSitter.BLL.Config;
+﻿using DogSitter.BLL.Configs;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -60,10 +60,8 @@ namespace DogSitter.BLL.Services
             if (entity == null)
             {
                 throw new Exception("Адресс не найден");
-
             }
-            bool Delete = true;
-            _repository.UpdateAddress(id, Delete);
+            _repository.UpdateAddress(id, true);
         }
 
         public void RestoreAddress(int id)
@@ -72,10 +70,8 @@ namespace DogSitter.BLL.Services
             if (entity == null)
             {
                 throw new Exception("Адресс не найден");
-
             }
-            bool Delete = false;
-            _repository.UpdateAddress(id, Delete);
+            _repository.UpdateAddress(id, false);
         }
     }
 }
