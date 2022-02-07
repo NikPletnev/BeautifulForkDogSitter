@@ -6,9 +6,6 @@ namespace DogSitter.DAL
 {
     public class DogSitterContext : DbContext
     {
-
-        private static DogSitterContext _instance;
-
         public DogSitterContext(DbContextOptions<DogSitterContext> options) : base(options)
         {
 
@@ -19,6 +16,7 @@ namespace DogSitter.DAL
             //удалить после ред всех реп
         }
 
+        private static DogSitterContext _instance;
         public static DogSitterContext GetInstance()
         {
             if (_instance == null)
@@ -27,7 +25,6 @@ namespace DogSitter.DAL
             }
             return _instance;
         }
-
 
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Customer> Customers { get; set; }

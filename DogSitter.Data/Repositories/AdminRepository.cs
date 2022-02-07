@@ -23,19 +23,6 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteAdmin(int id)
-        {
-            Admin admin = GetAdminById(id);
-
-            foreach (var c in admin.Contacts)
-            {
-                _context.Contacts.Remove(c);
-            }
-
-            _context.Admins.Remove(admin);
-            _context.SaveChanges();
-        }
-
         public void UpdateAdmin(Admin admin)
         {
             var entity = GetAdminById(admin.Id);
