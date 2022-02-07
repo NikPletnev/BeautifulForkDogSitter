@@ -1,7 +1,4 @@
-﻿using DogSitter.API.Configs;
-using DogSitter.API.Models;
-using DogSitter.BLL.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
 {

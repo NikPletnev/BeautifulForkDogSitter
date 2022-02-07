@@ -22,12 +22,12 @@ namespace DogSitter.DAL.Entity
                    FirstName == admin.FirstName &&
                    LastName == admin.LastName &&
                    IsDeleted == admin.IsDeleted;
-        }        
+        }
 
         public override string ToString()
         {
             return $"{Id} {FirstName} {LastName} {Password}";
         }
-       
+
     }
 }

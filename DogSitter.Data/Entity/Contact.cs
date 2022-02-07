@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DogSitter.DAL.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.DAL.Entity
 {
@@ -8,7 +9,7 @@ namespace DogSitter.DAL.Entity
         [Required]
         public string Value { get; set; }
         [Required]
-        public virtual ContactType ContactType { get; set; }
+        public ContactType ContactType { get; set; }
         public bool IsDeleted { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Admin Admin { get; set; }
@@ -24,10 +25,10 @@ namespace DogSitter.DAL.Entity
 
         public override string ToString()
         {
-            return $"{Id} {Value}";
+            return $"{Id} {Value} {ContactType}";
         }
 
-        
+
 
     }
 }

@@ -1,11 +1,13 @@
-﻿namespace DogSitter.BLL.Models
+﻿using DogSitter.DAL.Enums;
+
+namespace DogSitter.BLL.Models
 {
     public class ContactModel
     {
         public int Id { get; set; }
         public string Value { get; set; }
         public bool IsDeleted { get; set; }
-        public ContactTypeModel ContactType { get; set; }
+        public ContactType ContactType { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -13,14 +15,12 @@
                    Id == model.Id &&
                    Value == model.Value &&
                    IsDeleted == model.IsDeleted &&
-                   ContactType.Name == model.ContactType.Name &&
-                   ContactType.IsDeleted == model.ContactType.IsDeleted &&
-                   ContactType.Id == model.ContactType.Id;
+                   ContactType == model.ContactType;
         }
 
         public override string ToString()
         {
-            return $"{Id} {Value} {ContactType.Name}";
+            return $"{Id} {Value} {ContactType}";
         }
     }
 }

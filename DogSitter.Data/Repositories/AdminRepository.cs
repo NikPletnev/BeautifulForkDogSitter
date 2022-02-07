@@ -8,7 +8,7 @@ namespace DogSitter.DAL.Repositories
 
         public AdminRepository(DogSitterContext context)
         {
-           _context = context; 
+            _context = context;
         }
 
         public List<Admin> GetAllAdmins() =>

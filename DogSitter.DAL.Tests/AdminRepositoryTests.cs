@@ -56,7 +56,7 @@ namespace DogSitter.DAL.Tests
                 _context.Admins.AddRange(admins);
                 _context.SaveChanges();
 
-                var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false};
+                var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false };
 
                 //when
                 var actual = _rep.GetAdminById(2);
@@ -69,7 +69,7 @@ namespace DogSitter.DAL.Tests
             public void AddAdminTest()
             {
                 //given
-                var admin = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234"};
+                var admin = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234" };
                 var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false };
 
                 //when
@@ -83,7 +83,7 @@ namespace DogSitter.DAL.Tests
 
             [TestCaseSource(typeof(AdminTestCaseSource))]
             public void DeleteAdminTest(List<Admin> admins)
-            {      
+            {
                 //given
                 _context.Admins.AddRange(admins);
                 _context.SaveChanges();
@@ -99,13 +99,13 @@ namespace DogSitter.DAL.Tests
             }
 
             [TestCaseSource(typeof(AdminTestCaseSource))]
-            public void UpdateAdminTest(List <Admin> admins)
+            public void UpdateAdminTest(List<Admin> admins)
             {
                 //given
                 _context.Admins.AddRange(admins);
                 _context.SaveChanges();
 
-                var newAdmin = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234"};
+                var newAdmin = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234" };
 
                 var expected = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234", IsDeleted = false };
 
@@ -117,6 +117,8 @@ namespace DogSitter.DAL.Tests
                 //then
                 Assert.AreEqual(expected, actual);
             }
+
+
 
         }
     }

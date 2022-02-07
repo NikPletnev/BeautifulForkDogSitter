@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
@@ -29,15 +30,15 @@ namespace DogSitter.DAL.Tests
         }
 
         [TestCaseSource(typeof(ContactTestCaseSource))]
-        public void GetAllContactsTest(List <Contact> contacts)
+        public void GetAllContactsTest(List<Contact> contacts)
         {
             //given
             _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
             var expected = new List<Contact>() {
-              new Contact() { Id = 1, Value = "89871234567", IsDeleted = false },
-              new Contact() { Id = 2, Value = "@qwerty", IsDeleted = false }
+              new Contact() { Id = 1, Value = "89871234567", ContactType = ContactType.phone, IsDeleted = false },
+              new Contact() { Id = 2, Value = "@qwerty", ContactType = ContactType.mail, IsDeleted = false }
             };
 
             //when
@@ -54,7 +55,7 @@ namespace DogSitter.DAL.Tests
             _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
-            var expected = new Contact() {Id = 3, Value = "qwerty123@icloud.com", IsDeleted = true };
+            var expected = new Contact() { Id = 3, Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = true };
 
             //when
             var actual = _rep.GetContactById(3);
@@ -67,8 +68,8 @@ namespace DogSitter.DAL.Tests
         public void AddContactTest()
         {
             //given
-            var contact = new Contact() { Value = "qwerty123@icloud.com"};
-            var expected = new Contact() {Id = 1, Value = "qwerty123@icloud.com", IsDeleted = false };
+            var contact = new Contact() { Value = "qwerty123@icloud.com", ContactType = (ContactType)2 };
+            var expected = new Contact() { Id = 1, Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = false };
 
             //when
             _rep.AddContact(contact);
@@ -81,13 +82,13 @@ namespace DogSitter.DAL.Tests
         }
 
         [TestCaseSource(typeof(ContactTestCaseSource))]
-        public void DeleteContactTest(List <Contact> contacts)
+        public void DeleteContactTest(List<Contact> contacts)
         {
             //given
             _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
-            var expected = new Contact() {Id = 3, Value = "qwerty123@icloud.com", IsDeleted = true };
+            var expected = new Contact() { Id = 3, Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = true };
 
             //when
             _rep.UpdateContact(3, true);
@@ -105,9 +106,9 @@ namespace DogSitter.DAL.Tests
             _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
-            var newContact = new Contact() { Id = 3, Value = "NewNewNew@icloud.com"};
+            var newContact = new Contact() { Id = 3, Value = "NewNewNew@icloud.com", ContactType = (ContactType)2 };
 
-            var expected = new Contact() { Id = 3, Value = "NewNewNew@icloud.com", IsDeleted = true };
+            var expected = new Contact() { Id = 3, Value = "NewNewNew@icloud.com", ContactType = ContactType.mail, IsDeleted = true };
 
             //when
             _rep.UpdateContact(newContact);
@@ -116,5 +117,7 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.AreEqual(expected, actual);
         }
+
+
     }
 }

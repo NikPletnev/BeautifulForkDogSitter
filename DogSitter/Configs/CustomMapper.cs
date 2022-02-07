@@ -26,12 +26,11 @@ namespace DogSitter.API.Configs
                 conf.CreateMap<AdminUpdateInputModel, AdminModel>().ReverseMap();
                 conf.CreateMap<AdminOutputModel, AdminModel>().ReverseMap();
 
-                conf.CreateMap<ContactUpdateInputModel, ContactModel>().ReverseMap();
-                conf.CreateMap<ContactOutputModel, ContactModel>().ReverseMap();
-                conf.CreateMap<ContactInsertInputModel, ContactModel>().ReverseMap();
+                conf.CreateMap<ContactOutputModel, ContactModel>().ReverseMap()
+                .ForMember(dest => dest.ContactType, act => act.MapFrom(src => src.ContactType));
+                conf.CreateMap<ContactInsertInputModel, ContactModel>().ReverseMap()
+                .ForMember(dest => dest.ContactType, act => act.MapFrom(src => src.ContactType));
 
-                conf.CreateMap<ContactTypeInputModel, ContactTypeModel>().ReverseMap();
-                conf.CreateMap<ContactOutputModel, ContactModel>().ReverseMap();
 
                 conf.CreateMap<DogUpdateInputModel, DogModel>().ReverseMap();
                 conf.CreateMap<DogInsertInputModel, DogModel>().ReverseMap();

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using DogSitter.BLL.Configs;
+﻿using DogSitter.BLL.Configs;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -14,7 +13,7 @@ namespace DogSitter.BLL.WorkTimes
         public WorkTimeService()
         {
             _repository = new WorkTimeRepository();
-            _mapper = new CustomMapper ();
+            _mapper = new CustomMapper();
         }
 
         public WorkTimeModel GetWorkTimeById(int id)

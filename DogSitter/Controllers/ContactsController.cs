@@ -13,7 +13,6 @@ namespace DogSitter.API.Controllers
         private readonly IContactService _service;
         private readonly CustomMapper _map;
 
-
         public ContactsController(IContactService contactService)
         {
             _service = contactService;
@@ -33,14 +32,6 @@ namespace DogSitter.API.Controllers
         public IActionResult RestoreContact(int id)
         {
             _service.RestoreContact(id);
-            return NoContent();
-        }
-
-        //api/contacts/42
-        [HttpPut("{id}")]
-        public IActionResult UpdateContact(int id, [FromBody] ContactUpdateInputModel сontact)
-        {
-            _service.UpdateContact(id, _map.GetInstance().Map<ContactModel>(сontact));
             return NoContent();
         }
 

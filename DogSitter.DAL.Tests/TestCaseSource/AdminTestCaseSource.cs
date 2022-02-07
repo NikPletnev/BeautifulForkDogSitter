@@ -14,8 +14,6 @@ namespace DogSitter.DAL.Tests.TestCaseSource
               new Admin() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = true }
             };
 
-            
-
             yield return new object[] { admins };
         }
     }

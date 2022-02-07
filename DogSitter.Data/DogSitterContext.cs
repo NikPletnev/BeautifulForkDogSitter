@@ -38,7 +38,6 @@ namespace DogSitter.DAL
         public DbSet<SubwayStation> SubwayStations { get; set; }
         public DbSet<WorkTime> WorkTimes { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<ContactType> ContactTypes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,10 +58,6 @@ namespace DogSitter.DAL
             .HasDefaultValue(0);
 
             modelBuilder.Entity<Contact>()
-            .Property(c => c.IsDeleted)
-            .HasDefaultValue(0);
-
-            modelBuilder.Entity<ContactType>()
             .Property(c => c.IsDeleted)
             .HasDefaultValue(0);
 

@@ -17,7 +17,7 @@
 
             for (int i = 0; i < Contacts.Count; i++)
             {
-                if(Contacts[i] != ((AdminModel)obj).Contacts[i])
+                if (Contacts[i] != ((AdminModel)obj).Contacts[i])
                 {
                     return false;
                 }
@@ -27,7 +27,7 @@
                    Id == model.Id &&
                    Password == model.Password &&
                    FirstName == model.FirstName &&
-                   LastName == model.LastName;                  
+                   LastName == model.LastName;
         }
 
         public override string ToString()
