@@ -11,12 +11,12 @@ namespace DogSitter.API.Controllers
     public class AdminsController : Controller
     {
         private AdminService _service;
-        private CustomMapper _map;
+        private ICustomMapper _map;
 
-        public AdminsController()
+        public AdminsController(ICustomMapper customMapper)
         {
             _service = new AdminService();
-            _map = new CustomMapper();
+            _map = customMapper;
         }
 
         //api/admins/42
@@ -46,7 +46,7 @@ namespace DogSitter.API.Controllers
         [HttpPost]
         public ActionResult<AdminOutputModel> AddAdmin([FromBody] AdminInsertInputModel admin)
         {
-            _service.AddAdmin(_map.GetInstance().Map<AdminModel>(admin));        
+            _service.AddAdmin(_map.GetInstance().Map<AdminModel>(admin));
             return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map<AdminOutputModel>(admin));
         }
 

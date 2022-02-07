@@ -1,7 +1,6 @@
 ﻿using DogSitter.API.Configs;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
-using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -16,10 +15,10 @@ namespace DogSitter.API.Controllers
 
         public DogsController()
         {
-            _service = new DogService();   
+            _service = new DogService();
             _map = new CustomMapper();
         }
-        
+
         //api/dogs/42
         [HttpDelete("{id}")]
         public IActionResult DeleteDog(int id)
@@ -46,10 +45,10 @@ namespace DogSitter.API.Controllers
 
         //api/dogs
         [HttpPost]
-        public ActionResult<DogOutputModel> AddDog( [FromBody] DogInsertInputModel dog)
+        public ActionResult<DogOutputModel> AddDog([FromBody] DogInsertInputModel dog)
         {
             _service.AddDog(_map.GetInstance().Map<DogModel>(dog));
-            return StatusCode(StatusCodes.Status201Created,_map.GetInstance().Map<DogOutputModel>(dog));
+            return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map<DogOutputModel>(dog));
         }
 
         //api/dogs/42
@@ -66,7 +65,7 @@ namespace DogSitter.API.Controllers
         [HttpGet]
         public ActionResult<List<DogOutputModel>> GetAllDogs()
         {
-            var dogs = _map.GetInstance().Map < List <DogOutputModel>>(_service.GetAllDogs());
+            var dogs = _map.GetInstance().Map<List<DogOutputModel>>(_service.GetAllDogs());
             return Ok(dogs);
         }
     }

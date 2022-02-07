@@ -2,11 +2,6 @@
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
@@ -21,7 +16,7 @@ namespace DogSitter.BLL.Services
 
         public void UpdateDog(int id, DogModel dogModel)
         {
-            var entity = DogMapper.GetInstance().Map<Dog>(dogModel);
+            var entity = CustomMapper.GetInstance().Map<Dog>(dogModel);
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
@@ -53,9 +48,9 @@ namespace DogSitter.BLL.Services
             _rep.UpdateDog(id, false);
         }
 
-        public void AddDog (DogModel dogModel)
+        public void AddDog(DogModel dogModel)
         {
-            _rep.AddDog(DogMapper.GetInstance().Map <Dog>(dogModel));
+            _rep.AddDog(CustomMapper.GetInstance().Map<Dog>(dogModel));
         }
 
         public DogModel GetDogById(int id)
@@ -66,12 +61,12 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Собака не найдена");
             }
 
-            return DogMapper.GetInstance().Map <DogModel>(dog);
+            return CustomMapper.GetInstance().Map<DogModel>(dog);
         }
 
         public List<DogModel> GetAllDogs()
         {
-            return DogMapper.GetInstance().Map<List<DogModel>>(_rep.GetAllDogs());    
+            return CustomMapper.GetInstance().Map<List<DogModel>>(_rep.GetAllDogs());
         }
     }
 }

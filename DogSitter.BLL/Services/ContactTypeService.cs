@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DogSitter.BLL.Configs;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
-using DogSitter.DAL;
-using DogSitter.BLL.Configs;
 
 namespace DogSitter.BLL.Services
 {
@@ -22,14 +16,14 @@ namespace DogSitter.BLL.Services
 
         public void UpdateContactType(int id, ContactTypeModel contactTypeModel)
         {
-            var entity = ContactTypeMapper.GetInstance().Map<ContactType>(contactTypeModel);
+            var entity = CustomMapper.GetInstance().Map<ContactType>(contactTypeModel);
             var contactType = _rep.GetContactTypeById(id);
-            
+
             if (contactType == null)
             {
-                throw new Exception("Тип контакта не найден"); 
+                throw new Exception("Тип контакта не найден");
             }
-            
+
             _rep.UpdateContactType(entity);
         }
 
@@ -59,9 +53,9 @@ namespace DogSitter.BLL.Services
 
         public void AddContactType(ContactTypeModel contactType)
         {
-            _rep.AddContactType(ContactTypeMapper.GetInstance().Map<ContactType>(contactType));
+            _rep.AddContactType(CustomMapper.GetInstance().Map<ContactType>(contactType));
         }
-        
+
         public ContactTypeModel GetContactTypeById(int id)
         {
             var contactType = _rep.GetContactTypeById(id);
@@ -70,12 +64,12 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Тип контакта не найден");
 
             }
-            return ContactTypeMapper.GetInstance().Map<ContactTypeModel>(contactType);
+            return CustomMapper.GetInstance().Map<ContactTypeModel>(contactType);
         }
 
         public List<ContactTypeModel> GetAllContactTypes()
         {
-            return ContactTypeMapper.GetInstance().Map<List<ContactTypeModel>>(_rep.GetAllContactTypes());
+            return CustomMapper.GetInstance().Map<List<ContactTypeModel>>(_rep.GetAllContactTypes());
         }
     }
 }

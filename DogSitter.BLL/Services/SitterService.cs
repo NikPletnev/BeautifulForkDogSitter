@@ -1,19 +1,14 @@
-﻿using DogSitter.BLL.Config;
+﻿using DogSitter.BLL.Configs;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
     public class SitterService
     {
         private SitterRepository _repository;
-        
+
         public SitterService()
         {
             _repository = new SitterRepository();

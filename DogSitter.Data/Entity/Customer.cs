@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.DAL.Entity
 {
-    public class Customer 
+    public class Customer
     {
         public int Id { get; set; }
         [Required]
@@ -19,7 +14,7 @@ namespace DogSitter.DAL.Entity
         public virtual ICollection<Contact> Contacts { get; set; }
         public bool IsDeleted { get; set; }
         public virtual ICollection<Dog> Dogs { get; set; }
-        public virtual ICollection<Sitter> Sitter { get; set;}
+        public virtual ICollection<Sitter> Sitter { get; set; }
         public virtual ICollection<Address> Address { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }

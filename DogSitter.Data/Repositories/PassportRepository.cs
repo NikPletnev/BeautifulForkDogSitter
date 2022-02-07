@@ -1,10 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -16,11 +10,11 @@ namespace DogSitter.DAL.Repositories
         {
             _context = DogSitterContext.GetInstance();
         }
-  
+
 
         public Passport GetPassportById(int id) =>
                          _context.Passports.FirstOrDefault(x => x.Id == id);
-        
+
 
         public void AddPassport(Passport passport)
         {

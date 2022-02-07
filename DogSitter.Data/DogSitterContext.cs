@@ -45,7 +45,7 @@ namespace DogSitter.DAL
         {
             #region Default IsDeleted = 0
 
-            
+
             modelBuilder.Entity<Address>()
             .Property(a => a.IsDeleted)
             .HasDefaultValue(0);
