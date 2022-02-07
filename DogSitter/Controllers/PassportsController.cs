@@ -1,4 +1,5 @@
-﻿using DogSitter.API.Configs;
+﻿using AutoMapper;
+using DogSitter.API.Configs;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
@@ -12,9 +13,9 @@ namespace DogSitter.API.Controllers
     {
 
         private PassportService _service;
-        private ICustomMapper _map;
+        private IMapper _map;
 
-        public PassportsController(ICustomMapper customMapper)
+        public PassportsController(IMapper customMapper)
         {
             _service = new PassportService();
             _map = customMapper;
@@ -24,22 +25,22 @@ namespace DogSitter.API.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdatePassport(int id, [FromBody] PassportUpdateInputModel passport)
         {
-            _service.UpdatePassport(id, _map.GetInstance().Map<PassportModel>(passport));
+            _service.UpdatePassport(id, _map.Map<PassportModel>(passport));
             return NoContent();
         }
 
         [HttpPost]
         public ActionResult<PassportOutputModel> AddPassport([FromBody] PassportInsertInputModel passport)
         {
-            _service.AddPassport(_map.GetInstance().Map<PassportModel>(passport));
-            return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map<PassportOutputModel>(passport));
+            _service.AddPassport(_map.Map<PassportModel>(passport));
+            return StatusCode(StatusCodes.Status201Created, _map.Map<PassportOutputModel>(passport));
         }
 
         [HttpGet("{id}")]
         public ActionResult<PassportOutputModel> GetPassportById(int id)
         {
             //if passport exist
-            var passport = _map.GetInstance().Map<PassportOutputModel>(_service.GetPassportById(id));
+            var passport = _map.Map<PassportOutputModel>(_service.GetPassportById(id));
             return Ok(passport);
             //if passport not found
             return NotFound($"Passport {id} not found");

@@ -1,4 +1,5 @@
-﻿using DogSitter.API.Configs;
+﻿using AutoMapper;
+using DogSitter.API.Configs;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
@@ -12,9 +13,9 @@ namespace DogSitter.API.Controllers
     {
 
         private ContactTypeService _service;
-        private ICustomMapper _map;
+        private IMapper _map;
 
-        public ContactTypesController(ICustomMapper customMapper)
+        public ContactTypesController(IMapper customMapper)
         {
             _service = new ContactTypeService();
             _map = customMapper;
@@ -40,7 +41,7 @@ namespace DogSitter.API.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateContactType(int id, [FromBody] ContactTypeInputModel сontactType)
         {
-            _service.UpdateContactType(id, _map.GetInstance().Map<ContactTypeModel>(сontactType));
+            _service.UpdateContactType(id, _map.Map<ContactTypeModel>(сontactType));
             return NoContent();
         }
 
@@ -48,8 +49,8 @@ namespace DogSitter.API.Controllers
         [HttpPost]
         public ActionResult<ContactTypeOutputModel> AddContactType([FromBody] ContactTypeInputModel сontactType)
         {
-            _service.AddContactType(_map.GetInstance().Map<ContactTypeModel>(сontactType));
-            return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map<ContactTypeOutputModel>(сontactType));
+            _service.AddContactType(_map.Map<ContactTypeModel>(сontactType));
+            return StatusCode(StatusCodes.Status201Created, _map.Map<ContactTypeOutputModel>(сontactType));
         }
 
         //api/contact-types/42
@@ -57,7 +58,7 @@ namespace DogSitter.API.Controllers
         public ActionResult<ContactTypeOutputModel> GetContactTypeById(int id)
         {
             //if сontactType exist
-            var сontactType = _map.GetInstance().Map<ContactTypeOutputModel>(_service.GetContactTypeById(id));
+            var сontactType = _map.Map<ContactTypeOutputModel>(_service.GetContactTypeById(id));
             return Ok(сontactType);
             //if сontactType not found
             return NotFound($"ContactType {id} not found");
@@ -66,7 +67,7 @@ namespace DogSitter.API.Controllers
         [HttpGet]
         public ActionResult<List<ContactTypeOutputModel>> GetAllContactTypes()
         {
-            var сontactTypes = _map.GetInstance().Map<List<ContactTypeOutputModel>>(_service.GetAllContactTypes());
+            var сontactTypes = _map.Map<List<ContactTypeOutputModel>>(_service.GetAllContactTypes());
             return Ok(сontactTypes);
         }
     }

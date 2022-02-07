@@ -1,3 +1,4 @@
+using AutoMapper;
 using DogSitter.API.Configs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ICustomMapper, CustomMapper>();
+builder.Services.AddScoped<IMapper, Mapper>();
 
 var app = builder.Build();
 
