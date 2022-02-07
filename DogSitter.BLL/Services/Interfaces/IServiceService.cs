@@ -10,6 +10,5 @@ namespace DogService.BLL.Services
         ServiceModel GetServiceById(int id);
         void RestoreService(int id);
         void UpdateService(int id, ServiceModel serviceModel);
-        void UpdateService(ServiceModel serviceModel);
     }
 }

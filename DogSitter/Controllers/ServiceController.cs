@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DogService.BLL.Services;
-using DogSitter.API.Configs;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +13,10 @@ namespace DogSitter.API.Controllers
         private readonly IServiceService _serviceService;
         private readonly IMapper _mapper;
 
-        public ServiceController(IServiceService serviceService)
+        public ServiceController(IServiceService serviceService, IMapper mapper)
         {
             _serviceService = serviceService;
-            _mapper = new CustomMapper().GetInstance();
+            _mapper = mapper;
         }
 
         //api/Services/77
@@ -25,9 +24,10 @@ namespace DogSitter.API.Controllers
         public ActionResult<ServiceOutputModel> GetServiceById(int id)
         {
             var service = _mapper.Map<ServiceOutputModel>(_serviceService.GetServiceById(id));
-            return Ok(service);
-
-            return NotFound($"Service {id} not found");
+            if (service != null)
+                return Ok(service); 
+            else
+                return NotFound($"Service {id} not found");
         }
 
         //api/Services

@@ -41,9 +41,9 @@ namespace DogSitter.API.Configs
                 conf.CreateMap<PassportUpdateInputModel, PassportModel>().ReverseMap();
                 conf.CreateMap<PassportOutputModel, PassportModel>().ReverseMap();
 
-                conf.CreateMap<ServiceInsertInputModel, ServiceModel>().ReverseMap();
-                conf.CreateMap<ServiceUpdateInputModel, ServiceModel>().ReverseMap();
-                conf.CreateMap<ServiceOutputModel, ServiceModel>().ReverseMap();
+                conf.CreateMap<ServiceInsertInputModel, ServiceModel>();
+                conf.CreateMap<ServiceUpdateInputModel, ServiceModel>();
+                conf.CreateMap<ServiceModel, ServiceOutputModel>();
 
             }));
         }

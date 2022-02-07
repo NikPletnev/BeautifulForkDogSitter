@@ -6,22 +6,21 @@ namespace DogSitter.DAL
 {
     public class DogSitterContext : DbContext
     {
-        private const string _conectionString = @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB; 
-        Persist Security Info=True;User ID = student; Password=qwe!23; Pooling=False; MultipleActiveResultSets=False; 
-        Connect Timeout = 60; Encrypt=False; TrustServerCertificate=False";
 
         private static DogSitterContext _instance;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DogSitterContext(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlServer(_conectionString);
         }
 
         public static DogSitterContext GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new DogSitterContext();
+                //_instance = new DogSitterContext();
+
+                // закоментировал, потому что не у всех поменяно на маппер,
+                // и поэтому при удалении выдает ошибку
             }
             return _instance;
         }
