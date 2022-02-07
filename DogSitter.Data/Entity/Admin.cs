@@ -28,9 +28,6 @@ namespace DogSitter.DAL.Entity
         {
             return $"{Id} {FirstName} {LastName} {Password}";
         }
-
-        
-
-
+       
     }
 }
