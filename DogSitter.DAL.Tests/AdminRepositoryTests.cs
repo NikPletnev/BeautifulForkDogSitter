@@ -1,5 +1,6 @@
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
+using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -27,53 +28,12 @@ namespace DogSitter.DAL.Tests
             _rep = new AdminRepository(_context);
         }
 
-        [Test]
-        public void GetAllAdminsTest()
+        [TestCaseSource(typeof(AdminTestCaseSource))]
+        public void GetAllAdminsTest(List<Admin> admins, List <Admin> expected)
         {
             //given
-            List<Admin> admins = new List<Admin>() {
-              new Admin()
-                {
-                 FirstName = "Иван",
-                 LastName = "Иванов",
-                 Password = "VANYA1234",
-                 IsDeleted = false
-                },
-              new Admin()
-                {
-                 FirstName = "Иван2",
-                 LastName = "Иванов2",
-                 Password = "2VANYA1234",
-                 IsDeleted = false
-                },
-              new Admin()
-                {
-                 FirstName = "Иван2",
-                 LastName = "Иванов2",
-                 Password = "2VANYA1234",
-                 IsDeleted = true
-                }
-            };
-
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
-
-            var expected = new List<Admin>() {
-              new Admin()
-              {
-                 Id = 1,
-                 FirstName = "Иван",
-                 LastName = "Иванов",
-                 Password = "VANYA1234",
-              },
-              new Admin()
-              {
-                 Id = 2,
-                 FirstName = "Иван2",
-                 LastName = "Иванов2",
-                 Password = "2VANYA1234",
-              }
-            };
 
             //when
             var actual = _rep.GetAllAdmins();
