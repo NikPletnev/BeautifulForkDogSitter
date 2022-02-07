@@ -14,30 +14,22 @@ namespace DogSitter.DAL.Entity
         public virtual ICollection<Contact> Contacts { get; set; }
         public bool IsDeleted { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Admin admin &&
+                   Id == admin.Id &&
+                   Password == admin.Password &&
+                   FirstName == admin.FirstName &&
+                   LastName == admin.LastName &&
+                   IsDeleted == admin.IsDeleted;
+        }        
+
         public override string ToString()
         {
             return $"{Id} {FirstName} {LastName} {Password}";
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is not Admin)
-            {
-                return false;
-            }
-            if (Id != ((Admin)obj).Id
-                || FirstName != ((Admin)obj).FirstName
-                || LastName != ((Admin)obj).LastName
-                || Password != ((Admin)obj).Password
-                || IsDeleted != ((Admin)obj).IsDeleted)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        
 
 
     }

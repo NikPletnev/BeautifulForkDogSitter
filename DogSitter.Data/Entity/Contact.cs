@@ -14,30 +14,20 @@ namespace DogSitter.DAL.Entity
         public virtual Admin Admin { get; set; }
         public virtual Sitter Sitter { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Contact contact &&
+                   Id == contact.Id &&
+                   Value == contact.Value &&
+                   IsDeleted == contact.IsDeleted;
+        }
+
         public override string ToString()
         {
             return $"{Id} {Value}";
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is not Contact)
-            {
-                return false;
-            }
-            if (Id != ((Contact)obj).Id
-                || Value != ((Contact)obj).Value
-                || IsDeleted != ((Contact)obj).IsDeleted)
-                //|| ContactType.Id != ((Contact)obj).ContactType.Id
-                //|| ContactType.Name != ((Contact)obj).ContactType.Name)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        
 
     }
 }

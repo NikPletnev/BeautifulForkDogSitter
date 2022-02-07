@@ -25,36 +25,29 @@ namespace DogSitter.DAL.Entity
         public bool IsDeleted { get; set; }
         public virtual Sitter Sitter { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Passport passport &&
+                   Id == passport.Id &&
+                   FirstName == passport.FirstName &&
+                   LastName == passport.LastName &&
+                   DateOfBirth == passport.DateOfBirth &&
+                   Seria == passport.Seria &&
+                   Number == passport.Number &&
+                   IssueDate == passport.IssueDate &&
+                   Division == passport.Division &&
+                   DivisionCode == passport.DivisionCode &&
+                   Registration == passport.Registration &&
+                   IsDeleted == passport.IsDeleted;
+        }
+
         public override string ToString()
         {
             return $"{FirstName} {LastName} {DateOfBirth} {Seria} {Number} " +
                 $"{IssueDate} {Division} {DivisionCode} {Registration} {IsDeleted}";
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is not Passport)
-            {
-                return false;
-            }
-            if (Id != ((Passport)obj).Id
-                || FirstName != ((Passport)obj).FirstName
-                || LastName != ((Passport)obj).LastName
-                || DateOfBirth != ((Passport)obj).DateOfBirth
-                || Seria != ((Passport)obj).Seria
-                || Number != ((Passport)obj).Number
-                || IssueDate != ((Passport)obj).IssueDate
-                || Division != ((Passport)obj).Division
-                || DivisionCode != ((Passport)obj).DivisionCode
-                || Registration != ((Passport)obj).Registration
-                || IsDeleted != ((Passport)obj).IsDeleted)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+
+        
     }
 }
