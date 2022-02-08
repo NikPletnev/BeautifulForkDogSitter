@@ -1,22 +1,19 @@
-﻿using DogSitter.BLL.Configs;
+﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
-    public class AddressService
+    public class AddressService : IAddressService
     {
         private AddressRepository _repository;
+        private IMapper _mapper;
 
-        public AddressService()
+        public AddressService(IMapper mapper)
         {
             _repository = new AddressRepository();
+            _mapper = mapper;
         }
 
         public AddressModel GetAddressById(int id)
@@ -27,24 +24,24 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Адресс не найден");
 
             }
-            return CustomMapper.GetInstance().Map<AddressModel>(address);
+            return _mapper.Map<AddressModel>(address);
         }
 
         public List<AddressModel> GetAllAddresses()
         {
             var address = _repository.GetAllAddress();
-            return CustomMapper.GetInstance().Map<List<AddressModel>>(address);
+            return _mapper.Map<List<AddressModel>>(address);
         }
 
         public void AddAddress(AddressModel address)
         {
-            var addressModel = CustomMapper.GetInstance().Map<Address>(address);
+            var addressModel = _mapper.Map<Address>(address);
             _repository.AddAddress(addressModel);
         }
 
         public void UpdateAddress(AddressModel address)
         {
-            var addressModel = CustomMapper.GetInstance().Map<Address>(address);
+            var addressModel = _mapper.Map<Address>(address);
             var entity = _repository.GetAddressById(address.Id);
             if (entity == null)
             {

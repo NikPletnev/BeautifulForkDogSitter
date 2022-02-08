@@ -1,20 +1,19 @@
 ﻿using AutoMapper;
-using DogSitter.BLL.Configs;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.WorkTimes
 {
-    public class WorkTimeService
+    public class WorkTimeService : IWorkTimeService
     {
         private WorkTimeRepository _repository;
-        private readonly IMapper _mapper;
+        private IMapper _mapper;
 
-        public WorkTimeService()
+        public WorkTimeService(IMapper mapper)
         {
             _repository = new WorkTimeRepository();
-            _mapper = CustomMapper.GetInstance();
+            _mapper = mapper;
         }
 
         public WorkTimeModel GetWorkTimeById(int id)
