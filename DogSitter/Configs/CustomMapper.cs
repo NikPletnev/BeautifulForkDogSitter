@@ -4,42 +4,36 @@ using DogSitter.BLL.Models;
 
 namespace DogSitter.API.Configs
 {
-    public class CustomMapper
+    public class CustomMapper : Profile
     {
         private Mapper _instance;
 
-        public Mapper GetInstance()
+        public CustomMapper()
         {
-            if (_instance == null)
-            {
-                InitMapper();
-            }
-            return _instance;
+            CreateMap<AdminInsertInputModel, AdminModel>().ReverseMap();
+            CreateMap<AdminUpdateInputModel, AdminModel>().ReverseMap();
+            CreateMap<AdminOutputModel, AdminModel>().ReverseMap();
+
+            CreateMap<ContactUpdateInputModel, ContactModel>().ReverseMap();
+            CreateMap<ContactOutputModel, ContactModel>().ReverseMap();
+            CreateMap<ContactInsertInputModel, ContactModel>().ReverseMap();
+
+            CreateMap<ContactTypeInputModel, ContactTypeModel>().ReverseMap();
+            CreateMap<ContactOutputModel, ContactModel>().ReverseMap();
+
+            CreateMap<DogUpdateInputModel, DogModel>().ReverseMap();
+            CreateMap<DogInsertInputModel, DogModel>().ReverseMap();
+            CreateMap<DogOutputModel, DogModel>().ReverseMap();
+
+            CreateMap<PassportInsertInputModel, PassportModel>().ReverseMap();
+            CreateMap<PassportUpdateInputModel, PassportModel>().ReverseMap();
+            CreateMap<PassportOutputModel, PassportModel>().ReverseMap();
+            CreateMap<AddressOutputModel, AddressModel>().ReverseMap();
+            CreateMap<AddressInputModel, AddressModel>().ReverseMap();
+            CreateMap<SubwayStationOutputModel, SubwayStationOutputModel>().ReverseMap();
+            CreateMap<SubwayStationInputModel, SubwayStationModel>().ReverseMap();
         }
 
-        public void InitMapper()
-        {
-            _instance = new Mapper(new MapperConfiguration(
-            conf =>
-            {
-                conf.CreateMap<AdminInsertInputModel, AdminModel>().ReverseMap();
-                conf.CreateMap<AdminUpdateInputModel, AdminModel>().ReverseMap();
-                conf.CreateMap<AdminOutputModel, AdminModel>().ReverseMap();
-
-                conf.CreateMap<ContactUpdateInputModel, ContactModel>().ReverseMap();
-                conf.CreateMap<ContactOutputModel, ContactModel>().ReverseMap();
-                conf.CreateMap<ContactInsertInputModel, ContactModel>().ReverseMap();
-
-                conf.CreateMap<ContactTypeInputModel, ContactTypeModel>().ReverseMap();
-                conf.CreateMap<ContactOutputModel, ContactModel>().ReverseMap();
-
-                conf.CreateMap<DogUpdateInputModel, DogModel>().ReverseMap();
-                conf.CreateMap<DogInsertInputModel, DogModel>().ReverseMap();
-                conf.CreateMap<DogOutputModel, DogModel>().ReverseMap();
-
-                conf.CreateMap<PassportInsertInputModel, PassportModel>().ReverseMap();
-                conf.CreateMap<PassportUpdateInputModel, PassportModel>().ReverseMap();
-                conf.CreateMap<PassportOutputModel, PassportModel>().ReverseMap();
 
                 conf.CreateMap<ServiceInsertInputModel, ServiceModel>();
                 conf.CreateMap<ServiceUpdateInputModel, ServiceModel>();

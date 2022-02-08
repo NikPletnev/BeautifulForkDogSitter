@@ -1,23 +1,25 @@
 ﻿
-using DogSitter.BLL.Configs;
+using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
 {
-    public class ContactService
+    public class ContactService : IContactService
     {
         private ContactRepository _rep;
+        private IMapper _mapper;
 
-        public ContactService()
+        public ContactService(IMapper mapper)
         {
             _rep = new ContactRepository();
+            _mapper = mapper;
         }
 
         public void UpdateContact(int id, ContactModel contactModel)
         {
-            var entity = CustomMapper.GetInstance().Map<Contact>(contactModel);
+            var entity = _mapper.Map<Contact>(contactModel);
             var contact = _rep.GetContactById(id);
 
             if (contact == null)
@@ -54,7 +56,7 @@ namespace DogSitter.BLL.Services
 
         public void AddContact(ContactModel contact)
         {
-            _rep.AddContact(CustomMapper.GetInstance().Map<Contact>(contact));
+            _rep.AddContact(_mapper.Map<Contact>(contact));
         }
 
         public ContactModel GetContactById(int id)
@@ -66,12 +68,12 @@ namespace DogSitter.BLL.Services
 
             }
 
-            return CustomMapper.GetInstance().Map<ContactModel>(contact);
+            return _mapper.Map<ContactModel>(contact);
         }
 
         public List<ContactModel> GetAllContacts()
         {
-            return CustomMapper.GetInstance().Map<List<ContactModel>>(_rep.GetAllContacts());
+            return _mapper.Map<List<ContactModel>>(_rep.GetAllContacts());
         }
     }
 }

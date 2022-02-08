@@ -3,7 +3,7 @@ using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 
-namespace DogService.BLL.Services
+namespace DogSitter.BLL.Services
 {
     public class ServiceService : IServiceService
     {
