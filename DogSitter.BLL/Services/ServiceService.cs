@@ -21,7 +21,7 @@ namespace DogSitter.BLL.Services
             try
             {
                 var service = _repository.GetServiceById(id);
-                return _mapper.GetInstance().Map<ServiceModel>(service);
+                return _mapper.Map<ServiceModel>(service);
             }
             catch (Exception)
             {
@@ -32,19 +32,19 @@ namespace DogSitter.BLL.Services
         public List<ServiceModel> GetAllServices()
         {
             var services = _repository.GetAllServices();
-            return _mapper.GetInstance().Map<List<ServiceModel>>(services);
+            return _mapper.Map<List<ServiceModel>>(services);
         }
 
         public void AddService(ServiceModel serviceModel)
         {
-            var service = _mapper.GetInstance().Map<Serviсe>(serviceModel);
+            var service = _mapper.Map<Serviсe>(serviceModel);
 
             _repository.AddService(service);
         }
 
         public void UpdateService(ServiceModel serviceModel)
         {
-            var service = _mapper.GetInstance().Map<Serviсe>(serviceModel);
+            var service = _mapper.Map<Serviсe>(serviceModel);
             try
             {
                 var entity = _repository.GetServiceById(serviceModel.Id);

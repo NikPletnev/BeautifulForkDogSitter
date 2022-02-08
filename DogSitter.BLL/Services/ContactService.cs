@@ -11,7 +11,7 @@ namespace DogSitter.BLL.Services
         private readonly IContactRepository _rep;
         private IMapper _mapper;
 
-        public ContactService(IContactRepository contactRepository, ICustomMapper mapper)
+        public ContactService(IContactRepository contactRepository, IMapper mapper)
         {
             _rep = contactRepository;
             _mapper = mapper;

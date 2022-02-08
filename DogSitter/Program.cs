@@ -31,7 +31,6 @@ builder.Services.AddScoped<IPassportRepository, PassportRepository>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
-builder.Services.AddScoped<ICustomMapper, CustomMapper>();
 
 var app = builder.Build();
 
