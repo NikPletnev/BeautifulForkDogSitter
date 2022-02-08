@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
-    public class AddressService
+    public class AddressService : IAddressService
     {
-        private AddressRepository _repository;
+        private IAddressRepository _repository;
 
-        public AddressService()
+        public AddressService(IAddressRepository repository)
         {
-            _repository = new AddressRepository();
+            _repository = repository;
         }
 
         public AddressModel GetAddressById(int id)

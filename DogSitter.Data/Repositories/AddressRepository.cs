@@ -2,14 +2,14 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class AddressRepository
+    public class AddressRepository : IAddressRepository
     {
 
         private DogSitterContext _context;
 
-        public AddressRepository()
+        public AddressRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public Address GetAddressById(int id) =>

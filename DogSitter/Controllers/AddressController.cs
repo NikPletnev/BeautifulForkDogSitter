@@ -11,12 +11,12 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class AddressController : Controller
     {
-        private readonly AddressService _addressService;
+        private readonly IAddressService _addressService;
         private readonly CustomMapper _mapper;
 
-        public AddressController()
+        public AddressController(IAddressService addressService)
         {
-            _addressService = new AddressService();
+            _addressService = addressService;
             _mapper = new CustomMapper();
         }
 

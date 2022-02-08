@@ -10,12 +10,12 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class DogsController : Controller
     {
-        private DogService _service;
+        private DogSitter.BLL.Services.DogService _service;
         private CustomMapper _map;
 
         public DogsController()
         {
-            _service = new DogService();
+            _service = new DogSitter.BLL.Services.DogService();
             _map = new CustomMapper();
         }
 
