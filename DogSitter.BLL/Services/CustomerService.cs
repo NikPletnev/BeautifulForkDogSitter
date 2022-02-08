@@ -5,7 +5,7 @@ using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
 {
-    public class CustomerService
+    public class CustomerService : ICustomerService
     {
         private CustomerRepository _repository;
 

@@ -9,7 +9,7 @@ namespace DogSitter.API.Models
         public List<ContactUpdateInputModel> Contacts { get; set; }
         public List<DogInsertInputModel> Dogs { get; set; }
         public List<SitterInputModel> Sitter { get; set; }
-        public List<AddressInputModel> Address { get; set; }
+        public List<AddressInputModel> Addresses { get; set; }
         public List<OrderInputModel> Orders { get; set; }
     }
 }

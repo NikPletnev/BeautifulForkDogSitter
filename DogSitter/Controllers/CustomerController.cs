@@ -12,13 +12,13 @@ namespace DogSitter.Controllers
 
     public class CustomerController : Controller
     {
-        private readonly CustomerService _service;
-        private readonly CustomMapper _mapper; 
+        private readonly ICustomerService _service;
+        private readonly ICustomMapper _mapper; 
 
-        public CustomerController()
+        public CustomerController(ICustomMapper customMapper, ICustomerService customerService)
         {
-            _mapper = new CustomMapper();
-            _service = new CustomerService();
+            _mapper = customMapper;
+            _service = customerService;
         }
 
         [HttpGet("{id}")]
@@ -53,7 +53,7 @@ namespace DogSitter.Controllers
         public ActionResult DeleteCustomer(int id)
         {
             _service.DeleteCustomerById(id);
-            return StatusCode(StatusCodes.Status204NoContent);
+            return NoContent();
         }
     }
 
