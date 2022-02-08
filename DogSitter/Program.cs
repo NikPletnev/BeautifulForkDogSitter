@@ -4,9 +4,12 @@ using DogSitter.DAL;
 using DogSitter.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
+using DogSitter.API.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddControllers();
 
@@ -42,6 +45,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<GlobalExeptionHandler>();
 
 app.MapControllers();
 

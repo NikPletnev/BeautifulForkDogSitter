@@ -5,33 +5,24 @@ using DogSitter.DAL.Entity;
 
 namespace DogSitter.BLL.Configs
 {
-    public class CustomMapper : ICustomMapper
+    public class CustomMapper : Profile
     {
-        private Mapper _instance;
-
-        public Mapper GetInstance()
+        public CustomMapper()
         {
-            if (_instance == null)
-            {
-                InitCustomMapper();
-            }
-            return _instance;
+            CreateMap<Customer, CustomerModel>().ReverseMap();
+            CreateMap<Sitter, SitterModel>().ReverseMap();
+            CreateMap<Serviсe, ServiceModel>().ReverseMap();
+            CreateMap<WorkTime, WorkTimeModel>().ReverseMap();
+            CreateMap<Customer, CustomerModel>().ReverseMap();
+            CreateMap<Sitter, SitterModel>().ReverseMap();
+            CreateMap<Admin, AdminModel>().ReverseMap();
+            CreateMap<Contact, ContactModel>().ReverseMap();
+            CreateMap<ContactType, ContactTypeModel>().ReverseMap();
+            CreateMap<Contact, ContactModel>().ReverseMap();
+            CreateMap<ContactType, ContactTypeModel>().ReverseMap();
+            CreateMap<Dog, DogModel>().ReverseMap();
+            CreateMap<Passport, PassportModel>().ReverseMap();
         }
-        public void InitCustomMapper()
-        {
-            _instance = new Mapper(new MapperConfiguration(conf =>
-            {
-                conf.CreateMap<Customer, CustomerModel>().ReverseMap();
-                conf.CreateMap<Serviсe, ServiceModel>().ReverseMap();
-                conf.CreateMap<WorkTime, WorkTimeModel>().ReverseMap();
-                conf.CreateMap<Sitter, SitterModel>().ReverseMap();
-                conf.CreateMap<Admin, AdminModel>().ReverseMap();
-                conf.CreateMap<Contact, ContactModel>().ReverseMap();
-                conf.CreateMap<Dog, DogModel>().ReverseMap();
-                conf.CreateMap<Passport, PassportModel>().ReverseMap();
 
-            }));
-
-        }
     }
 }

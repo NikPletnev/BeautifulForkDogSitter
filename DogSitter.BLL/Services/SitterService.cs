@@ -1,19 +1,19 @@
-﻿using DogSitter.BLL.Configs;
+﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
 {
-    public class SitterService
+    public class SitterService : ISitterService
     {
         private SitterRepository _repository;
-        private readonly CustomMapper _map;
+        private IMapper _mapper;
 
-        public SitterService()
+        public SitterService(IMapper mapper)
         {
             _repository = new SitterRepository();
-            _map = new CustomMapper();
+            _mapper = mapper;
         }
 
         public SitterModel GetById(int id)
@@ -21,7 +21,7 @@ namespace DogSitter.BLL.Services
             try
             {
                 var sitter = _repository.GetById(id);
-                return _map.GetInstance().Map<SitterModel>(sitter);
+                return _mapper.Map<SitterModel>(sitter);
             }
             catch (Exception)
             {
@@ -32,18 +32,18 @@ namespace DogSitter.BLL.Services
         public List<SitterModel> GetAll()
         {
             var sitters = _repository.GetAll();
-            return _map.GetInstance().Map<List<SitterModel>>(sitters);
+            return _mapper.Map<List<SitterModel>>(sitters);
         }
 
         public void Add(SitterModel sitterModel)
         {
-            var sitter = _map.GetInstance().Map<Sitter>(sitterModel);
+            var sitter = _mapper.Map<Sitter>(sitterModel);
             _repository.Add(sitter);
         }
 
         public void Update(SitterModel sitterModel)
         {
-            var sitter = _map.GetInstance().Map<Sitter>(sitterModel);
+            var sitter = _mapper.Map<Sitter>(sitterModel);
             try
             {
                 var entity = _repository.GetById(sitterModel.Id);

@@ -1,19 +1,19 @@
-﻿using DogSitter.BLL.Configs;
+﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 
-namespace DogService.BLL.Services
+namespace DogSitter.BLL.Services
 {
-    public class ServiceService
+    public class ServiceService : IServiceService
     {
         private ServiceRepository _repository;
-        private readonly CustomMapper _mapper;
+        private IMapper _mapper;
 
-        public ServiceService()
+        public ServiceService(IMapper mapper)
         {
             _repository = new ServiceRepository();
-            _mapper = new CustomMapper();
+            _mapper = mapper;
         }
 
         public ServiceModel GetServiceById(int id)

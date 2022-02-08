@@ -1,6 +1,6 @@
-﻿namespace DogSitter.BLL.Models
+﻿namespace DogSitter.API.Models
 {
-    public class AddressModel
+    public class AddressOutputModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -8,8 +8,7 @@
         public string Street { get; set; }
         public int House { get; set; }
         public int Apartament { get; set; }
-        public bool IsDeleted { get; set; }
-        public List<SubwayStationModel> SubwayStations { get; set; }
+        public List<SubwayStationOutputModel> SubwayStations { get; set; }
 
     }
 }

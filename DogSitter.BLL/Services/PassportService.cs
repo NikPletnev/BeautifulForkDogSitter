@@ -1,4 +1,4 @@
-﻿using DogSitter.BLL.Configs;
+﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -8,7 +8,7 @@ namespace DogSitter.BLL.Services
     public class PassportService : IPassportService
     {
         private readonly IPassportRepository _rep;
-        private readonly ICustomMapper _map;
+        private IMapper _mapper;
 
         public PassportService(IPassportRepository passportRepository, ICustomMapper mapper)
         {
