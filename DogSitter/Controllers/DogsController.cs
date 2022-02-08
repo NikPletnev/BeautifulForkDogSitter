@@ -11,7 +11,7 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class DogsController : Controller
     {
-        private DogSitter.BLL.Services.DogService _service;
+        private DogService _service;
         private CustomMapper _map;
 
         public DogsController()
