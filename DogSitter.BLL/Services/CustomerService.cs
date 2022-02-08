@@ -1,4 +1,4 @@
-﻿using DogSitter.BLL.Configs;
+﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -8,10 +8,12 @@ namespace DogSitter.BLL.Services
     public class CustomerService : ICustomerService
     {
         private CustomerRepository _repository;
+        private IMapper _mapper;
 
-        public CustomerService()
+        public CustomerService(IMapper mapper)
         {
             _repository = new CustomerRepository();
+            _mapper = mapper;
         }
 
         public CustomerModel GetCustomerById(int id)
@@ -22,24 +24,24 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Клиент не найден");
 
             }
-            return CustomMapper.GetInstance().Map<CustomerModel>(customer);
+            return _mapper.Map<CustomerModel>(customer);
         }
 
         public List<CustomerModel> GetAllCustomers()
         {
             var customers = _repository.GetAllCustomers();
-            return CustomMapper.GetInstance().Map<List<CustomerModel>>(customers);
+            return _mapper.Map<List<CustomerModel>>(customers);
         }
 
         public void AddCustomer(CustomerModel customer)
         {
-            var customerModel = CustomMapper.GetInstance().Map<Customer>(customer);
+            var customerModel = _mapper.Map<Customer>(customer);
             _repository.AddCustomer(customerModel);
         }
 
         public void UpdateCustomer(CustomerModel customer)
         {
-            var customerModel = CustomMapper.GetInstance().Map<Customer>(customer);
+            var customerModel = _mapper.Map<Customer>(customer);
             var entity = _repository.GetCustomerById(customer.Id);
             if (entity == null)
             {
