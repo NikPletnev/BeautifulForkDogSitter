@@ -32,14 +32,10 @@ namespace DogSitter.API.Configs
             CreateMap<AddressInputModel, AddressModel>().ReverseMap();
             CreateMap<SubwayStationOutputModel, SubwayStationOutputModel>().ReverseMap();
             CreateMap<SubwayStationInputModel, SubwayStationModel>().ReverseMap();
-        }
 
-
-                conf.CreateMap<ServiceInsertInputModel, ServiceModel>();
-                conf.CreateMap<ServiceUpdateInputModel, ServiceModel>();
-                conf.CreateMap<ServiceModel, ServiceOutputModel>();
-
-            }));
+            CreateMap<ServiceInsertInputModel, ServiceModel>();
+            CreateMap<ServiceUpdateInputModel, ServiceModel>();
+            CreateMap<ServiceModel, ServiceOutputModel>();
         }
     }
 }

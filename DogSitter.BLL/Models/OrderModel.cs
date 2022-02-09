@@ -10,8 +10,8 @@ namespace DogSitter.BLL.Models
         public Status Status { get; set; }
         public int? Mark { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual Customer Customer { get; set; }
-        public virtual Sitter Sitter { get; set; }
+        public Customer Customer { get; set; }
+        public Sitter Sitter { get; set; }
         public int? CommentId { get; set; }
         public Comment Comment { get; set; }
         public List<Dog> Dogs { get; set; }
