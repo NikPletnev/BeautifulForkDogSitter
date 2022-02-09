@@ -1,8 +1,7 @@
-﻿using DogSitter.API.Configs;
+﻿using AutoMapper;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
-using DogSitter.DAL.Entity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -12,39 +11,39 @@ namespace DogSitter.API.Controllers
     public class AddressController : Controller
     {
         private readonly IAddressService _addressService;
-        private readonly CustomMapper _mapper;
+        private readonly IMapper _mapper;
 
-        public AddressController(IAddressService addressService)
+        public AddressController(IMapper mapper, IAddressService addressService)
         {
             _addressService = addressService;
-            _mapper = new CustomMapper();
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public ActionResult<AddressOutputModel> GetAddressById(int id)
         {
             var address = _addressService.GetAddressById(id);
-            return Ok(_mapper.GetInstance().Map<AddressOutputModel>(address));
+            return Ok(_mapper.Map<AddressOutputModel>(address));
         }
 
         [HttpGet]
         public ActionResult<List<AddressOutputModel>> GetAllAddresses()
         {
             var addresses = _addressService.GetAllAddresses();
-            return Ok(_mapper.GetInstance().Map<AddressOutputModel>(addresses));
+            return Ok(_mapper.Map<AddressOutputModel>(addresses));
         }
 
         [HttpPost]
         public ActionResult AddAddress([FromBody] AddressInputModel address)
         {
-            _addressService.AddAddress(_mapper.GetInstance().Map<AddressModel>(address));
-            return StatusCode(StatusCodes.Status201Created, _mapper.GetInstance().Map<AddressOutputModel>(address));
+            _addressService.AddAddress(_mapper.Map<AddressModel>(address));
+            return StatusCode(StatusCodes.Status201Created, _mapper.Map<AddressOutputModel>(address));
         }
 
         [HttpPut]
         public ActionResult UpdateAddress([FromBody] AddressInputModel address)
         {
-            _addressService.UpdateAddress(_mapper.GetInstance().Map<AddressModel>(address));
+            _addressService.UpdateAddress(_mapper.Map<AddressModel>(address));
             return Ok();
         }
 

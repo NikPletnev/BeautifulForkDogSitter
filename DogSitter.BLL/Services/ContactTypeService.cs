@@ -1,4 +1,4 @@
-﻿using DogSitter.BLL.Configs;
+﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -8,15 +8,17 @@ namespace DogSitter.BLL.Services
     public class ContactTypeService
     {
         private ContactTypeRepository _rep;
+        private IMapper _mapper;
 
-        public ContactTypeService()
+        public ContactTypeService(IMapper mapper)
         {
             _rep = new ContactTypeRepository();
+            _mapper = mapper;
         }
 
         public void UpdateContactType(int id, ContactTypeModel contactTypeModel)
         {
-            var entity = CustomMapper.GetInstance().Map<ContactType>(contactTypeModel);
+            var entity = _mapper.Map<ContactType>(contactTypeModel);
             var contactType = _rep.GetContactTypeById(id);
 
             if (contactType == null)
@@ -53,7 +55,7 @@ namespace DogSitter.BLL.Services
 
         public void AddContactType(ContactTypeModel contactType)
         {
-            _rep.AddContactType(CustomMapper.GetInstance().Map<ContactType>(contactType));
+            _rep.AddContactType(_mapper.Map<ContactType>(contactType));
         }
 
         public ContactTypeModel GetContactTypeById(int id)
@@ -64,12 +66,12 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Тип контакта не найден");
 
             }
-            return CustomMapper.GetInstance().Map<ContactTypeModel>(contactType);
+            return _mapper.Map<ContactTypeModel>(contactType);
         }
 
         public List<ContactTypeModel> GetAllContactTypes()
         {
-            return CustomMapper.GetInstance().Map<List<ContactTypeModel>>(_rep.GetAllContactTypes());
+            return _mapper.Map<List<ContactTypeModel>>(_rep.GetAllContactTypes());
         }
     }
 }
