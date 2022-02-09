@@ -7,18 +7,18 @@ namespace DogSitter.BLL.Services
 {
     public class PassportService : IPassportService
     {
-        private PassportRepository _rep;
-        private IMapper _mapper;
+        private readonly IPassportRepository _rep;
+        private IMapper _map;
 
-        public PassportService(IMapper mapper)
+        public PassportService(IPassportRepository passportRepository, IMapper mapper)
         {
-            _rep = new PassportRepository();
-            _mapper = mapper;
+            _rep = passportRepository;
+            _map = mapper;
         }
 
         public void UpdatePassport(int id, PassportModel passportModel)
         {
-            var entity = _mapper.Map<Passport>(passportModel);
+            var entity = _map.Map<Passport>(passportModel);
             var passport = _rep.GetPassportById(id);
             if (passport == null)
             {
@@ -30,7 +30,7 @@ namespace DogSitter.BLL.Services
 
         public void AddPassport(PassportModel passportModel)
         {
-            _rep.AddPassport(_mapper.Map<Passport>(passportModel));
+            _rep.AddPassport(_map.Map<Passport>(passportModel));
         }
 
         public PassportModel GetPassportById(int id)
@@ -40,7 +40,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new Exception("Паспорт не найден");
             }
-            return _mapper.Map<PassportModel>(passport);
+            return _map.Map<PassportModel>(passport);
         }
 
     }

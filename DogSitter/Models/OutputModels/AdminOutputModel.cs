@@ -4,7 +4,7 @@
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<ContactUpdateInputModel> Contacts { get; set; }
+        public List<ContactOutputModel> Contacts { get; set; }
 
     }
 }

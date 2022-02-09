@@ -2,13 +2,13 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class ContactRepository
+    public class ContactRepository : IContactRepository
     {
         private DogSitterContext _context;
 
-        public ContactRepository()
+        public ContactRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public List<Contact> GetAllContacts() =>

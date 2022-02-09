@@ -8,12 +8,12 @@ namespace DogSitter.BLL.Services
 {
     public class ContactService : IContactService
     {
-        private ContactRepository _rep;
+        private readonly IContactRepository _rep;
         private IMapper _mapper;
 
-        public ContactService(IMapper mapper)
+        public ContactService(IContactRepository contactRepository, IMapper mapper)
         {
-            _rep = new ContactRepository();
+            _rep = contactRepository;
             _mapper = mapper;
         }
 

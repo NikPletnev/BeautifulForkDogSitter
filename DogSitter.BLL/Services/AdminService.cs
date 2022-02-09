@@ -7,18 +7,18 @@ namespace DogSitter.BLL.Services
 {
     public class AdminService : IAdminService
     {
-        private AdminRepository _rep;
-        private IMapper _mapper;
+        private readonly IAdminRepository _rep;
+        private readonly IMapper _map;
 
-        public AdminService(IMapper mapper)
+        public AdminService(IAdminRepository adminRepository, IMapper mapper)
         {
-            _rep = new AdminRepository();
-            _mapper = mapper;
+            _rep = adminRepository;
+            _map = mapper;
         }
 
         public void UpdateAdmin(int id, AdminModel adminModel)
         {
-            var entity = _mapper.Map<Admin>(adminModel);
+            var entity = _map.Map<Admin>(adminModel);
             var admin = _rep.GetAdminById(id);
             if (admin == null)
             {
@@ -53,7 +53,7 @@ namespace DogSitter.BLL.Services
 
         public void AddAdmin(AdminModel adminModel)
         {
-            _rep.AddAdmin(_mapper.Map<Admin>(adminModel));
+            _rep.AddAdmin(_map.Map<Admin>(adminModel));
         }
 
         public AdminModel GetAdminById(int id)
@@ -64,12 +64,12 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Администратор не найден");
             }
 
-            return _mapper.Map<AdminModel>(admin);
+            return _map.Map<AdminModel>(admin);
         }
 
         public List<AdminModel> GetAllAdmins()
         {
-            return _mapper.Map<List<AdminModel>>(_rep.GetAllAdmins());
+            return _map.Map<List<AdminModel>>(_rep.GetAllAdmins());
         }
     }
 }
