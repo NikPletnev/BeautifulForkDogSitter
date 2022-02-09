@@ -19,6 +19,25 @@ namespace DogSitter.DAL.Entity
         public virtual ICollection<SubwayStation> SubwayStations { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
 
+        private bool Equals(Address other)
+        {
+            return Id == other.Id &&
+                Name.Equals(other.Name) &&
+                City.Equals(other.City) &&
+                Street.Equals(other.Street) &&
+                House.Equals(other.House) &&
+                Apartament.Equals(other.Apartament) &&
+                IsDeleted == other.IsDeleted;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            return obj.GetType() == GetType() && Equals((Address)obj);
+        }
 
     }
 }
