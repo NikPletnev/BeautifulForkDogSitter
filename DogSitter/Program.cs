@@ -1,4 +1,3 @@
-using DogService.BLL.Services;
 using DogSitter.API.Infrastructure;
 using DogSitter.BLL.Services;
 using DogSitter.DAL;

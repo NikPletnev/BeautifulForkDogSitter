@@ -1,6 +1,6 @@
 ﻿using DogSitter.BLL.Models;
 
-namespace DogService.BLL.Services
+namespace DogSitter.BLL.Services
 {
     public interface IServiceService
     {
