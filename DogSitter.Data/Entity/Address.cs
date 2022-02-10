@@ -30,6 +30,8 @@ namespace DogSitter.DAL.Entity
                 IsDeleted == other.IsDeleted;
         }
 
+      
+
         public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))

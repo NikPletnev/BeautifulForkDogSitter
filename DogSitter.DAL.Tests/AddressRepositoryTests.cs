@@ -105,6 +105,7 @@ namespace DogSitter.DAL.Tests
             var result = _dbContext.Addresses.FirstOrDefault(o => o.Id == address.Id);
 
             //then
+            Assert.AreEqual(address, result);   
             Assert.AreEqual(address.Name, result.Name);
             Assert.AreEqual(address.City, result.City);
             Assert.AreEqual(address.Street, result.Street);
