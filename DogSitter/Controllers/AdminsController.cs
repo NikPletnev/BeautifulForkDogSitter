@@ -55,10 +55,7 @@ namespace DogSitter.API.Controllers
         public ActionResult<AdminOutputModel> GetAdminById(int id)
         {
             var admin = _map.Map<AdminOutputModel>(_service.GetAdminById(id));
-            //if admin exist
             return Ok(admin);
-            //if admin not found
-            return NotFound($"Admin {id} not found");
         }
 
         //api/admins

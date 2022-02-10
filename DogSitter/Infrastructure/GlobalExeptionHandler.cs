@@ -1,9 +1,9 @@
-﻿using System.Net;
+﻿using DogSitter.BLL.Exeptions;
+using System.Net;
 using System.Text.Json;
 
 namespace DogSitter.API.Infrastructure
 {
-
     public class GlobalExeptionHandler
     {
         private readonly RequestDelegate _next;
@@ -19,6 +19,18 @@ namespace DogSitter.API.Infrastructure
             {
                 await _next(context);
             }
+            catch (Microsoft.Data.SqlClient.SqlException)
+            {
+                await HandleExceptionAsync(context, HttpStatusCode.ServiceUnavailable, "Сервер недоступен");
+            }
+            catch (ServiceNotFoundExeption ex)
+            {
+                await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
+            }
+            catch (ServiceNotEnoughDataExeption ex)
+            {
+                await HandleExceptionAsync(context, HttpStatusCode.BadRequest, ex.Message);
+            }
             catch (Exception ex)
             {
                 await HandleExceptionAsync(context, HttpStatusCode.BadRequest, ex.Message);
@@ -33,6 +45,5 @@ namespace DogSitter.API.Infrastructure
 
             await context.Response.WriteAsync(result);
         }
-
     }
 }

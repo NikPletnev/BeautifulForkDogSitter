@@ -13,7 +13,6 @@ namespace DogSitter.API.Controllers
         private IContactService _service;
         private IMapper _map;
 
-
         public ContactsController(IMapper customMapper, IContactService contactService)
         {
             _service = contactService;
@@ -48,11 +47,8 @@ namespace DogSitter.API.Controllers
         [HttpGet("{id}")]
         public ActionResult<ContactOutputModel> GetContactById(int id)
         {
-            //if сontact exist
             var сontact = _map.Map<ContactOutputModel>(_service.GetContactById(id));
             return Ok(сontact);
-            //if сontact not found
-            return NotFound($"Contact {id} not found");
         }
 
         //api/contacts
