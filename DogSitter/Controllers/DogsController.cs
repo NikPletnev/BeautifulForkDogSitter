@@ -20,21 +20,21 @@ namespace DogSitter.API.Controllers
             _map = mapper;
         }
 
-        ////api/dogs/42
-        //[HttpDelete("{id}")]
-        //public IActionResult DeleteDog(int id)
-        //{
-        //    _service.DeleteDog(id);
-        //    return NoContent();
-        //}
+        //api/dogs/42
+        [HttpDelete("{id}")]
+        public IActionResult DeleteDog(int id)
+        {
+            _service.DeleteDog(id);
+            return NoContent();
+        }
 
-        ////api/dogs/42
-        //[HttpPatch("{id}")]
-        //public IActionResult RestoreDog(int id)
-        //{
-        //    _service.RestoreDog(id);
-        //    return NoContent();
-        //}
+        //api/dogs/42
+        [HttpPatch("{id}")]
+        public IActionResult RestoreDog(int id)
+        {
+            _service.RestoreDog(id);
+            return NoContent();
+        }
 
         //api/dogs/42
         [HttpPut("{id}")]

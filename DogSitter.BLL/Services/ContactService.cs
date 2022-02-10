@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -19,14 +20,20 @@ namespace DogSitter.BLL.Services
 
         public void UpdateContact(int id, ContactModel contactModel)
         {
+            if (contactModel.ContactType == null ||
+                contactModel.Value == String.Empty)
+            { 
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the contact {id}");
+            }
+
             var entity = _mapper.Map<Contact>(contactModel);
             var contact = _rep.GetContactById(id);
 
             if (contact == null)
             {
-                throw new Exception("Контакт не найден");
-
+                throw new ServiceNotFoundExeption($"Contact {id} was not found");
             }
+
             _rep.UpdateContact(entity);
         }
 
@@ -36,7 +43,7 @@ namespace DogSitter.BLL.Services
 
             if (contact == null)
             {
-                throw new Exception("Контакт не найден");
+                throw new ServiceNotFoundExeption($"Contact {id} was not found");
             }
 
             _rep.UpdateContact(id, true);
@@ -48,7 +55,7 @@ namespace DogSitter.BLL.Services
 
             if (contact == null)
             {
-                throw new Exception("Контакт не найден");
+                throw new ServiceNotFoundExeption($"Contact {id} was not found");
             }
 
             _rep.UpdateContact(id, false);
@@ -56,6 +63,12 @@ namespace DogSitter.BLL.Services
 
         public void AddContact(ContactModel contact)
         {
+            if (contact.ContactType == null ||
+               contact.Value == String.Empty)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to add new contact");
+            }
+
             _rep.AddContact(_mapper.Map<Contact>(contact));
         }
 
@@ -64,8 +77,7 @@ namespace DogSitter.BLL.Services
             var contact = _rep.GetContactById(id);
             if (contact == null)
             {
-                throw new Exception("Контакт не найден");
-
+                throw new ServiceNotFoundExeption($"Contact {id} was not found");
             }
 
             return _mapper.Map<ContactModel>(contact);

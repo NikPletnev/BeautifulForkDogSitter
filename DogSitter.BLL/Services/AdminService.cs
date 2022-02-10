@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -18,15 +19,23 @@ namespace DogSitter.BLL.Services
 
         public void UpdateAdmin(int id, AdminModel adminModel)
         {
+            if(adminModel.FirstName == String.Empty ||
+                adminModel.LastName == String.Empty ||
+                adminModel.Password == String.Empty ||
+                adminModel.Contacts.Count == 0)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the admin {id}");
+            }
+
             var entity = _map.Map<Admin>(adminModel);
             var admin = _rep.GetAdminById(id);
+
             if (admin == null)
             {
-                throw new Exception("Администратор не найден");
+                throw new ServiceNotFoundExeption($"Admin {id} was not found");
             }
 
             _rep.UpdateAdmin(entity);
-
         }
 
         public void DeleteAdmin(int id)
@@ -34,7 +43,7 @@ namespace DogSitter.BLL.Services
             var admin = _rep.GetAdminById(id);
             if (admin == null)
             {
-                throw new Exception("Администратор не найден");
+                throw new ServiceNotFoundExeption($"Admin {id} was not found");
             }
 
             _rep.UpdateAdmin(id, true);
@@ -45,7 +54,7 @@ namespace DogSitter.BLL.Services
             var admin = _rep.GetAdminById(id);
             if (admin == null)
             {
-                throw new Exception("Администратор не найден");
+                throw new ServiceNotFoundExeption($"Admin {id} was not found");
             }
 
             _rep.UpdateAdmin(id, false);
@@ -53,6 +62,14 @@ namespace DogSitter.BLL.Services
 
         public void AddAdmin(AdminModel adminModel)
         {
+            if (adminModel.FirstName == String.Empty ||
+                adminModel.LastName == String.Empty ||
+                adminModel.Password == String.Empty ||
+                adminModel.Contacts.Count == 0)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to create new admin");
+            }
+
             _rep.AddAdmin(_map.Map<Admin>(adminModel));
         }
 
@@ -61,7 +78,7 @@ namespace DogSitter.BLL.Services
             var admin = _rep.GetAdminById(id);
             if (admin == null)
             {
-                throw new Exception("Администратор не найден");
+                throw new ServiceNotFoundExeption($"Admin {id} was not found");
             }
 
             return _map.Map<AdminModel>(admin);
