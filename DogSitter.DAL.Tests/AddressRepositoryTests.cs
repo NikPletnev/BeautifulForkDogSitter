@@ -33,11 +33,11 @@ namespace DogSitter.DAL.Tests
 
             _dbContext.Addresses.Add(testAddress);
             _dbContext.SaveChanges();
-            int AddressId = testAddress.Id;
+            var addressId = testAddress.Id;
 
             //when
 
-            var receivedAddress = _repository.GetAddressById(AddressId);
+            var receivedAddress = _repository.GetAddressById(addressId);
 
             //then
             Assert.IsNotNull(receivedAddress);
