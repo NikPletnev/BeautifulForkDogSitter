@@ -2,13 +2,13 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class DogRepository
+    public class DogRepository : IDogRepository
     {
         private DogSitterContext _context;
 
-        public DogRepository()
+        public DogRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public List<Dog> GetAllDogs() =>

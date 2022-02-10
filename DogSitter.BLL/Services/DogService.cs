@@ -7,12 +7,12 @@ namespace DogSitter.BLL.Services
 {
     public class DogService : IDogService
     {
-        private DogRepository _rep;
+        private IDogRepository _rep;
         private IMapper _mapper;
 
-        public DogService(IMapper mapper)
+        public DogService(IMapper mapper, IDogRepository dogRepository)
         {
-            _rep = new DogRepository();
+            _rep = dogRepository;
             _mapper = mapper;
         }
 
