@@ -3,7 +3,7 @@ using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 
-namespace DogSitter.BLL.WorkTimes
+namespace DogSitter.BLL.Services
 {
     public class WorkTimeService : IWorkTimeService
     {
@@ -42,7 +42,7 @@ namespace DogSitter.BLL.WorkTimes
             _repository.AddWorkTime(workTime);
         }
 
-        public void UpdateWorkTime(WorkTimeModel workTimeModel)
+        public void UpdateWorkTime(int id, WorkTimeModel workTimeModel)
         {
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
             try
@@ -57,7 +57,7 @@ namespace DogSitter.BLL.WorkTimes
             _repository.UpdateWorkTime(workTime);
         }
 
-        public void UpdateWorkTime(int id)
+        public void DeleteWorkTime(int id)
         {
             try
             {
