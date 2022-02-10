@@ -2,15 +2,14 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class PassportRepository
+    public class PassportRepository : IPassportRepository
     {
         private DogSitterContext _context;
 
-        public PassportRepository()
+        public PassportRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
-
 
         public Passport GetPassportById(int id) =>
                          _context.Passports.FirstOrDefault(x => x.Id == id);

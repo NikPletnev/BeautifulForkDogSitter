@@ -36,14 +36,6 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        //api/contacts/42
-        [HttpPut("{id}")]
-        public IActionResult UpdateContact(int id, [FromBody] ContactUpdateInputModel сontact)
-        {
-            _service.UpdateContact(id, _map.Map<ContactModel>(сontact));
-            return NoContent();
-        }
-
         //api/contacts
         [HttpPost]
         public ActionResult<ContactOutputModel> AddContact(ContactInsertInputModel сontact)

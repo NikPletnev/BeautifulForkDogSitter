@@ -13,6 +13,27 @@
         public string DivisionCode { get; set; }
         public string Registration { get; set; }
         public bool IsDeleted { get; set; }
-        public SitterModel Sitter { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PassportModel model &&
+                   Id == model.Id &&
+                   FirstName == model.FirstName &&
+                   LastName == model.LastName &&
+                   DateOfBirth == model.DateOfBirth &&
+                   Seria == model.Seria &&
+                   Number == model.Number &&
+                   IssueDate == model.IssueDate &&
+                   Division == model.Division &&
+                   DivisionCode == model.DivisionCode &&
+                   Registration == model.Registration &&
+                   IsDeleted == model.IsDeleted;
+        }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName} {DateOfBirth} {Seria} {Number} " +
+                $"{IssueDate} {Division} {DivisionCode} {Registration} {IsDeleted}";
+        }
     }
 }
