@@ -1,4 +1,9 @@
-﻿using DogSitter.DAL.Entity;
+﻿using AutoMapper;
+using DogSitter.API.Configs;
+using DogSitter.API.Models;
+using DogSitter.BLL.Models;
+using DogSitter.BLL.Services;
+using DogSitter.DAL.Entity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.Controllers
@@ -8,34 +13,48 @@ namespace DogSitter.Controllers
 
     public class CustomerController : Controller
     {
-        [HttpGet("{id}")]
-        public ActionResult<Customer> GetCustomerById(int id)
+        private readonly ICustomerService _service;
+        private readonly IMapper _mapper; 
+
+        public CustomerController(IMapper customMapper, ICustomerService customerService)
         {
-            return Ok();
+            _mapper = customMapper;
+            _service = customerService;
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<CustomerOutputModel> GetCustomerById(int id)
+        {
+            var customer = _service.GetCustomerById(id);
+            return Ok(_mapper.Map<CustomerOutputModel>(customer));
         }
 
         [HttpGet]
-        public ActionResult<List<Customer>> GetAllCustomers()
+        public ActionResult<List<CustomerOutputModel>> GetAllCustomers()
         {
-            return Ok();
+            var customer = _service.GetAllCustomers();
+            return Ok(_mapper.Map<CustomerOutputModel>(customer));
         }
 
         [HttpPost]
-        public ActionResult AddCustomer([FromBody] Customer customer)
+        public ActionResult AddCustomer([FromBody] CustomerInputModel customer)
         {
-            return StatusCode(StatusCodes.Status201Created);
+            _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
+            return StatusCode(StatusCodes.Status201Created, _mapper.Map<CustomerOutputModel>(customer));
         }
 
         [HttpPut]
-        public ActionResult UpdateCustomer([FromBody] Customer customer)
+        public ActionResult UpdateCustomer([FromBody] CustomerInputModel customer)
         {
+            _service.UpdateCustomer(_mapper.Map<CustomerModel>(customer));
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteCustomer(int id)
         {
-            return StatusCode(StatusCodes.Status204NoContent);
+            _service.DeleteCustomerById(id);
+            return NoContent();
         }
     }
 
