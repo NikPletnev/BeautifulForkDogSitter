@@ -29,8 +29,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddDbContext<DogSitterContext>(
-    options => options.UseSqlServer(@"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB; 
-        Persist Security Info=True;User ID = student; Password=qwe!23; Pooling=False; MultipleActiveResultSets=False; 
+    options => options.UseSqlServer(
+        @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB; 
+        Persist Security Info=True;User ID = student; Password=qwe!23; 
+        Pooling=False; MultipleActiveResultSets=False; 
         Connect Timeout = 60; Encrypt=False; TrustServerCertificate=False"));
 
 builder.Services.AddScoped<IAdminService, AdminService>();

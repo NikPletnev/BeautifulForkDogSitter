@@ -37,12 +37,6 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteAddressById(int id)
-        {
-            var address = GetAddressById(id);
-            _context.Addresses.Remove(address);
-            _context.SaveChanges();
-        }
 
         public void UpdateAddress(int id, bool IsDeleted)
         {

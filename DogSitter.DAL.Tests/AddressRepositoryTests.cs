@@ -1,5 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
+using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Collections;
@@ -54,6 +55,7 @@ namespace DogSitter.DAL.Tests
                 _dbContext.Addresses.Add(testAddress);
             }
             _dbContext.SaveChanges();
+            var expectedAddress = _dbContext.Addresses.Where(d => !d.IsDeleted).ToList();
 
             //when
 
@@ -61,7 +63,7 @@ namespace DogSitter.DAL.Tests
 
             //then
             Assert.IsNotNull(receivedAddresses);
-            Assert.AreEqual(address, receivedAddresses);
+            Assert.AreEqual(expectedAddress, receivedAddresses);
         }
 
         [TestCaseSource(typeof(GetTestAddressTestCaseSource))]
@@ -85,32 +87,31 @@ namespace DogSitter.DAL.Tests
             //given
 
             _dbContext.Addresses.Add(address);
-            _dbContext.SaveChanges(); 
-
-            //when
-
-            _repository.UpdateAddress(address);
-
-            //then
-            Assert.AreEqual(address, _dbContext.Addresses.FirstOrDefault(o => o.Id == address.Id));
-        }
-
-        [TestCaseSource(typeof(GetTestAddressTestCaseSource))]
-        public void DeleteAddressByIdTestMustDeleteAddressDromDB(Address address)
-        {
-            //given
-
-            _dbContext.Addresses.Add(address);
             _dbContext.SaveChanges();
-
+            var addressToUpdate = new Address()
+            {
+                Id = address.Id,
+                Name = "TestNamUpdate",
+                City = "TestCityUpdate",
+                Street = "TestStreetUpdate",
+                House = 3,
+                Apartament = 4,
+                IsDeleted = true
+            };
+            
             //when
 
-            _repository.DeleteAddressById(address.Id);
+            _repository.UpdateAddress(addressToUpdate);
+            var result = _dbContext.Addresses.FirstOrDefault(o => o.Id == address.Id);
 
             //then
-            Assert.IsNull(_dbContext.Addresses.FirstOrDefault(o => o.Id == address.Id));
+            Assert.AreEqual(address.Name, result.Name);
+            Assert.AreEqual(address.City, result.City);
+            Assert.AreEqual(address.Street, result.Street);
+            Assert.AreEqual(address.House, result.House);
+            Assert.AreEqual(address.Apartament, result.Apartament);
+            Assert.AreEqual(address.IsDeleted, result.IsDeleted);
         }
-
 
         [TestCaseSource(typeof(GetTestAddressTestCaseSource))]
         public void UpdateAddressForDeleteTestMustChangeIsDeletedProp(Address address)
@@ -129,90 +130,5 @@ namespace DogSitter.DAL.Tests
         }
 
     }
-    class GetTestAddressTestCaseSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            yield return new Address
-            {
-                Id = 1,
-                Name = "TestName",
-                City = "TestCity",
-                Street = "TestStreet",
-                House = 1,
-                Apartament = 1,
-                IsDeleted = false,
-            };
-            yield return new Address
-            {
-                Id = 2,
-                Name = "TestName2",
-                City = "TestCity2",
-                Street = "TestStreet2",
-                House = 2,
-                Apartament = 2,
-                IsDeleted = false,
-            };
-            yield return new Address
-            {
-                Id = 3,
-                Name = "TestName3",
-                City = "TestCity3",
-                Street = "TestStreet3",
-                House = 3,
-                Apartament = 3,
-                IsDeleted = false,
-            }; 
-        }
-    }
-    class GetTestAddressesTestCaseSource : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            yield return new List<Address>
-            {
-                new Address{
-                Id = 1,
-                Name = "TestName",
-                City = "TestCity",
-                Street = "TestStreet",
-                House = 1,
-                Apartament = 1,
-                IsDeleted = false
-                },
-                new Address{
-                Id = 2,
-                Name = "TestName2",
-                City = "TestCity2",
-                Street = "TestStreet2",
-                House = 2,
-                Apartament = 2,
-                IsDeleted = false
-                }
-
-            };
-            yield return new List<Address>
-            {
-                new Address{
-                Id = 3,
-                Name = "TestName3",
-                City = "TestCity3",
-                Street = "TestStreet3",
-                House = 3,
-                Apartament = 3,
-                IsDeleted = false
-                },
-                new Address{
-                Id = 4,
-                Name = "TestName4",
-                City = "TestCity4",
-                Street = "TestStreet4",
-                House = 4,
-                Apartament = 4,
-                IsDeleted = false
-                }
-
-            };
-        }
-    }
+   
 }
