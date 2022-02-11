@@ -77,7 +77,7 @@ namespace DogSitter.BLL.Tests
             //when
             _service.AddContact(contact);
             //then
-            _ContactRepositoryMock.Verify(x => x.AddContact(It.IsAny<Contact>())); //??
+            _ContactRepositoryMock.Verify(); 
         }
 
         [Test]
