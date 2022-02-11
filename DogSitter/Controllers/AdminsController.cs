@@ -1,4 +1,4 @@
-﻿using DogSitter.API.Configs;
+﻿using AutoMapper;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
@@ -10,13 +10,13 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class AdminsController : Controller
     {
-        private AdminService _service;
-        private CustomMapper _map;
+        private IAdminService _service;
+        private IMapper _map;
 
-        public AdminsController()
+        public AdminsController(IMapper customMapper, IAdminService adminService)
         {
-            _service = new AdminService();
-            _map = new CustomMapper();
+            _service = adminService;
+            _map = customMapper;
         }
 
         //api/admins/42
@@ -39,33 +39,30 @@ namespace DogSitter.API.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateAdmin(int id, [FromBody] AdminUpdateInputModel admin)
         {
-            _service.UpdateAdmin(id, _map.GetInstance().Map<AdminModel>(admin));
+            _service.UpdateAdmin(id, _map.Map<AdminModel>(admin));
             return NoContent();
         }
 
         [HttpPost]
         public ActionResult<AdminOutputModel> AddAdmin([FromBody] AdminInsertInputModel admin)
         {
-            _service.AddAdmin(_map.GetInstance().Map<AdminModel>(admin));        
-            return StatusCode(StatusCodes.Status201Created, _map.GetInstance().Map<AdminOutputModel>(admin));
+            _service.AddAdmin(_map.Map<AdminModel>(admin));
+            return StatusCode(StatusCodes.Status201Created, _map.Map<AdminOutputModel>(admin));
         }
 
         //api/admins/42
         [HttpGet("{id}")]
         public ActionResult<AdminOutputModel> GetAdminById(int id)
         {
-            var admin = _map.GetInstance().Map<AdminOutputModel>(_service.GetAdminById(id));
-            //if admin exist
+            var admin = _map.Map<AdminOutputModel>(_service.GetAdminById(id));
             return Ok(admin);
-            //if admin not found
-            return NotFound($"Admin {id} not found");
         }
 
         //api/admins
         [HttpGet]
         public ActionResult<List<AdminOutputModel>> GetAllAdmins()
         {
-            var admins = _map.GetInstance().Map<List<AdminOutputModel>>(_service.GetAllAdmins());
+            var admins = _map.Map<List<AdminOutputModel>>(_service.GetAllAdmins());
             return Ok(admins);
         }
     }

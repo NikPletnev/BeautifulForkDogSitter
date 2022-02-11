@@ -1,27 +1,24 @@
-﻿using DogSitter.BLL.Configs;
+﻿using AutoMapper;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
-    public class DogService
+    public class DogService : IDogService
     {
         private DogRepository _rep;
+        private IMapper _mapper;
 
-        public DogService()
+        public DogService(IMapper mapper)
         {
             _rep = new DogRepository();
+            _mapper = mapper;
         }
 
         public void UpdateDog(int id, DogModel dogModel)
         {
-            var entity = CustomMapper.GetInstance().Map<Dog>(dogModel);
+            var entity = _mapper.Map<Dog>(dogModel);
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
@@ -53,9 +50,9 @@ namespace DogSitter.BLL.Services
             _rep.UpdateDog(id, false);
         }
 
-        public void AddDog (DogModel dogModel)
+        public void AddDog(DogModel dogModel)
         {
-            _rep.AddDog(CustomMapper.GetInstance().Map <Dog>(dogModel));
+            _rep.AddDog(_mapper.Map<Dog>(dogModel));
         }
 
         public DogModel GetDogById(int id)
@@ -66,12 +63,12 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Собака не найдена");
             }
 
-            return CustomMapper.GetInstance().Map <DogModel>(dog);
+            return _mapper.Map<DogModel>(dog);
         }
 
         public List<DogModel> GetAllDogs()
         {
-            return CustomMapper.GetInstance().Map<List<DogModel>>(_rep.GetAllDogs());    
+            return _mapper.Map<List<DogModel>>(_rep.GetAllDogs());
         }
     }
 }

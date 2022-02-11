@@ -1,9 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -19,7 +14,7 @@ namespace DogSitter.DAL.Repositories
         public Sitter GetById(int id) =>
             _context.Sitters.FirstOrDefault(x => x.Id == id);
 
-        public List<Sitter> GetAll() => 
+        public List<Sitter> GetAll() =>
             _context.Sitters.Where(d => d.IsDeleted).ToList();
 
         public void Add(Sitter sitter)

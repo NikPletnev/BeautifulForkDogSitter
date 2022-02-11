@@ -1,30 +1,39 @@
 ﻿
-using DogSitter.BLL.Configs;
+using AutoMapper;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
 {
-    public class ContactService
+    public class ContactService : IContactService
     {
-        private ContactRepository _rep;
+        private readonly IContactRepository _rep;
+        private IMapper _mapper;
 
-        public ContactService()
+        public ContactService(IContactRepository contactRepository, IMapper mapper)
         {
-            _rep = new ContactRepository();
+            _rep = contactRepository;
+            _mapper = mapper;
         }
 
         public void UpdateContact(int id, ContactModel contactModel)
         {
-            var entity = CustomMapper.GetInstance().Map<Contact>(contactModel);
+            if (contactModel.ContactType == null ||
+                contactModel.Value == String.Empty)
+            { 
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the contact {id}");
+            }
+
+            var entity = _mapper.Map<Contact>(contactModel);
             var contact = _rep.GetContactById(id);
 
             if (contact == null)
             {
-                throw new Exception("Контакт не найден");
-
+                throw new ServiceNotFoundExeption($"Contact {id} was not found");
             }
+
             _rep.UpdateContact(entity);
         }
 
@@ -34,7 +43,7 @@ namespace DogSitter.BLL.Services
 
             if (contact == null)
             {
-                throw new Exception("Контакт не найден");
+                throw new ServiceNotFoundExeption($"Contact {id} was not found");
             }
 
             _rep.UpdateContact(id, true);
@@ -46,7 +55,7 @@ namespace DogSitter.BLL.Services
 
             if (contact == null)
             {
-                throw new Exception("Контакт не найден");
+                throw new ServiceNotFoundExeption($"Contact {id} was not found");
             }
 
             _rep.UpdateContact(id, false);
@@ -54,7 +63,13 @@ namespace DogSitter.BLL.Services
 
         public void AddContact(ContactModel contact)
         {
-            _rep.AddContact(CustomMapper.GetInstance().Map<Contact>(contact));
+            if (contact.ContactType == null ||
+               contact.Value == String.Empty)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to add new contact");
+            }
+
+            _rep.AddContact(_mapper.Map<Contact>(contact));
         }
 
         public ContactModel GetContactById(int id)
@@ -62,16 +77,15 @@ namespace DogSitter.BLL.Services
             var contact = _rep.GetContactById(id);
             if (contact == null)
             {
-                throw new Exception("Контакт не найден");
-
+                throw new ServiceNotFoundExeption($"Contact {id} was not found");
             }
 
-            return CustomMapper.GetInstance().Map<ContactModel>(contact);
+            return _mapper.Map<ContactModel>(contact);
         }
 
         public List<ContactModel> GetAllContacts()
         {
-            return CustomMapper.GetInstance().Map<List<ContactModel>>(_rep.GetAllContacts());
+            return _mapper.Map<List<ContactModel>>(_rep.GetAllContacts());
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace DogSitter.API.Models
 {
-    public class ContactTypeInputModel 
+    public class SubwayStationInputModel
     {
         public string Name { get; set; }
     }

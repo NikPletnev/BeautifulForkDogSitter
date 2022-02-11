@@ -1,10 +1,5 @@
 ﻿using DogSitter.DAL.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Entity
 {
@@ -23,7 +18,7 @@ namespace DogSitter.DAL.Entity
         public virtual Customer Customer { get; set; }
         [Required]
         public virtual Sitter Sitter { get; set; }
-        public int? CommentId { get; set; }    
+        public int? CommentId { get; set; }
         public virtual Comment Comment { get; set; }
         public virtual ICollection<Dog> Dogs { get; set; }
         public virtual ICollection<Serviсe> Service { get; set; }
