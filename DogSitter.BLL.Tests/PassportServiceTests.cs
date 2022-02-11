@@ -38,6 +38,7 @@ namespace DogSitter.BLL.Tests
             Assert.Pass();
             _PassportRepositoryMock.Verify();
             _PassportRepositoryMock.Verify(x => x.GetPassportById(id), Times.Once);
+            _PassportRepositoryMock.Verify(x => x.UpdatePassport(entity), Times.Once);
         }
 
         [TestCase(1)]
@@ -100,10 +101,8 @@ namespace DogSitter.BLL.Tests
 
             _PassportRepositoryMock.Setup(x => x.AddPassport(It.IsAny<Passport>())).Verifiable();
             //when         
-
+             _service.AddPassport(model);
             //then
-            Assert.DoesNotThrow(() => _service.AddPassport(model));
-            Assert.Pass();
             _PassportRepositoryMock.Verify();
         }
 
