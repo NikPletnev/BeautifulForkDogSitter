@@ -1,4 +1,5 @@
-﻿using DogSitter.DAL.Entity;
+﻿using DogSitter.BLL.Models;
+using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
         public IEnumerator GetEnumerator()
         {
             List<Admin> admins = new List<Admin>() {
-              new Admin() { FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234",
+              new Admin() { FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234" ,
                   Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.phone} },
                   IsDeleted = false },
               new Admin() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
@@ -19,7 +20,14 @@ namespace DogSitter.BLL.Tests.TestCaseSource
               new Admin() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = true }
             };
 
-            yield return new object[] { admins };
+            List<AdminModel> adminsModel = new List<AdminModel>() {
+              new AdminModel() { FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234",
+                 Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.phone} } },
+              new AdminModel() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
+                 Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = ContactType.mail} }
+            }} ;
+
+            yield return new object[] { admins, adminsModel };
         }
     }
 }
