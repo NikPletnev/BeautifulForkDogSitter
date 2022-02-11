@@ -11,29 +11,26 @@ namespace DogSitter.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SitterController : ControllerBase
+
+    public class SitterController : Controller
     {
         private readonly SitterService _service;
         private readonly CustomMapper _mapper;
+
         public SitterController()
         {
             _service = new SitterService();
             _mapper = new CustomMapper();
         }
 
-        //api/sitter/27
         [HttpGet("{id}")]
         public ActionResult<SitterOutputModel> GetbyId(int id)
         {
             var sitter = _service.GetById(id);
             var sitterModel = _mapper.GetInstance().Map<SitterOutputModel>(sitter);
-            //if sitter exist
             return Ok(sitterModel);
-            //if admin not found
-            return NotFound($"Sitter {id} not found");
         }
 
-        //api/sitters
         [HttpGet]
         public ActionResult<List<SitterOutputModel>> GetAll(int id)
         {
@@ -43,22 +40,21 @@ namespace DogSitter.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<SitterOutputModel> Add ([FromBody] SitterInsertInputModel sittetModel)
+        public ActionResult Add ([FromBody] SitterInputModel sittetModel)
         {        
             var sitter = _mapper.GetInstance().Map<SitterModel>( sittetModel);
             _service.Add(sitter);
             return StatusCode(StatusCodes.Status201Created, sitter);
         }
-        //api/sitter/27
+
         [HttpPut("{id}")]
-        public ActionResult Update(int id, [FromBody] SitterUpdateInputModel sitterModel)
+        public ActionResult Update([FromBody] SitterInputModel sitterModel)
         {
             var sitter = _mapper.GetInstance().Map<SitterModel>(sitterModel);
             _service.Update(sitter);
             return NoContent();
         }
 
-        //api/sitter/27
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
@@ -66,9 +62,8 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        //api/sitter/27
         [HttpPatch("{id}")]
-        public IActionResult RestoreAdmin(int id)
+        public ActionResult Restore(int id)
         {
             _service.Restore(id);
             return Ok();
