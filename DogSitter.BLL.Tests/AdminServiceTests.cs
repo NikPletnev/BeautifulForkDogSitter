@@ -197,5 +197,29 @@ namespace DogSitter.BLL.Tests
             Assert.Pass();
             _adminRepositoryMock.Verify();
         }
+
+        [TestCaseSource(typeof(GetAdminByIdTestCaseSource))]
+        public void GetAdminByIdWithContactById(int id, Admin admin)
+        {
+            //given
+            _adminRepositoryMock.Setup(x => x.GetAdminByIdWithContacts(id)).Returns(admin).Verifiable();
+            //when
+            //then
+            Assert.DoesNotThrow(() => _service.GetAdminWithContacts(id));
+            Assert.Pass();
+            _adminRepositoryMock.Verify();
+        }
+
+        [TestCaseSource(typeof(GetAllAdminsTestCaseSource))]
+        public void GetAllAdminsWithContactTest(List<Admin> admins)
+        {
+            //given
+            _adminRepositoryMock.Setup(x => x.GetAllAdminWithContacts()).Returns(admins).Verifiable();
+            //when
+            //then
+            Assert.DoesNotThrow(() => _service.GetAllAdminsWithContacts());
+            Assert.Pass();
+            _adminRepositoryMock.Verify();
+        }
     }
 }
