@@ -31,13 +31,13 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _ContactRepositoryMock.Setup(x => x.UpdateContact(It.IsAny<Contact>())).Verifiable();
-            _ContactRepositoryMock.Setup(x => x.GetContactById(id)).Returns(entity);
+            _ContactRepositoryMock.Setup(x => x.GetContactById(id)).Returns(entity).Verifiable();
             //when
 
             //then
             Assert.DoesNotThrow(() => _service.UpdateContact(id, model));
             Assert.Pass();
-            _ContactRepositoryMock.Verify();
+            _ContactRepositoryMock.Verify(x => x.UpdateContact(entity), Times.Once);
             _ContactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
         }
 
@@ -75,10 +75,9 @@ namespace DogSitter.BLL.Tests
             //given
             _ContactRepositoryMock.Setup(x => x.AddContact(It.IsAny<Contact>())).Verifiable();
             //when
+            _service.AddContact(contact);
             //then
-            Assert.DoesNotThrow(() => _service.AddContact(contact));
-            Assert.Pass();
-            _ContactRepositoryMock.Verify();
+            _ContactRepositoryMock.Verify(x => x.AddContact(It.IsAny<Contact>())); //??
         }
 
         [Test]
@@ -95,19 +94,33 @@ namespace DogSitter.BLL.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(138)]
-        public void DeleteOrRestoreContactTest(int id)
+        public void DeleteContactTest(int id)
         {
             //given
             Contact contact = new Contact() {Id = id, Value = "123456", ContactType = ContactType.phone, IsDeleted = false };
             _ContactRepositoryMock.Setup(x => x.UpdateContact(contact.Id, true)).Verifiable();
+            _ContactRepositoryMock.Setup(x => x.GetContactById(contact.Id)).Returns(contact);
+            //when
+            _service.DeleteContact(id);
+            //then
+            _ContactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
+            _ContactRepositoryMock.Verify(x => x.UpdateContact(id, true), Times.Once);
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(138)]
+        public void RestoreContactTest(int id)
+        {
+            //given
+            Contact contact = new Contact() { Id = id, Value = "123456", ContactType = ContactType.phone, IsDeleted = true };
             _ContactRepositoryMock.Setup(x => x.UpdateContact(contact.Id, false)).Verifiable();
             _ContactRepositoryMock.Setup(x => x.GetContactById(contact.Id)).Returns(contact);
-            //when                     
+            //when
+            _service.RestoreContact(id);
             //then
-            Assert.DoesNotThrow(() => _service.DeleteContact(id));
-            Assert.DoesNotThrow(() => _service.RestoreContact(id));
-            Assert.Pass();
-            _ContactRepositoryMock.VerifyAll();
+            _ContactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
+            _ContactRepositoryMock.Verify(x => x.UpdateContact(id, false), Times.Once);
         }
 
         [TestCase(2)]
@@ -136,8 +149,8 @@ namespace DogSitter.BLL.Tests
             //when
 
             //then
-            Assert.DoesNotThrow(() => _service.GetContactById(id));
-            Assert.Pass();
+            var actual = _service.GetContactById(id);
+            Assert.AreEqual(actual, new ContactModel() { Value = contact.Value, ContactType = contact.ContactType, Id = contact.Id, IsDeleted = contact.IsDeleted});
             _ContactRepositoryMock.Verify();
         }
 
@@ -154,15 +167,16 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetAllContactTestCaseSource))]
-        public void GetAllContactsTest(List<Contact> contacts)
+        public void GetAllContactsTest(List<Contact> contacts, List<ContactModel> expected)
         {
             //given
             _ContactRepositoryMock.Setup(x => x.GetAllContacts()).Returns(contacts).Verifiable();
             //when
 
             //then
-            Assert.DoesNotThrow(() => _service.GetAllContacts());
-            Assert.Pass();
+            List<ContactModel> actual = _service.GetAllContacts();
+            Assert.AreEqual(actual.Count, contacts.Count);
+            CollectionAssert.AreEqual(actual, expected);
             _ContactRepositoryMock.Verify();
         }
     }

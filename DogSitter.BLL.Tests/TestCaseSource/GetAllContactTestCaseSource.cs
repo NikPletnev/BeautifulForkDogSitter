@@ -1,4 +1,5 @@
-﻿using DogSitter.DAL.Entity;
+﻿using DogSitter.BLL.Models;
+using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using System;
 using System.Collections;
@@ -19,7 +20,13 @@ namespace DogSitter.BLL.Tests.TestCaseSource
               new Contact() { Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = true }
             };
 
-            yield return new object[] { contacts };
+            List<ContactModel> models = new List<ContactModel>(){
+              new ContactModel() { Value = "89871234567", ContactType = ContactType.phone, IsDeleted = false },
+              new ContactModel() { Value = "@qwerty", ContactType = ContactType.mail, IsDeleted = false },
+              new ContactModel() { Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = true }
+            };
+
+            yield return new object[] { contacts, models };
         }
     }
 }
