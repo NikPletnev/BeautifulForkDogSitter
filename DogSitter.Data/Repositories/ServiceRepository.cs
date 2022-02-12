@@ -13,21 +13,14 @@ namespace DogSitter.DAL.Repositories
         }
 
         public List<Serviсe> GetAllServices() =>
-                    _context.Services.Where(s => !s.IsDeleted).ToList();
+            _context.Services.Where(s => !s.IsDeleted).ToList();
 
         public Serviсe GetServiceById(int id) =>
-                     _context.Services.FirstOrDefault(s => s.Id == id);
+            _context.Services.FirstOrDefault(s => s.Id == id);
 
         public void AddService(Serviсe service)
         {
             _context.Services.Add(service);
-            _context.SaveChanges();
-        }
-
-        public void DeleteService(int id)
-        {
-            var service = GetServiceById(id);
-            _context.Services.Remove(service);
             _context.SaveChanges();
         }
 
@@ -41,10 +34,9 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateService(int id, bool IsDeleted)
+        public void UpdateService(Serviсe service, bool IsDeleted)
         {
-            var entity = GetServiceById(id);
-            entity.IsDeleted = IsDeleted;
+            service.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
     }

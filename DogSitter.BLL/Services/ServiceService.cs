@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -21,7 +22,7 @@ namespace DogSitter.BLL.Services
             var service = _serviceRepository.GetServiceById(id);
 
             if (service == null)
-                throw new Exception("Сервис не найден!");
+                throw new EntityNotFoundException($"{service} c Id = {id} не найден!");
 
             return _mapper.Map<ServiceModel>(service);
         }
@@ -40,35 +41,24 @@ namespace DogSitter.BLL.Services
             _serviceRepository.AddService(service);
         }
 
-        public void UpdateService(int id, ServiceModel serviceModel)
+        public void UpdateService(ServiceModel serviceModel)
         {
-            var entity = _mapper.Map<Serviсe>(serviceModel);
-            var service = _serviceRepository.GetServiceById(id);
+            var service = _mapper.Map<Serviсe>(serviceModel);
 
-            if (service == null)
-                throw new Exception("Сервис не найден");
+            if (_serviceRepository.GetServiceById(service.Id) == null)
+                throw new EntityNotFoundException($"{service} не найден!");
 
-            _serviceRepository.UpdateService(entity);
+            _serviceRepository.UpdateService(service);
         }
 
-        public void DeleteService(int id)
+        public void DeleteService(ServiceModel serviceModel)
         {
-            var entity = _serviceRepository.GetServiceById(id);
+            var service = _mapper.Map<Serviсe>(serviceModel);
 
-            if (entity == null)
-                throw new Exception("Сeрвис не найден!");
+            if (_serviceRepository.GetServiceById(service.Id) == null)
+                throw new EntityNotFoundException($"{service} не найден!");
 
-            _serviceRepository.UpdateService(id, true);
-        }
-
-        public void RestoreService(int id)
-        {
-            var entity = _serviceRepository.GetServiceById(id);
-
-            if (entity == null)
-                throw new Exception("Сeрвис не найден!");
-
-            _serviceRepository.UpdateService(id, false);
+            _serviceRepository.UpdateService(service, true);
         }
     }
 }

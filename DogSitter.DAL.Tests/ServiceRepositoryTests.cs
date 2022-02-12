@@ -1,8 +1,8 @@
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
+using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +10,7 @@ namespace DogSitter.DAL.Tests
 {
     public class ServiceRepositoryTests
     {
-        private DogSitterContext _dbContext;
+        private DogSitterContext _context;
         private ServiceRepository _serviceRepository;
 
         [SetUp]
@@ -20,224 +20,112 @@ namespace DogSitter.DAL.Tests
             .UseInMemoryDatabase(databaseName: "ServiceTests")
             .Options;
 
-            _dbContext = new DogSitterContext(options);
+            _context = new DogSitterContext(options);
 
-            _dbContext.Database.EnsureCreated();
-            _dbContext.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+            _context.Database.EnsureDeleted();
 
-            _serviceRepository = new ServiceRepository(_dbContext);
+            _serviceRepository = new ServiceRepository(_context);
+
+            var services = ServiceTestCaseSourse.GetServices();
+            _context.Services.AddRange(services);
+
+            _context.SaveChanges();
         }
 
         [Test]
         public void GetAllServicesTest()
         {
             // given
-            var services = new List<Serviñe>
-            {
-                new Serviñe
-                {
-                    Name = "Name1",
-                    Description = "Description1",
-                    Price = 1m,
-                    DurationHours = 1.0,
-                    IsDeleted = false
-            }};
-
-            _dbContext.Services.AddRange(services);
-
-            _dbContext.SaveChanges();
-
-            var expected = new List<Serviñe>
-            {
-                new Serviñe
-                {
-                    Id = 1,
-                    Name = "Name1",
-                    Description = "Description1",
-                    Price = 1m,
-                    DurationHours = 1.0,
-                    IsDeleted = false
-                }
-            };
+            var expected = _context.Services.Where(e => !e.IsDeleted);
 
             // when
             var actual = _serviceRepository.GetAllServices();
 
             // then
-            Assert.IsTrue(expected.SequenceEqual(actual));
-            CollectionAssert.AreEqual(expected, actual);
-            CollectionAssert.AreEquivalent(expected, actual);
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Where(e => e.IsDeleted), actual.Where(a => a.IsDeleted));
         }
 
-        [Test]
-        public void GetServiceByIdTest()
+        [TestCase(1)]
+        [TestCase(2)]
+        public void GetServiceByIdTest(int id)
         {
             //given
-            var service = new Serviñe
-            {
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = false
-            };
-
-            _dbContext.Services.Add(service);
-
-            _dbContext.SaveChanges();
-
-            var expected = new Serviñe
-            {
-                Id = 1,
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = false
-            };
+            var expected = _context.Services.Find(id);
 
             //when
-            var actual = _serviceRepository.GetServiceById(1);
+            var actual = _serviceRepository.GetServiceById(id);
 
             //then
-            Assert.AreEqual(actual, expected);
+            Assert.AreEqual(expected, actual);
+            Assert.That(actual.IsDeleted == false | true);
         }
 
         [Test]
         public void AddServiceTest()
         {
             //given
-            var service = new Serviñe
-            {
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = false
-            };
-
-            var expected = new Serviñe
-            {
-                Id = 1,
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = false
-            };
+            var expected = ServiceTestCaseSourse.GetService();
 
             //when
-            _serviceRepository.AddService(service);
+            _serviceRepository.AddService(expected);
 
-            var actual = _dbContext.Services.FirstOrDefault(z => z.Id == 1);
-
-            //then
-            Assert.AreEqual(actual, expected);
-        }
-
-        [Test]
-        public void DeleteServiceTest()
-        {
-            //given
-            var service = new Serviñe
-            {
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = false
-            };
-
-            _dbContext.Services.Add(service);
-            _dbContext.SaveChanges();
-
-            var expected = new Serviñe
-            {
-                Id = 1,
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = true
-            };
-
-            //when
-            _serviceRepository.DeleteService(1);
-
-            var actual = _dbContext.Services.FirstOrDefault(z => z.Id == 1);
+            var actual = _context.Services.FirstOrDefault(a => a.Id == expected.Id);
 
             //then
-            Assert.IsNull(actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void UpdateServiceTest()
         {
             //given
-            var service = new Serviñe
-            {
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = false
-            };
+            var service = ServiceTestCaseSourse.GetService();
+            _context.Services.Add(service);
 
-            _dbContext.Services.Add(service);
-            _dbContext.SaveChanges();
+            _context.SaveChanges();
 
-            var expected = new Serviñe
+            var expected = new Serviñe()
             {
-                Id = 1,
-                Name = "Name1",
-                Description = "DescriptionChange",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = false
+                Id = service.Id,
+                Name = "ChangeName",
+                Description = "ChangeDescription",
+                Price = 0m,
+                DurationHours = 0.0,
+                IsDeleted = service.IsDeleted,
+                Orders = new List<Order>(),
+                Sitters = new List<Sitter>()
             };
 
             //when
             _serviceRepository.UpdateService(service);
 
-            var actual = _dbContext.Services.FirstOrDefault(z => z.Id == 1);
+            var actual = _context.Services.FirstOrDefault(a => a.Id == service.Id);
 
             //then
-            Assert.AreNotEqual(actual, expected);
+            Assert.AreEqual(expected.Id, actual.Id);
+            Assert.AreNotEqual(expected.Name, actual.Name);
+            Assert.AreNotEqual(expected.Description, actual.Description);
+            Assert.AreNotEqual(expected.Price, actual.Price);
+            Assert.AreNotEqual(expected.DurationHours, actual.DurationHours);
+            Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
+            Assert.AreEqual(expected.Orders, actual.Orders);
+            Assert.AreEqual(expected.Sitters, actual.Sitters);
         }
 
-        [Test]
-        public void UpdateServiceTest_IdIsDeleted()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void UpdateIsDeleteServiceTest(bool isDeleted)
         {
             //given
-            var service = new Serviñe
-            {
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = false
-            };
-
-            _dbContext.Services.Add(service);
-            _dbContext.SaveChanges();
-
-            var expected = new Serviñe
-            {
-                Id = 1,
-                Name = "Name1",
-                Description = "DescriptionChange",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = true
-            };
+            var service = ServiceTestCaseSourse.GetService();
 
             //when
-            _serviceRepository.UpdateService(1, true);
-
-            var actual = _dbContext.Services.FirstOrDefault(z => z.Id == 1);
+            _serviceRepository.UpdateService(service, isDeleted);
 
             //then
-            Assert.AreNotEqual(actual, expected);
+            Assert.AreEqual(service.IsDeleted, isDeleted);
         }
     }
 }

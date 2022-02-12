@@ -1,12 +1,13 @@
 using AutoMapper;
 using DogSitter.BLL.Configs;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
+using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests
 {
@@ -15,6 +16,7 @@ namespace DogSitter.BLL.Tests
         private readonly Mock<IServiceRepository> _serviceRepositoryMock;
         private readonly IMapper _mapper;
         private ServiceService _service;
+        private ServiceTestCaseSource _serviceMocks;
 
         public ServiceServiceTests()
         {
@@ -26,151 +28,116 @@ namespace DogSitter.BLL.Tests
         public void SetUp()
         {
             _service = new ServiceService(_serviceRepositoryMock.Object, _mapper);
-        }
-
-        [Test]
-        public void GetServiceByIdTest()
-        {
-            //given 
-
-            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Serviñe
-            {
-                Id = 1,
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-                IsDeleted = false
-            });
-
-            //when 
-
-            var actual = _service.GetServiceById(It.IsAny<int>());
-
-            //then
-
-            Assert.IsNotNull(actual);
-            Assert.DoesNotThrow(() => _service.GetServiceById(It.IsAny<int>()));
+            _serviceMocks = new ServiceTestCaseSource();
         }
 
         [Test]
         public void GetGetAllServices_ShouldReturnServices()
         {
             //given
-
-            _serviceRepositoryMock.Setup(m => m.GetAllServices()).Returns(new List<Serviñe>
-            {
-                new Serviñe
-                {
-                    Id = 1,
-                    Name = "Name1",
-                    Description = "Description1",
-                    Price = 1m,
-                    DurationHours = 1.0,
-                    IsDeleted = false
-                }
-            });
+            var expected = _serviceMocks.GetMockServices();
+            _serviceRepositoryMock.Setup(m => m.GetAllServices()).Returns(expected);
 
             //when
-
             var actual = _service.GetAllServices();
 
             //then
-
-            _serviceRepositoryMock.Verify(m => m.GetAllServices(), Times.Once);
             Assert.IsNotNull(actual);
-            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(actual.Count, expected.Count);
+            _serviceRepositoryMock.Verify(m => m.GetAllServices(), Times.Once);
         }
 
         [Test]
-        public void AddService_ShouldAddService()
+        public void GetServiceByIdTest()
         {
-            //given
-
-            _serviceRepositoryMock.Setup(m => m.AddService(
-                new Serviñe
-                {
-                    Id = 1,
-                    Name = "Name1",
-                    Description = "Description1",
-                    Price = 1m,
-                    DurationHours = 1.0,
-                    IsDeleted = false
-                }));
+            //given 
+            var expected = _serviceMocks.GetMockService();
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(expected.Id)).Returns(expected);
 
             //when 
-
-            _service.AddService(new ServiceModel
-            {
-                Id = 1,
-                Name = "Name1",
-                Description = "Description1",
-                Price = 1m,
-                DurationHours = 1.0,
-            });
+            var actual = _service.GetServiceById(expected.Id);
 
             //then
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(actual.Id, expected.Id);
+            Assert.AreEqual(actual.Name, expected.Name);
+            Assert.AreEqual(actual.Description, expected.Description);
+            Assert.AreEqual(actual.DurationHours, expected.DurationHours);
+            Assert.AreEqual(actual.Price, expected.Price);
+            Assert.That(actual.Orders.Count == 0);
+            Assert.That(actual.Sitters.Count == 0);
+            _serviceRepositoryMock.Verify(m => m.GetServiceById(expected.Id), Times.Once);
+        }
 
-            Assert.Pass();
+        [Test]
+        public void GetServiceByIdNegativeTest()
+        {
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Serviñe)null);
+
+            Assert.Throws<EntityNotFoundException>(() => _service.GetServiceById(0));
+        }
+
+        [Test]
+        public void AddServiceTest()
+        {
+            //given
+            _serviceRepositoryMock.Setup(m => m.AddService(It.IsAny<Serviñe>()));
+
+            //when 
+            _service.AddService(It.IsAny<ServiceModel>());
+
+            //then
             _serviceRepositoryMock.Verify(m => m.AddService(It.IsAny<Serviñe>()), Times.Once);
-
         }
 
         [Test]
         public void UpdateServiceTest()
         {
             //given
-
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>()));
             _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Serviñe());
 
             //when
-
-            _service.UpdateService(It.IsAny<int>(), new ServiceModel());
+            _service.UpdateService(new ServiceModel());
 
             //then
-
-            Assert.Pass();
-            Assert.DoesNotThrow(() => _service.UpdateService(It.IsAny<int>(), new ServiceModel()));
             _serviceRepositoryMock.Verify(m => m.UpdateService(It.IsAny<Serviñe>()), Times.Once());
-            _serviceRepositoryMock.Verify(m => m.UpdateService(It.IsAny<int>(), false), Times.Never());
+            _serviceRepositoryMock.Verify(m => m.UpdateService(
+                new Serviñe(), true), Times.Never());
+        }
+
+        [Test]
+        public void UpdateServiceNegativeTest()
+        {
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>()));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Serviñe)null);
+
+            Assert.Throws<EntityNotFoundException>(() => _service.UpdateService(new ServiceModel()));
         }
 
         [Test]
         public void DeleteServiceTest()
         {
             //given
-
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>(), true));
             _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Serviñe());
 
             //when
-
-            _service.DeleteService(It.IsAny<int>());
+            _service.DeleteService(new ServiceModel());
 
             //then
-
-            Assert.Pass();
-            Assert.DoesNotThrow(() => _service.DeleteService(It.IsAny<int>()));
-            _serviceRepositoryMock.Verify(m => m.DeleteService(It.IsAny<int>()), Times.Once());
+            _serviceRepositoryMock.Verify(m => m.UpdateService(It.IsAny<Serviñe>()), Times.Never());
+            _serviceRepositoryMock.Verify(m => m.UpdateService(
+                It.IsAny<Serviñe>(), It.IsAny<bool>()), Times.Once());
         }
 
         [Test]
-        public void RestoreServiceTest()
+        public void DeleteServiceNegativeTest()
         {
-            //given
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>(), It.IsAny<bool>()));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Serviñe)null);
 
-            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Serviñe());
-
-            //when
-
-            _service.RestoreService(It.IsAny<int>());
-
-            //then
-
-            Assert.Pass();
-            Assert.DoesNotThrow(() => _service.RestoreService(It.IsAny<int>()));
-            _serviceRepositoryMock.Verify(m => m.UpdateService(It.IsAny<int>(), false), Times.Once());
-            _serviceRepositoryMock.Verify(m => m.UpdateService(It.IsAny<Serviñe>()), Times.Never());
+            Assert.Throws<EntityNotFoundException>(() => _service.DeleteService(new ServiceModel()));
         }
-
     }
 }

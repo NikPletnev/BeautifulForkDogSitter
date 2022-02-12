@@ -27,7 +27,7 @@ namespace DogSitter.API.Controllers
             if (service != null)
                 return Ok(service); 
             else
-                return NotFound($"Service {id} not found");
+                return NotFound($"Сервис с Id = {id} не найден!");
         }
 
         //api/Services
@@ -47,31 +47,20 @@ namespace DogSitter.API.Controllers
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<ServiceOutputModel>(service));
         }
 
-        //api/Services/77
-        [HttpPut("{id}")]
-        public IActionResult UpdateService(int id, [FromBody] ServiceUpdateInputModel service)
+        [HttpPut]
+        public IActionResult UpdateService([FromBody] ServiceUpdateInputModel service)
         {
-            _serviceService.UpdateService(id, _mapper.Map<ServiceModel>(service));
+            _serviceService.UpdateService(_mapper.Map<ServiceModel>(service));
 
             return NoContent();
         }
 
-        //api/Services/77
-        [HttpDelete("{id}")]
-        public IActionResult DeleteService(int id)
+        [HttpDelete]
+        public IActionResult DeleteService([FromBody] ServiceUpdateInputModel service)
         {
-            _serviceService.DeleteService(id);
+            _serviceService.DeleteService(_mapper.Map<ServiceModel>(service));
 
             return NoContent();
-        }
-
-        //api/Services/77
-        [HttpPatch("{id}")]
-        public IActionResult RestoreService(int id)
-        {
-            _serviceService.RestoreService(id);
-
-            return Ok();
         }
     }
 }

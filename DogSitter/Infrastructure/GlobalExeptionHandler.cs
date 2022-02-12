@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using DogSitter.BLL.Exeptions;
+using System.Net;
 using System.Text.Json;
 
 namespace DogSitter.API.Infrastructure
@@ -19,10 +20,15 @@ namespace DogSitter.API.Infrastructure
             {
                 await _next(context);
             }
+            catch (EntityNotFoundException ex)
+            {
+                await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
+            }
             catch (Exception ex)
             {
                 await HandleExceptionAsync(context, HttpStatusCode.BadRequest, ex.Message);
             }
+
         }
 
         private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode code, string message)
