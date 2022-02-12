@@ -10,7 +10,6 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class PassportsController : Controller
     {
-
         private IPassportService _service;
         private IMapper _map;
 
@@ -19,7 +18,6 @@ namespace DogSitter.API.Controllers
             _service = passportService;
             _map = customMapper;
         }
-
 
         [HttpPut("{id}")]
         public IActionResult UpdatePassport(int id, [FromBody] PassportUpdateInputModel passport)
@@ -41,10 +39,6 @@ namespace DogSitter.API.Controllers
             //if passport exist
             var passport = _map.Map<PassportOutputModel>(_service.GetPassportById(id));
             return Ok(passport);
-            //if passport not found
-            return NotFound($"Passport {id} not found");
         }
-
-
     }
 }
