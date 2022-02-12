@@ -26,7 +26,7 @@ namespace DogSitter.DAL.Repositories
 
         public void UpdateService(Serviсe service)
         {
-            var entity = GetServiceById(service.Id);
+            var entity = new Serviсe();
             entity.Name = service.Name;
             entity.Price = service.Price;
             entity.Description = service.Description;
