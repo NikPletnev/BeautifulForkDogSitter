@@ -5,13 +5,8 @@ using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
@@ -23,20 +18,21 @@ namespace DogSitter.BLL.Services
         private readonly IContactRepository _contactRepository;
         private readonly IMapper _map;
 
-        public AuthService(IAdminRepository adminRepository, ICustomerRepository customerRepository, ISitterRepository sitterRepository, IMapper mapper)
+        public AuthService(IContactRepository contactRepository ,IAdminRepository adminRepository, ICustomerRepository customerRepository, ISitterRepository sitterRepository, IMapper mapper)
         {
             _adminRepository = adminRepository;
             _customerRepository = customerRepository;
             _sitterRepository = sitterRepository;
+            _contactRepository = contactRepository;
             _map = mapper;
         }
 
         public string LoginAdmin(string contact, string pass)
         {
-           
-            var findedContact = _contactRepository.GetContactByValue(contact);
+
+            Contact findedContact = _contactRepository.GetContactByValue(contact);
             AdminModel admin;
-            if (findedContact == null)
+            if (findedContact != null)
             {
                 var findedAdmin = _adminRepository.Login(findedContact, pass);
                 if (findedAdmin == null)
