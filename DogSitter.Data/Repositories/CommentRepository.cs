@@ -2,13 +2,13 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class CommentRepository
+    public class CommentRepository : ICommentRepository
     {
         private DogSitterContext _context;
 
-        public CommentRepository()
+        public CommentRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public void Add(Comment comment)

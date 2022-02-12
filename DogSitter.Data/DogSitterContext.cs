@@ -9,22 +9,7 @@ namespace DogSitter.DAL
         public DogSitterContext(DbContextOptions<DogSitterContext> options) : base(options)
         {
 
-        }
-
-        public DogSitterContext()
-        {
-            //удалить после ред всех реп
-        }
-
-        private static DogSitterContext _instance;
-        public static DogSitterContext GetInstance()
-        {
-            if (_instance == null)
-            {
-                _instance = new DogSitterContext();
-            }
-            return _instance;
-        }
+        }        
 
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Customer> Customers { get; set; }

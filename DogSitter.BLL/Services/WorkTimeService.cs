@@ -7,12 +7,12 @@ namespace DogSitter.BLL.WorkTimes
 {
     public class WorkTimeService : IWorkTimeService
     {
-        private WorkTimeRepository _repository;
+        private IWorkTimeRepository _repository;
         private IMapper _mapper;
 
-        public WorkTimeService(IMapper mapper)
+        public WorkTimeService(IWorkTimeRepository repository, IMapper mapper)
         {
-            _repository = new WorkTimeRepository();
+            _repository = repository;
             _mapper = mapper;
         }
 

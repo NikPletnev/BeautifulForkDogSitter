@@ -40,7 +40,7 @@ namespace DogSitter.API.Controllers
         public ActionResult<ContactOutputModel> AddContact(ContactInsertInputModel сontact)
         {
             _service.AddContact(_map.Map<ContactModel>(сontact));
-            return StatusCode(StatusCodes.Status201Created, _map.Map<ContactOutputModel>(сontact));
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         //api/contacts/42

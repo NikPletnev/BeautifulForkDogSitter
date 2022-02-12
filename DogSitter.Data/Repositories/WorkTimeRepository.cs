@@ -2,13 +2,13 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class WorkTimeRepository
+    public class WorkTimeRepository : IWorkTimeRepository
     {
         private readonly DogSitterContext _context;
 
-        public WorkTimeRepository()
+        public WorkTimeRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public List<WorkTime> GetAllWorkTimes() =>

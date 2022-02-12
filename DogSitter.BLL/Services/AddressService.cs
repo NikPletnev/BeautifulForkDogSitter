@@ -7,12 +7,12 @@ namespace DogSitter.BLL.Services
 {
     public class AddressService : IAddressService
     {
-        private AddressRepository _repository;
+        private IAddressRepository _repository;
         private IMapper _mapper;
 
-        public AddressService(IMapper mapper)
+        public AddressService(IAddressRepository repository, IMapper mapper)
         {
-            _repository = new AddressRepository();
+            _repository = repository;
             _mapper = mapper;
         }
 

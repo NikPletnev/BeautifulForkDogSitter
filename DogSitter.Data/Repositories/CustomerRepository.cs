@@ -6,9 +6,9 @@ namespace DogSitter.DAL.Repositories
     {
         private DogSitterContext _context;
 
-        public CustomerRepository()
+        public CustomerRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public Customer GetCustomerById(int id) =>
