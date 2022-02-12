@@ -1,4 +1,6 @@
-﻿using DogSitter.BLL.Config;
+﻿using AutoMapper;
+using DogSitter.BLL.Configs;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -10,85 +12,79 @@ using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
-    public class CommentService
+    public class CommentService : ICommentService
     {
-        private readonly CommentRepository _repository;
+        private readonly ICommentRepository _repository;
+        private readonly IMapper _mapper;
 
-        public CommentService()
+
+        public CommentService(ICommentRepository repository, IMapper mapper)
         {
-            _repository = new CommentRepository();
+            _mapper = mapper;
+            _repository = repository;
         }
 
         public CommentModel GetById(int id)
         {
-            try
-            {
-                var comment = _repository.GetById(id);
-                return CustomMapper.GetInstance().Map<CommentModel>(comment);
-            }
-            catch (Exception)
-            {
+            var comment = _repository.GetById(id);
 
-                throw new Exception("Комментарий не найден");
+            if (comment == null)
+            {
+                throw new ServiceNotFoundExeption($"Comment {id} was not found");
             }
+            return _mapper.Map<CommentModel>(_repository.GetById(id));
         }
 
-        public List<CommentModel> GetAll()
-        {
-            var comment = _repository.GetAll();
-            return CustomMapper.GetInstance().Map<List<CommentModel>>(comment);
-        }
+        public List<CommentModel> GetAll() =>
+             _mapper.Map<List<CommentModel>>(_repository.GetAll());
+
 
         public void Add(CommentModel commentModel)
         {
-            var comment = CustomMapper.GetInstance().Map<Comment>(commentModel);
-            _repository.Add(comment);
+            if (commentModel.Text == String.Empty ||
+               commentModel.Date == DateTime.MinValue)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to create new comment");
+            }
+            _repository.Add(_mapper.Map<Comment>(commentModel));
         }
 
         public void Update(CommentModel commentModel)
         {
-            var comment = CustomMapper.GetInstance().Map<Comment>(commentModel);
-            try
+            if (commentModel.Text == String.Empty)
             {
-                var entity = _repository.GetById(commentModel.Id);
-
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the comment {commentModel.Id}");
             }
-            catch (Exception)
+            var entity = _mapper.Map<Comment>(commentModel);
+            var comment = _repository.GetById(commentModel.Id);
+            if (comment == null)
             {
-
-                throw new Exception("Комментарий не найден");
+                throw new ServiceNotFoundExeption($"Comment {commentModel.Id} was not found");
             }
+
             _repository.Update(comment);
         }
 
         public void DeleteById(int id)
         {
-            try
+            var comment = _repository.GetById(id);
+            if (comment == null)
             {
-                var entity = _repository.GetById(id);
-
+                throw new ServiceNotFoundExeption($"Comment {id} was not found");
             }
-            catch (Exception)
-            {
 
-                throw new Exception("Комментарий не найден");
-            }
-            bool delete = true;
-            _repository.Update(id, delete);
+            bool isDelited = true;
+            _repository.Update(id, isDelited);
         }
 
         public void Restore(int id)
         {
-            try
+            var comment = _repository.GetById(id);
+            if (comment == null)
             {
-                var entity = _repository.GetById(id);
-
+                throw new ServiceNotFoundExeption($"Comment {id} was not found");
             }
-            catch (Exception)
-            {
 
-                throw new Exception("Комментарий не найден");
-            }
             bool Delete = false;
             _repository.Update(id, Delete);
         }

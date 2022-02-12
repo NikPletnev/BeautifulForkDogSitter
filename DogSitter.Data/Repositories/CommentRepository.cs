@@ -2,7 +2,7 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class CommentRepository
+    public class CommentRepository : ICommentRepository
     {
         private DogSitterContext _context;
 
