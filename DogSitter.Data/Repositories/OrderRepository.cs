@@ -2,7 +2,7 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class OrderRepository
+    public class OrderRepository : IOrderRepository
     {
         private DogSitterContext _context;
 

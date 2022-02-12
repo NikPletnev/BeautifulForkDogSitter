@@ -1,4 +1,6 @@
-﻿using DogSitter.BLL.Config;
+﻿using AutoMapper;
+using DogSitter.BLL.Configs;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -10,9 +12,10 @@ using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Services
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
-        private readonly OrderRepository _repository;
+        private readonly IOrderRepository _repository;
+        private IMapper _mapper;
         public OrderService()
         {
             _repository = new OrderRepository();
@@ -20,76 +23,73 @@ namespace DogSitter.BLL.Services
 
         public OrderModel GetById(int id)
         {
-            try
-            {
-                var order = _repository.GetById(id);
-                return CustomMapper.GetInstance().Map<OrderModel>(order);
-            }
-            catch (Exception)
-            {
+            var order = _repository.GetById(id);
 
-                throw new Exception("Заказ не найден");
+            if (order == null)
+            {
+                throw new ServiceNotFoundExeption($"Order {id} was not found");
             }
+
+            return _mapper.Map<OrderModel>(order);
         }
 
-        public List<OrderModel> GetAll()
-        {
-            var orders = _repository.GetAll();
-            return CustomMapper.GetInstance().Map<List<OrderModel>>(orders);
-        }
+        public List<OrderModel> GetAll() =>
+             _mapper.Map<List<OrderModel>>(_repository.GetAll());
 
         public void Add(OrderModel orderModel)
         {
-            var order = CustomMapper.GetInstance().Map<Order>(orderModel);
-            _repository.Add(order);
+            if (orderModel.OrderDate == DateTime.MinValue ||
+                orderModel.Price == 0 ||
+                orderModel.Status == 0 ||
+                orderModel.Mark == null)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
+            }
+
+            _repository.Add(_mapper.Map<Order>(orderModel));
         }
 
         public void Update(OrderModel orderModel)
         {
-            var order = CustomMapper.GetInstance().Map<Order>(orderModel);
-            try
+            if (orderModel.Price == 0 ||
+                orderModel.Status == 0 ||
+                orderModel.Mark == null)
             {
-                var entity = _repository.GetById(orderModel.Id);
-
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the order {orderModel.Id}");
             }
-            catch (Exception)
+            var entity = _mapper.Map<Order>(orderModel);
+            var order = _repository.GetById(orderModel.Id);
+            if (order == null)
             {
-
-                throw new Exception("Заказ не найден");
+                throw new ServiceNotFoundExeption($"Order {orderModel.Id} was not found");
             }
             _repository.Update(order);
         }
 
         public void DeleteById(int id)
         {
-            try
-            {
-                var entity = _repository.GetById(id);
+            var entity = _repository.GetById(id);
 
-            }
-            catch (Exception)
+            if (entity == null)
             {
-
-                throw new Exception("Заказ не найден");
+                throw new ServiceNotFoundExeption($"Order {id} was not found");
             }
-            bool delete = true;
-            _repository.Update(id, delete);
+
+            bool IsDelete = true;
+            _repository.Update(id, IsDelete);
         }
 
         public void Restore(int id)
         {
-            try
-            {
-                var entity = _repository.GetById(id);
+            var entity = _repository.GetById(id);
 
-            }
-            catch (Exception)
+            if (entity == null)
             {
-
-                throw new Exception("Заказ не найден");
+                throw new ServiceNotFoundExeption($"Order {id} was not found");
             }
-            bool Delete = false;
-            _repository.Update(id, Delete);
+
+            bool IsDelete = false;
+            _repository.Update(id, IsDelete);
         }
     }
 }

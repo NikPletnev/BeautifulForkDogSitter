@@ -7,7 +7,7 @@ namespace DogSitter.BLL.Services
 {
     public class SitterService : ISitterService
     {
-        private SitterRepository _repository;
+        private ISitterRepository _repository;
         private IMapper _mapper;
 
         public SitterService(IMapper mapper)
