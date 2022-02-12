@@ -18,7 +18,8 @@ namespace DogSitter.BLL.Services
         private readonly IContactRepository _contactRepository;
         private readonly IMapper _map;
 
-        public AuthService(IContactRepository contactRepository ,IAdminRepository adminRepository, ICustomerRepository customerRepository, ISitterRepository sitterRepository, IMapper mapper)
+        public AuthService(IContactRepository contactRepository ,IAdminRepository adminRepository,
+            ICustomerRepository customerRepository, ISitterRepository sitterRepository, IMapper mapper)
         {
             _adminRepository = adminRepository;
             _customerRepository = customerRepository;

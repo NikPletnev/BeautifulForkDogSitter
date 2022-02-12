@@ -20,11 +20,6 @@ namespace DogSitter.DAL.Repositories
         public void AddAdmin(Admin admin)
         {
             _context.Admins.Add(admin);
-            foreach (var c in admin.Contacts)
-            {
-                c.Admin = admin;
-            }
-            _context.Contacts.AddRange(admin.Contacts);
             _context.SaveChanges();
         }
 
