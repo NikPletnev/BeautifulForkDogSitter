@@ -2,7 +2,7 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class SitterRepository
+    public class SitterRepository : ISitterRepository
     {
         private DogSitterContext _context;
 
@@ -41,6 +41,17 @@ namespace DogSitter.DAL.Repositories
             Sitter sitter = GetById(id);
             sitter.IsDeleted = isDeleted;
             _context.SaveChanges();
+        }
+        public Sitter Login(Contact contact, string pass)
+        {
+            if (contact != null || contact.Sitter != null)
+            {
+                if (contact.Sitter.Password == pass)
+                {
+                    return contact.Sitter;
+                }
+            }
+            return null;
         }
     }
 }

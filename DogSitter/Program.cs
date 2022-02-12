@@ -5,11 +5,14 @@ using DogSitter.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 using DogSitter.API.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using DogSitter.API.Configs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddAutoMapper(typeof(CustomMapperAPI).Assembly, typeof(CustomMapper).Assembly);
 
 builder.Services.AddControllers();
 
@@ -30,6 +33,30 @@ builder.Services.AddScoped<IPassportRepository, PassportRepository>();
 
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
+
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            // указывает, будет ли валидироваться издатель при валидации токена
+            ValidateIssuer = true,
+            // строка, представляющая издателя
+            ValidIssuer = AuthOptions.Issuer,
+            // будет ли валидироваться потребитель токена
+            ValidateAudience = true,
+            // установка потребителя токена
+            ValidAudience = AuthOptions.Audience,
+            // будет ли валидироваться время существования
+            ValidateLifetime = true,
+            // установка ключа безопасности
+            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+            // валидация ключа безопасности
+            ValidateIssuerSigningKey = true,
+        };
+    });
 
 
 var app = builder.Build();

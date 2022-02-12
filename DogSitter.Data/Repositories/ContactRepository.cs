@@ -41,5 +41,9 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
+        public Contact GetContactByValue(string value) =>
+            _context.Contacts.Where(c => !c.IsDeleted).FirstOrDefault(c => c.Value == value);
+
+
     }
 }
