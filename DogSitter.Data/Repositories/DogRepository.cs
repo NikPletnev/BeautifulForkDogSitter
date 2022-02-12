@@ -1,10 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -17,7 +11,7 @@ namespace DogSitter.DAL.Repositories
             _context = DogSitterContext.GetInstance();
         }
 
-        public List<Dog> GetAllDogs() =>  
+        public List<Dog> GetAllDogs() =>
                     _context.Dogs.Where(d => !d.IsDeleted).ToList();
 
         public Dog GetDogById(int id) =>

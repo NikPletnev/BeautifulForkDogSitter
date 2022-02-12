@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.DAL.Entity
 {
@@ -29,5 +24,30 @@ namespace DogSitter.DAL.Entity
         public string Registration { get; set; }
         public bool IsDeleted { get; set; }
         public virtual Sitter Sitter { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Passport passport &&
+                   Id == passport.Id &&
+                   FirstName == passport.FirstName &&
+                   LastName == passport.LastName &&
+                   DateOfBirth == passport.DateOfBirth &&
+                   Seria == passport.Seria &&
+                   Number == passport.Number &&
+                   IssueDate == passport.IssueDate &&
+                   Division == passport.Division &&
+                   DivisionCode == passport.DivisionCode &&
+                   Registration == passport.Registration &&
+                   IsDeleted == passport.IsDeleted;
+        }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName} {DateOfBirth} {Seria} {Number} " +
+                $"{IssueDate} {Division} {DivisionCode} {Registration} {IsDeleted}";
+        }
+
+
+
     }
 }

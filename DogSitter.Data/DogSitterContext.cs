@@ -6,17 +6,17 @@ namespace DogSitter.DAL
 {
     public class DogSitterContext : DbContext
     {
-        private const string _conectionString = @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB; 
-        Persist Security Info=True;User ID = student; Password=qwe!23; Pooling=False; MultipleActiveResultSets=False; 
-        Connect Timeout = 60; Encrypt=False; TrustServerCertificate=False";
-
-        private static DogSitterContext _instance;
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DogSitterContext(DbContextOptions<DogSitterContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(_conectionString);
+
         }
 
+        public DogSitterContext()
+        {
+            //удалить после ред всех реп
+        }
+
+        private static DogSitterContext _instance;
         public static DogSitterContext GetInstance()
         {
             if (_instance == null)
@@ -38,14 +38,13 @@ namespace DogSitter.DAL
         public DbSet<SubwayStation> SubwayStations { get; set; }
         public DbSet<WorkTime> WorkTimes { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<ContactType> ContactTypes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Default IsDeleted = 0
 
-            
+
             modelBuilder.Entity<Address>()
             .Property(a => a.IsDeleted)
             .HasDefaultValue(0);
@@ -59,10 +58,6 @@ namespace DogSitter.DAL
             .HasDefaultValue(0);
 
             modelBuilder.Entity<Contact>()
-            .Property(c => c.IsDeleted)
-            .HasDefaultValue(0);
-
-            modelBuilder.Entity<ContactType>()
             .Property(c => c.IsDeleted)
             .HasDefaultValue(0);
 
