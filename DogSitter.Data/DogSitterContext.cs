@@ -6,6 +6,7 @@ namespace DogSitter.DAL
 {
     public class DogSitterContext : DbContext
     {
+
         public DogSitterContext(DbContextOptions<DogSitterContext> options) : base(options)
         {
 
@@ -13,10 +14,11 @@ namespace DogSitter.DAL
 
         public DogSitterContext()
         {
-            //удалить после ред всех реп
+
         }
 
         private static DogSitterContext _instance;
+
         public static DogSitterContext GetInstance()
         {
             if (_instance == null)
