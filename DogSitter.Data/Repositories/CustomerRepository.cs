@@ -50,6 +50,7 @@ namespace DogSitter.DAL.Repositories
             customer.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
+        
         public Customer Login(Contact contact, string pass)
         {
             if (contact != null || contact.Customer != null)
