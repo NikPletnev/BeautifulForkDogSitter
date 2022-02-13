@@ -9,17 +9,18 @@ namespace DogSitter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SitterController : ControllerBase
+    public class SittersController : ControllerBase
     {
         private ISitterService _service;
         private IMapper _mapper;
 
-        public SitterController(ISitterService service, IMapper mapper)
+        public SittersController(ISitterService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
         }
 
+        //api/sitters
         [HttpPost]
         public ActionResult RegistrationSitter([FromBody] SitterInsertInputModel sitter)
         {
@@ -27,14 +28,16 @@ namespace DogSitter.API.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        [HttpPatch]
+        //api/sitters/42
+        [HttpPatch("{id}")]
         public ActionResult BlockSitterProfile(int id)
         {
             _service.BlockProfileSitterById(id);
             return NoContent();
         }
 
-        [HttpPatch]
+        //api/sitters/42
+        [HttpPatch("{id}")]
         public ActionResult ConfirmSitterProfile(int id)
         {
             _service.ConfirmProfileSitterById(id);
