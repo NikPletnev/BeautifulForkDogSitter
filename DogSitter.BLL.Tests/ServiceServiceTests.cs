@@ -55,7 +55,7 @@ namespace DogSitter.BLL.Tests
             _serviceRepositoryMock.Setup(m => m.GetServiceById(expected.Id)).Returns(expected);
 
             //when 
-            var actual = _service.GetServiceById(expected.Id);
+            var actual = _service.GetServiceById(3);
 
             //then
             Assert.IsNotNull(actual);
