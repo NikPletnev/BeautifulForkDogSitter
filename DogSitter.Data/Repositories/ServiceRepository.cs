@@ -27,7 +27,13 @@ namespace DogSitter.DAL.Repositories
 
         public void UpdateService(Serviсe service)
         {
-            _context.Entry(service).State = EntityState.Modified;
+            var trackingService = _context.ChangeTracker.Entries<Serviсe>()
+                .First(a => a.Entity.Id == service.Id).Entity;
+
+            trackingService.Name = service.Name;
+            trackingService.Price = service.Price;
+            trackingService.Description = service.Description;
+            trackingService.DurationHours = service.DurationHours;
             _context.SaveChanges();
         }
 

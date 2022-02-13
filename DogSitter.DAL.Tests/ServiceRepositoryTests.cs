@@ -99,16 +99,16 @@ namespace DogSitter.DAL.Tests
             };
 
             //when
-            _serviceRepository.UpdateService(service);
+            _serviceRepository.UpdateService(expected);
 
-            var actual = _context.Services.FirstOrDefault(a => a.Id == service.Id);
+            var actual = _context.Services.First(a => a.Id == service.Id);
 
             //then
             Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreNotEqual(expected.Name, actual.Name);
-            Assert.AreNotEqual(expected.Description, actual.Description);
-            Assert.AreNotEqual(expected.Price, actual.Price);
-            Assert.AreNotEqual(expected.DurationHours, actual.DurationHours);
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.Description, actual.Description);
+            Assert.AreEqual(expected.Price, actual.Price);
+            Assert.AreEqual(expected.DurationHours, actual.DurationHours);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Orders, actual.Orders);
             Assert.AreEqual(expected.Sitters, actual.Sitters);
