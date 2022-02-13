@@ -37,7 +37,7 @@ namespace DogSitter.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCustomer([FromBody] CustomerInputModel customer)
+        public ActionResult RegistrationCustomer([FromBody] CustomerInputModel customer)
         {
             _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<CustomerOutputModel>(customer));
