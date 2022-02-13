@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Models;
+using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 
 namespace DogSitter.API.Configs
@@ -31,6 +32,8 @@ namespace DogSitter.API.Configs
 
             CreateMap<SubwayStationOutputModel, SubwayStationOutputModel>().ReverseMap();
             CreateMap<SubwayStationInputModel, SubwayStationModel>().ReverseMap();
+
+            CreateMap<SitterInsertInputModel, SitterModel>().ReverseMap();
         }
     }
 }

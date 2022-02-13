@@ -26,5 +26,19 @@ namespace DogSitter.API.Controllers
             _service.Add(_mapper.Map<SitterModel>(sitter));
             return StatusCode(StatusCodes.Status201Created);
         }
+
+        [HttpPatch]
+        public ActionResult BlockSitterProfile(int id)
+        {
+            _service.BlockProfileSitterById(id);
+            return NoContent();
+        }
+
+        [HttpPatch]
+        public ActionResult ConfirmSitterProfile(int id)
+        {
+            _service.ConfirmProfileSitterById(id);
+            return NoContent();
+        }
     }
 }
