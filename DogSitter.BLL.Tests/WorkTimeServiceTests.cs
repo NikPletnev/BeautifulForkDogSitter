@@ -55,7 +55,7 @@ namespace DogSitter.BLL.Tests
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(expected.Id)).Returns(expected);
 
             //when 
-            var actual = _service.GetWorkTimeById(expected.Id);
+            var actual = _service.GetWorkTimeById(3);
 
             //then
             Assert.IsNotNull(actual);
