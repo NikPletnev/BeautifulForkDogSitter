@@ -27,7 +27,7 @@ namespace DogSitter.DAL.Repositories
 
         public void UpdateWorkTime(WorkTime workTime)
         {
-            _context.Entry(workTime).State = EntityState.Modified;
+            _context.WorkTimes.Attach(workTime);
             _context.SaveChanges();
         }
 

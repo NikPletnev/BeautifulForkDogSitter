@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace DogSitter.DAL.Tests.TestCaseSource
+namespace DogSitter.BLL.Tests.TestCaseSource
 {
-    public static class WorkTimeTestCaseSourse
+    public class WorkTimeTestMocks
     {
-        public static List<WorkTime> GetWorkTimes() =>
+        public List<WorkTime> GetMockWorkTimes() =>
             new List<WorkTime>()
             {
                 new WorkTime()
@@ -30,12 +30,12 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 }
             };
 
-        public static WorkTime GetWorkTime() =>
+        public WorkTime GetMockWorkTime() =>
                 new WorkTime()
                 {
                     Id = 3,
-                    Start = DateTime.UtcNow,
-                    End = DateTime.UtcNow,
+                    Start = DateTime.Now,
+                    End = DateTime.Now,
                     Weekday = Weekday.Saturday,
                     Sitter = new List<Sitter>(),
                     IsDeleted = false

@@ -92,7 +92,7 @@ namespace DogSitter.DAL.Tests
                 Id = workTime.Id,
                 Start = DateTime.UtcNow,
                 End = DateTime.UtcNow,
-                Weekdays = Weekday.Thursday,
+                Weekday = Weekday.Thursday,
                 Sitter = new List<Sitter>(),
                 IsDeleted = workTime.IsDeleted
             };
@@ -106,7 +106,7 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreNotEqual(expected.Start, actual.Start);
             Assert.AreNotEqual(expected.End, actual.End);
-            Assert.AreNotEqual(expected.Weekdays, actual.Weekdays);
+            Assert.AreNotEqual(expected.Weekday, actual.Weekday);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Sitter, actual.Sitter);
         }
