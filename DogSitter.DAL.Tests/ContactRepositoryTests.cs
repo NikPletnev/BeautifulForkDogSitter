@@ -118,6 +118,24 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCaseSource(typeof(GetContactByValueTestCaseSource))]
+        public void GetContactByValueTest(List <Admin> admins, string value, Contact expectedContact, Admin expectedAdmin)
+        {
+            //given           
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
 
+            var findedAdmin = _context.Admins.FirstOrDefault(x => x.Id == 2);
+            var findedContact = _context.Contacts.FirstOrDefault(x => x.Id == 2);
+            findedContact.Admin = findedAdmin;
+            _context.SaveChanges();
+
+            //when
+            var actual = _rep.GetContactByValue(value);
+
+            //then
+            Assert.AreEqual(expectedContact, actual);
+            Assert.AreEqual(expectedAdmin, actual.Admin);
+        }
     }
 }

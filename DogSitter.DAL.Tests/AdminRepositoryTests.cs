@@ -123,21 +123,13 @@ namespace DogSitter.DAL.Tests
             public void LoginTest(List<Admin> admins, Contact contact, string pass, Admin expected)
             {
                 //given
-
                 _context.Admins.AddRange(admins);
                 _context.SaveChanges();
-                var findedContact = _context.Contacts.FirstOrDefault(x => x.Id == 1);
                 var findedAdmin = _context.Admins.FirstOrDefault(x => x.Id == 1);
-                findedContact.Admin = findedAdmin;
+                contact.Admin = findedAdmin;
                 _context.SaveChanges();
-                //List<Contact> contacts = new List<Contact>()
-                //{
-                //new Contact { Value = "12345678", ContactType = ContactType.phone, Admin = _context.Admins.FirstOrDefault(x => x.Id == 1) },
-                //new Contact { Value = "qwertyu@icloud.com", ContactType = ContactType.mail, Admin = _context.Admins.FirstOrDefault(x => x.Id == 2) }
-                //};
-                //_context.Contacts.AddRange(contacts);
                 //when
-                var actual = _rep.Login(findedContact, pass);
+                var actual = _rep.Login(contact, pass);
                 //then
                 Assert.AreEqual(expected, actual);
             }
