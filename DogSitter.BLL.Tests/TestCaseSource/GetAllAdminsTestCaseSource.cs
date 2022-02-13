@@ -11,21 +11,13 @@ namespace DogSitter.BLL.Tests.TestCaseSource
         public IEnumerator GetEnumerator()
         {
             List<Admin> admins = new List<Admin>() {
-              new Admin() { FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234" ,
-                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.phone} },
-                  IsDeleted = false },
-              new Admin() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
-                  Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = ContactType.mail} },
-                  IsDeleted = false },
-              new Admin() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = true }
+              new Admin() { FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234" , IsDeleted = false },
+              new Admin() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false }
             };
 
             List<AdminModel> adminsModel = new List<AdminModel>() {
-              new AdminModel() { FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234",
-                 Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.phone} } },
-              new AdminModel() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
-                 Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = ContactType.mail} }
-            }} ;
+              new AdminModel() { FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234" },
+              new AdminModel() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234" } } ;
 
             yield return new object[] { admins, adminsModel };
         }

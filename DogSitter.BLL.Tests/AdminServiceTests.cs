@@ -30,16 +30,15 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _adminRepositoryMock.Setup(x => x.UpdateAdmin(entity)).Verifiable();
-            _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(entity);
+            _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(entity).Verifiable();
             //when
             _service.UpdateAdmin(id, model);
             //then
-            _adminRepositoryMock.Verify();
-            _adminRepositoryMock.Verify(x => x.GetAdminById(id), Times.Once);
+            _adminRepositoryMock.Verify(x => x.GetAdminById(id));
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(entity), Times.Once);
+
         }
 
-        [TestCase(1)]
-        [TestCase(33)]
         [TestCase(99)]
         public void UpdateAdminTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(int id)
         {
@@ -49,16 +48,16 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<ContactModel> { new ContactModel 
+                { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
             };
             _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(It.IsAny<Admin>());
             //when
             //then
             Assert.Throws<ServiceNotFoundExeption>(() => _service.UpdateAdmin(id, admin));
+
         }
 
-        [TestCase(1)]
-        [TestCase(33)]
         [TestCase(99)]
         public void UpdateAdminTest_WhenNotEnoughDataAboutAdmin_ShouldThrowServiceNotEnoughDataExeption(int id)
         {
@@ -84,7 +83,7 @@ namespace DogSitter.BLL.Tests
             //when
             _service.AddAdmin(admin);
             //then
-            _adminRepositoryMock.Verify();
+            _adminRepositoryMock.Verify(x => x.AddAdmin(It.IsAny<Admin>()));
         }
 
         [Test]
@@ -105,8 +104,6 @@ namespace DogSitter.BLL.Tests
             Assert.Throws<ServiceNotEnoughDataExeption>(() => _service.AddAdmin(admin));
         }
 
-        [TestCase(1)]
-        [TestCase(2)]
         [TestCase(138)]
         public void DeleteAdminTest(int id)
         {
@@ -121,16 +118,15 @@ namespace DogSitter.BLL.Tests
                 IsDeleted = false
             };
 
-            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, true)).Verifiable();
-            _adminRepositoryMock.Setup(x => x.GetAdminById(admin.Id)).Returns(admin).Verifiable();
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, true));
+            _adminRepositoryMock.Setup(x => x.GetAdminById(admin.Id)).Returns(admin);
             //when
             _service.DeleteAdmin(id);
             //then
-            _adminRepositoryMock.VerifyAll();
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin.Id, true), Times.Once);
+            _adminRepositoryMock.Verify(x => x.GetAdminById(admin.Id), Times.Once);
         }
 
-        [TestCase(1)]
-        [TestCase(2)]
         [TestCase(138)]
         public void RestoreAdminTest(int id)
         {
@@ -145,16 +141,16 @@ namespace DogSitter.BLL.Tests
                 IsDeleted = false
             };
 
-            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, false)).Verifiable();
             _adminRepositoryMock.Setup(x => x.GetAdminById(admin.Id)).Returns(admin).Verifiable();
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, false)).Verifiable();
             //when
             _service.RestoreAdmin(id);
             //then
-            _adminRepositoryMock.VerifyAll();
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin.Id, false), Times.Once);
+            _adminRepositoryMock.Verify(x => x.GetAdminById(admin.Id));
+
         }
 
-        [TestCase(2)]
-        [TestCase(100)]
         [TestCase(11)]
         public void DeleteOrRestoreAdminTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(int id)
         {
@@ -169,21 +165,23 @@ namespace DogSitter.BLL.Tests
                 IsDeleted = false
             };
 
-            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, true)).Verifiable();
-            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, false)).Verifiable();
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, true));
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, false));
             _adminRepositoryMock.Setup(x => x.GetAdminById(admin.Id));
             //when
 
             //then
             Assert.Throws<ServiceNotFoundExeption>(() => _service.DeleteAdmin(id));
             Assert.Throws<ServiceNotFoundExeption>(() => _service.RestoreAdmin(id));
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin.Id, It.IsAny<bool>()), Times.Never);
+            _adminRepositoryMock.Verify(x => x.GetAdminById(admin.Id));
         }
 
         [TestCaseSource(typeof(GetAdminByIdTestCaseSource))]
         public void GetAdminByIdTest(int id, Admin admin)
         {
             //given
-            _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(admin).Verifiable();
+            _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(admin);
             //when
             //then
             var actual = _service.GetAdminById(id);
@@ -195,11 +193,9 @@ namespace DogSitter.BLL.Tests
                 Id = admin.Id,
                 Contacts = new List<ContactModel>() { }
             });
-            _adminRepositoryMock.Verify();
+            _adminRepositoryMock.Verify(x => x.GetAdminById(id), Times.Once);
         }
 
-        [TestCase(2)]
-        [TestCase(100)]
         [TestCase(11)]
         public void GetAdminByIdTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(int id)
         {
@@ -213,21 +209,20 @@ namespace DogSitter.BLL.Tests
         [TestCaseSource(typeof(GetAllAdminsTestCaseSource))]
         public void GetAllAdminsTest(List<Admin> admins, List<AdminModel> expected) 
         {
-            // это не проходит и я искренне не понимаю как проверять контакты, если в одном месте это лист, а в другой айколекшн
             //given
-            _adminRepositoryMock.Setup(x => x.GetAllAdmins()).Returns(admins).Verifiable();
+            _adminRepositoryMock.Setup(x => x.GetAllAdmins()).Returns(admins);
             //when
             var actual = _service.GetAllAdmins();
             //then
             Assert.AreEqual(actual, expected);
-            _adminRepositoryMock.Verify();
+            _adminRepositoryMock.Verify(x => x.GetAllAdmins(), Times.Once);
         }
 
         [TestCaseSource(typeof(GetAdminByIdTestCaseSource))]
         public void GetAdminByIdWithContactById(int id, Admin admin)
         {
             //given
-            _adminRepositoryMock.Setup(x => x.GetAdminByIdWithContacts(id)).Returns(admin).Verifiable();
+            _adminRepositoryMock.Setup(x => x.GetAdminByIdWithContacts(id)).Returns(admin);
             //when
             var actual = _service.GetAdminWithContacts(id);
             //then
@@ -239,20 +234,19 @@ namespace DogSitter.BLL.Tests
                 Id = admin.Id,
                 Contacts = new List<ContactModel>() { }
             });
-            _adminRepositoryMock.Verify();
+            _adminRepositoryMock.Verify(x => x.GetAdminByIdWithContacts(id), Times.Once);
         }
 
-        [TestCaseSource(typeof(GetAllAdminsTestCaseSource))]
+        [TestCaseSource(typeof(GetAllAdminsWithContactsTestCaseSource))]
         public void GetAllAdminsWithContactTest(List<Admin> admins, List<AdminModel> expected)
         {
-            // это не проходит и я искренне не понимаю как проверять контакты, если в одном месте это лист, а в другой айколекшн
             //given
-            _adminRepositoryMock.Setup(x => x.GetAllAdminWithContacts()).Returns(admins).Verifiable();
+            _adminRepositoryMock.Setup(x => x.GetAllAdminWithContacts()).Returns(admins);
             //when
             //then
             var actual = _service.GetAllAdminsWithContacts();
-            Assert.AreEqual(actual, expected);
-            _adminRepositoryMock.Verify();
+            CollectionAssert.AreEqual(actual, expected);
+            _adminRepositoryMock.Verify(x => x.GetAllAdminWithContacts(), Times.Once);
         }
     }
 }
