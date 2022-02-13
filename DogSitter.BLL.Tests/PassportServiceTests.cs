@@ -33,18 +33,16 @@ namespace DogSitter.BLL.Tests
             _PassportRepositoryMock.Setup(x => x.UpdatePassport(entity)).Verifiable();
             _PassportRepositoryMock.Setup(x => x.GetPassportById(id)).Returns(entity);
             //when       
+            _service.UpdatePassport(id, model);
             //then
-            Assert.DoesNotThrow(() => _service.UpdatePassport(id, model));
-            Assert.Pass();
+            Assert.AreEqual(model.IsDeleted, entity.IsDeleted);
             _PassportRepositoryMock.Verify();
             _PassportRepositoryMock.Verify(x => x.GetPassportById(id), Times.Once);
             _PassportRepositoryMock.Verify(x => x.UpdatePassport(entity), Times.Once);
         }
 
-        [TestCase(1)]
-        [TestCase(11)]
         [TestCase(100)]
-        public void UpdatePassportTest_WhenPassportNotFound_ShouldServiceNotFoundExeption(int id)
+        public void UpdatePassportTest_WhenPassportNotFound_ShouldThrowServiceNotFoundExeption(int id)
         {
             //given
             _PassportRepositoryMock.Setup(x => x.UpdatePassport(It.IsAny<Passport>()));
@@ -53,10 +51,8 @@ namespace DogSitter.BLL.Tests
             Assert.Throws<ServiceNotFoundExeption>(() => _service.UpdatePassport(id, new PassportModel()));
         }
 
-        [TestCase(1)]
-        [TestCase(33)]
         [TestCase(111)]
-        public void UpdatePassportTest_WhenNotEnoughDataAboutPassport_ShouldServiceNotEnoughDataExeption(int id)
+        public void UpdatePassportTest_WhenNotEnoughDataAboutPassport_ShouldThrowServiceNotEnoughDataExeption(int id)
         {
             //given
 
@@ -107,7 +103,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(AddPassportNegativeTestCaseSource))]
-        public void AddPassportTest_WhenNotEnoughDataAboutPassport_ShouldServiceNotEnoughDataExeption(PassportModel passport)
+        public void AddPassportTest_WhenNotEnoughDataAboutPassport_ShouldThrowServiceNotEnoughDataExeption(PassportModel passport)
         {
             //given
             //when
@@ -127,10 +123,8 @@ namespace DogSitter.BLL.Tests
             _PassportRepositoryMock.Verify();
         }
 
-        [TestCase(2)]
-        [TestCase(100)]
         [TestCase(11)]
-        public void GetPassportByIdTest_WhenPassportNotFound_ShouldServiceNotFoundExeption(int id)
+        public void GetPassportByIdTest_WhenPassportNotFound_ShouldThrowServiceNotFoundExeption(int id)
         {
             //given
             _PassportRepositoryMock.Setup(x => x.GetPassportById(id)).Verifiable();
