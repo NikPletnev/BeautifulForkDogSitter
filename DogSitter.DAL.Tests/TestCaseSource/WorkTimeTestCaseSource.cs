@@ -14,7 +14,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Id = 1,
                     Start = DateTime.Now,
                     End = DateTime.Now,
-                    Weekdays = Weekday.Sunday,
+                    Weekday = Weekday.Sunday,
                     Sitter = new List<Sitter>(),
                     IsDeleted = false
                 },
@@ -24,7 +24,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Id = 2,
                     Start = DateTime.Now,
                     End = DateTime.Now,
-                    Weekdays = Weekday.Saturday,
+                    Weekday = Weekday.Saturday,
                     Sitter = new List<Sitter>(),
                     IsDeleted = true
                 }
@@ -36,7 +36,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Id = 3,
                     Start = DateTime.Now,
                     End = DateTime.Now,
-                    Weekdays = Weekday.Saturday,
+                    Weekday = Weekday.Saturday,
                     Sitter = new List<Sitter>(),
                     IsDeleted = false
                 };

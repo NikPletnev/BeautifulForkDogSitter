@@ -14,10 +14,10 @@ namespace DogSitter.DAL.Repositories
         }
 
         public List<WorkTime> GetAllWorkTimes() =>
-                    _context.WorkTimes.Where(w => !w.IsDeleted).ToList();
+            _context.WorkTimes.Where(w => !w.IsDeleted).ToList();
 
         public WorkTime GetWorkTimeById(int id) =>
-                     _context.WorkTimes.FirstOrDefault(w => w.Id == id);
+            _context.WorkTimes.FirstOrDefault(w => w.Id == id);
 
         public void AddWorkTime(WorkTime workTime)
         {
@@ -27,11 +27,23 @@ namespace DogSitter.DAL.Repositories
 
         public void UpdateWorkTime(WorkTime workTime)
         {
-            _context.Entry(workTime).State = EntityState.Modified;
+            var trackingWorkTime = _context.ChangeTracker.Entries<WorkTime>()
+                  .First(a => a.Entity.Id == workTime.Id).Entity;
+
+            trackingWorkTime.Start = workTime.Start;
+            trackingWorkTime.End = workTime.End;
+            trackingWorkTime.Weekday = workTime.Weekday;
+            trackingWorkTime.Sitter = workTime.Sitter;
             _context.SaveChanges();
         }
 
         public void UpdateWorkTime(WorkTime workTime, bool IsDeleted)
+        {
+            workTime.IsDeleted = IsDeleted;
+            _context.SaveChanges();
+        }
+
+        public void RestoreWorkTime(WorkTime workTime, bool IsDeleted)
         {
             workTime.IsDeleted = IsDeleted;
             _context.SaveChanges();
