@@ -11,8 +11,8 @@ namespace DogSitter.DAL.Entity
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        public virtual ICollection<Contact> Contacts { get; set; }
         public bool IsDeleted { get; set; }
+        public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<Dog> Dogs { get; set; }
         public virtual ICollection<Sitter> Sitter { get; set; }
         public virtual ICollection<Address> Address { get; set; }

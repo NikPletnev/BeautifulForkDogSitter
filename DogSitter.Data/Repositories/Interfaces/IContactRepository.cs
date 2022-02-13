@@ -5,6 +5,9 @@ namespace DogSitter.DAL.Repositories
     public interface IContactRepository
     {
         void AddContact(Contact contact);
+        List<Contact> GetAllContactByAdminId(int id);
+        List<Contact> GetAllContactByCustomerId(int id);
+        List<Contact> GetAllContactBySitterId(int id);
         List<Contact> GetAllContacts();
         Contact GetContactById(int id);
         void UpdateContact(Contact contact);
