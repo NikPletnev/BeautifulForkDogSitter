@@ -126,7 +126,9 @@ namespace DogSitter.DAL.Tests
 
                 _context.Admins.AddRange(admins);
                 _context.SaveChanges();
-                _context.Contacts.FirstOrDefault(x => x.Id == 1).Admin = _context.Admins.FirstOrDefault(x => x.Id == 1);
+                var findedContact = _context.Contacts.FirstOrDefault(x => x.Id == 1);
+                var findedAdmin = _context.Admins.FirstOrDefault(x => x.Id == 1);
+                findedContact.Admin = findedAdmin;
                 _context.SaveChanges();
                 //List<Contact> contacts = new List<Contact>()
                 //{
@@ -135,7 +137,7 @@ namespace DogSitter.DAL.Tests
                 //};
                 //_context.Contacts.AddRange(contacts);
                 //when
-                var actual = _rep.Login(contact, pass);
+                var actual = _rep.Login(findedContact, pass);
                 //then
                 Assert.AreEqual(expected, actual);
             }
