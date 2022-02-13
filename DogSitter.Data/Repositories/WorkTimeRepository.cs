@@ -1,14 +1,16 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
-    public class WorkTimeRepository
+    public class WorkTimeRepository : IWorkTimeRepository
     {
         private readonly DogSitterContext _context;
-
-        public WorkTimeRepository()
+        private bool _isInitialized;
+        public WorkTimeRepository(DogSitterContext dbContext)
         {
-            _context = DogSitterContext.GetInstance();
+            _isInitialized = true;
+            _context = dbContext;
         }
 
         public List<WorkTime> GetAllWorkTimes() =>
@@ -23,26 +25,15 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteWorkTime(int id)
-        {
-            var workTime = GetWorkTimeById(id);
-            _context.WorkTimes.Remove(workTime);
-            _context.SaveChanges();
-        }
-
         public void UpdateWorkTime(WorkTime workTime)
         {
-            var entity = GetWorkTimeById(workTime.Id);
-            entity.Start = workTime.Start;
-            entity.End = workTime.End;
-            entity.Weekdays = workTime.Weekdays;
+            _context.Entry(workTime).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
-        public void UpdateWorkTime(int id, bool IsDeleted)
+        public void UpdateWorkTime(WorkTime workTime, bool IsDeleted)
         {
-            var entity = GetWorkTimeById(id);
-            entity.IsDeleted = IsDeleted;
+            workTime.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
     }
