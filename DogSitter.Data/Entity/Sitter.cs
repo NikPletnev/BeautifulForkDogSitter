@@ -16,8 +16,7 @@ namespace DogSitter.DAL.Entity
         [Required]
         public int PassportId { get; set; }
         public virtual Passport Passport { get; set; }
-        public int AddressId { get; set; }
-        public virtual Address Address { get; set; }
+        public virtual ICollection<SubwayStation> SubwayStation { get; set; }
         public string Information { get; set; }
         public double Rating { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

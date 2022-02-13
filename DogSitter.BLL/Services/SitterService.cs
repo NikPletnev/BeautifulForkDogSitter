@@ -16,11 +16,11 @@ namespace DogSitter.BLL.Services
             _mapper = mapper;
         }
 
-        public SitterModel GetById(int id)
+        public SitterModel GetSitterById(int id)
         {
             try
             {
-                var sitter = _repository.GetById(id);
+                var sitter = _repository.GetSitterById(id);
                 return _mapper.Map<SitterModel>(sitter);
             }
             catch (Exception)
@@ -29,24 +29,24 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Ситтер не найден");
             }
         }
-        public List<SitterModel> GetAll()
+        public List<SitterModel> GetAllSitters()
         {
-            var sitters = _repository.GetAll();
+            var sitters = _repository.GetAllSitters();
             return _mapper.Map<List<SitterModel>>(sitters);
         }
 
-        public void Add(SitterModel sitterModel)
+        public void AddSitter(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
-            _repository.Add(sitter);
+            _repository.AddSitter(sitter);
         }
 
-        public void Update(SitterModel sitterModel)
+        public void UpdateSitter(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
             try
             {
-                var entity = _repository.GetById(sitterModel.Id);
+                var entity = _repository.GetSitterById(sitterModel.Id);
 
             }
             catch (Exception)
@@ -54,14 +54,14 @@ namespace DogSitter.BLL.Services
 
                 throw new Exception("Ситтер не найден");
             }
-            _repository.Update(sitter);
+            _repository.UpdateSitter(sitter);
         }
 
-        public void DeleteById(int id)
+        public void DeleteSitterById(int id)
         {
             try
             {
-                var entity = _repository.GetById(id);
+                var entity = _repository.GetSitterById(id);
 
             }
             catch (Exception)
@@ -70,14 +70,14 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Ситтер не найден");
             }
             bool delete = true;
-            _repository.Update(id, delete);
+            _repository.UpdateSitter(id, delete);
         }
 
-        public void Restore(int id)
+        public void RestoreSitter(int id)
         {
             try
             {
-                var entity = _repository.GetById(id);
+                var entity = _repository.GetSitterById(id);
 
             }
             catch (Exception)
@@ -86,7 +86,7 @@ namespace DogSitter.BLL.Services
                 throw new Exception("Ситтер не найден");
             }
             bool Delete = false;
-            _repository.Update(id, Delete);
+            _repository.UpdateSitter(id, Delete);
         }
     }
 }
