@@ -139,5 +139,29 @@ namespace DogSitter.BLL.Tests
 
             Assert.Throws<EntityNotFoundException>(() => _service.DeleteService(new ServiceModel()));
         }
+        [Test]
+        public void RestoreServiceTest()
+        {
+            //given
+            _serviceRepositoryMock.Setup(m => m.RestoreService(It.IsAny<Serviñe>(), true));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Serviñe());
+
+            //when
+            _service.RestoreService(new ServiceModel());
+
+            //then
+            _serviceRepositoryMock.Verify(m => m.RestoreService(It.IsAny<Serviñe>(), false), Times.Once());
+
+        }
+
+        [Test]
+        public void RestoreServiceNegativeTest()
+        {
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>(), It.IsAny<bool>()));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Serviñe)null);
+
+            Assert.Throws<EntityNotFoundException>(() => _service.DeleteService(new ServiceModel()));
+        }
     }
+
 }

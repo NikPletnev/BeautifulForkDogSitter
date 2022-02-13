@@ -9,5 +9,6 @@ namespace DogSitter.BLL.Services
         ServiceModel GetServiceById(int id);
         void DeleteService(ServiceModel serviceModel);
         void UpdateService(ServiceModel serviceModel);
+        void RestoreService(ServiceModel serviceModel);
     }
 }

@@ -9,5 +9,6 @@ namespace DogSitter.DAL.Repositories
         Serviсe GetServiceById(int id);
         void UpdateService(Serviсe service, bool IsDeleted);
         void UpdateService(Serviсe service);
+        void RestoreService(Serviсe service, bool IsDeleted);
     }
 }

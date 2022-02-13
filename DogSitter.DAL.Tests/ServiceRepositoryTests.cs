@@ -114,18 +114,30 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.Sitters, actual.Sitters);
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void UpdateIsDeleteServiceTest(bool isDeleted)
+        [Test]
+        public void UpdateIsDeleteServiceTest()
         {
             //given
             var service = ServiceTestCaseSourse.GetService();
 
             //when
-            _serviceRepository.UpdateService(service, isDeleted);
+            _serviceRepository.UpdateService(service, true);
 
             //then
-            Assert.AreEqual(service.IsDeleted, isDeleted);
+            Assert.AreEqual(service.IsDeleted, true);
+        }
+
+        [Test]
+        public void RestoreServiceTest()
+        {
+            //given
+            var service = ServiceTestCaseSourse.GetService();
+
+            //when
+            _serviceRepository.RestoreService(service, false);
+
+            //then
+            Assert.AreEqual(service.IsDeleted, false);
         }
     }
 }

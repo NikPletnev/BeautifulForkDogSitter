@@ -36,5 +36,10 @@ namespace DogSitter.DAL.Repositories
             service.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
+        public void RestoreService(Serviсe service, bool IsDeleted)
+        {
+            service.IsDeleted = IsDeleted;
+            _context.SaveChanges();
+        }
     }
 }

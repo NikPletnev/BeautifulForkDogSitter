@@ -60,6 +60,16 @@ namespace DogSitter.BLL.Services
 
             _serviceRepository.UpdateService(service, true);
         }
+         
+        public void RestoreService(ServiceModel serviceModel)
+        {
+            var service = _mapper.Map<Serviсe>(serviceModel);
+
+            if (_serviceRepository.GetServiceById(service.Id) == null)
+                throw new EntityNotFoundException($"{service} не найден!");
+
+            _serviceRepository.RestoreService(service, false);
+        }
     }
 }
 
