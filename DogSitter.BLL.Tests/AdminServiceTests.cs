@@ -41,7 +41,7 @@ namespace DogSitter.BLL.Tests
         [TestCase(1)]
         [TestCase(33)]
         [TestCase(99)]
-        public void UpdateAdminTest_WhenAdminNotFound_ShouldServiceNotFoundExeption(int id)
+        public void UpdateAdminTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(int id)
         {
             //given
             AdminModel admin = new AdminModel()
@@ -60,7 +60,7 @@ namespace DogSitter.BLL.Tests
         [TestCase(1)]
         [TestCase(33)]
         [TestCase(99)]
-        public void UpdateAdminTest_WhenNotEnoughDataAboutAdmin_ShouldServiceNotEnoughDataExeption(int id)
+        public void UpdateAdminTest_WhenNotEnoughDataAboutAdmin_ShouldThrowServiceNotEnoughDataExeption(int id)
         {
             //given
             AdminModel admin = new AdminModel()
@@ -88,7 +88,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void AddAdminTest_WhenNotEnoughDataAboutAdmin_ShouldServiceNotEnoughDataExeption()
+        public void AddAdminTest_WhenNotEnoughDataAboutAdmin_ShouldThrowServiceNotEnoughDataExeption()
         {
             //given
             _adminRepositoryMock.Setup(x => x.AddAdmin(It.IsAny<Admin>()));
@@ -156,7 +156,7 @@ namespace DogSitter.BLL.Tests
         [TestCase(2)]
         [TestCase(100)]
         [TestCase(11)]
-        public void DeleteOrRestoreAdminTest_WhenAdminNotFound_ShouldServiceNotFoundExeption(int id)
+        public void DeleteOrRestoreAdminTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(int id)
         {
             //given
             Admin admin = new Admin()
@@ -201,7 +201,7 @@ namespace DogSitter.BLL.Tests
         [TestCase(2)]
         [TestCase(100)]
         [TestCase(11)]
-        public void GetAdminByIdTest_WhenAdminNotFound_ShouldServiceNotFoundExeption(int id)
+        public void GetAdminByIdTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(int id)
         {
             //given
             _adminRepositoryMock.Setup(x => x.GetAdminById(id));
