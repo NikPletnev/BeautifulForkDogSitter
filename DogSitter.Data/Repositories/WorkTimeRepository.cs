@@ -6,16 +6,16 @@ namespace DogSitter.DAL.Repositories
     {
         private readonly DogSitterContext _context;
 
-        public WorkTimeRepository()
+        public WorkTimeRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public List<WorkTime> GetAllWorkTimes() =>
-                    _context.WorkTimes.Where(w => !w.IsDeleted).ToList();
+            _context.WorkTimes.Where(w => !w.IsDeleted).ToList();
 
         public WorkTime GetWorkTimeById(int id) =>
-                     _context.WorkTimes.FirstOrDefault(w => w.Id == id);
+            _context.WorkTimes.FirstOrDefault(w => w.Id == id);
 
         public void AddWorkTime(WorkTime workTime)
         {
@@ -23,26 +23,17 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteWorkTime(int id)
-        {
-            var workTime = GetWorkTimeById(id);
-            _context.WorkTimes.Remove(workTime);
-            _context.SaveChanges();
-        }
-
         public void UpdateWorkTime(WorkTime workTime)
         {
-            var entity = GetWorkTimeById(workTime.Id);
             entity.Start = workTime.Start;
             entity.End = workTime.End;
             entity.Weekdays = workTime.Weekdays;
             _context.SaveChanges();
         }
 
-        public void UpdateWorkTime(int id, bool IsDeleted)
+        public void UpdateWorkTime(WorkTime workTime, bool IsDeleted)
         {
-            var entity = GetWorkTimeById(id);
-            entity.IsDeleted = IsDeleted;
+            workTime.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
     }

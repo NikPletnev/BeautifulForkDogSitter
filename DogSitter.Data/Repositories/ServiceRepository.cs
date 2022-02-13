@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -26,11 +27,7 @@ namespace DogSitter.DAL.Repositories
 
         public void UpdateService(Serviсe service)
         {
-            var entity = new Serviсe();
-            entity.Name = service.Name;
-            entity.Price = service.Price;
-            entity.Description = service.Description;
-            entity.DurationHours = service.DurationHours;
+            _context.Entry(service).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
