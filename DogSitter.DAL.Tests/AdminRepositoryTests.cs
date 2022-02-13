@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
@@ -118,8 +119,26 @@ namespace DogSitter.DAL.Tests
                 Assert.AreEqual(expected, actual);
             }
 
+            [TestCaseSource(typeof(AdminLoginTestCaseSource))]
+            public void LoginTest(List<Admin> admins, Contact contact, string pass, Admin expected)
+            {
+                //given
 
-
+                _context.Admins.AddRange(admins);
+                _context.SaveChanges();
+                _context.Contacts.FirstOrDefault(x => x.Id == 1).Admin = _context.Admins.FirstOrDefault(x => x.Id == 1);
+                _context.SaveChanges();
+                //List<Contact> contacts = new List<Contact>()
+                //{
+                //new Contact { Value = "12345678", ContactType = ContactType.phone, Admin = _context.Admins.FirstOrDefault(x => x.Id == 1) },
+                //new Contact { Value = "qwertyu@icloud.com", ContactType = ContactType.mail, Admin = _context.Admins.FirstOrDefault(x => x.Id == 2) }
+                //};
+                //_context.Contacts.AddRange(contacts);
+                //when
+                var actual = _rep.Login(contact, pass);
+                //then
+                Assert.AreEqual(expected, actual);
+            }
         }
     }
 }
