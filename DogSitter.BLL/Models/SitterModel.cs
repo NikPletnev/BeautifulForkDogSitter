@@ -2,7 +2,7 @@
 {
     public class SitterModel : UserModel
     {
-        public virtual AddressModel Address { get; set; }
+        public List <SubwayStationModel> SubwayStations { get; set; }
         public double Rating { get; set; }
         public string Information { get; set; }
         public List<OrderModel> Orders { get; set; }
