@@ -24,5 +24,20 @@ namespace DogSitter.DAL.Entity
         public virtual ICollection<Serviсe> Services { get; set; }
         public virtual ICollection<WorkTime> WorkTime { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Sitter sitter &&
+                   Id == sitter.Id &&
+                   Password == sitter.Password &&
+                   FirstName == sitter.FirstName &&
+                   LastName == sitter.LastName &&
+                   IsDeleted == sitter.IsDeleted &&
+                   PassportId == sitter.PassportId &&
+                   AddressId == sitter.AddressId &&
+                   Information == sitter.Information &&
+                   Rating == sitter.Rating;
+        }
+
     }
 }

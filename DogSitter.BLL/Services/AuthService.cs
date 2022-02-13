@@ -64,10 +64,11 @@ namespace DogSitter.BLL.Services
 
         }
 
-        public CustomerModel LoginCustomer(string contact, string pass)
+        public string LoginCustomer(string contact, string pass)
         {
-            var findedContact = _contactRepository.GetContactByValue(contact);
-            if (findedContact == null)
+            Contact findedContact = _contactRepository.GetContactByValue(contact);
+            CustomerModel customer;
+            if (findedContact != null)
             {
                 var findedCustomer = _customerRepository.Login(findedContact, pass);
                 if (findedCustomer == null)
@@ -76,30 +77,59 @@ namespace DogSitter.BLL.Services
                 }
                 else
                 {
-                    return _map.Map<CustomerModel>(findedCustomer);
+                    customer = _map.Map<CustomerModel>(findedCustomer);
                 }
             }
+            else
+            {
+                throw new ServiceNotFoundExeption("Contact not found");
+            }
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.Name, customer.FirstName ),
+                new Claim(ClaimTypes.UserData, customer.Id.ToString())
+            };
 
-            throw new ServiceNotFoundExeption("Contact not found");
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.Issuer,
+                    audience: AuthOptions.Audience,
+                    claims: claims,
+                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)), // время действия 2 минуты
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        public CustomerModel LoginSitter(string contact, string pass)
+        public string LoginSitter(string contact, string pass)
         {
-            var findedContact = _contactRepository.GetContactByValue(contact);
-            if (findedContact == null)
+            Contact findedContact = _contactRepository.GetContactByValue(contact);
+            SitterModel sitter;
+            if (findedContact != null)
             {
-                var findedSitter = _customerRepository.Login(findedContact, pass);
+                var findedSitter = _sitterRepository.Login(findedContact, pass);
                 if (findedSitter == null)
                 {
                     throw new ServiceNotFoundExeption("Sitter not found");
                 }
                 else
                 {
-                    return _map.Map<CustomerModel>(findedSitter);
+                    sitter = _map.Map<SitterModel>(findedSitter);
                 }
             }
+            else
+            {
+                throw new ServiceNotFoundExeption("Contact not found");
+            }
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.Name, sitter.FirstName ),
+                new Claim(ClaimTypes.UserData, sitter.Id.ToString())
+            };
 
-            throw new ServiceNotFoundExeption("Contact not found");
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.Issuer,
+                    audience: AuthOptions.Audience,
+                    claims: claims,
+                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)), // время действия 2 минуты
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
     }
