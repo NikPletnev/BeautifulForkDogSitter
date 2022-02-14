@@ -49,7 +49,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             //when
-            _rep.EditOrderStatusByOrderId(id, status);
+            _rep.EditOrderStatusByOrderId(order, status);
             var actual = _context.Orders.FirstOrDefault(x => x.Id == id);
 
             //then

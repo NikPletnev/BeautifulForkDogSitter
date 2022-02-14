@@ -29,7 +29,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _rep.EditOrderStatusByOrderId(id, status);
+            _rep.EditOrderStatusByOrderId(order, status);
         }
     }
 }

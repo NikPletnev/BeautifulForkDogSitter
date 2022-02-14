@@ -43,9 +43,8 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void EditOrderStatusByOrderId(int id, int status)
+        public void EditOrderStatusByOrderId(Order order, int status)
         {
-            Order order = _context.Orders.FirstOrDefault(x =>x.Id == id);
             order.Status = (Status)status;
             _context.SaveChanges();
         }

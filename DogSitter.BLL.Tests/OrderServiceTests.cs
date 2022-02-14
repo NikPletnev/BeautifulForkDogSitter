@@ -43,12 +43,12 @@ namespace DogSitter.BLL.Tests
                 IsDeleted = false
             };
             _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(order);
-            _orderRepositoryMock.Setup(x => x.EditOrderStatusByOrderId(id, status));
+            _orderRepositoryMock.Setup(x => x.EditOrderStatusByOrderId(order, status));
             //when
             _service.EditOrderStatusByOrderId(id, status);
             //then
             _orderRepositoryMock.Verify(x => x.GetById(id));
-            _orderRepositoryMock.Verify(x => x.EditOrderStatusByOrderId(id, status), Times.Once);
+            _orderRepositoryMock.Verify(x => x.EditOrderStatusByOrderId(order, status), Times.Once);
 
         }
 
