@@ -59,7 +59,7 @@ namespace DogSitter.BLL.Tests
             _orderRepositoryMock.Setup(x => x.GetById(id));
             //when
             //then
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.EditOrderStatusByOrderId(id, status));
+            Assert.Throws<EntityNotFoundException>(() => _service.EditOrderStatusByOrderId(id, status));
         }
     }
 }

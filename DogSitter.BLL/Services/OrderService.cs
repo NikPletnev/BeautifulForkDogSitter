@@ -27,7 +27,7 @@ namespace DogSitter.BLL.Services
             var order = _rep.GetById(id);
             if (order == null)
             {
-                throw new ServiceNotFoundExeption($"Order {id} was not found");
+                throw new EntityNotFoundException($"Order {id} was not found");
             }
             _rep.EditOrderStatusByOrderId(id, status);
         }
