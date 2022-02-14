@@ -30,7 +30,7 @@ namespace DogSitter.DAL.Repositories
             entity.FirstName = sitter.FirstName;
             entity.LastName = sitter.LastName;
             entity.Contacts = sitter.Contacts;
-            entity.Address = sitter.Address;
+            entity.SubwayStations = sitter.SubwayStations;
             entity.Information = sitter.Information;
             entity.Services = sitter.Services;
             _context.SaveChanges();
