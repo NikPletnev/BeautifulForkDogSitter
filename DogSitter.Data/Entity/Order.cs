@@ -20,7 +20,7 @@ namespace DogSitter.DAL.Entity
         public virtual Sitter Sitter { get; set; }
         public int? CommentId { get; set; }
         public virtual Comment Comment { get; set; }
-        public virtual Dog Dogs { get; set; }
+        public virtual Dog Dog { get; set; }
         public virtual ICollection<Serviсe> Service { get; set; }
 
     }
