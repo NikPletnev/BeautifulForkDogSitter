@@ -8,6 +8,6 @@ namespace DogSitter.DAL.Entity
         [Required]
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual ICollection<Address> Adress { get; set; }
+        public virtual ICollection<Sitter> Sitters { get; set; }
     }
 }

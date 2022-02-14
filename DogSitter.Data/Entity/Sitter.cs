@@ -24,6 +24,6 @@ namespace DogSitter.DAL.Entity
         public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual Passport Passport { get; set; }
-        public virtual ICollection<SubwayStation> SubwayStations { get; set; }
+        public virtual SubwayStation SubwayStation { get; set; }
     }
 }
