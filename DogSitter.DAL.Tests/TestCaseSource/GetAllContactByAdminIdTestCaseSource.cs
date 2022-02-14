@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
-    public class GetAllContactByAdminIdTestCaseSource : IEnumerable
+    public class GetAllContactsByAdminIdTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {

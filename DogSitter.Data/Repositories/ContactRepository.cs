@@ -41,13 +41,13 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public List<Contact> GetAllContactByAdminId(int id)       
+        public List<Contact> GetAllContactsByAdminId(int id)       
            => _context.Admins.FirstOrDefault(x => x.Id == id).Contacts.Where(c => !c.IsDeleted).ToList();
 
-        public List<Contact> GetAllContactBySitterId(int id)
+        public List<Contact> GetAllContactsBySitterId(int id)
            => _context.Sitters.FirstOrDefault(x => x.Id == id).Contacts.Where(c => !c.IsDeleted).ToList();
 
-        public List<Contact> GetAllContactByCustomerId(int id)
+        public List<Contact> GetAllContactsByCustomerId(int id)
            => _context.Customers.FirstOrDefault(x => x.Id == id).Contacts.Where(c => !c.IsDeleted).ToList();
 
     }

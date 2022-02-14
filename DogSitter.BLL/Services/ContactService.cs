@@ -95,34 +95,34 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<ContactModel>>(_rep.GetAllContacts());
         }
 
-        public List<ContactModel> GetAllContactByAdminId(int id)
+        public List<ContactModel> GetAllContactsByAdminId(int id)
         {
             var admin =  _adminRepository.GetAdminById(id);
             if(admin == null)
             {
                 throw new ServiceNotFoundExeption($"Admin {id} not found");
             }
-            return _mapper.Map<List<ContactModel>>(_rep.GetAllContactByAdminId(id));
+            return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsByAdminId(id));
         }
 
-        public List<ContactModel> GetAllContactByCustomerId(int id)
+        public List<ContactModel> GetAllContactsByCustomerId(int id)
         {
             var customer = _customerRepository.GetCustomerById(id);
             if (customer == null)
             {
                 throw new ServiceNotFoundExeption($"Customer {id} not found");
             }
-            return _mapper.Map<List<ContactModel>>(_rep.GetAllContactByCustomerId(id));
+            return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsByCustomerId(id));
         }
 
-        public List<ContactModel> GetAllContactBySitterId(int id)
+        public List<ContactModel> GetAllContactsBySitterId(int id)
         {
             var sitter = _sitterRepository.GetById(id);
             if (sitter == null)
             {
                 throw new ServiceNotFoundExeption($"Sitter {id} not found");
             }
-            return _mapper.Map<List<ContactModel>>(_rep.GetAllContactBySitterId(id));
+            return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsBySitterId(id));
         }
 
     }
