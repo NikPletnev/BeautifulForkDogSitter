@@ -61,7 +61,7 @@ namespace DogSitter.BLL.Services
             if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
                 throw new ServiceNotFoundExeption($"{workTime} не найдено!");
 
-            _workTimeRepository.UpdateWorkTime(workTime, false);
+            _workTimeRepository.RestoreWorkTime(workTime, false);
         }
     }
 }

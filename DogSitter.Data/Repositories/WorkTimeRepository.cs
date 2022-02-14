@@ -2,13 +2,15 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class WorkTimeRepository
+    public class WorkTimeRepository : IWorkTimeRepository
     {
         private readonly DogSitterContext _context;
+        private bool _isInitialized;
 
-        public WorkTimeRepository()
+        public WorkTimeRepository(DogSitterContext dbContext)
         {
-            _context = DogSitterContext.GetInstance();
+            _isInitialized = true;
+            _context = dbContext;
         }
 
         public WorkTime GetWorkTimeById(int id) =>
@@ -38,10 +40,9 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateWorkTime(int id, bool IsDeleted)
+        public void UpdateWorkTime(WorkTime workTime, bool IsDeleted)
         {
-            var entity = GetWorkTimeById(id);
-            entity.IsDeleted = IsDeleted;
+            workTime.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
         public void RestoreWorkTime(WorkTime workTime, bool IsDeleted)

@@ -76,27 +76,28 @@ namespace DogSitter.DAL.Tests
             var expected = new WorkTime()
             {
                 Id = workTime.Id,
-                Start = DateTime.UtcNow,
-                End = DateTime.UtcNow,
+                Start = DateTime.Now,
+                End = DateTime.Now,
                 Weekday = Weekday.Thursday,
                 Sitter = new List<Sitter>(),
                 IsDeleted = workTime.IsDeleted
             };
 
             //when
-            _workTimeRepository.UpdateWorkTime(workTime);
+            _workTimeRepository.UpdateWorkTime(expected);
 
             var actual = _context.WorkTimes.FirstOrDefault(a => a.Id == workTime.Id);
 
             //then
             Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreNotEqual(expected.Start, actual.Start);
-            Assert.AreNotEqual(expected.End, actual.End);
-            Assert.AreNotEqual(expected.Weekday, actual.Weekday);
+            Assert.AreEqual(expected.Start, actual.Start);
+            Assert.AreEqual(expected.End, actual.End);
+            Assert.AreEqual(expected.Weekday, actual.Weekday);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Sitter, actual.Sitter);
         }
 
+        [Test]
         public void UpdateIsDeleteWorkTimeTest()
         {
             //given
@@ -109,6 +110,7 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(workTime.IsDeleted, true);
         }
 
+        [Test]
         public void RestoreWorkTimeTest()
         {
             //given

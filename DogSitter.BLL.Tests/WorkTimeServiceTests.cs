@@ -100,22 +100,22 @@ namespace DogSitter.BLL.Tests
         public void DeleteWorkTimeTest()
         {
             //given
-            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>()));
+            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), true));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(new WorkTime());
 
             //when
             _service.DeleteWorkTime(new WorkTimeModel()); 
 
             //then
-            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(It.IsAny<WorkTime>()), Times.Never());
+            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), true), Times.Once());
             _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(
-                It.IsAny<WorkTime>(), It.IsAny<bool>()), Times.Once());
+                It.IsAny<WorkTime>()), Times.Never());
         }
 
         [Test]
         public void DeleteWorkTimeNegativeTest()
         {
-            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>()));
+            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), true));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
 
             Assert.Throws<ServiceNotFoundExeption>(() => _service.DeleteWorkTime(new WorkTimeModel()));
@@ -129,12 +129,10 @@ namespace DogSitter.BLL.Tests
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(new WorkTime());
 
             //when
-            _service.DeleteWorkTime(new WorkTimeModel());
+            _service.RestoreWorkTime(new WorkTimeModel());
 
             //then
-            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(It.IsAny<WorkTime>()), Times.Never());
-            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(
-                It.IsAny<WorkTime>(), It.IsAny<bool>()), Times.Once());
+            _workTimeRepositoryMock.Verify(m => m.RestoreWorkTime(It.IsAny<WorkTime>(), false), Times.Once());
         }
 
         [Test]
@@ -143,7 +141,7 @@ namespace DogSitter.BLL.Tests
             _workTimeRepositoryMock.Setup(m => m.RestoreWorkTime(It.IsAny<WorkTime>(), false));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
 
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.DeleteWorkTime(new WorkTimeModel()));
+            Assert.Throws<ServiceNotFoundExeption>(() => _service.RestoreWorkTime(new WorkTimeModel()));
         }
     }
 }
