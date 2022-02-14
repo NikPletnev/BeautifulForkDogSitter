@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -47,6 +48,10 @@ namespace DogSitter.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Order>()
+            .Property(a => a.Status)
+            .HasDefaultValue((Status)1);
+
             #region Default IsDeleted = 0
 
 

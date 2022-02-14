@@ -16,14 +16,21 @@ namespace DogSitter.BLL.Tests
     public class ContactServiceTests
     {
         private readonly Mock<IContactRepository> _contactRepositoryMock;
+        private readonly Mock<ICustomerRepository> _customerRepMock;
+        private readonly Mock<IAdminRepository> _adminRepMock;
+        private readonly Mock<ISitterRepository> _sitterRepMock;
         private readonly IMapper _mapper;
         private readonly ContactService _service;
 
         public ContactServiceTests()
         {
             _contactRepositoryMock = new Mock<IContactRepository>();
+            _customerRepMock = new Mock<ICustomerRepository>();
+            _adminRepMock = new Mock<IAdminRepository>();
+            _sitterRepMock = new Mock<ISitterRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
-            _service = new ContactService(_contactRepositoryMock.Object, _mapper);
+            _service = new ContactService(_contactRepositoryMock.Object, _mapper, 
+                _customerRepMock.Object, _adminRepMock.Object, _sitterRepMock.Object);
         }
 
         [TestCaseSource(typeof(UpdateContactTestCaseSource))]
