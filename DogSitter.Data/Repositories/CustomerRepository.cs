@@ -50,6 +50,5 @@ namespace DogSitter.DAL.Repositories
             customer.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
-
     }
 }

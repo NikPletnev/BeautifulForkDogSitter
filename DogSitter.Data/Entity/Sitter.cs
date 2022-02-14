@@ -17,12 +17,13 @@ namespace DogSitter.DAL.Entity
         public int AddressId { get; set; }
         public string Information { get; set; }
         public double Rating { get; set; }
-        public virtual ICollection<Contact> Contacts { get; set; }
-        public virtual Passport Passport { get; set; }
-        public virtual Address Address { get; set; }
+        public bool Verified { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Serviсe> Services { get; set; }
         public virtual ICollection<WorkTime> WorkTime { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
+        public virtual ICollection<Contact> Contacts { get; set; }
+        public virtual Passport Passport { get; set; }
+        public virtual ICollection<SubwayStation> SubwayStations { get; set; }
     }
 }

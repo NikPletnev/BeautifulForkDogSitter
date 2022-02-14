@@ -47,8 +47,11 @@ namespace DogSitter.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            #region Default IsDeleted = 0
+            modelBuilder.Entity<Sitter>()
+            .Property(w => w.Verified)
+            .HasDefaultValue(0);
 
+            #region Default IsDeleted = 0
 
             modelBuilder.Entity<Address>()
             .Property(a => a.IsDeleted)
