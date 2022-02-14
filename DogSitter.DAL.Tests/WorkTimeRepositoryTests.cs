@@ -33,21 +33,6 @@ namespace DogSitter.DAL.Tests
 
             _context.SaveChanges();
         }
-
-        [Test]
-        public void GetAllWorkTimesTest()
-        {
-            // given
-            var expected = _context.WorkTimes.Where(e => !e.IsDeleted);
-
-            // when
-            var actual = _workTimeRepository.GetAllWorkTimes();
-
-            // then
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(expected.Where(e => e.IsDeleted), actual.Where(a => a.IsDeleted));
-        }
-
         [TestCase(1)]
         [TestCase(2)]
         public void GetWorkTimeByIdTest(int id)
