@@ -35,6 +35,8 @@ builder.Services.AddDbContext<DogSitterContext>(
         Pooling=False; MultipleActiveResultSets=False; 
         Connect Timeout = 60; Encrypt=False; TrustServerCertificate=False"));
 
+builder.Services.AddScoped<IServiceService, ServiceService>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 
