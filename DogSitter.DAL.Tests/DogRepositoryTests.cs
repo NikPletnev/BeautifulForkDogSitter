@@ -28,18 +28,13 @@ namespace DogSitter.DAL.Tests
             _rep = new DogRepository(_context);
         }
 
-        [TestCaseSource(typeof(DogTestCaseSource))]
-        public void GetAllDogsTest(List<Dog> dogs)
+        [TestCaseSource(typeof(DogListTestCaseSource))]
+        public void GetAllDogsTestMustReturnAllDogs(List<Dog> dogs, List<Dog> expected)
         {
             //given
             _context.Dogs.AddRange(dogs);
             _context.SaveChanges();
 
-            var expected = new List<Dog>() 
-            {
-                new Dog { Id = 1, Name = "TestDog1", Age = 1, Weight = 1, Description = "TestDescription", Breed = "TestBreed", IsDeleted = false},
-                new Dog { Id = 2, Name = "TestDog2", Age = 2, Weight = 2, Description = "TestDescription2", Breed = "TestBreed2", IsDeleted = false}
-            };
 
             //when
             var actual = _rep.GetAllDogs();
@@ -48,14 +43,12 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCaseSource(typeof(DogTestCaseSource))]
-        public void GetDogByIdTest(List<Dog> dogs)
+        [TestCaseSource(typeof(DogListWithNewDogTestCaseSource))]
+        public void GetDogByIdTestMustReturnExpectedDog(List<Dog> dogs, Dog newDog, Dog expected)
         {
             //given
             _context.Dogs.AddRange(dogs);
             _context.SaveChanges();
-
-            var expected = new Dog { Id = 2, Name = "TestDog2", Age = 2, Weight = 2, Description = "TestDescription2", Breed = "TestBreed2", IsDeleted = false };
 
             //when
             var actual = _rep.GetDogById(2);
@@ -64,31 +57,28 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void AddDogTest()
+        [TestCaseSource(typeof(DogListWithNewDogTestCaseSource))]
+        public void AddDogTestMustAddExpectedDog(List<Dog> dogs, Dog newDog, Dog expected)
         {
             //given
-            var dog = new Dog { Id = 2, Name = "TestDog2", Age = 2, Weight = 2, Description = "TestDescription2", Breed = "TestBreed2"};
-            var expected = new Dog { Id = 2, Name = "TestDog2", Age = 2, Weight = 2, Description = "TestDescription2", Breed = "TestBreed2", IsDeleted = false };
-
+            
             //when
-            _rep.AddDog(dog);
+            _rep.AddDog(newDog);
 
-            var actual = _context.Dogs.FirstOrDefault(z => z.Id == expected.Id);
+            var actual = _context.Dogs.FirstOrDefault(z => z.Id == newDog.Id);
 
             //then
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCaseSource(typeof(DogTestCaseSource))]
-        public void DeleteDogTest(List<Dog> dogs)
+        [TestCaseSource(typeof(DogListWithNewDogTestCaseSource))]
+        public void DeleteDogTestMustChangeIsDeletedProp(List<Dog> dogs, Dog newDog, Dog expected)
         {
             //given
             _context.Dogs.AddRange(dogs);
             _context.SaveChanges();
-
-            var expected = new Dog { Id = 2, Name = "TestDog2", Age = 2, Weight = 2, Description = "TestDescription2", Breed = "TestBreed2", IsDeleted = true };
-
+            expected.IsDeleted = true;
+            
             //when
             _rep.UpdateDog(2, true);
             var actual = _context.Dogs.FirstOrDefault(z => z.Id == 2);
@@ -97,24 +87,27 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCaseSource(typeof(DogTestCaseSource))]
-        public void UpdateDogsTest(List<Dog> dogs)
+        [TestCaseSource(typeof(DogListWithNewDogTestCaseSource))]
+        public void UpdateDogsTestMustBeEqualExpectedExceptIsDelededProp(List<Dog> dogs, Dog newDog, Dog expected)
         {
             //given
             _context.Dogs.AddRange(dogs);
             _context.SaveChanges();
-
-            var newDog = new Dog { Id = 2, Name = "TestDog2", Age = 2, Weight = 2, Description = "TestDescription2", Breed = "TestBreed2"};
-
-            var expected = new Dog { Id = 2, Name = "TestDog2", Age = 2, Weight = 2, Description = "TestDescription2", Breed = "TestBreed2", IsDeleted = false };
-
+            expected.IsDeleted = true;
             //when
             _rep.UpdateDog(newDog);
 
             var actual = _context.Dogs.FirstOrDefault(z => z.Id == 2);
 
             //then
-            Assert.AreEqual(expected, actual);
+            
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.Age, actual.Age);
+            Assert.AreEqual(expected.Weight, actual.Weight);
+            Assert.AreEqual(expected.Description, actual.Description);
+            Assert.AreEqual(expected.Breed, actual.Breed);
+            Assert.AreNotEqual(expected.IsDeleted, actual.IsDeleted);
         }
     }
 }
+
