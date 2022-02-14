@@ -97,7 +97,7 @@ namespace DogSitter.BLL.Services
             var entity = _repository.GetById(id);
             if (entity == null)
             {
-                throw new ServiceNotFoundExeption($"Sitter {id} was not found");
+                throw new EntityNotFoundException($"Sitter {id} was not found");
             }
             if (!entity.IsDeleted)
             {
@@ -110,7 +110,7 @@ namespace DogSitter.BLL.Services
             var entity = _repository.GetById(id);
             if (entity == null)
             {
-                throw new ServiceNotFoundExeption($"Sitter {id} was not found");
+                throw new EntityNotFoundException($"Sitter {id} was not found");
             }
             _repository.EditProfileStateBySitterId(id, false);
         }

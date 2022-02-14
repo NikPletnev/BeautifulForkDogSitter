@@ -40,13 +40,13 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCase(22)]
-        public void GetDogsByCustomerIdTest_WhenCustomerNotFound_ShouldThrowServiceNotFoundExeption(int id)
+        public void GetDogsByCustomerIdTest_WhenCustomerNotFound_ShouldThrowEntityNotFoundException(int id)
         {
             //given
             _customerRepository.Setup(x => x.GetCustomerById(id)).Verifiable();
             //when
             //then
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.GetDogsByCustomerId(id));
+            Assert.Throws<EntityNotFoundException>(() => _service.GetDogsByCustomerId(id));
             _customerRepository.Verify(x => x.GetCustomerById(id), Times.Once);
             _dogRepositoryMock.Verify(x => x.GetAllDogsByCustomerId(id), Times.Never);
         }

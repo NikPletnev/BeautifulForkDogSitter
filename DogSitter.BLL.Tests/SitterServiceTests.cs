@@ -42,13 +42,13 @@ namespace DogSitter.BLL.Tests
                 Verified = false
             };
             _sitterRepositoryMock.Setup(s => s.GetById(id)).Returns(sitter).Verifiable();
-            _sitterRepositoryMock.Setup(x => x.EditStateProfileSitterById(id, true)).Verifiable();
+            _sitterRepositoryMock.Setup(x => x.EditProfileStateBySitterId(id, true)).Verifiable();
 
             //when
             _service.ConfirmProfileSitterById(id);
 
             //then
-            _sitterRepositoryMock.Verify(x => x.EditStateProfileSitterById(id, true), Times.Once);
+            _sitterRepositoryMock.Verify(x => x.EditProfileStateBySitterId(id, true), Times.Once);
             _sitterRepositoryMock.Verify(x => x.GetById(id), Times.Once);
         }
 
@@ -57,14 +57,14 @@ namespace DogSitter.BLL.Tests
         {
             //given           
             _sitterRepositoryMock.Setup(s => s.GetById(id)).Verifiable();
-            _sitterRepositoryMock.Setup(x => x.EditStateProfileSitterById(id, It.IsAny<bool>())).Verifiable();
+            _sitterRepositoryMock.Setup(x => x.EditProfileStateBySitterId(id, It.IsAny<bool>())).Verifiable();
 
             //when
 
             //then
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.ConfirmProfileSitterById(id));
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.BlockProfileSitterById(id));
-            _sitterRepositoryMock.Verify(x => x.EditStateProfileSitterById(id, It.IsAny<bool>()), Times.Never);
+            Assert.Throws<EntityNotFoundException>(() => _service.ConfirmProfileSitterById(id));
+            Assert.Throws<EntityNotFoundException>(() => _service.BlockProfileSitterById(id));
+            _sitterRepositoryMock.Verify(x => x.EditProfileStateBySitterId(id, It.IsAny<bool>()), Times.Never);
         }
 
         [TestCase(2)]
@@ -82,13 +82,13 @@ namespace DogSitter.BLL.Tests
                 Verified = true
             };
             _sitterRepositoryMock.Setup(s => s.GetById(id)).Returns(sitter).Verifiable();
-            _sitterRepositoryMock.Setup(x => x.EditStateProfileSitterById(id, false)).Verifiable();
+            _sitterRepositoryMock.Setup(x => x.EditProfileStateBySitterId(id, false)).Verifiable();
 
             //when
             _service.BlockProfileSitterById(id);
 
             //then
-            _sitterRepositoryMock.Verify(x => x.EditStateProfileSitterById(id, false), Times.Once);
+            _sitterRepositoryMock.Verify(x => x.EditProfileStateBySitterId(id, false), Times.Once);
             _sitterRepositoryMock.Verify(x => x.GetById(id), Times.Once);
         }
     }

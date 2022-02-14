@@ -40,7 +40,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCase(99)]
-        public void UpdateAdminTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(int id)
+        public void UpdateAdminTest_WhenAdminNotFound_ShouldThrowEntityNotFoundException(int id)
         {
             //given
             AdminModel admin = new AdminModel()
@@ -54,7 +54,7 @@ namespace DogSitter.BLL.Tests
             _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(It.IsAny<Admin>());
             //when
             //then
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.UpdateAdmin(id, admin));
+            Assert.Throws<EntityNotFoundException>(() => _service.UpdateAdmin(id, admin));
 
         }
 
@@ -152,7 +152,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCase(11)]
-        public void DeleteOrRestoreAdminTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(int id)
+        public void DeleteOrRestoreAdminTest_WhenAdminNotFound_ShouldThrowEntityNotFoundException(int id)
         {
             //given
             Admin admin = new Admin()
@@ -171,8 +171,8 @@ namespace DogSitter.BLL.Tests
             //when
 
             //then
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.DeleteAdmin(id));
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.RestoreAdmin(id));
+            Assert.Throws<EntityNotFoundException>(() => _service.DeleteAdmin(id));
+            Assert.Throws<EntityNotFoundException>(() => _service.RestoreAdmin(id));
             _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin.Id, It.IsAny<bool>()), Times.Never);
             _adminRepositoryMock.Verify(x => x.GetAdminById(admin.Id));
         }
@@ -197,13 +197,13 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCase(11)]
-        public void GetAdminByIdTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(int id)
+        public void GetAdminByIdTest_WhenAdminNotFound_ShouldThrowEntityNotFoundException(int id)
         {
             //given
             _adminRepositoryMock.Setup(x => x.GetAdminById(id));
             //when
             //then
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.GetAdminById(id));
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAdminById(id));
         }
 
         [TestCaseSource(typeof(GetAllAdminsTestCaseSource))]

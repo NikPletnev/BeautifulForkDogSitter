@@ -32,7 +32,7 @@ namespace DogSitter.BLL.Services
 
             if (admin == null)
             {
-                throw new ServiceNotFoundExeption($"Admin {id} was not found");
+                throw new EntityNotFoundException($"Admin {id} was not found");
             }
 
             _rep.UpdateAdmin(entity);
@@ -43,7 +43,7 @@ namespace DogSitter.BLL.Services
             var admin = _rep.GetAdminById(id);
             if (admin == null)
             {
-                throw new ServiceNotFoundExeption($"Admin {id} was not found");
+                throw new EntityNotFoundException($"Admin {id} was not found");
             }
 
             _rep.UpdateAdmin(id, true);
@@ -54,7 +54,7 @@ namespace DogSitter.BLL.Services
             var admin = _rep.GetAdminById(id);
             if (admin == null)
             {
-                throw new ServiceNotFoundExeption($"Admin {id} was not found");
+                throw new EntityNotFoundException($"Admin {id} was not found");
             }
 
             _rep.UpdateAdmin(id, false);
@@ -79,7 +79,7 @@ namespace DogSitter.BLL.Services
 
             if (admin == null)
             {
-                throw new ServiceNotFoundExeption($"Admin {id} was not found");
+                throw new EntityNotFoundException($"Admin {id} was not found");
             }
 
             return _map.Map<AdminModel>(admin);
@@ -101,7 +101,7 @@ namespace DogSitter.BLL.Services
 
             if (admin == null)
             {
-                throw new ServiceNotFoundExeption($"Admin {id} was not found");
+                throw new EntityNotFoundException($"Admin {id} was not found");
             }
 
             return _map.Map<AdminModel>(admin);

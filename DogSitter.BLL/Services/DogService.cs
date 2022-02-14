@@ -79,7 +79,7 @@ namespace DogSitter.BLL.Services
             var customer = _customerRepository.GetCustomerById(id);
             if (customer == null)
             {
-                throw new ServiceNotFoundExeption($"Customer {id} was not found");
+                throw new EntityNotFoundException($"Customer {id} was not found");
             }
 
             return _mapper.Map<List<DogModel>>(_rep.GetAllDogsByCustomerId(id));

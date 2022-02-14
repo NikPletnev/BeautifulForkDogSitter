@@ -38,7 +38,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             //when
-            _rep.EditStateProfileSitterById(id, verify);
+            _rep.EditProfileStateBySitterId(id, verify);
             var actual = _context.Sitters.FirstOrDefault(x => x.Id == id).Verified;
 
             //then
