@@ -10,20 +10,12 @@ using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
-    public class LoginCustomerTestCaseSource : IEnumerable
+    public class LoginUserTestCaseSourse : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            var customer = new Customer()
-            {
-                FirstName = "Иван",
-                LastName = "Иванов",
-                Password = "123456",
-                Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.phone } },
-                IsDeleted = false
-            };
 
-            var expected = new CustomerModel()
+            var admin = new AdminModel()
             {
                 FirstName = "Иван",
                 LastName = "Иванов",
@@ -32,11 +24,29 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 IsDeleted = false
             };
 
-            Contact contact = new Contact() { Id = 1, Value = "12345678", ContactType = ContactType.phone };
+            var customer = new CustomerModel()
+            {
+                FirstName = "Иван",
+                LastName = "Иванов",
+                Password = "123456",
+                Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.phone } },
+                IsDeleted = false
+            };
 
-            string password = "123456";
+            var sitter = new SitterModel()
+            {
+                FirstName = "Иван",
+                LastName = "Иванов",
+                Password = "123456",
+                Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.phone } },
+                IsDeleted = false
+            };
 
-            yield return new object[] { customer, expected, contact, password };
+            
+            yield return new object[] { admin };
+            yield return new object[] { customer };
+            yield return new object[] { sitter };
+
         }
     }
 }

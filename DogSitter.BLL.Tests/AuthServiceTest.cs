@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
@@ -36,52 +37,67 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
-        public void LoginAdminTestMustValidateToken(Admin admin, Contact contact, string password)
+        public void GetAdminForLoginTestMustReturnAdmin(Admin admin, AdminModel expected, Contact contact, string password)
         {
             //given
             _adminRepositoryMock.Setup(a => a.Login(contact, password)).Returns(admin);
             _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
             
             //when
-            var token = _service.LoginUser(_service.GetAdminForLogin(contact.Value, password));
+            var result = _service.GetAdminForLogin(contact.Value, password);
 
             //then
-            Assert.IsNotNull(token);
-            Assert.IsTrue(ValidateToken(token));
+           
+            Assert.AreEqual(expected, result);
         }
 
         [TestCaseSource(typeof(LoginCustomerTestCaseSource))]
-        public void LoginCustomerTestMustValidateToken(Customer customer, Contact contact, string password)
+        public void GetCustomerForLoginTestMustReturnCustomer(Customer customer, CustomerModel expected, Contact contact, string password)
         {
             //given
             _customerRepositoryMock.Setup(a => a.Login(contact, password)).Returns(customer);
             _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
 
             //when
-            var token = _service.LoginUser(_service.GetCustomerForLogin( contact.Value, password));
+            var result = _service.GetCustomerForLogin(contact.Value, password);
 
             //then
-            Assert.IsNotNull(token);
-            Assert.IsTrue(ValidateToken(token));
+            
+            Assert.AreEqual(expected, result);
         }
 
         [TestCaseSource(typeof(LoginSitterTestCaseSource))]
-        public void LoginSitterTestMustValidateToken(Sitter sitter, Contact contact, string password)
+        public void GetSitterForLoginTestMustReturnSitter(Sitter sitter, SitterModel expected, Contact contact, string password)
         {
             //given
             _sitterRepositoryMock.Setup(a => a.Login(contact, password)).Returns(sitter);
             _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
 
             //when
-            var token = _service.LoginUser(_service.GetSitterForLogin(contact.Value, password));
+            var result = _service.GetSitterForLogin(contact.Value, password);
 
             //then
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestCaseSource(typeof(LoginUserTestCaseSourse))]
+        public void LoginUserTest_MustValidateToken(UserModel user)
+        {
+            //given 
+
+            //when 
+            var token = _service.LoginUser(user);
+
+            //then
+
             Assert.IsNotNull(token);
             Assert.IsTrue(ValidateToken(token));
         }
 
+
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
-        public void LoginAdminTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(Admin admin, Contact contact, string password)
+        public void LoginAdminTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(Admin admin, AdminModel expected, Contact contact, string password)
         {
             //given
             Admin nullAdmin = null;
@@ -94,14 +110,14 @@ namespace DogSitter.BLL.Tests
 
             //then
             ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() => 
-            _service.LoginUser(_service.GetAdminForLogin( contact.Value, password)));
+            _service.GetAdminForLogin( contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
 
         }
 
 
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
-        public void LoginAdminTest_WhenContactNotFound_ShouldThrowServiceNotFoundExeption(Admin admin, Contact contact, string password)
+        public void LoginAdminTest_WhenContactNotFound_ShouldThrowServiceNotFoundExeption(Admin admin, AdminModel expected, Contact contact, string password)
         {
             //given
             Contact nullContact = null;
@@ -113,12 +129,13 @@ namespace DogSitter.BLL.Tests
 
 
             //then
-            ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() => _service.LoginUser(_service.GetAdminForLogin( contact.Value, password)));
+            ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() =>
+            _service.GetAdminForLogin( contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
         [TestCaseSource(typeof(LoginCustomerTestCaseSource))]
-        public void LoginCustomerTestServiceNotFoundExeptionCustomerNotFound(Customer customer, Contact contact, string password)
+        public void LoginCustomerTestServiceNotFoundExeptionCustomerNotFound(Customer customer, CustomerModel expected, Contact contact, string password)
         {
             //given
             Customer nullCustomer = null;
@@ -131,14 +148,14 @@ namespace DogSitter.BLL.Tests
 
             //then
             ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() => 
-            _service.LoginUser(_service.GetCustomerForLogin( contact.Value, password)));
+            _service.GetCustomerForLogin( contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
 
         }
 
 
         [TestCaseSource(typeof(LoginCustomerTestCaseSource))]
-        public void LoginCustomerTestServiceNotFoundExeptionContactNotFound(Customer customer, Contact contact, string password)
+        public void LoginCustomerTestServiceNotFoundExeptionContactNotFound(Customer customer, CustomerModel expected, Contact contact, string password)
         {
             //given
             Contact nullContact = null;
@@ -150,13 +167,13 @@ namespace DogSitter.BLL.Tests
 
 
             //then
-            ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(()
-                => _service.LoginUser(_service.GetCustomerForLogin( contact.Value, password)));
+            ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(()=>
+            _service.GetCustomerForLogin( contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
         [TestCaseSource(typeof(LoginSitterTestCaseSource))]
-        public void LoginSitterTestServiceNotFoundExeptionSitterNotFound(Sitter sitter, Contact contact, string password)
+        public void LoginSitterTestServiceNotFoundExeptionSitterNotFound(Sitter sitter, SitterModel expected, Contact contact, string password)
         {
             //given
             Sitter nullSitter = null;
@@ -169,14 +186,14 @@ namespace DogSitter.BLL.Tests
 
             //then
             ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() =>
-            _service.LoginUser(_service.GetSitterForLogin( contact.Value, password)));
+            _service.GetSitterForLogin( contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
 
         }
 
 
         [TestCaseSource(typeof(LoginSitterTestCaseSource))]
-        public void LoginSitterTestServiceNotFoundExeptionContactNotFound(Sitter sitter, Contact contact, string password)
+        public void LoginSitterTestServiceNotFoundExeptionContactNotFound(Sitter sitter, SitterModel expected, Contact contact, string password)
         {
             //given
             Contact nullContact = null;
@@ -188,8 +205,8 @@ namespace DogSitter.BLL.Tests
 
 
             //then
-            ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() 
-                => _service.LoginUser(_service.GetSitterForLogin( contact.Value, password)));
+            ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() => 
+            _service.GetSitterForLogin( contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
