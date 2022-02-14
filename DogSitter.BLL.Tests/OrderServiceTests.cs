@@ -2,6 +2,9 @@
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Services;
+using DogSitter.BLL.Tests.TestCaseSource;
+using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
@@ -26,9 +29,26 @@ namespace DogSitter.BLL.Tests
             _service = new OrderService(_orderRepositoryMock.Object, _mapper);
         }
 
-
-        public void EditOrderStatusByOrderIdTest()
+        [TestCase(1, 2)]
+        public void EditOrderStatusByOrderIdTest(int id, int status)
         {
+            //given
+            var order = new Order()
+            {
+                Id = 1,
+                OrderDate = new DateTime(2011, 11, 11),
+                Status = Status.created,
+                CommentId = 1,
+                Price = 100,
+                IsDeleted = false
+            };
+            _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(order);
+            _orderRepositoryMock.Setup(x => x.EditOrderStatusByOrderId(id, status));
+            //when
+            _service.EditOrderStatusByOrderId(id, status);
+            //then
+            _orderRepositoryMock.Verify(x => x.GetById(id));
+            _orderRepositoryMock.Verify(x => x.EditOrderStatusByOrderId(id, status), Times.Once);
 
         }
 
