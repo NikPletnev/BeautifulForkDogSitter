@@ -13,8 +13,8 @@ namespace DogSitter.BLL.Models
         public bool IsDeleted { get; set; }
         public CustomerModel Customer { get; set; }
         public SitterModel Sitter { get; set; }
-        public Comment Comment { get; set; }
         public DogModel Dogs { get; set; }
         public virtual List<ServiceModel> Service { get; set; }
+        public Comment Comment { get; set; }
     }
 }
