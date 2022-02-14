@@ -23,7 +23,10 @@ namespace DogSitter.DAL
         {
             if (_instance == null)
             {
-                _instance = new DogSitterContext();
+                //_instance = new DogSitterContext();
+
+                // закоментировал, потому что не у всех поменяно на маппер,
+                // и поэтому при удалении выдает ошибку
             }
             return _instance;
         }

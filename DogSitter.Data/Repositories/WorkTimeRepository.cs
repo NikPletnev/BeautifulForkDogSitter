@@ -1,23 +1,21 @@
 ﻿using DogSitter.DAL.Entity;
-using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
-    public class WorkTimeRepository : IWorkTimeRepository
+    public class WorkTimeRepository
     {
         private readonly DogSitterContext _context;
-        private bool _isInitialized;
-        public WorkTimeRepository(DogSitterContext dbContext)
+
+        public WorkTimeRepository()
         {
-            _isInitialized = true;
-            _context = dbContext;
+            _context = DogSitterContext.GetInstance();
         }
 
         public List<WorkTime> GetAllWorkTimes() =>
-            _context.WorkTimes.Where(w => !w.IsDeleted).ToList();
+                    _context.WorkTimes.Where(w => !w.IsDeleted).ToList();
 
         public WorkTime GetWorkTimeById(int id) =>
-            _context.WorkTimes.FirstOrDefault(w => w.Id == id);
+                     _context.WorkTimes.FirstOrDefault(w => w.Id == id);
 
         public void AddWorkTime(WorkTime workTime)
         {
@@ -25,27 +23,26 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
+        public void DeleteWorkTime(int id)
+        {
+            var workTime = GetWorkTimeById(id);
+            _context.WorkTimes.Remove(workTime);
+            _context.SaveChanges();
+        }
+
         public void UpdateWorkTime(WorkTime workTime)
         {
-            var trackingWorkTime = _context.ChangeTracker.Entries<WorkTime>()
-                  .First(a => a.Entity.Id == workTime.Id).Entity;
-
-            trackingWorkTime.Start = workTime.Start;
-            trackingWorkTime.End = workTime.End;
-            trackingWorkTime.Weekday = workTime.Weekday;
-            trackingWorkTime.Sitter = workTime.Sitter;
+            var entity = GetWorkTimeById(workTime.Id);
+            entity.Start = workTime.Start;
+            entity.End = workTime.End;
+            entity.Weekdays = workTime.Weekdays;
             _context.SaveChanges();
         }
 
-        public void UpdateWorkTime(WorkTime workTime, bool IsDeleted)
+        public void UpdateWorkTime(int id, bool IsDeleted)
         {
-            workTime.IsDeleted = IsDeleted;
-            _context.SaveChanges();
-        }
-
-        public void RestoreWorkTime(WorkTime workTime, bool IsDeleted)
-        {
-            workTime.IsDeleted = IsDeleted;
+            var entity = GetWorkTimeById(id);
+            entity.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
     }

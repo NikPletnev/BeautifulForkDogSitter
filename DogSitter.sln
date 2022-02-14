@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogSitter.DAL", "DogSitter.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogSitter.BLL", "DogSitter.BLL\DogSitter.BLL.csproj", "{A113496F-36C5-4218-9DE0-43CA72579C49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogSitter.DAL.Tests", "DogSitter.DAL.Tests\DogSitter.DAL.Tests.csproj", "{10B45B5C-10A1-4242-BA3D-48E3B894BB1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogSitter.DAL.Tests", "DogSitter.DAL.Tests\DogSitter.DAL.Tests.csproj", "{10B45B5C-10A1-4242-BA3D-48E3B894BB1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogSitter.BLL.Tests", "DogSitter.BLL.Tests\DogSitter.BLL.Tests.csproj", "{1DAA0ABA-3B6C-4389-AB95-C3827FD263E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogSitter.BLL.Tests", "DogSitter.BLL.Tests\DogSitter.BLL.Tests.csproj", "{1DAA0ABA-3B6C-4389-AB95-C3827FD263E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
