@@ -6,8 +6,8 @@ namespace DogSitter.BLL.Services
     {
         void AddWorkTime(WorkTimeModel workTimeModel);
         void DeleteWorkTime(WorkTimeModel workTimeModel);
-        List<WorkTimeModel> GetAllWorkTimes();
         WorkTimeModel GetWorkTimeById(int id);
         void UpdateWorkTime(WorkTimeModel workTimeModel);
+        void RestoreWorkTime(WorkTimeModel workTimeModel);
     }
 }

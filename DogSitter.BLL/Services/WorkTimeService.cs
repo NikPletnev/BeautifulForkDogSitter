@@ -21,17 +21,10 @@ namespace DogSitter.BLL.Services
         {
             var workTime = _workTimeRepository.GetWorkTimeById(id);
 
-            if (workTime == null)
+            if (workTime is null)
                 throw new ServiceNotFoundExeption($"{workTime} c Id = {id} не найдено!");
 
             return _mapper.Map<WorkTimeModel>(workTime);
-        }
-
-        public List<WorkTimeModel> GetAllWorkTimes()
-        {
-            var workTime = _workTimeRepository.GetAllWorkTimes();
-
-            return _mapper.Map<List<WorkTimeModel>>(workTime);
         }
 
         public void AddWorkTime(WorkTimeModel workTimeModel)
@@ -45,7 +38,7 @@ namespace DogSitter.BLL.Services
         {
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
 
-            if (_workTimeRepository.GetWorkTimeById(workTime.Id) == null)
+            if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
                 throw new ServiceNotFoundExeption($"{workTime} не найдено!");
 
             _workTimeRepository.UpdateWorkTime(workTime);
@@ -55,10 +48,20 @@ namespace DogSitter.BLL.Services
         {
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
 
-            if (_workTimeRepository.GetWorkTimeById(workTime.Id) == null)
+            if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
                 throw new ServiceNotFoundExeption($"{workTime} не найдено!");
 
             _workTimeRepository.UpdateWorkTime(workTime, true);
+        }
+
+        public void RestoreWorkTime(WorkTimeModel workTimeModel)
+        {
+            var workTime = _mapper.Map<WorkTime>(workTimeModel);
+
+            if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
+                throw new ServiceNotFoundExeption($"{workTime} не найдено!");
+
+            _workTimeRepository.UpdateWorkTime(workTime, false);
         }
     }
 }

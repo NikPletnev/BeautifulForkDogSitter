@@ -32,22 +32,6 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void GetAllWorkTimesTest()
-        {
-            //given
-            var expected = _workTimeMocks.GetMockWorkTimes();
-            _workTimeRepositoryMock.Setup(m => m.GetAllWorkTimes()).Returns(expected);
-
-            //when
-            var actual = _service.GetAllWorkTimes();
-
-            //then
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(actual.Count, expected.Count);
-            _workTimeRepositoryMock.Verify(m => m.GetAllWorkTimes(), Times.Once);
-        }
-
-        [Test]
         public void GetWorkTimeByIdTest()
         {
             //given 
@@ -113,7 +97,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void DeleteServiceTest()
+        public void DeleteWorkTimeTest()
         {
             //given
             _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>()));
@@ -129,9 +113,34 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void DeleteServiceNegativeTest()
+        public void DeleteWorkTimeNegativeTest()
         {
             _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>()));
+            _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
+
+            Assert.Throws<ServiceNotFoundExeption>(() => _service.DeleteWorkTime(new WorkTimeModel()));
+        }
+
+        [Test]
+        public void RestoreWorkTimeTest()
+        {
+            //given
+            _workTimeRepositoryMock.Setup(m => m.RestoreWorkTime(It.IsAny<WorkTime>(), false));
+            _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(new WorkTime());
+
+            //when
+            _service.DeleteWorkTime(new WorkTimeModel());
+
+            //then
+            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(It.IsAny<WorkTime>()), Times.Never());
+            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(
+                It.IsAny<WorkTime>(), It.IsAny<bool>()), Times.Once());
+        }
+
+        [Test]
+        public void RestoreWorkTimeNegativeTest()
+        {
+            _workTimeRepositoryMock.Setup(m => m.RestoreWorkTime(It.IsAny<WorkTime>(), false));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
 
             Assert.Throws<ServiceNotFoundExeption>(() => _service.DeleteWorkTime(new WorkTimeModel()));

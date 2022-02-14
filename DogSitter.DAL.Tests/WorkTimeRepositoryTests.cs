@@ -34,20 +34,6 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
         }
 
-        [Test]
-        public void GetAllWorkTimesTest()
-        {
-            // given
-            var expected = _context.WorkTimes.Where(e => !e.IsDeleted);
-
-            // when
-            var actual = _workTimeRepository.GetAllWorkTimes();
-
-            // then
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(expected.Where(e => e.IsDeleted), actual.Where(a => a.IsDeleted));
-        }
-
         [TestCase(1)]
         [TestCase(2)]
         public void GetWorkTimeByIdTest(int id)
@@ -111,18 +97,28 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.Sitter, actual.Sitter);
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void UpdateIsDeleteWorkTimeTest(bool isDeleted)
+        public void UpdateIsDeleteWorkTimeTest()
         {
             //given
             var workTime = WorkTimeTestCaseSourse.GetWorkTime();
 
             //when
-            _workTimeRepository.UpdateWorkTime(workTime, isDeleted);
+            _workTimeRepository.UpdateWorkTime(workTime, true);
 
             //then
-            Assert.AreEqual(workTime.IsDeleted, isDeleted);
+            Assert.AreEqual(workTime.IsDeleted, true);
+        }
+
+        public void RestoreWorkTimeTest()
+        {
+            //given
+            var workTime = WorkTimeTestCaseSourse.GetWorkTime();
+
+            //when
+            _workTimeRepository.RestoreWorkTime(workTime, false);
+
+            //then
+            Assert.AreEqual(workTime.IsDeleted, false);
         }
     }
 }
