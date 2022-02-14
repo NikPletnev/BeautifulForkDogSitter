@@ -41,6 +41,8 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
+        public List<Dog> GetAllDogsByCustomerId(int id) =>
+            _context.Dogs.Where(x => x.Customer.Id == id).Where(x => !x.IsDeleted).ToList();
 
     }
 }

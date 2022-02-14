@@ -35,14 +35,6 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        //api/contacts
-        [HttpPost]
-        public ActionResult<ContactOutputModel> AddContact(ContactInsertInputModel сontact)
-        {
-            _service.AddContact(_map.Map<ContactModel>(сontact));
-            return StatusCode(StatusCodes.Status201Created, _map.Map<ContactOutputModel>(сontact));
-        }
-
         //api/contacts/42
         [HttpGet("{id}")]
         public ActionResult<ContactOutputModel> GetContactById(int id)

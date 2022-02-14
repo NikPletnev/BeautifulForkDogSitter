@@ -34,7 +34,7 @@ namespace DogSitter.BLL.Services
 
             if (passport == null)
             {
-                throw new ServiceNotFoundExeption($"Passport {id} was not found");
+                throw new EntityNotFoundException($"Passport {id} was not found");
             }
 
             _rep.UpdatePassport(entity);
@@ -60,7 +60,7 @@ namespace DogSitter.BLL.Services
             var passport = _rep.GetPassportById(id);
             if (passport == null)
             {
-                throw new ServiceNotFoundExeption($"Passport {id} was not found");
+                throw new EntityNotFoundException($"Passport {id} was not found");
             }
             return _map.Map<PassportModel>(passport);
         }

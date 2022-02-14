@@ -3,21 +3,24 @@ using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System.Collections.Generic;
+using System;
 using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests
 {
     public class DogRepositoryTests
-    {
         private DogSitterContext _context;
+    {
         private DogRepository _rep;
-
         [SetUp]
+
         public void Setup()
-        {
             var options = new DbContextOptionsBuilder<DogSitterContext>()
-                .UseInMemoryDatabase("AdminTestDB")
+        {
+                .UseInMemoryDatabase("DogTestDB")
                 .Options;
 
             _context = new DogSitterContext(options);
@@ -28,6 +31,17 @@ namespace DogSitter.DAL.Tests
             _rep = new DogRepository(_context);
         }
 
+        [TestCaseSource(typeof(GetAllDogsByCustomerIdTestCaseSource))]
+        public void GetAllDogsByCustomerIdTest(int id, List<Customer> customers, List<Dog> expected)
+        {
+            //given
+            _context.Customers.AddRange(customers);
+            _context.SaveChanges();
+            //when
+            //then
+            var actual = _rep.GetAllDogsByCustomerId(id);
+            Assert.AreEqual(expected, actual);
+        }
         [TestCaseSource(typeof(DogListTestCaseSource))]
         public void GetAllDogsTestMustReturnAllDogs(List<Dog> dogs, List<Dog> expected)
         {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -8,11 +9,13 @@ namespace DogSitter.BLL.Services
     public class DogService : IDogService
     {
         private IDogRepository _rep;
+        private ICustomerRepository _customerRepository;
         private IMapper _mapper;
 
-        public DogService(IMapper mapper, IDogRepository dogRepository)
+        public DogService(IMapper mapper, IDogRepository dogRepository, ICustomerRepository customerRepository)
         {
             _rep = dogRepository;
+            _customerRepository = customerRepository;
             _mapper = mapper;
         }
 
@@ -22,7 +25,7 @@ namespace DogSitter.BLL.Services
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
-                throw new Exception("Собака не найдена");
+                throw new Exception($"Dog {id} was not found");
             }
 
             _rep.UpdateDog(entity);
@@ -33,7 +36,7 @@ namespace DogSitter.BLL.Services
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
-                throw new Exception("Собака не найдена");
+                throw new Exception($"Dog {id} was not found");
             }
 
             _rep.UpdateDog(id, true);
@@ -44,7 +47,7 @@ namespace DogSitter.BLL.Services
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
-                throw new Exception("Собака не найдена");
+                throw new Exception($"Dog {id} was not found");
             }
 
             _rep.UpdateDog(id, false);
@@ -60,7 +63,7 @@ namespace DogSitter.BLL.Services
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
-                throw new Exception("Собака не найдена");
+                throw new Exception($"Dog {id} was not found");
             }
 
             return _mapper.Map<DogModel>(dog);
@@ -69,6 +72,17 @@ namespace DogSitter.BLL.Services
         public List<DogModel> GetAllDogs()
         {
             return _mapper.Map<List<DogModel>>(_rep.GetAllDogs());
+        }
+
+        public List<DogModel> GetDogsByCustomerId(int id)
+        {
+            var customer = _customerRepository.GetCustomerById(id);
+            if (customer == null)
+            {
+                throw new EntityNotFoundException($"Customer {id} was not found");
+            }
+
+            return _mapper.Map<List<DogModel>>(_rep.GetAllDogsByCustomerId(id));
         }
     }
 }

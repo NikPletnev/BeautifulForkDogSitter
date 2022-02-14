@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -7,12 +8,12 @@ namespace DogSitter.BLL.Services
 {
     public class SitterService : ISitterService
     {
-        private SitterRepository _repository;
+        private ISitterRepository _repository;
         private IMapper _mapper;
 
-        public SitterService(IMapper mapper)
+        public SitterService(ISitterRepository repository, IMapper mapper)
         {
-            _repository = new SitterRepository();
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -69,8 +70,10 @@ namespace DogSitter.BLL.Services
 
                 throw new Exception("Ситтер не найден");
             }
+            
             bool delete = true;
             _repository.Update(id, delete);
+            _repository.EditProfileStateBySitterId(id, false);
         }
 
         public void Restore(int id)
@@ -87,6 +90,29 @@ namespace DogSitter.BLL.Services
             }
             bool Delete = false;
             _repository.Update(id, Delete);
+        }
+
+        public void ConfirmProfileSitterById(int id)
+        {
+            var entity = _repository.GetById(id);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Sitter {id} was not found");
+            }
+            if (!entity.IsDeleted)
+            {
+                _repository.EditProfileStateBySitterId(id, true);
+            }
+        }
+
+        public void BlockProfileSitterById(int id)
+        {
+            var entity = _repository.GetById(id);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Sitter {id} was not found");
+            }
+            _repository.EditProfileStateBySitterId(id, false);
         }
     }
 }
