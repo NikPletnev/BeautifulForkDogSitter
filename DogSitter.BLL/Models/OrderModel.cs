@@ -15,6 +15,6 @@ namespace DogSitter.BLL.Models
         public SitterModel Sitter { get; set; }
         public DogModel Dogs { get; set; }
         public virtual List<ServiceModel> Service { get; set; }
-        public Comment Comment { get; set; }
+        public CommentModel Comment { get; set; }
     }
 }
