@@ -76,6 +76,7 @@ namespace DogSitter.BLL.Services
         public AdminModel GetAdminById(int id)
         {
             var admin = _rep.GetAdminById(id);
+
             if (admin == null)
             {
                 throw new ServiceNotFoundExeption($"Admin {id} was not found");
@@ -87,6 +88,23 @@ namespace DogSitter.BLL.Services
         public List<AdminModel> GetAllAdmins()
         {
             return _map.Map<List<AdminModel>>(_rep.GetAllAdmins());
+        }
+
+        public List<AdminModel> GetAllAdminsWithContacts()
+        {
+            return _map.Map<List<AdminModel>>(_rep.GetAllAdminWithContacts());
+        }
+
+        public AdminModel GetAdminWithContacts(int id)
+        {
+            var admin = _rep.GetAdminByIdWithContacts(id);
+
+            if (admin == null)
+            {
+                throw new ServiceNotFoundExeption($"Admin {id} was not found");
+            }
+
+            return _map.Map<AdminModel>(admin);
         }
     }
 }

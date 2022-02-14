@@ -11,11 +11,18 @@ namespace DogSitter.BLL.Services
     {
         private readonly IContactRepository _rep;
         private IMapper _mapper;
+        private readonly IAdminRepository _adminRepository;
+        private readonly ISitterRepository _sitterRepository;
+        private readonly ICustomerRepository _customerRepository;
 
-        public ContactService(IContactRepository contactRepository, IMapper mapper)
+        public ContactService(IContactRepository contactRepository, IMapper mapper, ICustomerRepository customerRepository,
+            IAdminRepository adminRepository, ISitterRepository sitterRepository)
         {
             _rep = contactRepository;
             _mapper = mapper;
+            _customerRepository = customerRepository;
+            _sitterRepository = sitterRepository;
+            _adminRepository = adminRepository;
         }
 
         public void UpdateContact(int id, ContactModel contactModel)
@@ -87,5 +94,36 @@ namespace DogSitter.BLL.Services
         {
             return _mapper.Map<List<ContactModel>>(_rep.GetAllContacts());
         }
+
+        public List<ContactModel> GetAllContactsByAdminId(int id)
+        {
+            var admin =  _adminRepository.GetAdminById(id);
+            if(admin == null)
+            {
+                throw new ServiceNotFoundExeption($"Admin {id} not found");
+            }
+            return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsByAdminId(id));
+        }
+
+        public List<ContactModel> GetAllContactsByCustomerId(int id)
+        {
+            var customer = _customerRepository.GetCustomerById(id);
+            if (customer == null)
+            {
+                throw new ServiceNotFoundExeption($"Customer {id} not found");
+            }
+            return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsByCustomerId(id));
+        }
+
+        public List<ContactModel> GetAllContactsBySitterId(int id)
+        {
+            var sitter = _sitterRepository.GetById(id);
+            if (sitter == null)
+            {
+                throw new ServiceNotFoundExeption($"Sitter {id} not found");
+            }
+            return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsBySitterId(id));
+        }
+
     }
 }
