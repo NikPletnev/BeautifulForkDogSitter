@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 namespace DogSitter.DAL.Tests
 {
     public class DogRepositoryTests
-        private DogSitterContext _context;
     {
+        private DogSitterContext _context;
         private DogRepository _rep;
         [SetUp]
 
         public void Setup()
-            var options = new DbContextOptionsBuilder<DogSitterContext>()
         {
+            var options = new DbContextOptionsBuilder<DogSitterContext>()
                 .UseInMemoryDatabase("DogTestDB")
                 .Options;
 
