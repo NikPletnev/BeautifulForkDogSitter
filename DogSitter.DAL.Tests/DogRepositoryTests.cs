@@ -12,12 +12,23 @@ using System.Threading.Tasks;
 namespace DogSitter.DAL.Tests
 {
     public class DogRepositoryTests
+<<<<<<< Updated upstream
     {
+=======
+    { 
+>>>>>>> Stashed changes
         private DogSitterContext _context;
         private DogRepository _rep;
         [SetUp]
 
         public void Setup()
+<<<<<<< Updated upstream
+=======
+        {
+
+        
+        var options = new DbContextOptionsBuilder<DogSitterContext>()
+>>>>>>> Stashed changes
         {
             var options = new DbContextOptionsBuilder<DogSitterContext>()
                 .UseInMemoryDatabase("DogTestDB")
