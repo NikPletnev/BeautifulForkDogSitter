@@ -53,7 +53,7 @@ namespace DogSitter.DAL.Repositories
         
         public Customer Login(Contact contact, string pass)
         {
-            if (contact != null || contact.Customer != null)
+            if (contact != null && contact.Customer != null)
             {
                 if (contact.Customer.Password == pass)
                 {

@@ -20,11 +20,6 @@ namespace DogSitter.DAL.Repositories
         public void AddAdmin(Admin admin)
         {
             _context.Admins.Add(admin);
-            //foreach (var c in admin.Contacts)
-            //{
-            //    c.Admin = admin;
-            //}
-            //_context.Contacts.AddRange(admin.Contacts);
             _context.SaveChanges();
         }
 
@@ -47,7 +42,7 @@ namespace DogSitter.DAL.Repositories
 
         public Admin Login(Contact contact, string pass)
         {
-            if (contact != null || contact.Admin != null)
+            if (contact != null && contact.Admin != null)
             {
                 if (contact.Admin.Password == pass)
                 {

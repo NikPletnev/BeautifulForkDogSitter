@@ -4,8 +4,9 @@ namespace DogSitter.BLL.Services
 {
     public interface IAuthService
     {
-        string LoginAdmin(string contact, string pass);
-        string LoginCustomer(string contact, string pass);
-        string LoginSitter(string contact, string pass);
+        AdminModel GetAdminForLogin(string contact, string pass);
+        CustomerModel GetCustomerForLogin(string contact, string pass);
+        SitterModel GetSitterForLogin(string contact, string pass);
+        string LoginUser(UserModel user);
     }
 }

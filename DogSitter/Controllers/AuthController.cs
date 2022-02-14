@@ -18,7 +18,7 @@ namespace DogSitter.API.Controllers
         [HttpPost("loginAdmin")]
         public ActionResult LoginAdmin([FromBody] AuthInputModel authInputModel)
         {
-            var token = _authService.LoginAdmin(authInputModel.Contact, authInputModel.Password);
+            var token = _authService.LoginUser(_authService.GetAdminForLogin(authInputModel.Contact, authInputModel.Password));
             return Json(token);
         }
 

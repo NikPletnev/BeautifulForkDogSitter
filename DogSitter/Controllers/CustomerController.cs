@@ -16,9 +16,9 @@ namespace DogSitter.Controllers
         private readonly ICustomerService _service;
         private readonly IMapper _mapper; 
 
-        public CustomerController(IMapper CustomMapperAPI, ICustomerService customerService)
+        public CustomerController(IMapper CustomMapper, ICustomerService customerService)
         {
-            _mapper = CustomMapperAPI;
+            _mapper = CustomMapper;
             _service = customerService;
         }
 

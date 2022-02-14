@@ -13,10 +13,10 @@ namespace DogSitter.API.Controllers
         private IPassportService _service;
         private IMapper _map;
 
-        public PassportsController(IMapper CustomMapperAPI, IPassportService passportService)
+        public PassportsController(IMapper CustomMapper, IPassportService passportService)
         {
             _service = passportService;
-            _map = CustomMapperAPI;
+            _map = CustomMapper;
         }
 
         [HttpPut("{id}")]

@@ -27,109 +27,89 @@ namespace DogSitter.BLL.Services
             _contactRepository = contactRepository;
             _map = mapper;
         }
+        public string LoginUser(UserModel user)
+        {            
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.Name, user.FirstName ),
+                new Claim(ClaimTypes.UserData, user.Id.ToString())
+            };
 
-        public string LoginAdmin(string contact, string pass)
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.Issuer,
+                    audience: AuthOptions.Audience,
+                    claims: claims,
+                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)), // время действия 2 минуты
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
+        public AdminModel GetAdminForLogin(string contact, string pass)
         {
-
-            Contact findedContact = _contactRepository.GetContactByValue(contact);
+            Contact foundContact = _contactRepository.GetContactByValue(contact);
             AdminModel admin;
-            if (findedContact != null)
+            if (foundContact != null)
             {
-                var findedAdmin = _adminRepository.Login(findedContact, pass);
-                if (findedAdmin == null)
+                var foundAdmin = _adminRepository.Login(foundContact, pass);
+                if (foundAdmin == null)
                 {
                     throw new ServiceNotFoundExeption("Admin not found");
                 }
                 else
                 {
-                    admin = _map.Map<AdminModel>(findedAdmin);
+                    admin = _map.Map<AdminModel>(foundAdmin);
                 }
             }
             else
             {
                 throw new ServiceNotFoundExeption("Contact not found");
             }
-            var claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, admin.FirstName ),
-                new Claim(ClaimTypes.UserData, admin.Id.ToString())
-            };
-
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.Issuer,
-                    audience: AuthOptions.Audience,
-                    claims: claims,
-                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)), // время действия 2 минуты
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
-
+            return admin;
         }
 
-        public string LoginCustomer(string contact, string pass)
+        public CustomerModel GetCustomerForLogin(string contact, string pass)
         {
-            Contact findedContact = _contactRepository.GetContactByValue(contact);
+            Contact foundContact = _contactRepository.GetContactByValue(contact);
             CustomerModel customer;
-            if (findedContact != null)
+            if (foundContact != null)
             {
-                var findedCustomer = _customerRepository.Login(findedContact, pass);
-                if (findedCustomer == null)
+                var foundCustomer = _customerRepository.Login(foundContact, pass);
+                if (foundCustomer == null)
                 {
                     throw new ServiceNotFoundExeption("Customer not found");
                 }
                 else
                 {
-                    customer = _map.Map<CustomerModel>(findedCustomer);
+                    customer = _map.Map<CustomerModel>(foundCustomer);
                 }
             }
             else
             {
                 throw new ServiceNotFoundExeption("Contact not found");
             }
-            var claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, customer.FirstName ),
-                new Claim(ClaimTypes.UserData, customer.Id.ToString())
-            };
-
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.Issuer,
-                    audience: AuthOptions.Audience,
-                    claims: claims,
-                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)), // время действия 2 минуты
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
+            return customer;
         }
 
-        public string LoginSitter(string contact, string pass)
+        public SitterModel GetSitterForLogin(string contact, string pass)
         {
-            Contact findedContact = _contactRepository.GetContactByValue(contact);
+            Contact foundContact = _contactRepository.GetContactByValue(contact);
             SitterModel sitter;
-            if (findedContact != null)
+            if (foundContact != null)
             {
-                var findedSitter = _sitterRepository.Login(findedContact, pass);
-                if (findedSitter == null)
+                var foundSitter = _sitterRepository.Login(foundContact, pass);
+                if (foundSitter == null)
                 {
                     throw new ServiceNotFoundExeption("Sitter not found");
                 }
                 else
                 {
-                    sitter = _map.Map<SitterModel>(findedSitter);
+                    sitter = _map.Map<SitterModel>(foundSitter);
                 }
             }
             else
             {
                 throw new ServiceNotFoundExeption("Contact not found");
             }
-            var claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, sitter.FirstName ),
-                new Claim(ClaimTypes.UserData, sitter.Id.ToString())
-            };
-
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.Issuer,
-                    audience: AuthOptions.Audience,
-                    claims: claims,
-                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)), // время действия 2 минуты
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
+            return sitter;
         }
 
     }

@@ -13,10 +13,10 @@ namespace DogSitter.API.Controllers
         private IAdminService _service;
         private IMapper _map;
 
-        public AdminsController(IMapper CustomMapperAPI, IAdminService adminService)
+        public AdminsController(IMapper CustomMapper, IAdminService adminService)
         {
             _service = adminService;
-            _map = CustomMapperAPI;
+            _map = CustomMapper;
         }
 
         //api/admins/42

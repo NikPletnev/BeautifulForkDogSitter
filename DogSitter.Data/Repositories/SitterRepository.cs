@@ -44,7 +44,7 @@ namespace DogSitter.DAL.Repositories
         }
         public Sitter Login(Contact contact, string pass)
         {
-            if (contact != null || contact.Sitter != null)
+            if (contact != null && contact.Sitter != null)
             {
                 if (contact.Sitter.Password == pass)
                 {
