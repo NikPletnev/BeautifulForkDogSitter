@@ -11,13 +11,12 @@ namespace DogSitter.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
-    public class SitterController : Controller
+    public class SittersController : Controller
     {
         private readonly SitterService _service;
         private readonly CustomMapper _mapper;
 
-        public SitterController()
+        public SittersController()
         {
             _service = new SitterService();
             _mapper = new CustomMapper();
@@ -47,7 +46,7 @@ namespace DogSitter.API.Controllers
             return StatusCode(StatusCodes.Status201Created, sitter);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public ActionResult Update([FromBody] SitterInputModel sitterModel)
         {
             var sitter = _mapper.GetInstance().Map<SitterModel>(sitterModel);
