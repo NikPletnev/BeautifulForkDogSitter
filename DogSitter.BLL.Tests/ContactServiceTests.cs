@@ -29,8 +29,8 @@ namespace DogSitter.BLL.Tests
             _adminRepMock = new Mock<IAdminRepository>();
             _sitterRepMock = new Mock<ISitterRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
-            _service = new ContactService(_contactRepositoryMock.Object, _mapper, 
-                _customerRepMock.Object, _adminRepMock.Object, _sitterRepMock.Object);
+            _service = new ContactService(_contactRepositoryMock.Object, _mapper,
+            _customerRepMock.Object, _adminRepMock.Object, _sitterRepMock.Object);
         }
 
         [TestCaseSource(typeof(UpdateContactTestCaseSource))]
@@ -60,14 +60,14 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCase(100)]
-        public void UpdateContactTest_WhenContactNotFound_ShouldThrowServiceNotFoundExeption(int id)
+        public void UpdateContactTest_WhenContactNotFound_ShouldThrowEntityNotFoundException(int id)
         {
             //given
             _contactRepositoryMock.Setup(x => x.UpdateContact(It.IsAny<Contact>()));
             _contactRepositoryMock.Setup(x => x.GetContactById(id));
             //when
             //then
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.UpdateContact(id, new ContactModel()));
+            Assert.Throws<EntityNotFoundException>(() => _service.UpdateContact(id, new ContactModel()));
         }
 
         [TestCaseSource(typeof(AddContactTestCaseSource))]
@@ -82,7 +82,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void AddContactTest_WhenNotEnoughDataAboutContact_ShouldThrowServiceNotFoundExeption()
+        public void AddContactTest_WhenNotEnoughDataAboutContact_ShouldThrowEntityNotFoundException()
         {
             //given
             _contactRepositoryMock.Setup(x => x.AddContact(It.IsAny<Contact>()));
@@ -121,7 +121,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCase(11)]
-        public void DeleteOrRestoreContactTest_WhenContactNotFound_ShouldThrowServiceNotFoundExeption(int id)
+        public void DeleteOrRestoreContactTest_WhenContactNotFound_ShouldThrowEntityNotFoundException(int id)
         {
             //given
             Contact contact = new Contact() { Id = id, Value = "123456", ContactType = ContactType.phone, IsDeleted = false };
@@ -132,8 +132,8 @@ namespace DogSitter.BLL.Tests
 
             //then
 
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.DeleteContact(id));
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.RestoreContact(id));
+            Assert.Throws<EntityNotFoundException>(() => _service.DeleteContact(id));
+            Assert.Throws<EntityNotFoundException>(() => _service.RestoreContact(id));
         }
 
         [TestCaseSource(typeof(GetContactByIdTestCaseSource))]
@@ -149,13 +149,13 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCase(11)]
-        public void GetContactByIdTest_WhenContactNotFound_ShouldThrowServiceNotFoundExeption(int id)
+        public void GetContactByIdTest_WhenContactNotFound_ShouldThrowEntityNotFoundException(int id)
         {
             //given
             _contactRepositoryMock.Setup(x => x.GetContactById(id));
             //when
             //then
-            Assert.Throws<ServiceNotFoundExeption>(() => _service.GetContactById(id));
+            Assert.Throws<EntityNotFoundException>(() => _service.GetContactById(id));
         }
 
         [TestCaseSource(typeof(GetAllContactTestCaseSource))]

@@ -38,7 +38,7 @@ namespace DogSitter.BLL.Services
 
             if (contact == null)
             {
-                throw new ServiceNotFoundExeption($"Contact {id} was not found");
+                throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
             _rep.UpdateContact(entity);
@@ -50,7 +50,7 @@ namespace DogSitter.BLL.Services
 
             if (contact == null)
             {
-                throw new ServiceNotFoundExeption($"Contact {id} was not found");
+                throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
             _rep.UpdateContact(id, true);
@@ -62,7 +62,7 @@ namespace DogSitter.BLL.Services
 
             if (contact == null)
             {
-                throw new ServiceNotFoundExeption($"Contact {id} was not found");
+                throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
             _rep.UpdateContact(id, false);
@@ -84,7 +84,7 @@ namespace DogSitter.BLL.Services
             var contact = _rep.GetContactById(id);
             if (contact == null)
             {
-                throw new ServiceNotFoundExeption($"Contact {id} was not found");
+                throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
             return _mapper.Map<ContactModel>(contact);
@@ -100,7 +100,7 @@ namespace DogSitter.BLL.Services
             var admin =  _adminRepository.GetAdminById(id);
             if(admin == null)
             {
-                throw new ServiceNotFoundExeption($"Admin {id} not found");
+                throw new EntityNotFoundException($"Admin {id} not found");
             }
             return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsByAdminId(id));
         }
@@ -110,7 +110,7 @@ namespace DogSitter.BLL.Services
             var customer = _customerRepository.GetCustomerById(id);
             if (customer == null)
             {
-                throw new ServiceNotFoundExeption($"Customer {id} not found");
+                throw new EntityNotFoundException($"Customer {id} not found");
             }
             return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsByCustomerId(id));
         }
@@ -120,7 +120,7 @@ namespace DogSitter.BLL.Services
             var sitter = _sitterRepository.GetById(id);
             if (sitter == null)
             {
-                throw new ServiceNotFoundExeption($"Sitter {id} not found");
+                throw new EntityNotFoundException($"Sitter {id} not found");
             }
             return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsBySitterId(id));
         }

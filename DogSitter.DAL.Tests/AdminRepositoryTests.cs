@@ -35,8 +35,15 @@ namespace DogSitter.DAL.Tests
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
 
-            var expected = new List<Admin>() {
-                new Admin() { Id = 1, FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234" },
+            [TestCaseSource(typeof(AdminTestCaseSource))]
+            public void GetAllAdminsTest(List<Admin> admins)
+            {
+                //given
+                _context.Admins.AddRange(admins);
+                _context.SaveChanges();
+
+                var expected = new List<Admin>() {
+                new Admin() { Id = 1, FirstName = "Иван", LastName = "Иванов",  Password = "VANYA1234" },
                 new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234"}
                 };
 
@@ -47,12 +54,35 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCaseSource(typeof(AdminTestCaseSource))]
-        public void GetAdminByIdTest(List<Admin> admins)
-        {
-            //given
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            [TestCaseSource(typeof(AdminTestCaseSource))]
+            public void GetAllAdminWithContactsTest(List<Admin> admins)
+            {
+                //given
+                _context.Admins.AddRange(admins);
+                _context.SaveChanges();
+
+                var expected = new List<Admin>() {
+                new Admin() { Id = 1, FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234",
+                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = Enums.ContactType.phone} } ,
+                  IsDeleted = false} ,
+                new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
+                  Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.mail} },
+                  IsDeleted = false }
+                };
+
+                //when
+                var actual = _rep.GetAllAdminWithContacts();
+
+                //then
+                CollectionAssert.AreEqual(expected, actual);
+            }
+
+            [TestCaseSource(typeof(AdminTestCaseSource))]
+            public void GetAdminByIdTest(List<Admin> admins)
+            {
+                //given
+                _context.Admins.AddRange(admins);
+                _context.SaveChanges();
 
             var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false };
 
@@ -63,12 +93,36 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void AddAdminTest()
-        {
-            //given
-            var admin = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234" };
-            var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false };
+            [TestCaseSource(typeof(AdminTestCaseSource))]
+            public void GetAdminByIdWithContactsTest(List<Admin> admins)
+            {
+                //given
+                _context.Admins.AddRange(admins);
+                _context.SaveChanges();
+
+                var expected = new Admin()
+                {
+                    Id = 2,
+                    FirstName = "Иван2",
+                    LastName = "Иванов2",
+                    Password = "2VANYA1234",
+                    Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.mail } },
+                    IsDeleted = false
+                };
+
+                //when
+                var actual = _rep.GetAdminByIdWithContacts(2);
+
+                //then
+                Assert.AreEqual(expected, actual);
+            }
+
+            [Test]
+            public void AddAdminTest()
+            {
+                //given
+                var admin = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234" };
+                var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false };
 
             //when
             _rep.AddAdmin(admin);
