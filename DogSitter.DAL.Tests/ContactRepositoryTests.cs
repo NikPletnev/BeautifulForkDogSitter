@@ -118,6 +118,31 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCaseSource(typeof(GetAllContactsByAdminIdTestCaseSource))]
+        public void GetAllContactsByAdminIdTest(int id, List<Admin> admins, List<Contact> expected)
+        {
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+           var actual = _rep.GetAllContactsByAdminId(id);
+            Assert.AreEqual(expected, actual);
+        }
 
+        [TestCaseSource(typeof(GetAllContactsByCustomerIdTestCaseSource))]
+        public void GetAllContactsByCustomerIdTest(int id, List<Customer> customers, List<Contact> expected)
+        {
+            _context.Customers.AddRange(customers);
+            _context.SaveChanges();
+            var actual = _rep.GetAllContactsByCustomerId(id);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCaseSource(typeof(GetAllContactsBySitterIdTestCaseSource))]
+        public void GetAllContactsBySitterIdTest(int id, List<Sitter>sitters, List<Contact> expected)
+        {
+            _context.Sitters.AddRange(sitters);
+            _context.SaveChanges();
+            var actual = _rep.GetAllContactsBySitterId(id);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

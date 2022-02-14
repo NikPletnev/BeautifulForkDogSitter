@@ -38,7 +38,6 @@ namespace DogSitter.DAL.Repositories
             var entity = GetAdminById(id);
             entity.IsDeleted = isDeleted;
             _context.SaveChanges();
-        }
-
+        }        
     }
 }
