@@ -73,7 +73,7 @@ namespace DogSitter.BLL.Services
             
             bool delete = true;
             _repository.Update(id, delete);
-            _repository.EditStateProfileSitterById(id, false);
+            _repository.EditProfileStateBySitterId(id, false);
         }
 
         public void Restore(int id)
@@ -101,7 +101,7 @@ namespace DogSitter.BLL.Services
             }
             if (!entity.IsDeleted)
             {
-                _repository.EditStateProfileSitterById(id, true);
+                _repository.EditProfileStateBySitterId(id, true);
             }
         }
 
@@ -112,7 +112,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new ServiceNotFoundExeption($"Sitter {id} was not found");
             }
-            _repository.EditStateProfileSitterById(id, false);
+            _repository.EditProfileStateBySitterId(id, false);
         }
     }
 }

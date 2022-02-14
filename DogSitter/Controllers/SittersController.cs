@@ -22,7 +22,7 @@ namespace DogSitter.API.Controllers
 
         //api/sitters
         [HttpPost]
-        public ActionResult RegistrationSitter([FromBody] SitterInsertInputModel sitter)
+        public ActionResult RegisterSitter([FromBody] SitterInsertInputModel sitter)
         {
             _service.Add(_mapper.Map<SitterModel>(sitter));
             return StatusCode(StatusCodes.Status201Created);

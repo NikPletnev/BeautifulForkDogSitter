@@ -43,7 +43,7 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void EditStateProfileSitterById(int id, bool verify)
+        public void EditProfileStateBySitterId(int id, bool verify)
         {
             var entity = GetById(id);
             if (!entity.IsDeleted)
