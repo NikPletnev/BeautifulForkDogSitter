@@ -13,7 +13,6 @@ namespace DogSitter.API.Controllers
         private IContactService _service;
         private IMapper _map;
 
-
         public ContactsController(IMapper customMapper, IContactService contactService)
         {
             _service = contactService;
@@ -36,23 +35,12 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        //api/contacts
-        [HttpPost]
-        public ActionResult<ContactOutputModel> AddContact(ContactInsertInputModel сontact)
-        {
-            _service.AddContact(_map.Map<ContactModel>(сontact));
-            return StatusCode(StatusCodes.Status201Created, _map.Map<ContactOutputModel>(сontact));
-        }
-
         //api/contacts/42
         [HttpGet("{id}")]
         public ActionResult<ContactOutputModel> GetContactById(int id)
         {
-            //if сontact exist
             var сontact = _map.Map<ContactOutputModel>(_service.GetContactById(id));
             return Ok(сontact);
-            //if сontact not found
-            return NotFound($"Contact {id} not found");
         }
 
         //api/contacts

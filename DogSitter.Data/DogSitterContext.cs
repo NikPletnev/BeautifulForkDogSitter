@@ -6,6 +6,7 @@ namespace DogSitter.DAL
 {
     public class DogSitterContext : DbContext
     {
+
         public DogSitterContext(DbContextOptions<DogSitterContext> options) : base(options)
         {
 
@@ -13,15 +14,19 @@ namespace DogSitter.DAL
 
         public DogSitterContext()
         {
-            //удалить после ред всех реп
+
         }
 
         private static DogSitterContext _instance;
+
         public static DogSitterContext GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new DogSitterContext();
+                //_instance = new DogSitterContext();
+
+                // закоментировал, потому что не у всех поменяно на маппер,
+                // и поэтому при удалении выдает ошибку
             }
             return _instance;
         }

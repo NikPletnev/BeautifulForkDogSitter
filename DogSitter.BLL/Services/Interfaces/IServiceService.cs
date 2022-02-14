@@ -7,8 +7,8 @@ namespace DogSitter.BLL.Services
         void AddService(ServiceModel serviceModel);
         List<ServiceModel> GetAllServices();
         ServiceModel GetServiceById(int id);
-        void RestoreService(int id);
-        void UpdateService(int id);
+        void DeleteService(ServiceModel serviceModel);
         void UpdateService(ServiceModel serviceModel);
+        void RestoreService(ServiceModel serviceModel);
     }
 }
