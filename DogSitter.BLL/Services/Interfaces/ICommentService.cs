@@ -5,10 +5,10 @@ namespace DogSitter.BLL.Services
     public interface ICommentService
     {
         void Add(CommentModel commentModel);
-        void DeleteById(int id);
+        void DeleteById(CommentModel commentModel);
         List<CommentModel> GetAll();
         CommentModel GetById(int id);
         void Restore(int id);
-        void Update(int id, CommentModel commentModel);
+        void Update(CommentModel commentModel);
     }
 }

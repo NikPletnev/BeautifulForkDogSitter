@@ -49,14 +49,14 @@ namespace DogSitter.BLL.Services
             _repository.Add(_mapper.Map<Comment>(commentModel));
         }
 
-        public void Update(int id, CommentModel commentModel)
+        public void Update(CommentModel commentModel)
         {
             if (commentModel.Text == String.Empty)
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the comment {commentModel.Id}");
             }
             var entity = _mapper.Map<Comment>(commentModel);
-            var comment = _repository.GetById(id);
+            var comment = _repository.GetById(commentModel.Id);
             if (comment == null)
             {
                 throw new EntityNotFoundException($"Comment {commentModel.Id} was not found");
@@ -65,16 +65,16 @@ namespace DogSitter.BLL.Services
             _repository.Update(comment);
         }
 
-        public void DeleteById(int id)
+        public void DeleteById(CommentModel commentModel)
         {
-            var comment = _repository.GetById(id);
+            var comment = _repository.GetById(commentModel.Id);
             if (comment == null)
             {
-                throw new EntityNotFoundException($"Comment {id} was not found");
+                throw new EntityNotFoundException($"Comment {commentModel.Id} was not found");
             }
 
             bool isDelited = true;
-            _repository.Update(id, isDelited);
+            _repository.Update(comment, isDelited);
         }
 
         public void Restore(int id)
@@ -86,7 +86,7 @@ namespace DogSitter.BLL.Services
             }
 
             bool Delete = false;
-            _repository.Update(id, Delete);
+            _repository.Update(comment, Delete);
         }
     }
 }
