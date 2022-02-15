@@ -47,21 +47,22 @@ namespace DogSitter.DAL.Tests
 
             // then
             Assert.AreEqual(expected, actual);
-            Assert.AreEqual(expected.Where(e => e.IsDeleted), actual.Where(a => a.IsDeleted));
+            Assert.True(actual.All(a => !a.IsDeleted));
         }
 
         [Test]
         public void GetAllSubwayStationsWhereSitterExistTest()
         {
             //given
-            var expected = _context.SubwayStations.ToList();
+            var expected = _context.SubwayStations.Where(ss => !ss.IsDeleted)
+                .Where(s => s.Sitters.Any(s => !s.IsDeleted)).ToList();
 
             //when
             var actual = _subwayStationRepository.GetAllSubwayStationsWhereSitterExist();
 
             //then
-            Assert.AreNotEqual(expected, actual);
-            Assert.That(actual[0].IsDeleted is false);
+            Assert.True(actual.All(a => !a.IsDeleted));
+            Assert.True(actual.SelectMany(a => a.Sitters).All(s => !s.IsDeleted));
         }
 
         [TestCase(1)]
@@ -76,7 +77,7 @@ namespace DogSitter.DAL.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            Assert.That(actual.IsDeleted == false | true);
+            Assert.That(actual.IsDeleted is false | true);
         }
 
         [Test]

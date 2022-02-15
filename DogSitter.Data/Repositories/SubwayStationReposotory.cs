@@ -1,5 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -16,8 +17,18 @@ namespace DogSitter.DAL.Repositories
         public List<SubwayStation> GetAllSubwayStations() =>
             _context.SubwayStations.Where(ss => !ss.IsDeleted).ToList();
 
-        public List<SubwayStation> GetAllSubwayStationsWhereSitterExist() =>
-            _context.SubwayStations.Where(ss => !ss.IsDeleted && ss.Sitters.Any(s => !s.IsDeleted)).ToList();
+        public List<SubwayStation> GetAllSubwayStationsWhereSitterExist()
+        {
+            var stations = _context.SubwayStations.Where(ss => !ss.IsDeleted)
+                        .Where(s => s.Sitters.Any(s => !s.IsDeleted)).ToList();
+
+            foreach (var station in stations)
+            {
+                station.Sitters = station.Sitters.Where(x => !x.IsDeleted).ToList();
+            }
+
+            return stations;
+        }
 
         public SubwayStation GetSubwayStationById(int id) =>
             _context.SubwayStations.FirstOrDefault(s => s.Id == id);
