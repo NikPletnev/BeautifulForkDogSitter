@@ -114,5 +114,16 @@ namespace DogSitter.BLL.Services
             }
             _repository.EditProfileStateBySitterId(id, false);
         }
+
+        public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(int id)
+        {
+            var customer = _repository.GetSitterById(id);
+            if (customer == null)
+            {
+                throw new EntityNotFoundException($"Customer {id} was not found");
+            }
+
+            return _mapper.Map<List<DogModel>>(_rep.GetAllDogsByCustomerId(id));
+        }
     }
 }
