@@ -19,6 +19,7 @@ namespace DogSitter.BLL.Configs
             CreateMap<Dog, DogModel>().ReverseMap();
             CreateMap<Passport, PassportModel>().ReverseMap();
             CreateMap<Order, OrderModel>().ReverseMap();
+            CreateMap<SubwayStation, SubwayStationModel>().ReverseMap();
         }
 
     }
