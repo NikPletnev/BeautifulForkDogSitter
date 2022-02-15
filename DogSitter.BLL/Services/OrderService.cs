@@ -23,16 +23,6 @@ namespace DogSitter.BLL.Services
             _map = mapper;
         }
 
-        public void EditOrderStatusByOrderId(int id, int status)
-        {
-            var order = _rep.GetById(id);
-            if (order == null)
-            {
-                throw new EntityNotFoundException($"Order {id} was not found");
-            }
-            _rep.EditOrderStatusByOrderId(order, status);
-        }
-
         public void UpdateOrder(int id, OrderModel order)
         {
             var entity = _rep.GetById(id);
@@ -40,9 +30,9 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            if (order.Status == (Status)1)
+            if (entity.Status == (Status)1)
             {
-                _rep.Update(_map.Map<Order>(order));
+                _rep.Update(entity);
             }
             else
             {

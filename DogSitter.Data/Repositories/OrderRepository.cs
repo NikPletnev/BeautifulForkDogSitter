@@ -2,13 +2,13 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class OrderRepository
+    public class OrderRepository : IOrderRepository
     {
         private DogSitterContext _context;
 
-        public OrderRepository()
+        public OrderRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public void Add(Order order)
