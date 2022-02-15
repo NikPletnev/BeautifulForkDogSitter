@@ -22,14 +22,14 @@ namespace DogSitter.BLL.Services
             var workTime = _workTimeRepository.GetWorkTimeById(id);
 
             if (workTime is null)
-                throw new ServiceNotFoundExeption($"{workTime} c Id = {id} не найдено!");
+                throw new EntityNotFoundException($"{workTime} c Id = {id} не найдено!");
 
             return _mapper.Map<WorkTimeModel>(workTime);
         }
 
-    //    public void AddWorkTime(WorkTimeModel workTimeModel)
-    //    {
-    //        var workTime = _mapper.Map<WorkTime>(workTimeModel);
+        public void AddWorkTime(WorkTimeModel workTimeModel)
+        {
+            var workTime = _mapper.Map<WorkTime>(workTimeModel);
 
             _workTimeRepository.AddWorkTime(workTime);
         }
@@ -39,7 +39,7 @@ namespace DogSitter.BLL.Services
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
 
             if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
-                throw new ServiceNotFoundExeption($"{workTime} не найдено!");
+                throw new EntityNotFoundException($"{workTime} не найдено!");
 
             _workTimeRepository.UpdateWorkTime(workTime);
         }
@@ -49,7 +49,7 @@ namespace DogSitter.BLL.Services
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
 
             if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
-                throw new ServiceNotFoundExeption($"{workTime} не найдено!");
+                throw new EntityNotFoundException($"{workTime} не найдено!");
 
             _workTimeRepository.UpdateWorkTime(workTime, true);
         }
@@ -59,7 +59,7 @@ namespace DogSitter.BLL.Services
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
 
             if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
-                throw new ServiceNotFoundExeption($"{workTime} не найдено!");
+                throw new EntityNotFoundException($"{workTime} не найдено!");
 
             _workTimeRepository.RestoreWorkTime(workTime, false);
         }

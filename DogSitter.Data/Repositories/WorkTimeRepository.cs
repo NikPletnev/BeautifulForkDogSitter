@@ -6,7 +6,6 @@ namespace DogSitter.DAL.Repositories
     {
         private readonly DogSitterContext _context;
         private bool _isInitialized;
-
         public WorkTimeRepository(DogSitterContext dbContext)
         {
             _isInitialized = true;
