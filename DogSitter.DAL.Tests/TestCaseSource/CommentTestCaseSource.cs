@@ -8,18 +8,34 @@ using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
-    public class CommentTestCaseSource : IEnumerable
+    public class CommentTestCaseSource 
     {
-        public IEnumerator GetEnumerator()
-        {
-            List<Comment> comments = new List<Comment>()
+        public static List<Comment> GetComments() =>
+            new List<Comment>()
             {
-                new Comment(){ Text = "Test text ONE", Date = DateTime.Now, IsDeleted = false},
-                new Comment(){ Text = "Test text TWO", Date = DateTime.Now, IsDeleted = true}
+                new Comment()
+                {
+                    Id = 1,
+                    Text = "Test1",
+                    Date = DateTime.Now,
+                    IsDeleted = false
+                },
+                 new Comment()
+                {
+                    Id = 2,
+                    Text = "Test2",
+                    Date = DateTime.Now,
+                    IsDeleted = true
+                },
             };
-
-            yield return new object[] { comments };
-
-        }
+        public static Comment GetComment() =>
+                new Comment()
+                {
+                    Id = 3,
+                    Text = "Test3",
+                    Date = DateTime.Now,
+                    IsDeleted = false,
+                    Order = new Order()
+                };
     }
 }

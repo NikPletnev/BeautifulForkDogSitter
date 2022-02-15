@@ -9,6 +9,6 @@ namespace DogSitter.BLL.Services
         List<CommentModel> GetAll();
         CommentModel GetById(int id);
         void Restore(int id);
-        void Update(CommentModel commentModel);
+        void Update(int id, CommentModel commentModel);
     }
 }

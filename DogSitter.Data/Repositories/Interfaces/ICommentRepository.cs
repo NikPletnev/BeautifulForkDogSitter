@@ -8,6 +8,6 @@ namespace DogSitter.DAL.Repositories
         List<Comment> GetAll();
         Comment GetById(int id);
         void Update(Comment comment);
-        void Update(int id, bool IsDeleted);
+        void Update(Comment comment, bool IsDeleted);
     }
 }

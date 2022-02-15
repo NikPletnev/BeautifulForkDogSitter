@@ -30,7 +30,7 @@ namespace DogSitter.BLL.Services
 
             if (comment == null)
             {
-                throw new ServiceNotFoundExeption($"Comment {id} was not found");
+                throw new EntityNotFoundException($"Comment {id} was not found");
             }
             return _mapper.Map<CommentModel>(_repository.GetById(id));
         }
@@ -49,17 +49,17 @@ namespace DogSitter.BLL.Services
             _repository.Add(_mapper.Map<Comment>(commentModel));
         }
 
-        public void Update(CommentModel commentModel)
+        public void Update(int id, CommentModel commentModel)
         {
             if (commentModel.Text == String.Empty)
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the comment {commentModel.Id}");
             }
             var entity = _mapper.Map<Comment>(commentModel);
-            var comment = _repository.GetById(commentModel.Id);
+            var comment = _repository.GetById(id);
             if (comment == null)
             {
-                throw new ServiceNotFoundExeption($"Comment {commentModel.Id} was not found");
+                throw new EntityNotFoundException($"Comment {commentModel.Id} was not found");
             }
 
             _repository.Update(comment);
@@ -70,7 +70,7 @@ namespace DogSitter.BLL.Services
             var comment = _repository.GetById(id);
             if (comment == null)
             {
-                throw new ServiceNotFoundExeption($"Comment {id} was not found");
+                throw new EntityNotFoundException($"Comment {id} was not found");
             }
 
             bool isDelited = true;
@@ -82,7 +82,7 @@ namespace DogSitter.BLL.Services
             var comment = _repository.GetById(id);
             if (comment == null)
             {
-                throw new ServiceNotFoundExeption($"Comment {id} was not found");
+                throw new EntityNotFoundException($"Comment {id} was not found");
             }
 
             bool Delete = false;
