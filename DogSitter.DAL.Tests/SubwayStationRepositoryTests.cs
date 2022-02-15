@@ -54,8 +54,7 @@ namespace DogSitter.DAL.Tests
         public void GetAllSubwayStationsWhereSitterExistTest()
         {
             //given
-            var expected = _context.SubwayStations.Where(ss => !ss.IsDeleted)
-                .Where(s => s.Sitters.Any(s => !s.IsDeleted)).ToList();
+            var expected = _context.SubwayStations.ToList();
 
             //when
             var actual = _subwayStationRepository.GetAllSubwayStationsWhereSitterExist();
