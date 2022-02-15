@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -50,6 +51,10 @@ namespace DogSitter.DAL
             modelBuilder.Entity<Sitter>()
             .Property(w => w.Verified)
             .HasDefaultValue(0);
+
+            modelBuilder.Entity<Order>()
+            .Property(a => a.Status)
+            .HasDefaultValue((Status)1);
 
             #region Default IsDeleted = 0
 
