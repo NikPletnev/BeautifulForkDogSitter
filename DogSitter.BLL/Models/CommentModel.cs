@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Models
 {
@@ -12,6 +8,5 @@ namespace DogSitter.BLL.Models
         public string Text { get; set; }
         public DateTime Date { get; set; }
         public bool IsDeleted { get; set; }
-
     }
 }
