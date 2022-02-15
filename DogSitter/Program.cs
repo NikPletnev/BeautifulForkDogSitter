@@ -19,9 +19,10 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DogSitterContext>(
-    options => options.UseSqlServer(@"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB;
-Persist Security Info=True; User ID = student; Password = qwe!23; Pooling = False; MultipleActiveResultSets = False;
-Connect Timeout = 60; Encrypt = False; TrustServerCertificate = False"));
+    options => options.UseSqlServer(
+        @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB;
+        Persist Security Info=True; User ID = student; Password = qwe!23; Pooling = False; MultipleActiveResultSets = False;
+        Connect Timeout = 60; Encrypt = False; TrustServerCertificate = False"));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -45,6 +46,9 @@ builder.Services.AddScoped<IPassportRepository, PassportRepository>();
 
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
+
+builder.Services.AddScoped<IDogService , DogService>();
+builder.Services.AddScoped<IDogRepository , DogRepository>();
 
 
 var app = builder.Build();
