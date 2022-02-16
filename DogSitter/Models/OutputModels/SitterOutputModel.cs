@@ -13,6 +13,5 @@
         public List<ServiceOutputModel> Services { get; set; }
         public List<WorkTimeOutputModel> WorkTimes { get; set; }
 
-
     }
 }
