@@ -30,9 +30,8 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateAdmin(Admin admin)
+        public void UpdateAdmin(Admin admin, Admin entity)
         {
-            var entity = GetAdminById(admin.Id);
             entity.FirstName = admin.FirstName;
             entity.LastName = admin.LastName;
             entity.Password = admin.Password;
@@ -40,10 +39,9 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateAdmin(int id, bool isDeleted)
+        public void UpdateAdmin(Admin admin, bool isDeleted)
         {
-            var entity = GetAdminById(id);
-            entity.IsDeleted = isDeleted;
+            admin.IsDeleted = isDeleted;
             _context.SaveChanges();
         }        
     }

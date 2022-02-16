@@ -135,13 +135,12 @@ namespace DogSitter.DAL.Tests
 
             var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = true };
 
-            //when
-            _rep.UpdateAdmin(2, true);
-            var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
+                var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = true };
+                var admin = _context.Admins.FirstOrDefault(z => z.Id == 2);
 
-            //then
-            Assert.AreEqual(expected, actual);
-        }
+                //when
+                _rep.UpdateAdmin(admin, true);
+                var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
 
         [TestCaseSource(typeof(AdminTestCaseSource))]
         public void UpdateAdminTest(List<Admin> admins)
@@ -152,12 +151,11 @@ namespace DogSitter.DAL.Tests
 
             var newAdmin = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234" };
 
-            var expected = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234", IsDeleted = false };
-
-            //when
-            _rep.UpdateAdmin(newAdmin);
-
-            var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
+                var newAdmin = new Admin() { Id = 2, FirstName = "Иван!!222", LastName = "Иванов!!22", Password = "!4321VANYA1234!" };
+                var expected = new Admin() { Id = 2, FirstName = "Иван!!222", LastName = "Иванов!!22", Password = "!4321VANYA1234!", IsDeleted = false };
+                var admin = _context.Admins.FirstOrDefault(x => x.Id == 2);
+                //when
+                _rep.UpdateAdmin(newAdmin, admin);
 
             //then
             Assert.AreEqual(expected, actual);

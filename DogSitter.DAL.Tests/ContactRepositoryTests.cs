@@ -89,9 +89,10 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             var expected = new Contact() { Id = 3, Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = true };
+            var contact = _context.Contacts.FirstOrDefault(x => x.Id == 3);
 
             //when
-            _rep.UpdateContact(3, true);
+            _rep.UpdateContact(contact, true);
             var actual = _context.Contacts.FirstOrDefault(z => z.Id == 3);
 
             //then
@@ -110,8 +111,10 @@ namespace DogSitter.DAL.Tests
 
             var expected = new Contact() { Id = 3, Value = "NewNewNew@icloud.com", ContactType = ContactType.mail, IsDeleted = true };
 
+            var contact = _context.Contacts.FirstOrDefault(x => x.Id == 3);
+
             //when
-            _rep.UpdateContact(newContact);
+            _rep.UpdateContact(contact, newContact);
             var actual = _context.Contacts.FirstOrDefault(z => z.Id == 3);
 
             //then

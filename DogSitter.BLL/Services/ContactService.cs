@@ -33,15 +33,15 @@ namespace DogSitter.BLL.Services
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the contact {id}");
             }
 
-            var entity = _mapper.Map<Contact>(contactModel);
-            var contact = _rep.GetContactById(id);
+            var contact = _mapper.Map<Contact>(contactModel);
+            var entity = _rep.GetContactById(id);
 
-            if (contact == null)
+            if (entity == null)
             {
                 throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
-            _rep.UpdateContact(entity);
+            _rep.UpdateContact(entity, contact);
         }
 
         public void DeleteContact(int id)
@@ -53,7 +53,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
-            _rep.UpdateContact(id, true);
+            _rep.UpdateContact(contact, true);
         }
 
         public void RestoreContact(int id)
@@ -65,7 +65,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
-            _rep.UpdateContact(id, false);
+            _rep.UpdateContact(contact, false);
         }
 
         public void AddContact(ContactModel contact)

@@ -29,15 +29,15 @@ namespace DogSitter.BLL.Services
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the passport {id}");
             }
 
-            var entity = _map.Map<Passport>(passportModel);
-            var passport = _rep.GetPassportById(id);
+            var passport = _map.Map<Passport>(passportModel);
+            var entity = _rep.GetPassportById(id);
 
-            if (passport == null)
+            if (entity == null)
             {
                 throw new EntityNotFoundException($"Passport {id} was not found");
             }
 
-            _rep.UpdatePassport(entity);
+            _rep.UpdatePassport(entity, passport);
         }
 
         public void AddPassport(PassportModel passportModel)
