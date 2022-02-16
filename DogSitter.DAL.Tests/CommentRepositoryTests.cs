@@ -30,8 +30,8 @@ namespace DogSitter.DAL.Tests
 
             _repository = new CommentRepository(_context);
 
-            var comments = CommentTestCaseSource.GetComments();
-            _context.Comments.AddRange(comments);
+            //var comments = CommentTestCaseSource.GetComments();
+            //_context.Comments.AddRange(comments);
 
             _context.SaveChanges();
         }
@@ -132,6 +132,18 @@ namespace DogSitter.DAL.Tests
 
             //then
             Assert.AreEqual(comment.IsDeleted, false);
+        }
+
+        [TestCaseSource(typeof(GetAllComentsBySitterIdTestCaseSource))]
+        public void GetAllComentsBySitterIdTest(List<Order> orders, Sitter sitter, List<Comment> expected)
+        {
+            //given
+            _context.Orders.AddRange(orders);
+            _context.SaveChanges();
+            //when
+            var actual = _repository.GetAllComentsBySitterId(sitter);
+            //then
+            Assert.AreEqual(actual, expected);
         }
     }
 }

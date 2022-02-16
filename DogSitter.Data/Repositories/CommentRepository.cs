@@ -38,5 +38,9 @@ namespace DogSitter.DAL.Repositories
             comment.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
+
+        public List<Comment> GetAllComentsBySitterId(Sitter sitter) =>
+            _context.Comments.Where(x => x.Order.Sitter.Id == sitter.Id).ToList();
+
     }
 }
