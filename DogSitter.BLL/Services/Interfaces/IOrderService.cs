@@ -10,5 +10,6 @@ namespace DogSitter.BLL.Services
         OrderModel GetById(int id);
         void Restore(int id);
         void Update(OrderModel orderModel);
+        void EditOrderStatusByOrderId(int id, int status);
     }
 }

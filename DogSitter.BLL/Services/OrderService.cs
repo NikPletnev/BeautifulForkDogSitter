@@ -2,6 +2,7 @@
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using System;
@@ -28,7 +29,7 @@ namespace DogSitter.BLL.Services
             if (order == null)
             {
                 throw new ServiceNotFoundExeption($"Order {id} was not found");
-            }
+        }
 
             return _mapper.Map<OrderModel>(order);
         }
@@ -54,7 +55,7 @@ namespace DogSitter.BLL.Services
             if (orderModel.Price == 0 ||
                 orderModel.Status == 0 ||
                 orderModel.Mark == null)
-            {
+        {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the order {orderModel.Id}");
             }
             var entity = _mapper.Map<Order>(orderModel);
