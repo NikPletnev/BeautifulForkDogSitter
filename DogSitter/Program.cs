@@ -5,6 +5,7 @@ using DogSitter.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 using DogSitter.API.Infrastructure;
+using DogSitter.DAL.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,8 @@ builder.Services.AddScoped<IPassportRepository, PassportRepository>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
+builder.Services.AddScoped<ISitterService, SitterService>();
+builder.Services.AddScoped<ISitterRepository, SitterRepository>();
 
 var app = builder.Build();
 

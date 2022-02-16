@@ -1,4 +1,5 @@
-﻿using DogSitter.API.Configs;
+﻿using AutoMapper;
+using DogSitter.API.Configs;
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
@@ -13,20 +14,20 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class SittersController : Controller
     {
-        private readonly SitterService _service;
-        private readonly CustomMapper _mapper;
+        private readonly ISitterService _service;
+        private readonly IMapper _mapper;
 
-        public SittersController()
+        public SittersController(ISitterService sitterService, IMapper mapper)
         {
-            _service = new SitterService();
-            _mapper = new CustomMapper();
+            _service = sitterService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public ActionResult<SitterOutputModel> GetbyId(int id)
         {
             var sitter = _service.GetById(id);
-            var sitterModel = _mapper.GetInstance().Map<SitterOutputModel>(sitter);
+            var sitterModel = _mapper.Map<SitterOutputModel>(sitter);
             return Ok(sitterModel);
         }
 
@@ -34,22 +35,22 @@ namespace DogSitter.API.Controllers
         public ActionResult<List<SitterOutputModel>> GetAll(int id)
         {
             var sitters = _service.GetAll();
-            var sittersModel = _mapper.GetInstance().Map<SitterOutputModel>(sitters);
+            var sittersModel = _mapper.Map<SitterOutputModel>(sitters);
             return Ok(sittersModel);
         }
 
         [HttpPost]
         public ActionResult Add ([FromBody] SitterInputModel sittetModel)
         {        
-            var sitter = _mapper.GetInstance().Map<SitterModel>( sittetModel);
+            var sitter = _mapper.Map<SitterModel>( sittetModel);
             _service.Add(sitter);
             return StatusCode(StatusCodes.Status201Created, sitter);
         }
 
-        [HttpPut]
-        public ActionResult Update([FromBody] SitterInputModel sitterModel)
+        [HttpPut("{id}")]
+        public ActionResult Update([FromRoute] int id, [FromBody] SitterInputModel sitterModel)
         {
-            var sitter = _mapper.GetInstance().Map<SitterModel>(sitterModel);
+            var sitter = _mapper.Map<SitterModel>(sitterModel);
             _service.Update(sitter);
             return NoContent();
         }
