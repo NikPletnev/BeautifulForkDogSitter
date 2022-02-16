@@ -27,7 +27,8 @@ namespace DogSitter.BLL.Services
             _contactRepository = contactRepository;
             _map = mapper;
         }
-        public string LoginUser(UserModel user)
+
+        public string GetToken(UserModel user)
         {            
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.Name, user.FirstName ),

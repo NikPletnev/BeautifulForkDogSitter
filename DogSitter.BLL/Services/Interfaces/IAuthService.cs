@@ -7,6 +7,6 @@ namespace DogSitter.BLL.Services
         AdminModel GetAdminForLogin(string contact, string pass);
         CustomerModel GetCustomerForLogin(string contact, string pass);
         SitterModel GetSitterForLogin(string contact, string pass);
-        string LoginUser(UserModel user);
+        string GetToken(UserModel user);
     }
 }

@@ -81,20 +81,19 @@ namespace DogSitter.BLL.Tests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCaseSource(typeof(LoginUserTestCaseSourse))]
-        public void LoginUserTest_MustValidateToken(UserModel user)
+        [TestCaseSource(typeof(GetTokenTestCaseSourse))]
+        public void GetTokenTest_MustValidateToken(UserModel user)
         {
             //given 
 
             //when 
-            var token = _service.LoginUser(user);
+            var token = _service.GetToken(user);
 
             //then
 
             Assert.IsNotNull(token);
             Assert.IsTrue(ValidateToken(token));
         }
-
 
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
         public void LoginAdminTest_WhenAdminNotFound_ShouldThrowServiceNotFoundExeption(Admin admin, AdminModel expected, Contact contact, string password)
@@ -107,14 +106,12 @@ namespace DogSitter.BLL.Tests
 
             //when
 
-
             //then
             ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() => 
             _service.GetAdminForLogin( contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
 
         }
-
 
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
         public void LoginAdminTest_WhenContactNotFound_ShouldThrowServiceNotFoundExeption(Admin admin, AdminModel expected, Contact contact, string password)
@@ -126,7 +123,6 @@ namespace DogSitter.BLL.Tests
             string expectedMessage = "Contact not found";
 
             //when
-
 
             //then
             ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() =>
@@ -144,7 +140,6 @@ namespace DogSitter.BLL.Tests
             string expectedMessage = "Customer not found";
 
             //when
-
 
             //then
             ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() => 
@@ -165,7 +160,6 @@ namespace DogSitter.BLL.Tests
 
             //when
 
-
             //then
             ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(()=>
             _service.GetCustomerForLogin( contact.Value, password));
@@ -182,7 +176,6 @@ namespace DogSitter.BLL.Tests
             string expectedMessage = "Sitter not found";
 
             //when
-
 
             //then
             ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() =>
@@ -203,13 +196,11 @@ namespace DogSitter.BLL.Tests
 
             //when
 
-
             //then
             ServiceNotFoundExeption ex = Assert.Throws<ServiceNotFoundExeption>(() => 
             _service.GetSitterForLogin( contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
-
 
         private static bool ValidateToken(string authToken)
         {

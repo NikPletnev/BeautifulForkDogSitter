@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
-    public class LoginUserTestCaseSourse : IEnumerable
+    public class GetTokenTestCaseSourse : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
