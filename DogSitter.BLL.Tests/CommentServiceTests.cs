@@ -19,6 +19,7 @@ namespace DogSitter.BLL.Tests
     public class CommentServiceTests
     {
         private readonly Mock<ICommentRepository> _commentRepositoryMock;
+        private readonly Mock<ISitterRepository> _sitterRepositoryMock;
         private readonly IMapper _mapper;
         private CommentService _comment;
         private CommentTestCaseSourse _commentMocks;
@@ -26,18 +27,19 @@ namespace DogSitter.BLL.Tests
         public CommentServiceTests()
         {
             _commentRepositoryMock = new Mock<ICommentRepository>();
+            _sitterRepositoryMock = new Mock<ISitterRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
         }
 
         [SetUp]
         public void SetUp()
         {
-            _comment = new CommentService(_commentRepositoryMock.Object, _mapper);
+            _comment = new CommentService(_commentRepositoryMock.Object, _mapper, _sitterRepositoryMock.Object);
             _commentMocks = new CommentTestCaseSourse();
         }
 
         [Test]
-        public void GetGetAllComments_ShouldReturnComments()
+        public void GetAllComments_ShouldReturnComments()
         {
             //given
             var expected = _commentMocks.GetMockComments();
@@ -69,6 +71,7 @@ namespace DogSitter.BLL.Tests
             Assert.AreEqual(actual.Date, expected.Date);
             _commentRepositoryMock.Verify(m => m.GetById(expected.Id));
         }
+
         [Test]
         public void GetCommentByIdNegativeTest()
         {
@@ -139,6 +142,7 @@ namespace DogSitter.BLL.Tests
 
             Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(new CommentModel()));
         }
+
         [Test]
         public void RestoreServiceTest()
         {
@@ -161,6 +165,36 @@ namespace DogSitter.BLL.Tests
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Comment)null);
 
             Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(new CommentModel()));
+        }
+
+        [TestCaseSource(typeof(GetAllComentsBySitterIdTestCaseSource))]
+        public void GetAllCommentsBySitterIdTest(int id, Sitter sitter, List<Comment> comments)
+        {
+            //given
+            _sitterRepositoryMock.Setup(x => x.GetById(id)).Returns(sitter);
+            _commentRepositoryMock.Setup(x => x.GetAllComentsBySitterId(sitter)).Returns(comments);
+
+            //when
+            var actaul = _comment.GetAllCommentsBySitterId(id);
+
+            //then
+            _commentRepositoryMock.Verify(x => x.GetAllComentsBySitterId(sitter), Times.Once());
+            _sitterRepositoryMock.Verify(x => x.GetById(id), Times.Once());
+        }
+
+        [TestCaseSource(typeof(GetAllComentsBySitterIdTestCaseSource))]
+        public void GetAllCommentsBySitterIdTest_WhenSitterNotFound_ShouldThrowEntityNotFoundException(int id, Sitter sitter, List<Comment> comments)
+        {
+            //given
+            _sitterRepositoryMock.Setup(x => x.GetById(id));
+            _commentRepositoryMock.Setup(x => x.GetAllComentsBySitterId(sitter)).Returns(comments);
+
+            //when
+
+            //then
+            Assert.Throws<EntityNotFoundException>(() => _comment.GetAllCommentsBySitterId(id));
+            _commentRepositoryMock.Verify(x => x.GetAllComentsBySitterId(sitter), Times.Never());
+            _sitterRepositoryMock.Verify(x => x.GetById(id), Times.Once());
         }
     }
 }

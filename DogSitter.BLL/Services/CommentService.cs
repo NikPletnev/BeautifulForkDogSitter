@@ -15,13 +15,15 @@ namespace DogSitter.BLL.Services
     public class CommentService : ICommentService
     {
         private readonly ICommentRepository _repository;
+        private readonly ISitterRepository _sitterRepository;
         private readonly IMapper _mapper;
 
 
-        public CommentService(ICommentRepository repository, IMapper mapper)
+        public CommentService(ICommentRepository repository, IMapper mapper, ISitterRepository sitterRepository)
         {
             _mapper = mapper;
             _repository = repository;
+            _sitterRepository = sitterRepository;
         }
 
         public CommentModel GetById(int id)
@@ -87,6 +89,17 @@ namespace DogSitter.BLL.Services
 
             bool Delete = false;
             _repository.Update(comment, Delete);
+        }
+
+        public List<CommentModel> GetAllCommentsBySitterId(int id)
+        {
+            var sitter = _sitterRepository.GetById(id);
+            if (sitter == null)
+            {
+                throw new EntityNotFoundException($"Sitter {id} was not found");
+            }
+
+            return _mapper.Map<List<CommentModel>>(_repository.GetAllComentsBySitterId(sitter));
         }
     }
 }
