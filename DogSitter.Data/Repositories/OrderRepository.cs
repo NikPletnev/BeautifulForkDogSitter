@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -39,6 +40,12 @@ namespace DogSitter.DAL.Repositories
         {
             Order order = GetById(id);
             order.IsDeleted = IsDeleted;
+            _context.SaveChanges();
+        }
+
+        public void EditOrderStatusByOrderId(Order order, int status)
+        {
+            order.Status = (Status)status;
             _context.SaveChanges();
         }
     }

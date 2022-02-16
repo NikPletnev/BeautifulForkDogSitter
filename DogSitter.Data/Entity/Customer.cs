@@ -33,20 +33,5 @@ namespace DogSitter.DAL.Entity
                    IsDeleted == other.IsDeleted;
         }
 
-        public override int GetHashCode()
-        {
-            HashCode hash = new HashCode();
-            hash.Add(Id);
-            hash.Add(Password);
-            hash.Add(FirstName);
-            hash.Add(LastName);
-            hash.Add(Contacts);
-            hash.Add(IsDeleted);
-            hash.Add(Dogs);
-            hash.Add(Sitter);
-            hash.Add(Address);
-            hash.Add(Orders);
-            return hash.ToHashCode();
-        }
     }
 }

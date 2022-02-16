@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -12,10 +13,10 @@ namespace DogSitter.DAL.Repositories
         }
 
         public List<Serviсe> GetAllServices() =>
-                    _context.Services.Where(s => !s.IsDeleted).ToList();
+            _context.Services.Where(s => !s.IsDeleted).ToList();
 
         public Serviсe GetServiceById(int id) =>
-                     _context.Services.FirstOrDefault(s => s.Id == id);
+            _context.Services.FirstOrDefault(s => s.Id == id);
 
         public void AddService(Serviсe service)
         {
@@ -23,27 +24,26 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteService(int id)
-        {
-            var service = GetServiceById(id);
-            _context.Services.Remove(service);
-            _context.SaveChanges();
-        }
-
         public void UpdateService(Serviсe service)
         {
-            var entity = GetServiceById(service.Id);
-            entity.Name = service.Name;
-            entity.Price = service.Price;
-            entity.Description = service.Description;
-            entity.DurationHours = service.DurationHours;
+            var trackingService = _context.ChangeTracker.Entries<Serviсe>()
+                .First(a => a.Entity.Id == service.Id).Entity;
+
+            trackingService.Name = service.Name;
+            trackingService.Price = service.Price;
+            trackingService.Description = service.Description;
+            trackingService.DurationHours = service.DurationHours;
             _context.SaveChanges();
         }
 
-        public void UpdateService(int id, bool IsDeleted)
+        public void UpdateService(Serviсe service, bool IsDeleted)
         {
-            var entity = GetServiceById(id);
-            entity.IsDeleted = IsDeleted;
+            service.IsDeleted = IsDeleted;
+            _context.SaveChanges();
+        }
+        public void RestoreService(Serviсe service, bool IsDeleted)
+        {
+            service.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -7,31 +8,29 @@ namespace DogSitter.BLL.Services
 {
     public class ServiceService : IServiceService
     {
-        private IServiceRepository _repository;
-        private IMapper _mapper;
+        private readonly IServiceRepository _serviceRepository;
+        private readonly IMapper _mapper;
 
-        public ServiceService(IServiceRepository repository, IMapper mapper)
+        public ServiceService(IServiceRepository serviceRepository, IMapper mapper)
         {
-            _repository = repository;
+            _serviceRepository = serviceRepository;
             _mapper = mapper;
         }
 
         public ServiceModel GetServiceById(int id)
         {
-            try
-            {
-                var service = _repository.GetServiceById(id);
-                return _mapper.Map<ServiceModel>(service);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Сервис не найден!");
-            }
+            var service = _serviceRepository.GetServiceById(id);
+
+            if (service == null)
+                throw new EntityNotFoundException($"{service} c Id = {id} не найден!");
+
+            return _mapper.Map<ServiceModel>(service);
         }
 
         public List<ServiceModel> GetAllServices()
         {
-            var services = _repository.GetAllServices();
+            var services = _serviceRepository.GetAllServices();
+
             return _mapper.Map<List<ServiceModel>>(services);
         }
 
@@ -39,52 +38,37 @@ namespace DogSitter.BLL.Services
         {
             var service = _mapper.Map<Serviсe>(serviceModel);
 
-            _repository.AddService(service);
+            _serviceRepository.AddService(service);
         }
 
         public void UpdateService(ServiceModel serviceModel)
         {
             var service = _mapper.Map<Serviсe>(serviceModel);
-            try
-            {
-                var entity = _repository.GetServiceById(serviceModel.Id);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Сeрвис не найден!");
-            }
 
-            _repository.UpdateService(service);
+            if (_serviceRepository.GetServiceById(service.Id) == null)
+                throw new EntityNotFoundException($"{service} не найден!");
+
+            _serviceRepository.UpdateService(service);
         }
 
-        public void UpdateService(int id)
+        public void DeleteService(ServiceModel serviceModel)
         {
-            try
-            {
-                var entity = _repository.GetServiceById(id);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Сeрвис не найден!");
-            }
-            bool delete = true;
+            var service = _mapper.Map<Serviсe>(serviceModel);
 
-            _repository.UpdateService(id, delete);
+            if (_serviceRepository.GetServiceById(service.Id) == null)
+                throw new EntityNotFoundException($"{service} не найден!");
+
+            _serviceRepository.UpdateService(service, true);
         }
-
-        public void RestoreService(int id)
+         
+        public void RestoreService(ServiceModel serviceModel)
         {
-            try
-            {
-                var entity = _repository.GetServiceById(id);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Сeрвис не найден!");
-            }
-            bool Delete = false;
+            var service = _mapper.Map<Serviсe>(serviceModel);
 
-            _repository.UpdateService(id, Delete);
+            if (_serviceRepository.GetServiceById(service.Id) == null)
+                throw new EntityNotFoundException($"{service} не найден!");
+
+            _serviceRepository.RestoreService(service, false);
         }
     }
 }

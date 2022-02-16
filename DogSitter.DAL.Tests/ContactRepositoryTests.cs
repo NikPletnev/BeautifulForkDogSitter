@@ -118,6 +118,14 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCaseSource(typeof(GetAllContactsByAdminIdTestCaseSource))]
+        public void GetAllContactsByAdminIdTest(int id, List<Admin> admins, List<Contact> expected)
+        {
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+           var actual = _rep.GetAllContactsByAdminId(id);
+            Assert.AreEqual(expected, actual);
+        }
         [TestCaseSource(typeof(GetContactByValueTestCaseSource))]
         public void GetContactByValueTest(List <Admin> admins, string value, Contact expectedContact, Admin expectedAdmin)
         {
@@ -125,6 +133,23 @@ namespace DogSitter.DAL.Tests
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
 
+        [TestCaseSource(typeof(GetAllContactsByCustomerIdTestCaseSource))]
+        public void GetAllContactsByCustomerIdTest(int id, List<Customer> customers, List<Contact> expected)
+        {
+            _context.Customers.AddRange(customers);
+            _context.SaveChanges();
+            var actual = _rep.GetAllContactsByCustomerId(id);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCaseSource(typeof(GetAllContactsBySitterIdTestCaseSource))]
+        public void GetAllContactsBySitterIdTest(int id, List<Sitter>sitters, List<Contact> expected)
+        {
+            _context.Sitters.AddRange(sitters);
+            _context.SaveChanges();
+            var actual = _rep.GetAllContactsBySitterId(id);
+            Assert.AreEqual(expected, actual);
+        }
             var foundAdmin = _context.Admins.FirstOrDefault(x => x.Id == 2);
             var foundContact = _context.Contacts.FirstOrDefault(x => x.Id == 2);
             foundContact.Admin = foundAdmin;

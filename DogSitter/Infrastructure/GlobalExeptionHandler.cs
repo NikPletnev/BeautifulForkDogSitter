@@ -19,13 +19,13 @@ namespace DogSitter.API.Infrastructure
             {
                 await _next(context);
             }
+            catch (EntityNotFoundException ex)
+            {
+                await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
+            }
             catch (Microsoft.Data.SqlClient.SqlException)
             {
                 await HandleExceptionAsync(context, HttpStatusCode.ServiceUnavailable, "Сервер недоступен");
-            }
-            catch (ServiceNotFoundExeption ex)
-            {
-                await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
             }
             catch (ServiceNotEnoughDataExeption ex)
             {
@@ -35,6 +35,7 @@ namespace DogSitter.API.Infrastructure
             {
                 await HandleExceptionAsync(context, HttpStatusCode.BadRequest, ex.Message);
             }
+
         }
 
         private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode code, string message)

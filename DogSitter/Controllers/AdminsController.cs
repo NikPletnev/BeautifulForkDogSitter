@@ -20,42 +20,11 @@ namespace DogSitter.API.Controllers
         }
 
         //api/admins/42
-        [HttpDelete("{id}")]
-        public IActionResult DeleteAdmin(int id)
-        {
-            _service.DeleteAdmin(id);
-            return NoContent();
-        }
-
-        //api/admins/42
-        [HttpPatch("{id}")]
-        public IActionResult RestoreAdmin(int id)
-        {
-            _service.RestoreAdmin(id);
-            return Ok();
-        }
-
-        //api/admins/42
         [HttpPut("{id}")]
         public IActionResult UpdateAdmin(int id, [FromBody] AdminUpdateInputModel admin)
         {
             _service.UpdateAdmin(id, _map.Map<AdminModel>(admin));
             return NoContent();
-        }
-
-        [HttpPost]
-        public ActionResult<AdminOutputModel> AddAdmin([FromBody] AdminInsertInputModel admin)
-        {
-            _service.AddAdmin(_map.Map<AdminModel>(admin));
-            return StatusCode(StatusCodes.Status201Created);
-        }
-
-        //api/admins/42
-        [HttpGet("{id}")]
-        public ActionResult<AdminOutputModel> GetAdminById(int id)
-        {
-            var admin = _map.Map<AdminOutputModel>(_service.GetAdminById(id));
-            return Ok(admin);
         }
 
         //api/admins

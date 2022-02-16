@@ -1,14 +1,13 @@
 ﻿using DogSitter.BLL.Models;
 
-namespace DogSitter.BLL.WorkTimes
+namespace DogSitter.BLL.Services
 {
     public interface IWorkTimeService
     {
         void AddWorkTime(WorkTimeModel workTimeModel);
-        List<WorkTimeModel> GetAllWorkTimes();
+        void DeleteWorkTime(WorkTimeModel workTimeModel);
         WorkTimeModel GetWorkTimeById(int id);
-        void RestoreWorkTime(int id);
-        void UpdateWorkTime(int id);
         void UpdateWorkTime(WorkTimeModel workTimeModel);
+        void RestoreWorkTime(WorkTimeModel workTimeModel);
     }
 }

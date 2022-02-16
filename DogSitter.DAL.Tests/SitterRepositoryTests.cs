@@ -44,6 +44,20 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.AreEqual(expected, actual);
         }
-        //the rest of the tests for this entity are implemented in another branch
+
+        [TestCaseSource(typeof(EditStateProfileSitterByIdTestCaseSource))]
+        public void ConfirmProfileSitterByIdTest(int id, bool verify, List<Sitter> sitters)
+        {
+            //given
+            _context.AddRange(sitters);
+            _context.SaveChanges();
+
+            //when
+            _rep.EditProfileStateBySitterId(id, verify);
+            var actual = _context.Sitters.FirstOrDefault(x => x.Id == id).Verified;
+
+            //then
+            Assert.AreEqual(actual, verify);
+        }
     }
 }
