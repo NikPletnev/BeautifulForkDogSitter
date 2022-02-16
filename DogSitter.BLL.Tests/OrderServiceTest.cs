@@ -34,12 +34,12 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
-            _orderRepositoryMock.Setup(x => x.Update(entity)).Verifiable();
+            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>())).Verifiable();
             //when       
             _service.UpdateOrder(id, model);
             //then            
             _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
-            _orderRepositoryMock.Verify(x => x.Update(entity), Times.Once);
+            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Once);
         }
 
         [TestCaseSource(typeof(UpdateOrderTestCaseSource))]
@@ -47,13 +47,13 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _orderRepositoryMock.Setup(x => x.GetById(id));
-            _orderRepositoryMock.Setup(x => x.Update(entity));
+            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>()));
             //when       
             
             //then            
             Assert.Throws<EntityNotFoundException>(() => _service.UpdateOrder(id, model));
-            _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
-            _orderRepositoryMock.Verify(x => x.Update(entity), Times.Never);
+            _orderRepositoryMock.Verify(x => x.GetById(id));
+            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
         }
 
         [TestCaseSource(typeof(UpdateOrderWhenOrderHasBeenAcceptedTestCaseSource))]
@@ -61,13 +61,13 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
-            _orderRepositoryMock.Setup(x => x.Update(entity));
+            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>()));
             //when       
 
             //then            
             Assert.Throws<Exception>(() => _service.UpdateOrder(id, model));
             _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
-            _orderRepositoryMock.Verify(x => x.Update(entity), Times.Never);
+            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
         }
 
     }

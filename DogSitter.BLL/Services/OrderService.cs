@@ -30,9 +30,9 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            if (entity.Status == (Status)1)
+            if (entity.Status == Status.Created)
             {
-                _rep.Update(entity);
+                _rep.Update(entity, _map.Map<Order>(order));
             }
             else
             {

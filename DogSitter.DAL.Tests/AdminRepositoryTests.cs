@@ -58,10 +58,10 @@ namespace DogSitter.DAL.Tests
 
                 var expected = new List<Admin>() {
                 new Admin() { Id = 1, FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234",
-                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = Enums.ContactType.phone} } ,
+                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = Enums.ContactType.Phone} } ,
                   IsDeleted = false} ,
                 new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
-                  Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.mail} },
+                  Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.Mail} },
                   IsDeleted = false }
                 };
 
@@ -101,7 +101,7 @@ namespace DogSitter.DAL.Tests
                     FirstName = "Иван2",
                     LastName = "Иванов2",
                     Password = "2VANYA1234",
-                    Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.mail } },
+                    Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.Mail } },
                     IsDeleted = false
                 };
 

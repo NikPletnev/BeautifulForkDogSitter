@@ -15,15 +15,15 @@ namespace DogSitter.BLL.Tests.TestCaseSource
         public IEnumerator GetEnumerator()
         {
             List<Contact> contacts = new List<Contact>() {
-              new Contact() { Value = "89871234567", ContactType = ContactType.phone, IsDeleted = false },
-              new Contact() { Value = "@qwerty", ContactType = ContactType.mail, IsDeleted = false },
-              new Contact() { Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = true }
+              new Contact() { Value = "89871234567", ContactType = ContactType.Phone, IsDeleted = false },
+              new Contact() { Value = "@qwerty", ContactType = ContactType.Mail, IsDeleted = false },
+              new Contact() { Value = "qwerty123@icloud.com", ContactType = ContactType.Mail, IsDeleted = true }
             };
 
             List<ContactModel> models = new List<ContactModel>(){
-              new ContactModel() { Value = "89871234567", ContactType = ContactType.phone, IsDeleted = false },
-              new ContactModel() { Value = "@qwerty", ContactType = ContactType.mail, IsDeleted = false },
-              new ContactModel() { Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = true }
+              new ContactModel() { Value = "89871234567", ContactType = ContactType.Phone, IsDeleted = false },
+              new ContactModel() { Value = "@qwerty", ContactType = ContactType.Mail, IsDeleted = false },
+              new ContactModel() { Value = "qwerty123@icloud.com", ContactType = ContactType.Mail, IsDeleted = true }
             };
 
             yield return new object[] { contacts, models };

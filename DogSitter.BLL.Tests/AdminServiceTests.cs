@@ -49,7 +49,7 @@ namespace DogSitter.BLL.Tests
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
                 Contacts = new List<ContactModel> { new ContactModel 
-                { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
             };
             _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(It.IsAny<Admin>());
             //when
@@ -67,7 +67,7 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "",
                 Password = "",
-                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
             };
             _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(It.IsAny<Admin>());
             //when
@@ -96,7 +96,7 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "",
                 Password = "",
-                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
             };
             //when
 
@@ -114,7 +114,7 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
                 IsDeleted = false
             };
 
@@ -137,7 +137,7 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
                 IsDeleted = false
             };
 
@@ -161,7 +161,7 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
                 IsDeleted = false
             };
 

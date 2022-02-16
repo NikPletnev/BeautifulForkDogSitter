@@ -8,6 +8,6 @@ namespace DogSitter.DAL.Repositories
         List<Order> GetAll();
         Order GetById(int id);
         void Update(int id, bool IsDeleted);
-        void Update(Order order);
+        void Update(Order entity, Order order);
     }
 }
