@@ -16,10 +16,11 @@ namespace DogSitter.BLL.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _repository;
-        private IMapper _mapper;
-        public OrderService()
+        private readonly IMapper _mapper;
+        public OrderService(IOrderRepository repository, IMapper mapper)
         {
-            _repository = new OrderRepository();
+            _repository = repository;
+            _mapper = mapper;
         }
 
         public OrderModel GetById(int id)
@@ -28,7 +29,7 @@ namespace DogSitter.BLL.Services
 
             if (order == null)
             {
-                throw new ServiceNotFoundExeption($"Order {id} was not found");
+                throw new EntityNotFoundException($"Order {id} was not found");
         }
 
             return _mapper.Map<OrderModel>(order);
@@ -58,39 +59,34 @@ namespace DogSitter.BLL.Services
         {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the order {orderModel.Id}");
             }
-            var entity = _mapper.Map<Order>(orderModel);
             var order = _repository.GetById(orderModel.Id);
             if (order == null)
             {
-                throw new ServiceNotFoundExeption($"Order {orderModel.Id} was not found");
+                throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
             _repository.Update(order);
         }
 
         public void DeleteById(int id)
         {
-            var entity = _repository.GetById(id);
-
-            if (entity == null)
-            {
-                throw new ServiceNotFoundExeption($"Order {id} was not found");
-            }
-
             bool IsDelete = true;
             _repository.Update(id, IsDelete);
         }
 
         public void Restore(int id)
         {
-            var entity = _repository.GetById(id);
-
-            if (entity == null)
-            {
-                throw new ServiceNotFoundExeption($"Order {id} was not found");
-            }
-
             bool IsDelete = false;
             _repository.Update(id, IsDelete);
+        }
+
+        public void EditOrderStatusByOrderId(int id, int status)
+        {
+            var order = _repository.GetById(id);
+            if (order == null)
+            {
+                throw new EntityNotFoundException($"Order {id} was not found");
+            }
+            _repository.EditOrderStatusByOrderId(order, status);
         }
     }
 }
