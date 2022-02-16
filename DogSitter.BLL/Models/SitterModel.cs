@@ -9,5 +9,6 @@
         public List<ServiceModel> Services { get; set; }
         public List<WorkTimeModel> WorkTimes { get; set; }
         public List<CustomerModel> Customers { get; set; }
+        public PassportModel Passport { get; set; }
     }
 }

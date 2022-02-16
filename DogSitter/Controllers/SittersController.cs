@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     [Route("api/[controller]")]
     public class SittersController : Controller
@@ -41,7 +42,7 @@ namespace DogSitter.API.Controllers
 
         [HttpPost]
         public ActionResult Add ([FromBody] SitterInputModel sittetModel)
-        {        
+        {
             var sitter = _mapper.Map<SitterModel>( sittetModel);
             _service.Add(sitter);
             return StatusCode(StatusCodes.Status201Created, sitter);
@@ -62,6 +63,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
+        //api/sitters/42
         [HttpPatch("{id}")]
         public ActionResult Restore(int id)
         {

@@ -11,30 +11,28 @@ namespace DogSitter.API.Configs
 
         public CustomMapper()
         {
-            CreateMap<AdminInsertInputModel, AdminModel>().ReverseMap();
-            CreateMap<AdminUpdateInputModel, AdminModel>().ReverseMap();
-            CreateMap<AdminOutputModel, AdminModel>().ReverseMap();
+            CreateMap<AdminInsertInputModel, AdminModel>();
+            CreateMap<AdminUpdateInputModel, AdminModel>();
+            CreateMap<AdminModel, AdminOutputModel>();
 
-            CreateMap<ContactOutputModel, ContactModel>().ReverseMap();
-            CreateMap<ContactInsertInputModel, ContactModel>().ReverseMap();
+            CreateMap<ContactModel, ContactOutputModel > ();
+            CreateMap<ContactInsertInputModel, ContactModel>();
 
-            CreateMap<ContactOutputModel, ContactModel>().ReverseMap()
+            CreateMap<ContactModel, ContactOutputModel > ()
             .ForMember(dest => dest.ContactType, act => act.MapFrom(src => src.ContactType));
-            CreateMap<ContactInsertInputModel, ContactModel>().ReverseMap()
+            CreateMap<ContactInsertInputModel, ContactModel>()
             .ForMember(dest => dest.ContactType, act => act.MapFrom(src => src.ContactType));
 
-            CreateMap<PassportInsertInputModel, PassportModel>().ReverseMap();
-            CreateMap<PassportUpdateInputModel, PassportModel>().ReverseMap();
-            CreateMap<PassportOutputModel, PassportModel>().ReverseMap();
+            CreateMap<PassportInsertInputModel, PassportModel>();
+            CreateMap<PassportUpdateInputModel, PassportModel>();
+            CreateMap<PassportModel, PassportOutputModel>();
 
-            CreateMap<AddressOutputModel, AddressModel>().ReverseMap();
-            CreateMap<AddressInputModel, AddressModel>().ReverseMap();
+            CreateMap<AddressModel, AddressOutputModel>();
+            CreateMap<AddressInputModel, AddressModel>();
 
-            CreateMap<SitterInputModel, SitterModel>().ReverseMap();
-            CreateMap<SitterOutputModel, SitterModel>().ReverseMap();
-
-            CreateMap<SubwayStationOutputModel, SubwayStationOutputModel>().ReverseMap();
-            CreateMap<SubwayStationInputModel, SubwayStationModel>().ReverseMap();
+            CreateMap<ServiceInsertInputModel, ServiceModel>();
+            CreateMap<ServiceUpdateInputModel, ServiceModel>();
+            CreateMap<ServiceModel, ServiceOutputModel>();
         }
     }
 }

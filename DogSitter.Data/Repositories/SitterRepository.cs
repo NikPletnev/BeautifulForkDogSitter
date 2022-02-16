@@ -7,9 +7,9 @@ namespace DogSitter.DAL.Repositories
     {
         private DogSitterContext _context;
 
-        public SitterRepository()
+        public SitterRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public Sitter GetById(int id) =>
@@ -31,7 +31,7 @@ namespace DogSitter.DAL.Repositories
             entity.FirstName = sitter.FirstName;
             entity.LastName = sitter.LastName;
             entity.Contacts = sitter.Contacts;
-            entity.Address = sitter.Address;
+            entity.SubwayStations = sitter.SubwayStations;
             entity.Information = sitter.Information;
             entity.Services = sitter.Services;
             _context.SaveChanges();
@@ -42,6 +42,16 @@ namespace DogSitter.DAL.Repositories
             Sitter sitter = GetById(id);
             sitter.IsDeleted = isDeleted;
             _context.SaveChanges();
+        }
+
+        public void EditProfileStateBySitterId(int id, bool verify)
+        {
+            var entity = GetById(id);
+            if (!entity.IsDeleted)
+            {
+                entity.Verified = verify;
+                _context.SaveChanges();
+            }
         }
     }
 }
