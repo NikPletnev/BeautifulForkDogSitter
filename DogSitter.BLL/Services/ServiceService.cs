@@ -60,7 +60,7 @@ namespace DogSitter.BLL.Services
 
             _serviceRepository.UpdateService(service, true);
         }
-         
+
         public void RestoreService(ServiceModel serviceModel)
         {
             var service = _mapper.Map<Serviсe>(serviceModel);

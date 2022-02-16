@@ -78,7 +78,7 @@ namespace DogSitter.BLL.Tests
             //when
             _service.AddContact(contact);
             //then
-            _contactRepositoryMock.Verify(); 
+            _contactRepositoryMock.Verify();
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace DogSitter.BLL.Tests
         public void DeleteContactTest(int id)
         {
             //given
-            Contact contact = new Contact() {Id = id, Value = "123456", ContactType = ContactType.phone, IsDeleted = false };
+            Contact contact = new Contact() { Id = id, Value = "123456", ContactType = ContactType.phone, IsDeleted = false };
             _contactRepositoryMock.Setup(x => x.UpdateContact(contact.Id, true)).Verifiable();
             _contactRepositoryMock.Setup(x => x.GetContactById(contact.Id)).Returns(contact);
             //when
@@ -144,7 +144,7 @@ namespace DogSitter.BLL.Tests
             //when
             var actual = _service.GetContactById(id);
             //then
-            Assert.AreEqual(actual, new ContactModel() { Value = contact.Value, ContactType = contact.ContactType, Id = contact.Id, IsDeleted = contact.IsDeleted});
+            Assert.AreEqual(actual, new ContactModel() { Value = contact.Value, ContactType = contact.ContactType, Id = contact.Id, IsDeleted = contact.IsDeleted });
             _contactRepositoryMock.Verify();
         }
 

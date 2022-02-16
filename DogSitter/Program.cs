@@ -1,11 +1,4 @@
-using DogSitter.BLL.Configs;
-using DogSitter.BLL.Services;
-using DogSitter.DAL;
-using DogSitter.DAL.Repositories;
-using Microsoft.EntityFrameworkCore;
-
 using DogSitter.API.Infrastructure;
-using DogSitter.API.Configs;
 using DogSitter.BLL.Services;
 using DogSitter.DAL;
 using DogSitter.DAL.Repositories;
@@ -47,8 +40,8 @@ builder.Services.AddScoped<IPassportRepository, PassportRepository>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
-builder.Services.AddScoped<IDogService , DogService>();
-builder.Services.AddScoped<IDogRepository , DogRepository>();
+builder.Services.AddScoped<IDogService, DogService>();
+builder.Services.AddScoped<IDogRepository, DogRepository>();
 
 
 var app = builder.Build();

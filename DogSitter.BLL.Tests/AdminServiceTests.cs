@@ -48,7 +48,7 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<ContactModel> { new ContactModel 
+                Contacts = new List<ContactModel> { new ContactModel
                 { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
             };
             _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(It.IsAny<Admin>());
@@ -207,7 +207,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetAllAdminsTestCaseSource))]
-        public void GetAllAdminsTest(List<Admin> admins, List<AdminModel> expected) 
+        public void GetAllAdminsTest(List<Admin> admins, List<AdminModel> expected)
         {
             //given
             _adminRepositoryMock.Setup(x => x.GetAllAdmins()).Returns(admins);

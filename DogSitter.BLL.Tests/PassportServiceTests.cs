@@ -97,7 +97,7 @@ namespace DogSitter.BLL.Tests
 
             _passportRepositoryMock.Setup(x => x.AddPassport(It.IsAny<Passport>())).Verifiable();
             //when         
-             _service.AddPassport(model);
+            _service.AddPassport(model);
             //then
             _passportRepositoryMock.Verify();
         }
@@ -112,7 +112,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetByIdAndUpdatePassportTestCaseSource))]
-        public void GetPassportByIdTest(int id, Passport entity, PassportModel expected )
+        public void GetPassportByIdTest(int id, Passport entity, PassportModel expected)
         {
             //given
             _passportRepositoryMock.Setup(x => x.GetPassportById(id)).Returns(entity).Verifiable();

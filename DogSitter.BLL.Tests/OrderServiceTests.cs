@@ -2,17 +2,12 @@
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Services;
-using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests
 {

@@ -3,7 +3,6 @@ using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,7 +27,7 @@ namespace DogSitter.DAL.Tests
         }
 
         [TestCaseSource(typeof(GetTestAddressTestCaseSource))]
-        public void GetAddressByIdTestMustReturnAddress(Address testAddress) 
+        public void GetAddressByIdTestMustReturnAddress(Address testAddress)
         {
             //given
 
@@ -43,7 +42,7 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.IsNotNull(receivedAddress);
             Assert.AreEqual(testAddress, receivedAddress);
-            
+
         }
 
         [TestCaseSource(typeof(GetTestAddressesTestCaseSource))]
@@ -71,7 +70,7 @@ namespace DogSitter.DAL.Tests
         {
             //given
 
-            
+
             //when
 
             _repository.AddAddress(address);
@@ -98,14 +97,14 @@ namespace DogSitter.DAL.Tests
                 Apartament = 4,
                 IsDeleted = true
             };
-            
+
             //when
 
             _repository.UpdateAddress(addressToUpdate);
             var result = _dbContext.Addresses.FirstOrDefault(o => o.Id == address.Id);
 
             //then
-            Assert.AreEqual(address, result);   
+            Assert.AreEqual(address, result);
             Assert.AreEqual(address.Name, result.Name);
             Assert.AreEqual(address.City, result.City);
             Assert.AreEqual(address.Street, result.Street);
@@ -130,6 +129,19 @@ namespace DogSitter.DAL.Tests
             Assert.IsTrue(_dbContext.Addresses.FirstOrDefault(o => o.Id == address.Id).IsDeleted);
         }
 
+        [TestCaseSource(typeof(GetAddressByCustomerIdTestCaseSource))]
+        public void GetAddressByCustomerIdTest(Customer customer, List<Address> expected)
+        {
+            //given
+            _dbContext.Customers.Add(customer);
+            _dbContext.SaveChanges();
+
+            //when
+            var actual = _repository.GetAddressByCustomerId(customer);
+
+            //then
+            Assert.AreEqual(expected, actual);
+        }
     }
-   
+
 }

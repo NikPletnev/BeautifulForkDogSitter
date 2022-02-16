@@ -1,11 +1,7 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
@@ -17,7 +13,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
 
             List<Admin> admins = new List<Admin>() {
               new Admin() { FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234" ,
-                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.phone}, 
+                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.phone},
                       new Contact { Value = "123456555578", ContactType = ContactType.phone} },
                   IsDeleted = false },
               new Admin() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",

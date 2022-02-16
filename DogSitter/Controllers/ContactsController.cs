@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DogSitter.API.Models;
-using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 

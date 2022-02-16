@@ -41,7 +41,7 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public List<Contact> GetAllContactsByAdminId(int id)       
+        public List<Contact> GetAllContactsByAdminId(int id)
            => _context.Admins.FirstOrDefault(x => x.Id == id).Contacts.Where(c => !c.IsDeleted).ToList();
 
         public List<Contact> GetAllContactsBySitterId(int id)
