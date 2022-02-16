@@ -53,7 +53,7 @@ namespace DogSitter.BLL.Services
                 var foundAdmin = _adminRepository.Login(foundContact, pass);
                 if (foundAdmin == null)
                 {
-                    throw new ServiceNotFoundExeption("Admin not found");
+                    throw new EntityNotFoundException("Admin not found");
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace DogSitter.BLL.Services
             }
             else
             {
-                throw new ServiceNotFoundExeption("Contact not found");
+                throw new EntityNotFoundException("Contact not found");
             }
             return admin;
         }
@@ -76,7 +76,7 @@ namespace DogSitter.BLL.Services
                 var foundCustomer = _customerRepository.Login(foundContact, pass);
                 if (foundCustomer == null)
                 {
-                    throw new ServiceNotFoundExeption("Customer not found");
+                    throw new EntityNotFoundException("Customer not found");
                 }
                 else
                 {
@@ -85,7 +85,7 @@ namespace DogSitter.BLL.Services
             }
             else
             {
-                throw new ServiceNotFoundExeption("Contact not found");
+                throw new EntityNotFoundException("Contact not found");
             }
             return customer;
         }
@@ -99,7 +99,7 @@ namespace DogSitter.BLL.Services
                 var foundSitter = _sitterRepository.Login(foundContact, pass);
                 if (foundSitter == null)
                 {
-                    throw new ServiceNotFoundExeption("Sitter not found");
+                    throw new EntityNotFoundException("Sitter not found");
                 }
                 else
                 {
@@ -108,7 +108,7 @@ namespace DogSitter.BLL.Services
             }
             else
             {
-                throw new ServiceNotFoundExeption("Contact not found");
+                throw new EntityNotFoundException("Contact not found");
             }
             return sitter;
         }

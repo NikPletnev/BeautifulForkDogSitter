@@ -53,7 +53,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             //when
-            _rep.EditProfileStateBySitterId(id, verify);
+            _sitterRepository.EditProfileStateBySitterId(id, verify);
             var actual = _context.Sitters.FirstOrDefault(x => x.Id == id).Verified;
 
             //then

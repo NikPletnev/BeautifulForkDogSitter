@@ -53,7 +53,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCase(1, 3)]
-        public void EditOrderStatusByOrderIdTest_WhenOrderNotFound_ShouldThrowServiceNotFoundExeption(int id, int status)
+        public void EditOrderStatusByOrderIdTest_WhenOrderNotFound_ShouldThrowEntityNotFoundException(int id, int status)
         {
             //given
             _orderRepositoryMock.Setup(x => x.GetById(id));

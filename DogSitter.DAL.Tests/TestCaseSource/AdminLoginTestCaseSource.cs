@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static DogSitter.DAL.Tests.Tests;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
