@@ -1,4 +1,6 @@
-﻿namespace DogSitter.BLL.Models
+﻿using DogSitter.DAL.Enums;
+
+namespace DogSitter.BLL.Models
 {
     public class OrderModel
     {

@@ -67,16 +67,26 @@ namespace DogSitter.BLL.Services
             _repository.Update(order);
         }
 
-        public void DeleteById(int id)
+        public void DeleteById(OrderModel orderModel)
         {
             bool IsDelete = true;
-            _repository.Update(id, IsDelete);
+            var order = _repository.GetById(orderModel.Id);
+            if (order == null)
+            {
+                throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
+            }
+            _repository.Update(_mapper.Map<Order>(orderModel), IsDelete);
         }
 
-        public void Restore(int id)
+        public void Restore(OrderModel orderModel)
         {
             bool IsDelete = false;
-            _repository.Update(id, IsDelete);
+            var order = _repository.GetById(orderModel.Id);
+            if (order == null)
+            {
+                throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
+            }
+            _repository.Update(_mapper.Map<Order>(orderModel), IsDelete);
         }
 
         public void EditOrderStatusByOrderId(int id, int status)

@@ -140,7 +140,7 @@ namespace DogSitter.BLL.Tests
             Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(new CommentModel()));
         }
         [Test]
-        public void RestoreServiceTest()
+        public void RestoreCommentTest()
         {
             //given
             _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>(), true));
@@ -155,7 +155,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void RestoreServiceNegativeTest()
+        public void RestoreOrderNegativeTest()
         {
             _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>(), It.IsAny<bool>()));
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Comment)null);
