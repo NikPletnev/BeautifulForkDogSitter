@@ -25,6 +25,19 @@ namespace DogSitter.DAL.Entity
 
         public bool Equals(Customer other)
         {
+            if (Address != null && ((Customer)other).Address != null)
+            {
+                if (Address.Count != ((Customer)other).Address.Count)
+                {
+                    return false;
+                }
+
+                if(!Equals(Address, other.Address))
+                {
+                    return false;
+                }
+
+            }
             return other != null &&
                    Id == other.Id &&
                    Password == other.Password &&

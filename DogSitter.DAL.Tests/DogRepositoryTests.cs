@@ -39,10 +39,12 @@ namespace DogSitter.DAL.Tests
             _context.Customers.AddRange(customers);
             _context.SaveChanges();
             //when
+
             //then
             var actual = _rep.GetAllDogsByCustomerId(id);
             Assert.AreEqual(expected, actual);
         }
+
         [TestCaseSource(typeof(DogListTestCaseSource))]
         public void GetAllDogsTestMustReturnAllDogs(List<Dog> dogs, List<Dog> expected)
         {

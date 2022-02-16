@@ -7,12 +7,12 @@ namespace DogSitter.BLL.Services
 {
     public class CustomerService : ICustomerService
     {
-        private CustomerRepository _repository;
+        private ICustomerRepository _repository;
         private IMapper _mapper;
 
-        public CustomerService(IMapper mapper)
+        public CustomerService(IMapper mapper, ICustomerRepository customerRepository)
         {
-            _repository = new CustomerRepository();
+            _repository = customerRepository;
             _mapper = mapper;
         }
 
