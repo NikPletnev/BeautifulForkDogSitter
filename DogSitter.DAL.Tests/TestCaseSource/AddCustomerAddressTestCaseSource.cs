@@ -20,7 +20,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Password = "123456",
                     FirstName = "Iakov",
                     LastName = "Hohland",
-                    Address = new List<Address>(),
+                    Address = new Address(),
                     IsDeleted = false
                 },
                 new Customer
@@ -29,7 +29,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Password = "123456",
                     FirstName = "Brat",
                     LastName = "Dva",
-                    Address = new List<Address>(),
+                    Address = new Address(),
                     IsDeleted = false
                 },
                 new Customer
@@ -38,7 +38,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Password = "123456",
                     FirstName = "Nobody",
                     LastName = "Deleted",
-                    Address = new List<Address>(),
+                    Address = new Address(),
                     IsDeleted = true
                 }
 
@@ -70,7 +70,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Password = "123456",
                 FirstName = "Brat",
                 LastName = "Dva",
-                Address = new List<Address>() { address },
+                Address = address ,
                 IsDeleted = false
             };
 

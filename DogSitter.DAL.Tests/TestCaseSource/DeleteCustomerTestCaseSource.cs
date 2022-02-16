@@ -28,9 +28,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Password = "123456",
                     FirstName = "Brat",
                     LastName = "Dva",
-                    Address = new List<Address>
-                    {
-                        new Address
+                    Address = new Address
                         {
                             Id = 1,
                             Name = "TestName",
@@ -39,8 +37,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                             House = 1,
                             Apartament = 1,
                             IsDeleted = false
-                        }
-                    },
+                        },
                     IsDeleted = false
                 },
                 new Customer
@@ -71,7 +68,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Password = "123456",
                 FirstName = "Brat",
                 LastName = "Dva",
-                Address = new List<Address>(),
+                Address = new Address(),
                 IsDeleted = false
             };
 
