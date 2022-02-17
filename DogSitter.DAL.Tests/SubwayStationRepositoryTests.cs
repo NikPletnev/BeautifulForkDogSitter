@@ -2,6 +2,7 @@
 using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -28,25 +29,27 @@ namespace DogSitter.DAL.Tests
             _context.Database.EnsureCreated();
             _context.Database.EnsureDeleted();
 
-            _subwayStationRepository = new SubwayStationRepository(_context);
-
-            var SubwayStations = SubwayStationTestCaseSourse.GetSubwayStations();
-            _context.SubwayStations.AddRange(SubwayStations);
+            var subwayStations = SubwayStationTestCaseSourse.GetSubwayStations();
+            _context.SubwayStations.AddRange(subwayStations);
 
             _context.SaveChanges();
+
+            _context = new DogSitterContext(options);
+
+            _subwayStationRepository = new SubwayStationRepository(_context);
         }
 
         [Test]
         public void GetAllSubwayStationsTest()
         {
             // given
-            var expected = _context.SubwayStations.Where(e => !e.IsDeleted);
+            var expected = _context.SubwayStations.Where(ss => ss.IsDeleted).Select(ss => ss.Id).ToList();
 
             // when
             var actual = _subwayStationRepository.GetAllSubwayStations();
 
             // then
-            Assert.AreEqual(expected, actual);
+            Assert.True(actual.All(ss => !expected.Contains(ss.Id)));
             Assert.True(actual.All(a => !a.IsDeleted));
         }
 
@@ -54,14 +57,16 @@ namespace DogSitter.DAL.Tests
         public void GetAllSubwayStationsWhereSitterExistTest()
         {
             //given
-            var expected = _context.SubwayStations.ToList();
+            var expected = _context.SubwayStations
+                .Where(ss => ss.Sitters.All(s => s.IsDeleted)).Select(ss => ss.Id).ToList();
 
             //when
             var actual = _subwayStationRepository.GetAllSubwayStationsWhereSitterExist();
 
             //then
+            Assert.True(actual.All(ss => !expected.Contains(ss.Id)));
             Assert.True(actual.All(a => !a.IsDeleted));
-            Assert.True(actual.SelectMany(a => a.Sitters).All(s => !s.IsDeleted));
+            Assert.True(actual.Select(a => a.Sitters).All(s => s is null));
         }
 
         [TestCase(1)]
@@ -76,7 +81,6 @@ namespace DogSitter.DAL.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            Assert.That(actual.IsDeleted is false | true);
         }
 
         [Test]
@@ -100,10 +104,9 @@ namespace DogSitter.DAL.Tests
             //given
             var subwayStation = SubwayStationTestCaseSourse.GetSubwayStation();
             _context.SubwayStations.Add(subwayStation);
-
             _context.SaveChanges();
 
-            var expected = new SubwayStation()
+            var updatedSubwayStation = new SubwayStation()
             {
                 Id = subwayStation.Id,
                 Name = "ChangeName",
@@ -112,40 +115,29 @@ namespace DogSitter.DAL.Tests
             };
 
             //when
-            _subwayStationRepository.UpdateSubwayStation(expected);
-
-            var actual = _context.SubwayStations.First(a => a.Id == subwayStation.Id);
+            _subwayStationRepository.UpdateSubwayStation(subwayStation, updatedSubwayStation);
+            var actual = _context.SubwayStations.First(a => a.Id == updatedSubwayStation.Id);
 
             //then
-            Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.Name, actual.Name);
-            Assert.AreEqual(expected.Sitters, actual.Sitters);
+            Assert.AreEqual(subwayStation.Id, actual.Id);
+            Assert.AreEqual(updatedSubwayStation.Name, actual.Name);
+            Assert.AreEqual(subwayStation.Sitters, actual.Sitters);
+            Assert.AreEqual(subwayStation.IsDeleted, actual.IsDeleted);
+
         }
 
-        [Test]
-        public void UpdateIsDeleteSubwayStationTest()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void UpdateOrDeleteSubwayStationTest(bool isDeleted)
         {
             //given
             var subwayStation = SubwayStationTestCaseSourse.GetSubwayStation();
 
             //when
-            _subwayStationRepository.UpdateSubwayStation(subwayStation, true);
+            _subwayStationRepository.UpdateOrDeleteSubwayStation(subwayStation, isDeleted);
 
             //then
-            Assert.AreEqual(subwayStation.IsDeleted, true);
-        }
-
-        [Test]
-        public void RestoreSubwayStationTest()
-        {
-            //given
-            var subwayStation = SubwayStationTestCaseSourse.GetSubwayStation();
-
-            //when
-            _subwayStationRepository.RestoreSubwayStation(subwayStation, false);
-
-            //then
-            Assert.AreEqual(subwayStation.IsDeleted, false);
+            Assert.AreEqual(subwayStation.IsDeleted, isDeleted);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace DogSitter.DAL.Entity
 {
-    public class SubwayStation
+    public class SubwayStation 
     {
         public int Id { get; set; }
         [Required]

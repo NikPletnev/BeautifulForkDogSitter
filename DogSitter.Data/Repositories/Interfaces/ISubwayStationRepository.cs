@@ -8,8 +8,7 @@ namespace DogSitter.DAL.Repositories
         List<SubwayStation> GetAllSubwayStations();
         List<SubwayStation> GetAllSubwayStationsWhereSitterExist();
         SubwayStation GetSubwayStationById(int id);
-        void RestoreSubwayStation(SubwayStation subwayStation, bool IsDeleted);
-        void UpdateSubwayStation(SubwayStation subwayStation);
-        void UpdateSubwayStation(SubwayStation subwayStation, bool IsDeleted);
+        void UpdateSubwayStation(SubwayStation exitingSubwayStation, SubwayStation subwayStationToUodate);
+        void UpdateOrDeleteSubwayStation(SubwayStation subwayStation, bool IsDeleted);
     }
 }
