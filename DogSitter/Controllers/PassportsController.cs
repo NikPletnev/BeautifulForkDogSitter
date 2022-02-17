@@ -13,10 +13,10 @@ namespace DogSitter.API.Controllers
         private IPassportService _service;
         private IMapper _map;
 
-        public PassportsController(IMapper customMapper, IPassportService passportService)
+        public PassportsController(IMapper CustomMapper, IPassportService passportService)
         {
             _service = passportService;
-            _map = customMapper;
+            _map = CustomMapper;
         }
 
         [HttpPut("{id}")]
@@ -30,7 +30,7 @@ namespace DogSitter.API.Controllers
         public ActionResult<PassportOutputModel> AddPassport([FromBody] PassportInsertInputModel passport)
         {
             _service.AddPassport(_map.Map<PassportModel>(passport));
-            return StatusCode(StatusCodes.Status201Created, _map.Map<PassportOutputModel>(passport));
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpGet("{id}")]

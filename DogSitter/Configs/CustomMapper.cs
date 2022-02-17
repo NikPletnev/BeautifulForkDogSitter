@@ -2,14 +2,14 @@
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
+using DogSitter.DAL.Entity;
 
 namespace DogSitter.API.Configs
 {
-    public class CustomMapper : Profile
+    public class CustomMapperAPI : Profile
     {
-        private Mapper _instance;
 
-        public CustomMapper()
+        public CustomMapperAPI()
         {
             CreateMap<AdminInsertInputModel, AdminModel>();
             CreateMap<AdminUpdateInputModel, AdminModel>();

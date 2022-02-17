@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;

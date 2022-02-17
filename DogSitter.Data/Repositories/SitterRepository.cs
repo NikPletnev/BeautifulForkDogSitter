@@ -53,6 +53,17 @@ namespace DogSitter.DAL.Repositories
                 _context.SaveChanges();
             }
         }
+        public Sitter Login(Contact contact, string pass)
+        {
+            if (contact != null && contact.Sitter != null)
+            {
+                if (contact.Sitter.Password == pass)
+                {
+                    return contact.Sitter;
+                }
+            }
+            return null;
+        }
 
         public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwayStation) =>
             _context.Sitters.Where(x => x.SubwayStations.Any(ss => ss.Id == subwayStation.Id))
