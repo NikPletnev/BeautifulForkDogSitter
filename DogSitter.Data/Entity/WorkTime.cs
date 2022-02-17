@@ -10,7 +10,7 @@ namespace DogSitter.DAL.Entity
         [Required]
         public DateTime End { get; set; }
         [Required]
-        public Weekday Weekdays { get; set; }
+        public Weekday Weekday { get; set; }
         public bool IsDeleted { get; set; }
         public virtual ICollection<Sitter> Sitter { get; set; }
     }

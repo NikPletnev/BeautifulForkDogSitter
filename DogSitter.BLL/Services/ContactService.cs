@@ -75,7 +75,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to add new contact");
             }
-
+            
             _rep.AddContact(_mapper.Map<Contact>(contact));
         }
 
