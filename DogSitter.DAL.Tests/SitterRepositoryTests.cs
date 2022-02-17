@@ -1,5 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
+using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
@@ -13,7 +14,8 @@ namespace DogSitter.DAL.Tests
     public class SitterRepositoryTests
     {
         private DogSitterContext _context;
-        private SitterRepository _rep;
+        private SitterRepository _repository;
+        private SitterTestCaseSourse _sitterTestCaseSourse;
 
         [SetUp]
         public void Setup()
@@ -27,8 +29,89 @@ namespace DogSitter.DAL.Tests
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
 
-            _rep = new SitterRepository(_context);
+            _repository = new SitterRepository(_context);
+
+            var sitters = SitterTestCaseSourse.GetSitters();
+            _context.Sitters.AddRange(sitters);
+
+            _context.SaveChanges();
         }
+
+        [Test]
+        public void GetAllSitterTest()
+        {
+            var expected = _context.Sitters.Where(e => !e.IsDeleted);
+
+            var actual = _repository.GetAll();
+
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Where(e => e.IsDeleted), actual.Where(a => a.IsDeleted));
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        public void GetSitterByIdTest(int id)
+        {
+            var expected = _context.Sitters.Find(id);
+
+            var actual = _repository.GetById(id);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void AddSitterTest()
+        {
+            var expected = SitterTestCaseSourse.GetSitter();
+
+            _repository.Add(expected);
+
+            var actual = _context.Sitters.FirstOrDefault(x => x.Id == expected.Id);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void UpdateSitterTest()
+        {
+            var sitter = SitterTestCaseSourse.GetSitter();
+            _context.Sitters.Add(sitter);
+            _context.SaveChanges();
+
+            var expected = new Sitter()
+            {
+                Id = sitter.Id,
+                FirstName = "ХьюгоCHANGE",
+                LastName = "ФлюгерCHANGE",
+                Password = "flug123",
+                Information = "SITTERs GOD CHANGE GOD",
+                Verified = true,
+                IsDeleted = false
+            };
+
+            _repository.Update(expected);
+            var actual = _context.Sitters.First(x => x.Id == sitter.Id);
+
+            Assert.AreEqual(expected.Id, actual.Id);
+            Assert.AreEqual(expected.FirstName, actual.FirstName);
+            Assert.AreEqual(expected.LastName, actual.LastName);
+            Assert.AreEqual(expected.Information, actual.Information);
+        }
+
+        [Test]
+        public void UodateIsDeleteTest()
+        {
+            var sitter = SitterTestCaseSourse.GetSitter();
+            _context.Sitters.Add(sitter);
+            _context.SaveChanges();
+
+            _repository.Update(sitter.Id, true);
+
+            Assert.AreEqual(sitter.IsDeleted, true);
+        }
+
+
+
 
         [TestCaseSource(typeof(EditStateProfileSitterByIdTestCaseSource))]
         public void ConfirmProfileSitterByIdTest(int id, bool verify, List<Sitter> sitters)
@@ -38,7 +121,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             //when
-            _rep.EditProfileStateBySitterId(id, verify);
+            _repository.EditProfileStateBySitterId(id, verify);
             var actual = _context.Sitters.FirstOrDefault(x => x.Id == id).Verified;
 
             //then
