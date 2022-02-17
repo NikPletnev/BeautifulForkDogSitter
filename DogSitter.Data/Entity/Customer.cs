@@ -15,7 +15,7 @@ namespace DogSitter.DAL.Entity
         public bool IsDeleted { get; set; }
         public virtual ICollection<Dog> Dogs { get; set; }
         public virtual ICollection<Sitter> Sitter { get; set; }
-        public virtual ICollection<Address> Address { get; set; }
+        public virtual Address Address { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
 
         public override bool Equals(object obj)
@@ -30,6 +30,7 @@ namespace DogSitter.DAL.Entity
                    Password == other.Password &&
                    FirstName == other.FirstName &&
                    LastName == other.LastName &&
+                   Address == other.Address &&
                    IsDeleted == other.IsDeleted;
         }
 
