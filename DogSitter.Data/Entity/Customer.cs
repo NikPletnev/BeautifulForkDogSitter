@@ -32,8 +32,8 @@ namespace DogSitter.DAL.Entity
                    Password == other.Password &&
                    FirstName == other.FirstName &&
                    LastName == other.LastName &&
-                   IsDeleted == other.IsDeleted &&
-                   Address == other.Address;
+                   Address == other.Address &&
+                   IsDeleted == other.IsDeleted;
         }
 
     }
