@@ -11,10 +11,14 @@ namespace DogSitter.BLL.Services
     {
         private readonly IOrderRepository _rep;
         private IMapper _map;
+        private ISitterRepository _sitterRepository;
+        private ICustomerRepository _customerRepository;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper)
+        public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository, ISitterRepository sitterRepository, IMapper mapper)
         {
             _rep = orderRepository;
+            _customerRepository = customerRepository; 
+            _sitterRepository = sitterRepository;
             _map = mapper;
         }
 
@@ -44,5 +48,27 @@ namespace DogSitter.BLL.Services
             }
             _rep.EditOrderStatusByOrderId(order, status);
         }
+
+        public List<OrderModel> GetAllOrdersBySitterId(int id)
+        {
+            var entity = _sitterRepository.GetById(id);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Sitter {id} was not found");
+            }
+            return _map.Map<List<OrderModel>>(_rep.GetAllOrdersBySitterId(id));
+        }
+
+        public List<OrderModel> GetAllOrdersByCustomerId(int id)
+        {
+            var entity = _customerRepository.GetCustomerById(id);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Customer {id} was not found");
+            }
+            return _map.Map<List<OrderModel>>(_rep.GetAllOrdersByCustomerId(id));
+        }
+
+
     }
 }
