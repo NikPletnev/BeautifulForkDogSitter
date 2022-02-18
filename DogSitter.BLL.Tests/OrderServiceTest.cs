@@ -5,6 +5,7 @@ using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
@@ -68,6 +69,39 @@ namespace DogSitter.BLL.Tests
             Assert.Throws<Exception>(() => _service.UpdateOrder(id, model));
             _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
             _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
+        }
+
+        [TestCase(1, 2)]
+        public void EditOrderStatusByOrderIdTest(int id, int status)
+        {
+            //given
+            var order = new Order()
+            {
+                Id = 1,
+                OrderDate = new DateTime(2011, 11, 11),
+                Status = Status.Created,
+                CommentId = 1,
+                Price = 100,
+                IsDeleted = false
+            };
+            _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(order);
+            _orderRepositoryMock.Setup(x => x.EditOrderStatusByOrderId(order, status));
+            //when
+            _service.EditOrderStatusByOrderId(id, status);
+            //then
+            _orderRepositoryMock.Verify(x => x.GetById(id));
+            _orderRepositoryMock.Verify(x => x.EditOrderStatusByOrderId(order, status), Times.Once);
+
+        }
+
+        [TestCase(1, 3)]
+        public void EditOrderStatusByOrderIdTest_WhenOrderNotFound_ShouldThrowEntityNotFoundException(int id, int status)
+        {
+            //given
+            _orderRepositoryMock.Setup(x => x.GetById(id));
+            //when
+            //then
+            Assert.Throws<EntityNotFoundException>(() => _service.EditOrderStatusByOrderId(id, status));
         }
 
     }

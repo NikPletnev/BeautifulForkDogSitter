@@ -31,7 +31,6 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Id = 2,
                 OrderDate = new DateTime(2011, 11, 11),
                 Status = Status.Created,
-                CommentId = 1,
                 Price = 100,
                 IsDeleted = false
             };

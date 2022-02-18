@@ -102,7 +102,7 @@ namespace DogSitter.BLL.Tests
         {
             //given
             Contact contact = new Contact() {Id = id, Value = "123456", ContactType = ContactType.Phone, IsDeleted = false };
-            _contactRepositoryMock.Setup(x => x.UpdateContact(contact.Id, true)).Verifiable();
+            _contactRepositoryMock.Setup(x => x.UpdateContact(contact, true)).Verifiable();
             _contactRepositoryMock.Setup(x => x.GetContactById(contact.Id)).Returns(contact);
             //when
             _service.DeleteContact(id);
@@ -116,7 +116,7 @@ namespace DogSitter.BLL.Tests
         {
             //given
             Contact contact = new Contact() { Id = id, Value = "123456", ContactType = ContactType.Phone, IsDeleted = true };
-            _contactRepositoryMock.Setup(x => x.UpdateContact(contact.Id, false)).Verifiable();
+            _contactRepositoryMock.Setup(x => x.UpdateContact(contact, false)).Verifiable();
             _contactRepositoryMock.Setup(x => x.GetContactById(contact.Id)).Returns(contact);
             //when
             _service.RestoreContact(id);
@@ -130,8 +130,8 @@ namespace DogSitter.BLL.Tests
         {
             //given
             Contact contact = new Contact() { Id = id, Value = "123456", ContactType = ContactType.Phone, IsDeleted = false };
-            _contactRepositoryMock.Setup(x => x.UpdateContact(contact.Id, true)).Verifiable();
-            _contactRepositoryMock.Setup(x => x.UpdateContact(contact.Id, false)).Verifiable();
+            _contactRepositoryMock.Setup(x => x.UpdateContact(contact, true)).Verifiable();
+            _contactRepositoryMock.Setup(x => x.UpdateContact(contact, false)).Verifiable();
             _contactRepositoryMock.Setup(x => x.GetContactById(contact.Id));
             //when
 
