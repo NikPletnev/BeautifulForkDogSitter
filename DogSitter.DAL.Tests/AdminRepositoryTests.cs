@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
@@ -8,55 +9,53 @@ using System.Linq;
 
 namespace DogSitter.DAL.Tests
 {
-    public class Tests
+    public class AdminRepositoryTests
     {
-        public class AdminRepositoryTests
+        private DogSitterContext _context;
+        private AdminRepository _rep;
+
+        [SetUp]
+        public void Setup()
         {
-            private DogSitterContext _context;
-            private AdminRepository _rep;
+            var options = new DbContextOptionsBuilder<DogSitterContext>()
+                .UseInMemoryDatabase("AdminTestDB")
+                .Options;
 
-            [SetUp]
-            public void Setup()
-            {
-                var options = new DbContextOptionsBuilder<DogSitterContext>()
-                    .UseInMemoryDatabase("AdminTestDB")
-                    .Options;
+            _context = new DogSitterContext(options);
 
-                _context = new DogSitterContext(options);
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
 
-                _context.Database.EnsureDeleted();
-                _context.Database.EnsureCreated();
+            _rep = new AdminRepository(_context);
+        }
 
-                _rep = new AdminRepository(_context);
-            }
+        [TestCaseSource(typeof(AdminTestCaseSource))]
+        public void GetAllAdminsTest(List<Admin> admins)
+        {
+            //given
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
 
-            [TestCaseSource(typeof(AdminTestCaseSource))]
-            public void GetAllAdminsTest(List<Admin> admins)
-            {
-                //given
-                _context.Admins.AddRange(admins);
-                _context.SaveChanges();
-
-                var expected = new List<Admin>() {
+            var expected = new List<Admin>() {
                 new Admin() { Id = 1, FirstName = "Иван", LastName = "Иванов",  Password = "VANYA1234" },
                 new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234"}
                 };
 
-                //when
-                var actual = _rep.GetAllAdmins();
+            //when
+            var actual = _rep.GetAllAdmins();
 
-                //then
-                Assert.AreEqual(expected, actual);
-            }
+            //then
+            Assert.AreEqual(expected, actual);
+        }
 
-            [TestCaseSource(typeof(AdminTestCaseSource))]
-            public void GetAllAdminWithContactsTest(List<Admin> admins)
-            {
-                //given
-                _context.Admins.AddRange(admins);
-                _context.SaveChanges();
+        [TestCaseSource(typeof(AdminTestCaseSource))]
+        public void GetAllAdminWithContactsTest(List<Admin> admins)
+        {
+            //given
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
 
-                var expected = new List<Admin>() {
+            var expected = new List<Admin>() {
                 new Admin() { Id = 1, FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234",
                   Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = Enums.ContactType.Phone} } ,
                   IsDeleted = false} ,
@@ -65,108 +64,117 @@ namespace DogSitter.DAL.Tests
                   IsDeleted = false }
                 };
 
-                //when
-                var actual = _rep.GetAllAdminWithContacts();
+            //when
+            var actual = _rep.GetAllAdminWithContacts();
 
-                //then
-                CollectionAssert.AreEqual(expected, actual);
-            }
+            //then
+            CollectionAssert.AreEqual(expected, actual);
+        }
 
-            [TestCaseSource(typeof(AdminTestCaseSource))]
-            public void GetAdminByIdTest(List<Admin> admins)
+        [TestCaseSource(typeof(AdminTestCaseSource))]
+        public void GetAdminByIdTest(List<Admin> admins)
+        {
+            //given
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+
+            var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false };
+
+            //when
+            var actual = _rep.GetAdminById(2);
+
+            //then
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCaseSource(typeof(AdminTestCaseSource))]
+        public void GetAdminByIdWithContactsTest(List<Admin> admins)
+        {
+            //given
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+
+            var expected = new Admin()
             {
-                //given
-                _context.Admins.AddRange(admins);
-                _context.SaveChanges();
+                Id = 2,
+                FirstName = "Иван2",
+                LastName = "Иванов2",
+                Password = "2VANYA1234",
+                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.mail } },
+                IsDeleted = false
+            };
 
-                var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false };
+            //when
+            var actual = _rep.GetAdminByIdWithContacts(2);
 
-                //when
-                var actual = _rep.GetAdminById(2);
+            //then
+            Assert.AreEqual(expected, actual);
+        }
 
-                //then
-                Assert.AreEqual(expected, actual);
-            }
+        [Test]
+        public void AddAdminTest()
+        {
+            //given
+            var admin = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234" };
+            var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false };
 
-            [TestCaseSource(typeof(AdminTestCaseSource))]
-            public void GetAdminByIdWithContactsTest(List<Admin> admins)
-            {
-                //given
-                _context.Admins.AddRange(admins);
-                _context.SaveChanges();
+            //when
+            _rep.AddAdmin(admin);
 
-                var expected = new Admin()
-                {
-                    Id = 2,
-                    FirstName = "Иван2",
-                    LastName = "Иванов2",
-                    Password = "2VANYA1234",
-                    Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.Mail } },
-                    IsDeleted = false
-                };
+            var actual = _context.Admins.FirstOrDefault(z => z.Id == expected.Id);
 
-                //when
-                var actual = _rep.GetAdminByIdWithContacts(2);
+            //then
+            Assert.AreEqual(expected, actual);
+        }
 
-                //then
-                Assert.AreEqual(expected, actual);
-            }
+        [TestCaseSource(typeof(AdminTestCaseSource))]
+        public void DeleteAdminTest(List<Admin> admins)
+        {
+            //given
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
 
-            [Test]
-            public void AddAdminTest()
-            {
-                //given
-                var admin = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234" };
-                var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = false };
-
-                //when
-                _rep.AddAdmin(admin);
-
-                var actual = _context.Admins.FirstOrDefault(z => z.Id == expected.Id);
-
-                //then
-                Assert.AreEqual(expected, actual);
-            }
-
-            [TestCaseSource(typeof(AdminTestCaseSource))]
-            public void DeleteAdminTest(List<Admin> admins)
-            {
-                //given
-                _context.Admins.AddRange(admins);
-                _context.SaveChanges();
+            var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = true };
 
                 var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = true };
+                var admin = _context.Admins.FirstOrDefault(z => z.Id == 2);
 
                 //when
-                _rep.UpdateAdmin(2, true);
+                _rep.UpdateAdmin(admin, true);
                 var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
 
-                //then
-                Assert.AreEqual(expected, actual);
-            }
+        [TestCaseSource(typeof(AdminTestCaseSource))]
+        public void UpdateAdminTest(List<Admin> admins)
+        {
+            //given
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
 
-            [TestCaseSource(typeof(AdminTestCaseSource))]
-            public void UpdateAdminTest(List<Admin> admins)
-            {
-                //given
-                _context.Admins.AddRange(admins);
-                _context.SaveChanges();
+            var newAdmin = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234" };
 
-                var newAdmin = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234" };
-
-                var expected = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234", IsDeleted = false };
-
+                var newAdmin = new Admin() { Id = 2, FirstName = "Иван!!222", LastName = "Иванов!!22", Password = "!4321VANYA1234!" };
+                var expected = new Admin() { Id = 2, FirstName = "Иван!!222", LastName = "Иванов!!22", Password = "!4321VANYA1234!", IsDeleted = false };
+                var admin = _context.Admins.FirstOrDefault(x => x.Id == 2);
                 //when
-                _rep.UpdateAdmin(newAdmin);
+                _rep.UpdateAdmin(newAdmin, admin);
 
-                var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
-
-                //then
-                Assert.AreEqual(expected, actual);
-            }
-
-
-
+            //then
+            Assert.AreEqual(expected, actual);
+        }
+        [TestCaseSource(typeof(AdminLoginTestCaseSource))]
+        public void LoginTest(List<Admin> admins, Contact contact, string pass, Admin expected)
+        {
+            //given
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+            var foundAdmin = _context.Admins.FirstOrDefault(x => x.Id == 1);
+            contact.Admin = foundAdmin;
+            _context.SaveChanges();
+            //when
+            var actual = _rep.Login(contact, pass);
+            //then
+            Assert.AreEqual(expected, actual);
         }
     }
 }
+

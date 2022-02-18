@@ -37,12 +37,12 @@ namespace DogSitter.BLL.Tests
         public void UpdateContactTest(int id, Contact entity, ContactModel model)
         {
             //given
-            _contactRepositoryMock.Setup(x => x.UpdateContact(It.IsAny<Contact>())).Verifiable();
+            _contactRepositoryMock.Setup(x => x.UpdateContact(It.IsAny<Contact>(), entity)).Verifiable();
             _contactRepositoryMock.Setup(x => x.GetContactById(id)).Returns(entity).Verifiable();
             //when
             _service.UpdateContact(id, model);
             //then
-            _contactRepositoryMock.Verify(x => x.UpdateContact(entity), Times.Once);
+            _contactRepositoryMock.Verify(x => x.UpdateContact(It.IsAny<Contact>(), entity), Times.Once);
             _contactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
         }
 
@@ -57,28 +57,32 @@ namespace DogSitter.BLL.Tests
             //then
 
             Assert.Throws<ServiceNotEnoughDataExeption>(() => _service.UpdateContact(id, contactModel));
+            _contactRepositoryMock.Verify(x => x.UpdateContact(It.IsAny<Contact>(), It.IsAny<Contact>()), Times.Never);
+            _contactRepositoryMock.Verify(x => x.GetContactById(It.IsAny<int>()), Times.Never);
         }
 
         [TestCase(100)]
         public void UpdateContactTest_WhenContactNotFound_ShouldThrowEntityNotFoundException(int id)
         {
             //given
-            _contactRepositoryMock.Setup(x => x.UpdateContact(It.IsAny<Contact>()));
+            _contactRepositoryMock.Setup(x => x.UpdateContact(It.IsAny<Contact>(), It.IsAny<Contact>()));
             _contactRepositoryMock.Setup(x => x.GetContactById(id));
             //when
             //then
             Assert.Throws<EntityNotFoundException>(() => _service.UpdateContact(id, new ContactModel()));
+            _contactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
+            _contactRepositoryMock.Verify(x => x.UpdateContact(It.IsAny<Contact>(), It.IsAny<Contact>()), Times.Never);
         }
 
         [TestCaseSource(typeof(AddContactTestCaseSource))]
         public void AddContactTest(ContactModel contact)
         {
             //given
-            _contactRepositoryMock.Setup(x => x.AddContact(It.IsAny<Contact>())).Verifiable();
+            _contactRepositoryMock.Setup(x => x.AddContact(It.IsAny<Contact>()));
             //when
             _service.AddContact(contact);
             //then
-            _contactRepositoryMock.Verify(); 
+            _contactRepositoryMock.Verify(x => x.AddContact(It.IsAny<Contact>())); 
         }
 
         [Test]
@@ -90,6 +94,7 @@ namespace DogSitter.BLL.Tests
             //when
             //then
             Assert.Throws<ServiceNotEnoughDataExeption>(() => _service.AddContact(contact));
+            _contactRepositoryMock.Verify(x => x.AddContact(It.IsAny<Contact>()), Times.Never);
         }
 
         [TestCase(138)]
@@ -103,7 +108,7 @@ namespace DogSitter.BLL.Tests
             _service.DeleteContact(id);
             //then
             _contactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
-            _contactRepositoryMock.Verify(x => x.UpdateContact(id, true), Times.Once);
+            _contactRepositoryMock.Verify(x => x.UpdateContact(contact, true), Times.Once);
         }
 
         [TestCase(138)]
@@ -117,7 +122,7 @@ namespace DogSitter.BLL.Tests
             _service.RestoreContact(id);
             //then
             _contactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
-            _contactRepositoryMock.Verify(x => x.UpdateContact(id, false), Times.Once);
+            _contactRepositoryMock.Verify(x => x.UpdateContact(contact, false), Times.Once);
         }
 
         [TestCase(11)]
@@ -134,6 +139,8 @@ namespace DogSitter.BLL.Tests
 
             Assert.Throws<EntityNotFoundException>(() => _service.DeleteContact(id));
             Assert.Throws<EntityNotFoundException>(() => _service.RestoreContact(id));
+            _contactRepositoryMock.Verify(x => x.UpdateContact(contact, It.IsAny<bool>()), Times.Never);
+            _contactRepositoryMock.Verify(x => x.GetContactById(contact.Id));
         }
 
         [TestCaseSource(typeof(GetContactByIdTestCaseSource))]
@@ -145,7 +152,7 @@ namespace DogSitter.BLL.Tests
             var actual = _service.GetContactById(id);
             //then
             Assert.AreEqual(actual, new ContactModel() { Value = contact.Value, ContactType = contact.ContactType, Id = contact.Id, IsDeleted = contact.IsDeleted});
-            _contactRepositoryMock.Verify();
+            _contactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
         }
 
         [TestCase(11)]
@@ -156,6 +163,7 @@ namespace DogSitter.BLL.Tests
             //when
             //then
             Assert.Throws<EntityNotFoundException>(() => _service.GetContactById(id));
+            _contactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
         }
 
         [TestCaseSource(typeof(GetAllContactTestCaseSource))]
@@ -168,7 +176,7 @@ namespace DogSitter.BLL.Tests
             //then
             Assert.AreEqual(actual.Count, contacts.Count);
             CollectionAssert.AreEqual(actual, expected);
-            _contactRepositoryMock.Verify();
+            _contactRepositoryMock.Verify(x => x.GetAllContacts(), Times.Once);
         }
     }
 }

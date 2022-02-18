@@ -39,5 +39,15 @@ namespace DogSitter.BLL.Services
                 throw new Exception($"Order {id} has been accepted, it cannot be edited");
             }
         }
+
+        public void EditOrderStatusByOrderId(int id, int status)
+        {
+            var order = _rep.GetById(id);
+            if (order == null)
+            {
+                throw new EntityNotFoundException($"Order {id} was not found");
+            }
+            _rep.EditOrderStatusByOrderId(order, status);
+        }
     }
 }

@@ -21,9 +21,8 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdatePassport(Passport passport)
+        public void UpdatePassport(Passport entity, Passport passport)
         {
-            var entity = GetPassportById(passport.Id);
             entity.FirstName = passport.FirstName;
             entity.LastName = passport.LastName;
             entity.DateOfBirth = passport.DateOfBirth;

@@ -89,9 +89,10 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             var expected = new Contact() { Id = 3, Value = "qwerty123@icloud.com", ContactType = ContactType.Mail, IsDeleted = true };
+            var contact = _context.Contacts.FirstOrDefault(x => x.Id == 3);
 
             //when
-            _rep.UpdateContact(3, true);
+            _rep.UpdateContact(contact, true);
             var actual = _context.Contacts.FirstOrDefault(z => z.Id == 3);
 
             //then
@@ -110,8 +111,10 @@ namespace DogSitter.DAL.Tests
 
             var expected = new Contact() { Id = 3, Value = "NewNewNew@icloud.com", ContactType = ContactType.Mail, IsDeleted = true };
 
+            var contact = _context.Contacts.FirstOrDefault(x => x.Id == 3);
+
             //when
-            _rep.UpdateContact(newContact);
+            _rep.UpdateContact(contact, newContact);
             var actual = _context.Contacts.FirstOrDefault(z => z.Id == 3);
 
             //then
@@ -123,8 +126,16 @@ namespace DogSitter.DAL.Tests
         {
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
-           var actual = _rep.GetAllContactsByAdminId(id);
+            var actual = _rep.GetAllContactsByAdminId(id);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCaseSource(typeof(GetContactByValueTestCaseSource))]
+        public void GetContactByValueTest(List<Admin> admins, string value, Contact expectedContact, Admin expectedAdmin)
+        {
+            //given           
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
         }
 
         [TestCaseSource(typeof(GetAllContactsByCustomerIdTestCaseSource))]
@@ -137,12 +148,13 @@ namespace DogSitter.DAL.Tests
         }
 
         [TestCaseSource(typeof(GetAllContactsBySitterIdTestCaseSource))]
-        public void GetAllContactsBySitterIdTest(int id, List<Sitter>sitters, List<Contact> expected)
+        public void GetAllContactsBySitterIdTest(int id, List<Sitter> sitters, List<Contact> expected)
         {
             _context.Sitters.AddRange(sitters);
             _context.SaveChanges();
             var actual = _rep.GetAllContactsBySitterId(id);
             Assert.AreEqual(expected, actual);
         }
+       
     }
 }
