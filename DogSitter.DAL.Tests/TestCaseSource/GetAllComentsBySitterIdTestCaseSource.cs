@@ -34,7 +34,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     IsDeleted = false,
                     Comment = new Comment()
                     {
-                        Id = 1,
+                        Id = 4,
                         Text = "Privet1",
                         Date = new DateTime(1999, 11, 11),
                         IsDeleted = false,
@@ -52,7 +52,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     IsDeleted = false,
                     Comment = new Comment()
                     {
-                        Id = 2,
+                        Id = 5,
                         Text = "Privet2",
                         Date = new DateTime(1999, 1, 1),
                         IsDeleted = false,
@@ -92,14 +92,14 @@ namespace DogSitter.DAL.Tests.TestCaseSource
             {
                 new Comment()
                 {
-                    Id = 1,
+                    Id = 4,
                     Text = "Privet1",
                     Date = new DateTime(1999, 11, 11),
                     IsDeleted = false,
                 },
                 new Comment()
                 {
-                    Id = 2,
+                    Id = 5,
                     Text = "Privet2",
                     Date = new DateTime(1999, 1, 1),
                     IsDeleted = false,

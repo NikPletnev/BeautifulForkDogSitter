@@ -30,8 +30,8 @@ namespace DogSitter.DAL.Tests
 
             _repository = new CommentRepository(_context);
 
-            //var comments = CommentTestCaseSource.GetComments();
-            //_context.Comments.AddRange(comments);
+            var comments = CommentTestCaseSource.GetComments();
+            _context.Comments.AddRange(comments);
 
             _context.SaveChanges();
         }
@@ -138,8 +138,6 @@ namespace DogSitter.DAL.Tests
         public void GetAllComentsBySitterIdTest(List<Order> orders, int id, List<Comment> expected)
         {
             //given
-            _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
             _context.Orders.AddRange(orders);
             _context.SaveChanges();
             //when
