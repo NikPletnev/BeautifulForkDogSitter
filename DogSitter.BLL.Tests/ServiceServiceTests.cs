@@ -8,12 +8,14 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests
 {
     public class ServiceServiceTests
     {
         private readonly Mock<IServiceRepository> _serviceRepositoryMock;
+        private readonly Mock<ISitterRepository> _sitterRepositoryMock;
         private readonly IMapper _mapper;
         private ServiceService _service;
         private ServiceTestCaseSource _serviceMocks;
@@ -21,13 +23,14 @@ namespace DogSitter.BLL.Tests
         public ServiceServiceTests()
         {
             _serviceRepositoryMock = new Mock<IServiceRepository>();
+            _sitterRepositoryMock = new Mock<ISitterRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
         }
 
         [SetUp]
         public void SetUp()
         {
-            _service = new ServiceService(_serviceRepositoryMock.Object, _mapper);
+            _service = new ServiceService(_serviceRepositoryMock.Object, _sitterRepositoryMock.Object, _mapper);
             _serviceMocks = new ServiceTestCaseSource();
         }
 
@@ -162,6 +165,29 @@ namespace DogSitter.BLL.Tests
 
             Assert.Throws<EntityNotFoundException>(() => _service.DeleteService(new ServiceModel()));
         }
-    }
 
+        [TestCaseSource(typeof(GetAllServicesBySitterIdTestCaseSource))]
+        public void GetAllServicesBySitterIdTest(int id, Sitter sitter, List<Serviñe> service)
+        {
+            //given
+            _sitterRepositoryMock.Setup(m => m.GetById(id)).Returns(sitter);
+            _serviceRepositoryMock.Setup(m => m.GetAllServicesBySitterId(id)).Returns(service);
+
+            //when
+            var actual =_service.GetAllServicesBySitterId(id);
+
+            //then
+            _sitterRepositoryMock.Verify(m => m.GetById(id), Times.Once);
+            _serviceRepositoryMock.Verify(m => m.GetAllServicesBySitterId(id), Times.Once);
+            Assert.That(actual[0].Sitters.Count == 0);
+        }
+
+        [Test]
+        public void GetAllServicesBySitterIdNegativeTest()
+        {
+            _sitterRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Sitter)null);
+
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAllServicesBySitterId(It.IsAny<int>()));
+        }
+    }
 }
