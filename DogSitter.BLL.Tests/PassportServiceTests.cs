@@ -36,7 +36,6 @@ namespace DogSitter.BLL.Tests
             //when       
             _service.UpdatePassport(id, model);
             //then
-            Assert.AreEqual(model.IsDeleted, entity.IsDeleted);
             _passportRepositoryMock.Verify(x => x.GetPassportById(id), Times.Once);
             _passportRepositoryMock.Verify(x => x.UpdatePassport(entity, It.IsAny<Passport>()), Times.Once);
         }

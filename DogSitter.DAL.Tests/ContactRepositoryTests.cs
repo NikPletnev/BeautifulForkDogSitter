@@ -37,8 +37,8 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             var expected = new List<Contact>() {
-              new Contact() { Id = 1, Value = "89871234567", ContactType = ContactType.phone, IsDeleted = false },
-              new Contact() { Id = 2, Value = "@qwerty", ContactType = ContactType.mail, IsDeleted = false }
+              new Contact() { Id = 1, Value = "89871234567", ContactType = ContactType.Phone, IsDeleted = false },
+              new Contact() { Id = 2, Value = "@qwerty", ContactType = ContactType.Mail, IsDeleted = false }
             };
 
             //when
@@ -55,7 +55,7 @@ namespace DogSitter.DAL.Tests
             _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
-            var expected = new Contact() { Id = 3, Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = true };
+            var expected = new Contact() { Id = 3, Value = "qwerty123@icloud.com", ContactType = ContactType.Mail, IsDeleted = true };
 
             //when
             var actual = _rep.GetContactById(3);
@@ -69,7 +69,7 @@ namespace DogSitter.DAL.Tests
         {
             //given
             var contact = new Contact() { Value = "qwerty123@icloud.com", ContactType = (ContactType)2 };
-            var expected = new Contact() { Id = 1, Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = false };
+            var expected = new Contact() { Id = 1, Value = "qwerty123@icloud.com", ContactType = ContactType.Mail, IsDeleted = false };
 
             //when
             _rep.AddContact(contact);
@@ -88,7 +88,7 @@ namespace DogSitter.DAL.Tests
             _context.Contacts.AddRange(contacts);
             _context.SaveChanges();
 
-            var expected = new Contact() { Id = 3, Value = "qwerty123@icloud.com", ContactType = ContactType.mail, IsDeleted = true };
+            var expected = new Contact() { Id = 3, Value = "qwerty123@icloud.com", ContactType = ContactType.Mail, IsDeleted = true };
             var contact = _context.Contacts.FirstOrDefault(x => x.Id == 3);
 
             //when
@@ -109,7 +109,7 @@ namespace DogSitter.DAL.Tests
 
             var newContact = new Contact() { Id = 3, Value = "NewNewNew@icloud.com", ContactType = (ContactType)2 };
 
-            var expected = new Contact() { Id = 3, Value = "NewNewNew@icloud.com", ContactType = ContactType.mail, IsDeleted = true };
+            var expected = new Contact() { Id = 3, Value = "NewNewNew@icloud.com", ContactType = ContactType.Mail, IsDeleted = true };
 
             var contact = _context.Contacts.FirstOrDefault(x => x.Id == 3);
 

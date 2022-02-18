@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
@@ -29,6 +30,47 @@ namespace DogSitter.BLL.Tests
             _service = new OrderService(_orderRepositoryMock.Object, _mapper);
         }
 
+        [TestCaseSource(typeof(UpdateOrderTestCaseSource))]
+        public void UpdateOrderTest(int id, Order entity, OrderModel model)
+        {
+            //given
+            _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
+            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>())).Verifiable();
+            //when       
+            _service.UpdateOrder(id, model);
+            //then            
+            _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
+            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Once);
+        }
+
+        [TestCaseSource(typeof(UpdateOrderTestCaseSource))]
+        public void UpdateOrderTest_WhenOrderNotFound_ShouldThrowEntityNotFoundExeption(int id, Order entity, OrderModel model)
+        {
+            //given
+            _orderRepositoryMock.Setup(x => x.GetById(id));
+            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>()));
+            //when       
+            
+            //then            
+            Assert.Throws<EntityNotFoundException>(() => _service.UpdateOrder(id, model));
+            _orderRepositoryMock.Verify(x => x.GetById(id));
+            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
+        }
+
+        [TestCaseSource(typeof(UpdateOrderWhenOrderHasBeenAcceptedTestCaseSource))]
+        public void UpdateOrderTest_WhenOrderHasBeenAccepted_ShouldThrowExeption(int id, Order entity, OrderModel model)
+        {
+            //given
+            _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
+            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>()));
+            //when       
+
+            //then            
+            Assert.Throws<Exception>(() => _service.UpdateOrder(id, model));
+            _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
+            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
+        }
+
         [TestCase(1, 2)]
         public void EditOrderStatusByOrderIdTest(int id, int status)
         {
@@ -37,7 +79,7 @@ namespace DogSitter.BLL.Tests
             {
                 Id = 1,
                 OrderDate = new DateTime(2011, 11, 11),
-                Status = Status.created,
+                Status = Status.Created,
                 CommentId = 1,
                 Price = 100,
                 IsDeleted = false
@@ -61,5 +103,6 @@ namespace DogSitter.BLL.Tests
             //then
             Assert.Throws<EntityNotFoundException>(() => _service.EditOrderStatusByOrderId(id, status));
         }
+
     }
 }
