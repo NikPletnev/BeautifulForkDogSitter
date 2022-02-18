@@ -1,10 +1,6 @@
 ﻿using DogSitter.BLL.Models;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
@@ -29,7 +25,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 IsDeleted = false
             };
 
-            yield return new object[] {id, model };
+            yield return new object[] { id, model };
 
             int id2 = 99;
 

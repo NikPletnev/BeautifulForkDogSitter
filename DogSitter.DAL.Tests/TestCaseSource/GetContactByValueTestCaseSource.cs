@@ -1,11 +1,7 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
@@ -37,7 +33,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 IsDeleted = false
             };
 
-             yield return new object[] { admins, value, expectedContact, expectedAdmin };
+            yield return new object[] { admins, value, expectedContact, expectedAdmin };
         }
     }
 }

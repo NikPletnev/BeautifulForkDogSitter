@@ -70,7 +70,7 @@ namespace DogSitter.BLL.Services
 
                 throw new Exception("Ситтер не найден");
             }
-            
+
             bool delete = true;
             _repository.Update(id, delete);
             _repository.EditProfileStateBySitterId(id, false);

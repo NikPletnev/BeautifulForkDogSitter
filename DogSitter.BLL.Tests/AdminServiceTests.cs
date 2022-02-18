@@ -14,11 +14,12 @@ namespace DogSitter.BLL.Tests
 {
     public class AdminServiceTests
     {
-        private readonly Mock<IAdminRepository> _adminRepositoryMock;
-        private readonly IMapper _mapper;
-        private readonly AdminService _service;
+        private Mock<IAdminRepository> _adminRepositoryMock;
+        private IMapper _mapper;
+        private AdminService _service;
 
-        public AdminServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _adminRepositoryMock = new Mock<IAdminRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
@@ -47,7 +48,7 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<ContactModel> { new ContactModel 
+                Contacts = new List<ContactModel> { new ContactModel
                 { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
             };
             _adminRepositoryMock.Setup(x => x.GetAdminById(id));
@@ -121,8 +122,8 @@ namespace DogSitter.BLL.Tests
                 IsDeleted = false
             };
 
-           _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin, true));
-           _adminRepositoryMock.Setup(x => x.GetAdminById(admin.Id)).Returns(admin);
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin, true));
+            _adminRepositoryMock.Setup(x => x.GetAdminById(admin.Id)).Returns(admin);
             //when
             _service.DeleteAdmin(id);
             //then
@@ -211,7 +212,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetAllAdminsTestCaseSource))]
-        public void GetAllAdminsTest(List<Admin> admins, List<AdminModel> expected) 
+        public void GetAllAdminsTest(List<Admin> admins, List<AdminModel> expected)
         {
             //given
             _adminRepositoryMock.Setup(x => x.GetAllAdmins()).Returns(admins);

@@ -15,14 +15,15 @@ namespace DogSitter.BLL.Tests
 {
     public class ContactServiceTests
     {
-        private readonly Mock<IContactRepository> _contactRepositoryMock;
-        private readonly Mock<ICustomerRepository> _customerRepMock;
-        private readonly Mock<IAdminRepository> _adminRepMock;
-        private readonly Mock<ISitterRepository> _sitterRepMock;
-        private readonly IMapper _mapper;
-        private readonly ContactService _service;
+        private Mock<IContactRepository> _contactRepositoryMock;
+        private Mock<ICustomerRepository> _customerRepMock;
+        private Mock<IAdminRepository> _adminRepMock;
+        private Mock<ISitterRepository> _sitterRepMock;
+        private IMapper _mapper;
+        private ContactService _service;
 
-        public ContactServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _contactRepositoryMock = new Mock<IContactRepository>();
             _customerRepMock = new Mock<ICustomerRepository>();
@@ -82,7 +83,7 @@ namespace DogSitter.BLL.Tests
             //when
             _service.AddContact(contact);
             //then
-            _contactRepositoryMock.Verify(x => x.AddContact(It.IsAny<Contact>())); 
+            _contactRepositoryMock.Verify(x => x.AddContact(It.IsAny<Contact>()));
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace DogSitter.BLL.Tests
         public void DeleteContactTest(int id)
         {
             //given
-            Contact contact = new Contact() {Id = id, Value = "123456", ContactType = ContactType.Phone, IsDeleted = false };
+            Contact contact = new Contact() { Id = id, Value = "123456", ContactType = ContactType.Phone, IsDeleted = false };
             _contactRepositoryMock.Setup(x => x.UpdateContact(contact, true)).Verifiable();
             _contactRepositoryMock.Setup(x => x.GetContactById(contact.Id)).Returns(contact);
             //when
@@ -151,7 +152,7 @@ namespace DogSitter.BLL.Tests
             //when
             var actual = _service.GetContactById(id);
             //then
-            Assert.AreEqual(actual, new ContactModel() { Value = contact.Value, ContactType = contact.ContactType, Id = contact.Id, IsDeleted = contact.IsDeleted});
+            Assert.AreEqual(actual, new ContactModel() { Value = contact.Value, ContactType = contact.ContactType, Id = contact.Id, IsDeleted = contact.IsDeleted });
             _contactRepositoryMock.Verify(x => x.GetContactById(id), Times.Once);
         }
 

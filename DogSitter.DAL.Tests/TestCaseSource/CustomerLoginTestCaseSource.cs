@@ -9,7 +9,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
     {
         public IEnumerator GetEnumerator()
         {
-            List<Customer> Customers = new List<Customer>() 
+            List<Customer> Customers = new List<Customer>()
             {
               new Customer()
               {   FirstName = "FirstName1",
@@ -19,7 +19,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                   {
                       new Contact {
                           Value = "Value1",
-                          ContactType = ContactType.Phone} 
+                          ContactType = ContactType.Phone}
                   },
                   IsDeleted = false },
                 new Customer()

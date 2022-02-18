@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
@@ -20,7 +19,7 @@ namespace DogSitter.BLL.Services
 
         public void UpdateAdmin(int id, AdminModel adminModel)
         {
-            if(adminModel.FirstName == String.Empty ||
+            if (adminModel.FirstName == String.Empty ||
                 adminModel.LastName == String.Empty ||
                 adminModel.Password == String.Empty ||
                 adminModel.Contacts.Count == 0)

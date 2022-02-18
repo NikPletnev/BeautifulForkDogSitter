@@ -29,7 +29,7 @@ namespace DogSitter.BLL.Services
         {
             if (contactModel.ContactType == null ||
                 contactModel.Value == String.Empty)
-            { 
+            {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the contact {id}");
             }
 
@@ -75,7 +75,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to add new contact");
             }
-            
+
             _rep.AddContact(_mapper.Map<Contact>(contact));
         }
 
@@ -97,8 +97,8 @@ namespace DogSitter.BLL.Services
 
         public List<ContactModel> GetAllContactsByAdminId(int id)
         {
-            var admin =  _adminRepository.GetAdminById(id);
-            if(admin == null)
+            var admin = _adminRepository.GetAdminById(id);
+            if (admin == null)
             {
                 throw new EntityNotFoundException($"Admin {id} not found");
             }
