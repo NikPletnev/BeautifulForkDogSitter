@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DogSitter.BLL.Models
+﻿namespace DogSitter.BLL.Models
 {
     public class CommentModel
     {

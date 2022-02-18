@@ -8,11 +8,6 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests
 {
@@ -134,7 +129,7 @@ namespace DogSitter.BLL.Tests
             _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(It.IsAny<int>()))
                 .Returns((SubwayStation)null);
 
-            Assert.Throws<EntityNotFoundException>(() => 
+            Assert.Throws<EntityNotFoundException>(() =>
             _subwayStationService.UpdateSubwayStation(new SubwayStationModel()));
         }
 
@@ -164,7 +159,7 @@ namespace DogSitter.BLL.Tests
             _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(
                 It.IsAny<int>())).Returns((SubwayStation)null);
 
-            Assert.Throws<EntityNotFoundException>(() => 
+            Assert.Throws<EntityNotFoundException>(() =>
             _subwayStationService.DeleteSubwayStation(new SubwayStationModel()));
         }
         [Test]
@@ -193,7 +188,7 @@ namespace DogSitter.BLL.Tests
             _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(
                 It.IsAny<int>())).Returns((SubwayStation)null);
 
-            Assert.Throws<EntityNotFoundException>(() => 
+            Assert.Throws<EntityNotFoundException>(() =>
             _subwayStationService.DeleteSubwayStation(new SubwayStationModel()));
         }
     }

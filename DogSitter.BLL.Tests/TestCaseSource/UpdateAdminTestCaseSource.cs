@@ -16,7 +16,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 FirstName = "Иван",
                 LastName = "Иванов",
                 Password = "VANYA1234",
-                Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.phone } },
+                Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.Phone } },
                 IsDeleted = false
             };
 
@@ -25,7 +25,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 FirstName = "Иван",
                 LastName = "Иванов",
                 Password = "VANYA1234",
-                Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.phone } }
+                Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.Phone } }
             };
 
             yield return new object[] { id, admin, model };
@@ -37,7 +37,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = ContactType.mail } },
+                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = ContactType.Mail } },
                 IsDeleted = false
             };
 
@@ -46,7 +46,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = ContactType.mail } },
+                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = ContactType.Mail } },
             };
 
             yield return new object[] { id2, admin2, model2 };

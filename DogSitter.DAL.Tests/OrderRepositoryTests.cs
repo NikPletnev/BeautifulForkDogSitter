@@ -4,10 +4,7 @@ using DogSitter.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests
 {
@@ -35,11 +32,11 @@ namespace DogSitter.DAL.Tests
         public void EditOrderStatusByOrderId(int id, int status)
         {
             //given
-            var order = new Order() 
-            { 
+            var order = new Order()
+            {
                 Id = 1,
                 OrderDate = new DateTime(2011, 11, 11),
-                Status = Status.created,
+                Status = Status.Created,
                 CommentId = 1, 
                 Price = 100, 
                 IsDeleted = false

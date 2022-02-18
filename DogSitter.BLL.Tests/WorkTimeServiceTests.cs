@@ -104,7 +104,7 @@ namespace DogSitter.BLL.Tests
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(new WorkTime());
 
             //when
-            _service.DeleteWorkTime(new WorkTimeModel()); 
+            _service.DeleteWorkTime(new WorkTimeModel());
 
             //then
             _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), true), Times.Once());
