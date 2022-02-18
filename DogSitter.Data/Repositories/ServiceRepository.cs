@@ -6,11 +6,10 @@ namespace DogSitter.DAL.Repositories
     public class ServiceRepository : IServiceRepository
     {
         private readonly DogSitterContext _context;
-        private bool _isInitialized;
-        public ServiceRepository(DogSitterContext dbContext)
+
+        public ServiceRepository(DogSitterContext context)
         {
-            _isInitialized = true;
-            _context = dbContext;
+            _context = context;
         }
 
         public List<Serviсe> GetAllServices() =>

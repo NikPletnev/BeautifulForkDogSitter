@@ -5,11 +5,10 @@ namespace DogSitter.DAL.Repositories
     public class WorkTimeRepository : IWorkTimeRepository
     {
         private readonly DogSitterContext _context;
-        private bool _isInitialized;
-        public WorkTimeRepository(DogSitterContext dbContext)
+
+        public WorkTimeRepository(DogSitterContext context)
         {
-            _isInitialized = true;
-            _context = dbContext;
+            _context = context;
         }
 
         public WorkTime GetWorkTimeById(int id) =>
