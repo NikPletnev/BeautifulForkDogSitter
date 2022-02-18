@@ -126,8 +126,16 @@ namespace DogSitter.DAL.Tests
         {
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
-           var actual = _rep.GetAllContactsByAdminId(id);
+            var actual = _rep.GetAllContactsByAdminId(id);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCaseSource(typeof(GetContactByValueTestCaseSource))]
+        public void GetContactByValueTest(List<Admin> admins, string value, Contact expectedContact, Admin expectedAdmin)
+        {
+            //given           
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
         }
 
         [TestCaseSource(typeof(GetAllContactsByCustomerIdTestCaseSource))]
@@ -140,12 +148,13 @@ namespace DogSitter.DAL.Tests
         }
 
         [TestCaseSource(typeof(GetAllContactsBySitterIdTestCaseSource))]
-        public void GetAllContactsBySitterIdTest(int id, List<Sitter>sitters, List<Contact> expected)
+        public void GetAllContactsBySitterIdTest(int id, List<Sitter> sitters, List<Contact> expected)
         {
             _context.Sitters.AddRange(sitters);
             _context.SaveChanges();
             var actual = _rep.GetAllContactsBySitterId(id);
             Assert.AreEqual(expected, actual);
         }
+       
     }
 }

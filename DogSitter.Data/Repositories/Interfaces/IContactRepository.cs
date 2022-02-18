@@ -12,5 +12,6 @@ namespace DogSitter.DAL.Repositories
         Contact GetContactById(int id);
         void UpdateContact(Contact contact, Contact entity);
         void UpdateContact(Contact contact, bool isDeleted);
+        Contact GetContactByValue(string value);
     }
 }

@@ -9,6 +9,7 @@ namespace DogSitter.DAL.Repositories
         List<Admin> GetAllAdmins();
         void UpdateAdmin(Admin admin, Admin entity);
         void UpdateAdmin(Admin admin, bool isDeleted);
+        Admin Login(Contact contact, string pass);
         List<Admin> GetAllAdminWithContacts();
         Admin GetAdminByIdWithContacts(int id);
     }

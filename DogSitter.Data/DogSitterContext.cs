@@ -11,7 +11,7 @@ namespace DogSitter.DAL
         public DogSitterContext(DbContextOptions<DogSitterContext> options) : base(options)
         {
 
-        }
+        }        
 
         public DogSitterContext()
         {
