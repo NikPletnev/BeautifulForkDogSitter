@@ -9,5 +9,6 @@ namespace DogSitter.DAL.Repositories
         void UpdateWorkTime(WorkTime workTime);
         void UpdateWorkTime(WorkTime workTime, bool IsDeleted);
         void RestoreWorkTime(WorkTime workTime, bool IsDeleted);
+        void DeleteWorkTime(int id);
     }
 }

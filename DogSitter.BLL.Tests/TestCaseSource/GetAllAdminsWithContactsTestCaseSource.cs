@@ -12,17 +12,17 @@ namespace DogSitter.BLL.Tests.TestCaseSource
         {
             List<Admin> admins = new List<Admin>() {
               new Admin() { Id = 1, FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234" ,
-                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.phone} }},
+                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.Phone} }},
               new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
-                  Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = ContactType.mail} }}
+                  Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = ContactType.Mail} }}
             };
 
             List<AdminModel> adminsModel = new List<AdminModel>() {
               new AdminModel() { Id = 1, FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234" ,
-                  Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.phone} },
+                  Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.Phone} },
                   },
               new AdminModel() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
-                  Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = ContactType.mail} },
+                  Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = ContactType.Mail} },
                   }
             };
 

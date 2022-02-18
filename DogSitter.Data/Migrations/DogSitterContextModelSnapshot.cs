@@ -67,21 +67,6 @@ namespace DogSitter.DAL.Migrations
                     b.ToTable("CustomerSitter");
                 });
 
-            modelBuilder.Entity("DogOrder", b =>
-                {
-                    b.Property<int>("DogsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrdersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DogsId", "OrdersId");
-
-                    b.HasIndex("OrdersId");
-
-                    b.ToTable("DogOrder");
-                });
-
             modelBuilder.Entity("DogSitter.DAL.Entity.Address", b =>
                 {
                     b.Property<int>("Id")
@@ -116,6 +101,36 @@ namespace DogSitter.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("DogSitter.DAL.Entity.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admins");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Comment", b =>
@@ -154,7 +169,7 @@ namespace DogSitter.DAL.Migrations
                     b.Property<int?>("AdminId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ContactTypeId")
+                    b.Property<int>("ContactType")
                         .HasColumnType("int");
 
                     b.Property<int?>("CustomerId")
@@ -176,8 +191,6 @@ namespace DogSitter.DAL.Migrations
 
                     b.HasIndex("AdminId");
 
-                    b.HasIndex("ContactTypeId");
-
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("SitterId");
@@ -185,7 +198,7 @@ namespace DogSitter.DAL.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("DogSitter.DAL.Entity.ContactType", b =>
+            modelBuilder.Entity("DogSitter.DAL.Entity.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -193,18 +206,26 @@ namespace DogSitter.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactTypes");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Dog", b =>
@@ -261,6 +282,9 @@ namespace DogSitter.DAL.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DogsId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -288,6 +312,8 @@ namespace DogSitter.DAL.Migrations
                         .HasFilter("[CommentId] IS NOT NULL");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("DogsId");
 
                     b.HasIndex("SitterId");
 
@@ -375,6 +401,53 @@ namespace DogSitter.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("DogSitter.DAL.Entity.Sitter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Information")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PassportId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("PassportId")
+                        .IsUnique();
+
+                    b.ToTable("Sitters");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.SubwayStation", b =>
@@ -833,42 +906,6 @@ namespace DogSitter.DAL.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DogSitter.DAL.Entity.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
-                });
-
             modelBuilder.Entity("DogSitter.DAL.Entity.WorkTime", b =>
                 {
                     b.Property<int>("Id")
@@ -913,13 +950,13 @@ namespace DogSitter.DAL.Migrations
 
             modelBuilder.Entity("ServiсeSitter", b =>
                 {
-                    b.Property<int>("ServiceId")
+                    b.Property<int>("ServicesId")
                         .HasColumnType("int");
 
                     b.Property<int>("SittersId")
                         .HasColumnType("int");
 
-                    b.HasKey("ServiceId", "SittersId");
+                    b.HasKey("ServicesId", "SittersId");
 
                     b.HasIndex("SittersId");
 
@@ -939,45 +976,6 @@ namespace DogSitter.DAL.Migrations
                     b.HasIndex("WorkTimeId");
 
                     b.ToTable("SitterWorkTime");
-                });
-
-            modelBuilder.Entity("DogSitter.DAL.Entity.Admin", b =>
-                {
-                    b.HasBaseType("DogSitter.DAL.Entity.User");
-
-                    b.HasDiscriminator().HasValue("Admin");
-                });
-
-            modelBuilder.Entity("DogSitter.DAL.Entity.Customer", b =>
-                {
-                    b.HasBaseType("DogSitter.DAL.Entity.User");
-
-                    b.HasDiscriminator().HasValue("Customer");
-                });
-
-            modelBuilder.Entity("DogSitter.DAL.Entity.Sitter", b =>
-                {
-                    b.HasBaseType("DogSitter.DAL.Entity.User");
-
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Information")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PassportId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("PassportId")
-                        .IsUnique()
-                        .HasFilter("[PassportId] IS NOT NULL");
-
-                    b.HasDiscriminator().HasValue("Sitter");
                 });
 
             modelBuilder.Entity("AddressCustomer", b =>
@@ -1025,32 +1023,11 @@ namespace DogSitter.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DogOrder", b =>
-                {
-                    b.HasOne("DogSitter.DAL.Entity.Dog", null)
-                        .WithMany()
-                        .HasForeignKey("DogsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DogSitter.DAL.Entity.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DogSitter.DAL.Entity.Contact", b =>
                 {
                     b.HasOne("DogSitter.DAL.Entity.Admin", "Admin")
                         .WithMany("Contacts")
                         .HasForeignKey("AdminId");
-
-                    b.HasOne("DogSitter.DAL.Entity.ContactType", "ContactType")
-                        .WithMany()
-                        .HasForeignKey("ContactTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("DogSitter.DAL.Entity.Customer", "Customer")
                         .WithMany("Contacts")
@@ -1061,8 +1038,6 @@ namespace DogSitter.DAL.Migrations
                         .HasForeignKey("SitterId");
 
                     b.Navigation("Admin");
-
-                    b.Navigation("ContactType");
 
                     b.Navigation("Customer");
 
@@ -1092,6 +1067,10 @@ namespace DogSitter.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DogSitter.DAL.Entity.Dog", "Dogs")
+                        .WithMany("Orders")
+                        .HasForeignKey("DogsId");
+
                     b.HasOne("DogSitter.DAL.Entity.Sitter", "Sitter")
                         .WithMany("Orders")
                         .HasForeignKey("SitterId")
@@ -1102,7 +1081,28 @@ namespace DogSitter.DAL.Migrations
 
                     b.Navigation("Customer");
 
+                    b.Navigation("Dogs");
+
                     b.Navigation("Sitter");
+                });
+
+            modelBuilder.Entity("DogSitter.DAL.Entity.Sitter", b =>
+                {
+                    b.HasOne("DogSitter.DAL.Entity.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DogSitter.DAL.Entity.Passport", "Passport")
+                        .WithOne("Sitter")
+                        .HasForeignKey("DogSitter.DAL.Entity.Sitter", "PassportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Passport");
                 });
 
             modelBuilder.Entity("OrderServiсe", b =>
@@ -1124,7 +1124,7 @@ namespace DogSitter.DAL.Migrations
                 {
                     b.HasOne("DogSitter.DAL.Entity.Serviсe", null)
                         .WithMany()
-                        .HasForeignKey("ServiceId")
+                        .HasForeignKey("ServicesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1150,38 +1150,14 @@ namespace DogSitter.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DogSitter.DAL.Entity.Sitter", b =>
+            modelBuilder.Entity("DogSitter.DAL.Entity.Admin", b =>
                 {
-                    b.HasOne("DogSitter.DAL.Entity.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DogSitter.DAL.Entity.Passport", "Passport")
-                        .WithOne("Sitter")
-                        .HasForeignKey("DogSitter.DAL.Entity.Sitter", "PassportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Address");
-
-                    b.Navigation("Passport");
+                    b.Navigation("Contacts");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Comment", b =>
                 {
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("DogSitter.DAL.Entity.Passport", b =>
-                {
-                    b.Navigation("Sitter");
-                });
-
-            modelBuilder.Entity("DogSitter.DAL.Entity.Admin", b =>
-                {
-                    b.Navigation("Contacts");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Customer", b =>
@@ -1191,6 +1167,16 @@ namespace DogSitter.DAL.Migrations
                     b.Navigation("Dogs");
 
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("DogSitter.DAL.Entity.Dog", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("DogSitter.DAL.Entity.Passport", b =>
+                {
+                    b.Navigation("Sitter");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Sitter", b =>

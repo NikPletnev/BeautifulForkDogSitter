@@ -6,9 +6,9 @@ namespace DogSitter.DAL.Repositories
     {
         private DogSitterContext _context;
 
-        public CustomerRepository()
+        public CustomerRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public Customer GetCustomerById(int id) =>
@@ -49,6 +49,18 @@ namespace DogSitter.DAL.Repositories
             Customer customer = GetCustomerById(id);
             customer.IsDeleted = isDeleted;
             _context.SaveChanges();
+        }
+        
+        public Customer Login(Contact contact, string pass)
+        {
+            if (contact != null && contact.Customer != null)
+            {
+                if (contact.Customer.Password == pass)
+                {
+                    return contact.Customer;
+                }
+            }
+            return null;
         }
     }
 }
