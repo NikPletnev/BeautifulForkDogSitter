@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -21,7 +22,7 @@ namespace DogSitter.BLL.Services
             var address = _repository.GetAddressById(id);
             if (address == null)
             {
-                throw new Exception("Адресс не найден");
+                throw new EntityNotFoundException("Address not found");
 
             }
             return _mapper.Map<AddressModel>(address);
@@ -35,17 +36,33 @@ namespace DogSitter.BLL.Services
 
         public void AddAddress(AddressModel address)
         {
+            if (address.Name == String.Empty ||
+               address.City == String.Empty ||
+               address.Street == String.Empty ||
+               address.House == 0 ||
+               address.Apartament == 0)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to create new address");
+            }
             var addressModel = _mapper.Map<Address>(address);
             _repository.AddAddress(addressModel);
         }
 
         public void UpdateAddress(AddressModel address)
         {
+            if (address.Name == String.Empty ||
+              address.City == String.Empty ||
+              address.Street == String.Empty ||
+              address.House == 0 ||
+              address.Apartament == 0)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to update address");
+            }
             var addressModel = _mapper.Map<Address>(address);
             var entity = _repository.GetAddressById(address.Id);
             if (entity == null)
             {
-                throw new Exception("Адресс не найден");
+                throw new EntityNotFoundException("Address not found");
 
             }
             _repository.UpdateAddress(addressModel);
@@ -56,7 +73,7 @@ namespace DogSitter.BLL.Services
             var entity = _repository.GetAddressById(id);
             if (entity == null)
             {
-                throw new Exception("Адресс не найден");
+                throw new EntityNotFoundException("Address not found");
             }
             _repository.UpdateAddress(id, true);
         }
@@ -66,7 +83,7 @@ namespace DogSitter.BLL.Services
             var entity = _repository.GetAddressById(id);
             if (entity == null)
             {
-                throw new Exception("Адресс не найден");
+                throw new EntityNotFoundException("Address not found");
             }
             _repository.UpdateAddress(id, false);
         }
