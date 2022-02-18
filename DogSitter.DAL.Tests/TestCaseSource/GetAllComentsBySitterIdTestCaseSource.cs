@@ -28,7 +28,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 {
                     Id = 1,
                     OrderDate = new DateTime(2011, 11, 11),
-                    Status = Status.created,
+                    Status = Status.Created,
                     CommentId = 1,
                     Price = 100,
                     IsDeleted = false,
@@ -46,7 +46,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 {
                     Id = 2,
                     OrderDate = new DateTime(2011, 11, 11),
-                    Status = Status.created,
+                    Status = Status.Created,
                     CommentId = 2,
                     Price = 100,
                     IsDeleted = false,
@@ -64,7 +64,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 {
                     Id = 3,
                     OrderDate = new DateTime(2011, 10, 10),
-                    Status = Status.created,
+                    Status = Status.Created,
                     CommentId = 3,
                     Price = 100,
                     IsDeleted = false,

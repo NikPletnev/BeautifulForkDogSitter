@@ -8,6 +8,7 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests
 {
