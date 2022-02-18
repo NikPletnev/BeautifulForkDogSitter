@@ -3,11 +3,8 @@ using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System;
-using System.Linq;
-using System.Text;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace DogSitter.DAL.Tests
 {
@@ -39,10 +36,12 @@ namespace DogSitter.DAL.Tests
             _context.Customers.AddRange(customers);
             _context.SaveChanges();
             //when
+
             //then
             var actual = _rep.GetAllDogsByCustomerId(id);
             Assert.AreEqual(expected, actual);
         }
+
         [TestCaseSource(typeof(DogListTestCaseSource))]
         public void GetAllDogsTestMustReturnAllDogs(List<Dog> dogs, List<Dog> expected)
         {
@@ -76,7 +75,7 @@ namespace DogSitter.DAL.Tests
         public void AddDogTestMustAddExpectedDog(List<Dog> dogs, Dog newDog, Dog expected)
         {
             //given
-            
+
             //when
             _rep.AddDog(newDog);
 
@@ -93,7 +92,7 @@ namespace DogSitter.DAL.Tests
             _context.Dogs.AddRange(dogs);
             _context.SaveChanges();
             expected.IsDeleted = true;
-            
+
             //when
             _rep.UpdateDog(2, true);
             var actual = _context.Dogs.FirstOrDefault(z => z.Id == 2);
@@ -115,7 +114,7 @@ namespace DogSitter.DAL.Tests
             var actual = _context.Dogs.FirstOrDefault(z => z.Id == 2);
 
             //then
-            
+
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.Age, actual.Age);
             Assert.AreEqual(expected.Weight, actual.Weight);

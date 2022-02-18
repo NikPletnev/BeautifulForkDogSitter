@@ -18,7 +18,7 @@ namespace DogSitter.BLL.Services
         private readonly IContactRepository _contactRepository;
         private readonly IMapper _map;
 
-        public AuthService(IContactRepository contactRepository ,IAdminRepository adminRepository,
+        public AuthService(IContactRepository contactRepository, IAdminRepository adminRepository,
             ICustomerRepository customerRepository, ISitterRepository sitterRepository, IMapper mapper)
         {
             _adminRepository = adminRepository;
@@ -29,7 +29,7 @@ namespace DogSitter.BLL.Services
         }
 
         public string GetToken(UserModel user)
-        {            
+        {
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.Name, user.FirstName ),
                 new Claim(ClaimTypes.UserData, user.Id.ToString())

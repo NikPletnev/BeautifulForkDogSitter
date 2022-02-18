@@ -1,5 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {

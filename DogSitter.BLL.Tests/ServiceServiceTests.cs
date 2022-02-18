@@ -13,12 +13,13 @@ namespace DogSitter.BLL.Tests
 {
     public class ServiceServiceTests
     {
-        private readonly Mock<IServiceRepository> _serviceRepositoryMock;
-        private readonly IMapper _mapper;
+        private Mock<IServiceRepository> _serviceRepositoryMock;
+        private IMapper _mapper;
         private ServiceService _service;
         private ServiceTestCaseSource _serviceMocks;
 
-        public ServiceServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _serviceRepositoryMock = new Mock<IServiceRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));

@@ -6,21 +6,17 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests
 {
     public class SitterServiceTests
     {
-        private readonly Mock<ISitterRepository> _sitterRepositoryMock;
-        private readonly IMapper _mapper;
-        private readonly SitterService _service;
+        private Mock<ISitterRepository> _sitterRepositoryMock;
+        private IMapper _mapper;
+        private SitterService _service;
 
-        public SitterServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _sitterRepositoryMock = new Mock<ISitterRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
