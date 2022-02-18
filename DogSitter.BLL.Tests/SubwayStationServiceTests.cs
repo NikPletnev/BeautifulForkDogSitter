@@ -13,20 +13,16 @@ namespace DogSitter.BLL.Tests
 {
     public class SubwayStationSubwayStationTests
     {
-        private readonly Mock<ISubwayStationRepository> _subwayStationRepositoryMock;
-        private readonly IMapper _mapper;
+        private Mock<ISubwayStationRepository> _subwayStationRepositoryMock;
+        private IMapper _mapper;
         private SubwayStationService _subwayStationService;
         private SubwayStationTestCaseSource _subwayStationMocks;
 
-        public SubwayStationSubwayStationTests()
+        [SetUp]
+        public void Setup()
         {
             _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
-        }
-
-        [SetUp]
-        public void SetUp()
-        {
             _subwayStationService = new SubwayStationService(_subwayStationRepositoryMock.Object, _mapper);
             _subwayStationMocks = new SubwayStationTestCaseSource();
         }

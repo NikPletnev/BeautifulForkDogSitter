@@ -14,11 +14,13 @@ namespace DogSitter.BLL.Tests
 {
     public class PassportServiceTests
     {
-        private readonly Mock<IPassportRepository> _passportRepositoryMock;
-        private readonly IMapper _mapper;
-        private readonly PassportService _service;
+        private Mock<IPassportRepository> _passportRepositoryMock;
+        private IMapper _mapper;
+        private PassportService _service;
 
-        public PassportServiceTests()
+
+        [SetUp]
+        public void Setup()
         {
             _passportRepositoryMock = new Mock<IPassportRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
@@ -30,7 +32,7 @@ namespace DogSitter.BLL.Tests
         public void UpdatePassportTest(int id, Passport entity, PassportModel model)
         {
             //given
-            
+
             _passportRepositoryMock.Setup(x => x.UpdatePassport(entity, It.IsAny<Passport>())).Verifiable();
             _passportRepositoryMock.Setup(x => x.GetPassportById(id)).Returns(entity);
             //when       

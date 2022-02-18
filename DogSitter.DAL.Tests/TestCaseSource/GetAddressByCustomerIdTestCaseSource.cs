@@ -1,7 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
@@ -15,8 +14,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Id = 1,
                 FirstName = "Иван1",
                 LastName = "Иванов1",
-                Address = new List<Address>()
-                {
+                Address =
                     new Address
                     {
                         Id = 1,
@@ -26,24 +24,14 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         House = 1,
                         Apartament = 1,
                         IsDeleted = false,
-                    },
-                    new Address
-                    {
-                        Id = 2,
-                        Name = "Работа",
-                        City = "Город",
-                        Street = "Улица",
-                        House = 2,
-                        Apartament = 2,
-                        IsDeleted = false,
                     }
-                },
+
+                ,
                 Password = "Ваня1",
                 IsDeleted = false,
             };
 
-            List<Address> addresses1 = new List<Address>()
-            {
+            Address addresses1 =
                 new Address
                 {
                     Id = 1,
@@ -53,18 +41,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     House = 1,
                     Apartament = 1,
                     IsDeleted = false,
-                },
-                new Address
-                {
-                    Id = 2,
-                    Name = "Работа",
-                    City = "Город",
-                    Street = "Улица",
-                    House = 2,
-                    Apartament = 2,
-                    IsDeleted = false,
-                }
-            };
+                };
 
             yield return new Object[] { customer1, addresses1 };
 
@@ -73,8 +50,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Id = 2,
                 FirstName = "Иван2",
                 LastName = "Иванов2",
-                Address = new List<Address>()
-                {
+                Address =
                     new Address
                     {
                         Id = 3,
@@ -85,13 +61,12 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         Apartament = 3,
                         IsDeleted = false,
                     }
-                },
+                ,
                 Password = "Ваня2",
                 IsDeleted = false,
             };
 
-            List<Address> addresses2 = new List<Address>()
-            {
+            Address addresses2 =
                 new Address
                 {
                     Id = 3,
@@ -102,7 +77,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Apartament = 3,
                     IsDeleted = false,
                 }
-            };
+            ;
 
             yield return new Object[] { customer2, addresses2 };
 
@@ -111,12 +86,12 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Id = 3,
                 FirstName = "Иван3",
                 LastName = "Иванов3",
-                Address = new List<Address>() { },
+                Address = null,
                 Password = "Ваня3",
                 IsDeleted = false,
             };
 
-            List<Address> addresses3 = new List<Address>() { };
+            Address addresses3 = null;
 
             yield return new Object[] { customer3, addresses3 };
 
@@ -125,8 +100,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Id = 4,
                 FirstName = "Иван4",
                 LastName = "Иванов4",
-                Address = new List<Address>()
-                {
+                Address =
                     new Address
                     {
                         Id = 5,
@@ -137,12 +111,24 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         Apartament = 3,
                         IsDeleted = true,
                     }
-                },
+                ,
                 Password = "Ваня4",
                 IsDeleted = false,
             };
 
-            yield return new Object[] { customer4, addresses3 };
+            Address address4 =
+            new Address
+            {
+                Id = 5,
+                Name = "TestName3",
+                City = "TestCity3",
+                Street = "TestStreet3",
+                House = 3,
+                Apartament = 3,
+                IsDeleted = true,
+            };
+
+            yield return new Object[] { customer4, address4 };
         }
     }
 }

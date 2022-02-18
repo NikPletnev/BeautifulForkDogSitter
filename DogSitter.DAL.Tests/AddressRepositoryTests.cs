@@ -130,7 +130,7 @@ namespace DogSitter.DAL.Tests
         }
 
         [TestCaseSource(typeof(GetAddressByCustomerIdTestCaseSource))]
-        public void GetAddressByCustomerIdTest(Customer customer, List<Address> expected)
+        public void GetAddressByCustomerIdTest(Customer customer, Address expected)
         {
             //given
             _dbContext.Customers.Add(customer);

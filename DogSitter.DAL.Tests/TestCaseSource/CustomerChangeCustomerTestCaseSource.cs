@@ -1,15 +1,11 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
-    public class CustomerChangeCustomerTestCaseSource: IEnumerable
+    public class CustomerChangeCustomerTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
@@ -24,7 +20,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                       new Contact
                     {
                           Value ="Value2",
-                          ContactType = ContactType.mail}
+                          ContactType = ContactType.Mail}
                     },
                 IsDeleted = false
             };
@@ -51,7 +47,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                       new Contact
                     {
                           Value ="Value2",
-                          ContactType = ContactType.mail}
+                          ContactType = ContactType.Mail}
                     },
                 Address = address,
                 IsDeleted = false

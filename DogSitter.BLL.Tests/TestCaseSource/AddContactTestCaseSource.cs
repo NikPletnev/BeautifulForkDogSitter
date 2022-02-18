@@ -9,11 +9,11 @@ namespace DogSitter.BLL.Tests.TestCaseSource
         public IEnumerator GetEnumerator()
         {
             ContactModel contact = new ContactModel() { Value = "89871234567", ContactType = ContactType.Phone, IsDeleted = false };
-            
+
             yield return new object[] { contact };
 
             ContactModel contact2 = new ContactModel() { Value = "@qwerty", ContactType = ContactType.Mail, IsDeleted = false };
-            
+
             yield return new object[] { contact2 };
 
             ContactModel contact3 = new ContactModel() { Value = "qwerty123@icloud.com", ContactType = ContactType.Mail, IsDeleted = true };

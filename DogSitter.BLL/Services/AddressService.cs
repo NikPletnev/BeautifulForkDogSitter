@@ -74,14 +74,14 @@ namespace DogSitter.BLL.Services
             _repository.UpdateAddress(id, false);
         }
 
-        public List<AddressModel> GetAddressByCustomerId(int id)
+        public AddressModel GetAddressByCustomerId(int id)
         {
             var entity = _customerRepository.GetCustomerById(id);
             if (entity == null)
             {
                 throw new EntityNotFoundException($"Customer {id} was not found");
             }
-            return _mapper.Map<List<AddressModel>>(_repository.GetAddressByCustomerId(entity));
+            return _mapper.Map<AddressModel>(_repository.GetAddressByCustomerId(entity));
         }
 
     }

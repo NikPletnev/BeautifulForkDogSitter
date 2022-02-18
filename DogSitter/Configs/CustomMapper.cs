@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
-using DogSitter.DAL.Entity;
 
 namespace DogSitter.API.Configs
 {

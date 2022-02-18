@@ -155,6 +155,6 @@ namespace DogSitter.DAL.Tests
             var actual = _rep.GetAllContactsBySitterId(id);
             Assert.AreEqual(expected, actual);
         }
-       
+
     }
 }

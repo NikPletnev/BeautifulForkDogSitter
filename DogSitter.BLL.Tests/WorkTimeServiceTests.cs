@@ -13,20 +13,16 @@ namespace DogSitter.BLL.Tests
 {
     public class WorkTimeServiceTests
     {
-        private readonly Mock<IWorkTimeRepository> _workTimeRepositoryMock;
-        private readonly IMapper _mapper;
+        private Mock<IWorkTimeRepository> _workTimeRepositoryMock;
+        private IMapper _mapper;
         private WorkTimeService _service;
         private WorkTimeTestMocks _workTimeMocks;
 
-        public WorkTimeServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _workTimeRepositoryMock = new Mock<IWorkTimeRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
-        }
-
-        [SetUp]
-        public void SetUp()
-        {
             _service = new WorkTimeService(_workTimeRepositoryMock.Object, _mapper);
             _workTimeMocks = new WorkTimeTestMocks();
         }

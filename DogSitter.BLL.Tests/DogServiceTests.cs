@@ -12,12 +12,13 @@ namespace DogSitter.BLL.Tests
 {
     public class DogServiceTests
     {
-        private readonly Mock<IDogRepository> _dogRepositoryMock;
-        private readonly Mock<ICustomerRepository> _customerRepository;
-        private readonly IMapper _mapper;
-        private readonly DogService _service;
+        private Mock<IDogRepository> _dogRepositoryMock;
+        private Mock<ICustomerRepository> _customerRepository;
+        private IMapper _mapper;
+        private DogService _service;
 
-        public DogServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _dogRepositoryMock = new Mock<IDogRepository>();
             _customerRepository = new Mock<ICustomerRepository>();

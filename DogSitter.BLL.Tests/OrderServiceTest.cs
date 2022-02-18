@@ -15,11 +15,13 @@ namespace DogSitter.BLL.Tests
 {
     public class OrderServiceTests
     {
-        private readonly Mock<IOrderRepository> _orderRepositoryMock;
-        private readonly IMapper _mapper;
-        private readonly OrderService _service;
+        private Mock<IOrderRepository> _orderRepositoryMock;
+        private IMapper _mapper;
+        private OrderService _service;
 
-        public OrderServiceTests()
+
+        [SetUp]
+        public void Setup()
         {
             _orderRepositoryMock = new Mock<IOrderRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
@@ -46,7 +48,7 @@ namespace DogSitter.BLL.Tests
             _orderRepositoryMock.Setup(x => x.GetById(id));
             _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>()));
             //when       
-            
+
             //then            
             Assert.Throws<EntityNotFoundException>(() => _service.UpdateOrder(id, model));
             _orderRepositoryMock.Verify(x => x.GetById(id));

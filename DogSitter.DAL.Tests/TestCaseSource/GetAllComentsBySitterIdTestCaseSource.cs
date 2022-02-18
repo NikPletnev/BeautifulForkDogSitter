@@ -3,9 +3,6 @@ using DogSitter.DAL.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
@@ -86,7 +83,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 }
             };
 
-            
+
 
             List<Comment> comments = new List<Comment>()
             {
@@ -108,7 +105,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
 
             int id = 1;
 
-            yield return new Object[] {orders, id, comments};
+            yield return new Object[] { orders, id, comments };
         }
     }
 }

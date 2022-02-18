@@ -37,8 +37,8 @@ namespace DogSitter.DAL.Tests
                 Id = 1,
                 OrderDate = new DateTime(2011, 11, 11),
                 Status = Status.Created,
-                CommentId = 1, 
-                Price = 100, 
+                CommentId = 1,
+                Price = 100,
                 IsDeleted = false
             };
 

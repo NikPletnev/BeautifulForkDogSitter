@@ -2,9 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
@@ -21,7 +18,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 LastName = "Test1",
                 Password = "strong",
                 IsDeleted = false,
-            };           
+            };
 
             List<Comment> comments = new List<Comment>()
             {

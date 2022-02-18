@@ -14,22 +14,18 @@ namespace DogSitter.BLL.Tests
 {
     public class CommentServiceTests
     {
-        private readonly Mock<ICommentRepository> _commentRepositoryMock;
-        private readonly Mock<ISitterRepository> _sitterRepositoryMock;
-        private readonly IMapper _mapper;
+        private Mock<ICommentRepository> _commentRepositoryMock;
+        private Mock<ISitterRepository> _sitterRepositoryMock;
+        private IMapper _mapper;
         private CommentService _comment;
         private CommentTestCaseSourse _commentMocks;
 
-        public CommentServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _commentRepositoryMock = new Mock<ICommentRepository>();
             _sitterRepositoryMock = new Mock<ISitterRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
-        }
-
-        [SetUp]
-        public void SetUp()
-        {
             _comment = new CommentService(_commentRepositoryMock.Object, _mapper, _sitterRepositoryMock.Object);
             _commentMocks = new CommentTestCaseSourse();
         }

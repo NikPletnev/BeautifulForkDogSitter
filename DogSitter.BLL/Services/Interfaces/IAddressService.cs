@@ -6,7 +6,7 @@ namespace DogSitter.BLL.Services
     {
         void AddAddress(AddressModel address);
         void DeleteAddressById(int id);
-        List<AddressModel> GetAddressByCustomerId(int id);
+        AddressModel GetAddressByCustomerId(int id);
         AddressModel GetAddressById(int id);
         List<AddressModel> GetAllAddresses();
         void RestoreAddress(int id);

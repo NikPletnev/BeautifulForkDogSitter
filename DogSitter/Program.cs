@@ -1,10 +1,6 @@
 using DogSitter.API.Extensions;
 using DogSitter.API.Infrastructure;
 using DogSitter.BLL.Configs;
-using DogSitter.BLL.Services;
-using DogSitter.DAL;
-using DogSitter.DAL.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -50,7 +50,7 @@ namespace DogSitter.DAL.Repositories
             customer.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
-        
+
         public void ChangeCustomerAddress(Customer customer, Address address)
         {
             customer.Address = address;

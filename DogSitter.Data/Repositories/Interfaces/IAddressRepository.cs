@@ -9,6 +9,6 @@ namespace DogSitter.DAL.Repositories
         List<Address> GetAllAddress();
         void UpdateAddress(Address address);
         void UpdateAddress(int id, bool IsDeleted);
-        List<Address> GetAddressByCustomerId(Customer customer);
+        Address GetAddressByCustomerId(Customer customer);
     }
 }

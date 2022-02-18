@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using DogSitter.BLL.Models;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services

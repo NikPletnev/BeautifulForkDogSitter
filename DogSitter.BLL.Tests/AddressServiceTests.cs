@@ -7,18 +7,18 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests
 {
     public class AddressServiceTests
     {
-        private readonly Mock<IAddressRepository> _addressRepositoryMock;
-        private readonly Mock<ICustomerRepository> _customerRepMock;
-        private readonly IMapper _mapper;
-        private readonly AddressService _service;
+        private Mock<IAddressRepository> _addressRepositoryMock;
+        private Mock<ICustomerRepository> _customerRepMock;
+        private IMapper _mapper;
+        private AddressService _service;
 
-        public AddressServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _addressRepositoryMock = new Mock<IAddressRepository>();
             _customerRepMock = new Mock<ICustomerRepository>();
@@ -27,11 +27,11 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetAddressByCustomerIdTestCaseSource))]
-        public void GetAddressByCustomerIdTest(int id, Customer customer, List<Address> addresses)
+        public void GetAddressByCustomerIdTest(int id, Customer customer, Address address)
         {
             //given
             _customerRepMock.Setup(x => x.GetCustomerById(id)).Returns(customer);
-            _addressRepositoryMock.Setup(x => x.GetAddressByCustomerId(customer)).Returns(addresses);
+            _addressRepositoryMock.Setup(x => x.GetAddressByCustomerId(customer)).Returns(address);
             //when
             _service.GetAddressByCustomerId(id);
             //then
@@ -40,11 +40,11 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetAddressByCustomerIdTestCaseSource))]
-        public void GetAddressByCustomerIdTest_WhenCustomerNotFound_ShouldThrowEntityNotFoundException(int id, Customer customer, List<Address> addresses)
+        public void GetAddressByCustomerIdTest_WhenCustomerNotFound_ShouldThrowEntityNotFoundException(int id, Customer customer, Address address)
         {
             //given
             _customerRepMock.Setup(x => x.GetCustomerById(id));
-            _addressRepositoryMock.Setup(x => x.GetAddressByCustomerId(customer)).Returns(addresses);
+            _addressRepositoryMock.Setup(x => x.GetAddressByCustomerId(customer)).Returns(address);
             //when
 
             //then
