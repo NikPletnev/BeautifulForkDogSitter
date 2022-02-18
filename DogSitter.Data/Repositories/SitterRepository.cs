@@ -63,5 +63,8 @@ namespace DogSitter.DAL.Repositories
             }
             return null;
         }
+
+        public List<Sitter> GetAllSitterByServiceId(int id) =>
+            _context.Services.First(s => s.Id == id).Sitters.Where(s => !s.IsDeleted).ToList();
     }
 }

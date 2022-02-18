@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
-    public class ServiceTestCaseSource
+    public class ServiceTestMock
     {
         public List<Serviсe> GetMockServices() =>
             new List<Serviсe>()

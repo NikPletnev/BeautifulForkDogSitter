@@ -59,5 +59,19 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.AreEqual(actual, verify);
         }
+
+        [TestCaseSource(typeof(GetAllSittersByServiceIdTestCaseSource))]
+        public void GetAllSittersByServiceIdTest(int id, Serviсe service, List<Sitter> expected)
+        {
+            //given
+            _context.Services.AddRange(service);
+            _context.SaveChanges();
+
+            //when
+            var actual = _sitterRepository.GetAllSitterByServiceId(id);
+
+            //then
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
