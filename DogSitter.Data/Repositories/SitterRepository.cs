@@ -52,5 +52,16 @@ namespace DogSitter.DAL.Repositories
                 _context.SaveChanges();
             }
         }
+        public Sitter Login(Contact contact, string pass)
+        {
+            if (contact != null && contact.Sitter != null)
+            {
+                if (contact.Sitter.Password == pass)
+                {
+                    return contact.Sitter;
+                }
+            }
+            return null;
+        }
     }
 }
