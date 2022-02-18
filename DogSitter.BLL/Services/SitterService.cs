@@ -45,49 +45,28 @@ namespace DogSitter.BLL.Services
         public void Update(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
-            try
+            var entity = _repository.GetById(sitterModel.Id);
+            if (entity == null)
             {
-                var entity = _repository.GetById(sitterModel.Id);
-
-            }
-            catch (Exception)
-            {
-
-                throw new Exception("Ситтер не найден");
+                throw new EntityNotFoundException($"Sitter {sitterModel.Id} was not found");
             }
             _repository.Update(sitter);
         }
 
         public void DeleteById(int id)
-        {
-            try
+        { 
+            var entity = _repository.GetById(id);
+            if (entity == null)
             {
-                var entity = _repository.GetById(id);
-
+                throw new EntityNotFoundException($"Sitter {id} was not found");
             }
-            catch (Exception)
-            {
-
-                throw new Exception("Ситтер не найден");
-            }
-            
             bool delete = true;
             _repository.Update(id, delete);
             _repository.EditProfileStateBySitterId(id, false);
         }
 
         public void Restore(int id)
-        {
-            try
-            {
-                var entity = _repository.GetById(id);
-
-            }
-            catch (Exception)
-            {
-
-                throw new Exception("Ситтер не найден");
-            }
+        {  
             bool Delete = false;
             _repository.Update(id, Delete);
         }
