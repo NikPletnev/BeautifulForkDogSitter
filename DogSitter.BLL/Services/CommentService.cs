@@ -99,7 +99,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
 
-            return _mapper.Map<List<CommentModel>>(_repository.GetAllComentsBySitterId(sitter));
+            return _mapper.Map<List<CommentModel>>(_repository.GetAllComentsBySitterId(id));
         }
     }
 }

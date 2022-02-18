@@ -106,7 +106,9 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 }
             };
 
-            yield return new Object[] {orders, sitter, comments};
+            int id = 1;
+
+            yield return new Object[] {orders, id, comments};
         }
     }
 }

@@ -6,7 +6,7 @@ namespace DogSitter.DAL.Repositories
     {
         void Add(Comment comment);
         List<Comment> GetAll();
-        List<Comment> GetAllComentsBySitterId(Sitter sitter);
+        List<Comment> GetAllComentsBySitterId(int id);
         Comment GetById(int id);
         void Update(Comment comment);
         void Update(Comment comment, bool IsDeleted);

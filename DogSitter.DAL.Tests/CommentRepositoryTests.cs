@@ -135,13 +135,15 @@ namespace DogSitter.DAL.Tests
         }
 
         [TestCaseSource(typeof(GetAllComentsBySitterIdTestCaseSource))]
-        public void GetAllComentsBySitterIdTest(List<Order> orders, Sitter sitter, List<Comment> expected)
+        public void GetAllComentsBySitterIdTest(List<Order> orders, int id, List<Comment> expected)
         {
             //given
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
             _context.Orders.AddRange(orders);
             _context.SaveChanges();
             //when
-            var actual = _repository.GetAllComentsBySitterId(sitter);
+            var actual = _repository.GetAllComentsBySitterId(id);
             //then
             Assert.AreEqual(actual, expected);
         }

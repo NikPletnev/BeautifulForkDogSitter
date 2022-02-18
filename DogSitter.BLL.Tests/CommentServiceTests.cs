@@ -172,13 +172,13 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _sitterRepositoryMock.Setup(x => x.GetById(id)).Returns(sitter);
-            _commentRepositoryMock.Setup(x => x.GetAllComentsBySitterId(sitter)).Returns(comments);
+            _commentRepositoryMock.Setup(x => x.GetAllComentsBySitterId(id)).Returns(comments);
 
             //when
             var actaul = _comment.GetAllCommentsBySitterId(id);
 
             //then
-            _commentRepositoryMock.Verify(x => x.GetAllComentsBySitterId(sitter), Times.Once());
+            _commentRepositoryMock.Verify(x => x.GetAllComentsBySitterId(id), Times.Once());
             _sitterRepositoryMock.Verify(x => x.GetById(id), Times.Once());
         }
 
@@ -187,13 +187,13 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _sitterRepositoryMock.Setup(x => x.GetById(id));
-            _commentRepositoryMock.Setup(x => x.GetAllComentsBySitterId(sitter)).Returns(comments);
+            _commentRepositoryMock.Setup(x => x.GetAllComentsBySitterId(id)).Returns(comments);
 
             //when
 
             //then
             Assert.Throws<EntityNotFoundException>(() => _comment.GetAllCommentsBySitterId(id));
-            _commentRepositoryMock.Verify(x => x.GetAllComentsBySitterId(sitter), Times.Never());
+            _commentRepositoryMock.Verify(x => x.GetAllComentsBySitterId(id), Times.Never());
             _sitterRepositoryMock.Verify(x => x.GetById(id), Times.Once());
         }
     }
