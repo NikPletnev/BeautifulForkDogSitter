@@ -2,7 +2,6 @@
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers

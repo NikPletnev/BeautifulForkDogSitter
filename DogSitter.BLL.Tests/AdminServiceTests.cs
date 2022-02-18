@@ -211,7 +211,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetAllAdminsTestCaseSource))]
-        public void GetAllAdminsTest(List<Admin> admins, List<AdminModel> expected) 
+        public void GetAllAdminsTest(List<Admin> admins, List<AdminModel> expected)
         {
             //given
             _adminRepositoryMock.Setup(x => x.GetAllAdmins()).Returns(admins);

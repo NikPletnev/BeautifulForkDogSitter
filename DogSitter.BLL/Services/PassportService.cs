@@ -19,7 +19,7 @@ namespace DogSitter.BLL.Services
 
         public void UpdatePassport(int id, PassportModel passportModel)
         {
-            if(passportModel.FirstName == String.Empty ||
+            if (passportModel.FirstName == String.Empty ||
                 passportModel.LastName == String.Empty ||
                 passportModel.Seria == String.Empty ||
                 passportModel.Number == String.Empty ||

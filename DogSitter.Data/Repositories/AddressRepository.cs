@@ -45,5 +45,8 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
+        public List<Address> GetAddressByCustomerId(Customer customer)
+            => customer.Address.Where(x => !x.IsDeleted).ToList();
+
     }
 }
