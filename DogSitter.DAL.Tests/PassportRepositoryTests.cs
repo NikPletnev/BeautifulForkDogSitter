@@ -121,6 +121,8 @@ namespace DogSitter.DAL.Tests
                   Registration = "г. Казань, ул. Академика Завойского, д. 10, кв. 90",
               };
 
+            var passport = _context.Passports.FirstOrDefault(x => x.Id == 3);
+
             var expected =
               new Passport()
               {
@@ -138,7 +140,7 @@ namespace DogSitter.DAL.Tests
               };
 
             //when
-            _rep.UpdatePassport(newPassport);
+            _rep.UpdatePassport(passport, newPassport);
             var actual = _context.Passports.FirstOrDefault(z => z.Id == newPassport.Id);
 
             //then

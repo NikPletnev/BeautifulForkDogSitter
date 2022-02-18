@@ -2,11 +2,11 @@
 {
     public enum Status
     {
-        created = 1,
-        accepted = 2,
-        completed = 3,
-        cancelledByCustomer = 4,
-        canceledBySitter = 5,
-        canceledByAdmin = 6
+        Created = 1,
+        Accepted = 2,
+        Completed = 3,
+        CancelledByCustomer = 4,
+        CanceledBySitter = 5,
+        CanceledByAdmin = 6
     }
 }

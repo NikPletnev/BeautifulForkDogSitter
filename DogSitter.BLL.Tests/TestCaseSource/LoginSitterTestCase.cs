@@ -19,7 +19,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 FirstName = "Иван",
                 LastName = "Иванов",
                 Password = "123456",
-                Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.phone } },
+                Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.Phone } },
                 IsDeleted = false
             };
 
@@ -28,11 +28,11 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 FirstName = "Иван",
                 LastName = "Иванов",
                 Password = "123456",
-                Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.phone } },
+                Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.Phone } },
                 IsDeleted = false
             };
 
-            Contact contact = new Contact() { Id = 1, Value = "12345678", ContactType = ContactType.phone };
+            Contact contact = new Contact() { Id = 1, Value = "12345678", ContactType = ContactType.Phone };
 
             string password = "123456";
 
