@@ -1,5 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -46,5 +45,8 @@ namespace DogSitter.DAL.Repositories
             service.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
+
+        public List<Serviсe> GetAllServicesBySitterId(int id) =>
+            _context.Sitters.First(s => s.Id == id).Services.Where(s => !s.IsDeleted).ToList();
     }
 }

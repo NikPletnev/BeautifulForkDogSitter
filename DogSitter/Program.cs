@@ -1,14 +1,11 @@
-using DogSitter.API.Configs;
 using DogSitter.API.Extensions;
 using DogSitter.API.Infrastructure;
 using DogSitter.BLL.Configs;
-using DogSitter.DAL;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAutoMapper(typeof(CustomMapperAPI).Assembly, typeof(CustomMapper).Assembly);
+builder.Services.AddAutoMapper(typeof(CustomMapper).Assembly, typeof(CustomMapper).Assembly);
 
 builder.Services.AddControllers();
 

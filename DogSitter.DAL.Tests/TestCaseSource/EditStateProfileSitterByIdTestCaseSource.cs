@@ -20,9 +20,9 @@ namespace DogSitter.DAL.Tests
               new Sitter() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
                   IsDeleted = true, AddressId = 5, PassportId = 6, Verified = false  }
             };
-            
 
-            yield return new object[] { id, verify, sitters};
+
+            yield return new object[] { id, verify, sitters };
         }
     }
 }

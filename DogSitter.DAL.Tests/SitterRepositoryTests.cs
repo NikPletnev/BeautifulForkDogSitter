@@ -125,5 +125,21 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.AreEqual(actual, verify);
         }
+
+        [TestCaseSource(typeof(GetAllSittersWithWorkTimeBySubwayStationTestCaseSource))]
+        public void GetAllSittersWithWorkTimeBySubwayStationTest(SubwayStation subwayStation,
+            List<Sitter> sitters, List<Sitter> expected)
+        {
+            //given
+            _context.Sitters.AddRange(sitters);
+            _context.SaveChanges();
+
+            //when
+            var actual = _sitterRepository.GetAllSittersWithWorkTimeBySubwayStation(subwayStation);
+
+            //then
+            Assert.AreEqual(expected, actual);
+            Assert.That(expected[0].WorkTime.Count == actual[0].WorkTime.Count);
+        }
     }
 }

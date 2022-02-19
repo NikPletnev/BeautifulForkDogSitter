@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 
 namespace DogSitter.DAL.Entity
 {
@@ -17,5 +16,21 @@ namespace DogSitter.DAL.Entity
         public bool IsDeleted { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Sitter> Sitters { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Serviсe serviсe &&
+                   Id == serviсe.Id &&
+                   Name == serviсe.Name &&
+                   Description == serviсe.Description &&
+                   Price == serviсe.Price &&
+                   DurationHours == serviсe.DurationHours &&
+                   IsDeleted == serviсe.IsDeleted;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name, Description, Price, DurationHours, IsDeleted, Orders, Sitters);
+        }
     }
 }
