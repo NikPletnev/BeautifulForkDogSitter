@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -8,11 +9,13 @@ namespace DogSitter.BLL.Services
     public class AddressService : IAddressService
     {
         private IAddressRepository _repository;
+        private ICustomerRepository _customerRepository;
         private IMapper _mapper;
 
-        public AddressService(IMapper mapper, IAddressRepository addressRepository)
+        public AddressService(IMapper mapper, IAddressRepository addressRepository, ICustomerRepository customerRepository)
         {
             _repository = addressRepository;
+            _customerRepository = customerRepository;
             _mapper = mapper;
         }
 
@@ -70,5 +73,16 @@ namespace DogSitter.BLL.Services
             }
             _repository.UpdateAddress(id, false);
         }
+
+        public AddressModel GetAddressByCustomerId(int id)
+        {
+            var entity = _customerRepository.GetCustomerById(id);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Customer {id} was not found");
+            }
+            return _mapper.Map<AddressModel>(_repository.GetAddressByCustomerId(entity));
+        }
+
     }
 }

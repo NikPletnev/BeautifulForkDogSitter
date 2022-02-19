@@ -45,5 +45,8 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
+        public Address GetAddressByCustomerId(Customer customer)
+            => customer.Address;
+
     }
 }

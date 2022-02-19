@@ -29,19 +29,19 @@ namespace DogSitter.BLL.Services
         {
             if (contactModel.ContactType == null ||
                 contactModel.Value == String.Empty)
-            { 
+            {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the contact {id}");
             }
 
-            var entity = _mapper.Map<Contact>(contactModel);
-            var contact = _rep.GetContactById(id);
+            var contact = _mapper.Map<Contact>(contactModel);
+            var entity = _rep.GetContactById(id);
 
-            if (contact == null)
+            if (entity == null)
             {
-                throw new ServiceNotFoundExeption($"Contact {id} was not found");
+                throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
-            _rep.UpdateContact(entity);
+            _rep.UpdateContact(entity, contact);
         }
 
         public void DeleteContact(int id)
@@ -50,10 +50,10 @@ namespace DogSitter.BLL.Services
 
             if (contact == null)
             {
-                throw new ServiceNotFoundExeption($"Contact {id} was not found");
+                throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
-            _rep.UpdateContact(id, true);
+            _rep.UpdateContact(contact, true);
         }
 
         public void RestoreContact(int id)
@@ -62,10 +62,10 @@ namespace DogSitter.BLL.Services
 
             if (contact == null)
             {
-                throw new ServiceNotFoundExeption($"Contact {id} was not found");
+                throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
-            _rep.UpdateContact(id, false);
+            _rep.UpdateContact(contact, false);
         }
 
         public void AddContact(ContactModel contact)
@@ -84,7 +84,7 @@ namespace DogSitter.BLL.Services
             var contact = _rep.GetContactById(id);
             if (contact == null)
             {
-                throw new ServiceNotFoundExeption($"Contact {id} was not found");
+                throw new EntityNotFoundException($"Contact {id} was not found");
             }
 
             return _mapper.Map<ContactModel>(contact);
@@ -97,10 +97,10 @@ namespace DogSitter.BLL.Services
 
         public List<ContactModel> GetAllContactsByAdminId(int id)
         {
-            var admin =  _adminRepository.GetAdminById(id);
-            if(admin == null)
+            var admin = _adminRepository.GetAdminById(id);
+            if (admin == null)
             {
-                throw new ServiceNotFoundExeption($"Admin {id} not found");
+                throw new EntityNotFoundException($"Admin {id} not found");
             }
             return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsByAdminId(id));
         }
@@ -110,7 +110,7 @@ namespace DogSitter.BLL.Services
             var customer = _customerRepository.GetCustomerById(id);
             if (customer == null)
             {
-                throw new ServiceNotFoundExeption($"Customer {id} not found");
+                throw new EntityNotFoundException($"Customer {id} not found");
             }
             return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsByCustomerId(id));
         }
@@ -120,7 +120,7 @@ namespace DogSitter.BLL.Services
             var sitter = _sitterRepository.GetById(id);
             if (sitter == null)
             {
-                throw new ServiceNotFoundExeption($"Sitter {id} not found");
+                throw new EntityNotFoundException($"Sitter {id} not found");
             }
             return _mapper.Map<List<ContactModel>>(_rep.GetAllContactsBySitterId(id));
         }

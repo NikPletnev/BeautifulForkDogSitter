@@ -1,20 +1,19 @@
-﻿using DogSitter.DAL.Entity;
-using DogSitter.DAL.Enums;
+﻿using DogSitter.DAL.Enums;
 
 namespace DogSitter.BLL.Models
 {
     public class OrderModel
     {
+        public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal Price { get; set; }
         public Status Status { get; set; }
         public int? Mark { get; set; }
         public bool IsDeleted { get; set; }
-        public Customer Customer { get; set; }
-        public Sitter Sitter { get; set; }
-        public int? CommentId { get; set; }
-        public Comment Comment { get; set; }
-        public List<Dog> Dogs { get; set; }
-        public List<Serviсe> Service { get; set; }
+        public CustomerModel Customer { get; set; }
+        public SitterModel Sitter { get; set; }
+        public DogModel Dog { get; set; }
+        public List<ServiceModel> Services { get; set; }
+        public CommentModel Comment { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DogSitter.API.Models;
-using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +12,10 @@ namespace DogSitter.API.Controllers
         private IContactService _service;
         private IMapper _map;
 
-        public ContactsController(IMapper customMapper, IContactService contactService)
+        public ContactsController(IMapper CustomMapper, IContactService contactService)
         {
             _service = contactService;
-            _map = customMapper;
+            _map = CustomMapper;
         }
 
         //api/contacts/42

@@ -27,10 +27,6 @@ namespace DogSitter.API.Infrastructure
             {
                 await HandleExceptionAsync(context, HttpStatusCode.ServiceUnavailable, "Сервер недоступен");
             }
-            catch (ServiceNotFoundExeption ex)
-            {
-                await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
-            }
             catch (ServiceNotEnoughDataExeption ex)
             {
                 await HandleExceptionAsync(context, HttpStatusCode.BadRequest, ex.Message);

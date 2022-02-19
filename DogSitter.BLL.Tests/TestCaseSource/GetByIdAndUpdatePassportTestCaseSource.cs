@@ -2,7 +2,6 @@
 using DogSitter.DAL.Entity;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
@@ -77,7 +76,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 IsDeleted = false
             };
 
-            yield return new object[] { id2, passport2, model2};
+            yield return new object[] { id2, passport2, model2 };
 
             int id3 = 13;
 

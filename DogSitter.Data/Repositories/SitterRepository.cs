@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -6,9 +7,9 @@ namespace DogSitter.DAL.Repositories
     {
         private DogSitterContext _context;
 
-        public SitterRepository()
+        public SitterRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public Sitter GetById(int id) =>
@@ -30,7 +31,7 @@ namespace DogSitter.DAL.Repositories
             entity.FirstName = sitter.FirstName;
             entity.LastName = sitter.LastName;
             entity.Contacts = sitter.Contacts;
-            entity.Address = sitter.Address;
+            entity.SubwayStation = sitter.SubwayStation;
             entity.Information = sitter.Information;
             entity.Services = sitter.Services;
             _context.SaveChanges();
@@ -42,5 +43,30 @@ namespace DogSitter.DAL.Repositories
             sitter.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
+
+        public void EditProfileStateBySitterId(int id, bool verify)
+        {
+            var entity = GetById(id);
+            if (!entity.IsDeleted)
+            {
+                entity.Verified = verify;
+                _context.SaveChanges();
+            }
+        }
+        public Sitter Login(Contact contact, string pass)
+        {
+            if (contact != null && contact.Sitter != null)
+            {
+                if (contact.Sitter.Password == pass)
+                {
+                    return contact.Sitter;
+                }
+            }
+            return null;
+        }
+
+        public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation) =>
+            _context.Sitters.Where(s => s.SubwayStation.Id == subwaystation.Id && !s.IsDeleted)
+            .Include(s => s.WorkTime).ToList();
     }
 }

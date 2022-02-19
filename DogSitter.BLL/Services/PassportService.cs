@@ -19,7 +19,7 @@ namespace DogSitter.BLL.Services
 
         public void UpdatePassport(int id, PassportModel passportModel)
         {
-            if(passportModel.FirstName == String.Empty ||
+            if (passportModel.FirstName == String.Empty ||
                 passportModel.LastName == String.Empty ||
                 passportModel.Seria == String.Empty ||
                 passportModel.Number == String.Empty ||
@@ -29,15 +29,15 @@ namespace DogSitter.BLL.Services
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the passport {id}");
             }
 
-            var entity = _map.Map<Passport>(passportModel);
-            var passport = _rep.GetPassportById(id);
+            var passport = _map.Map<Passport>(passportModel);
+            var entity = _rep.GetPassportById(id);
 
-            if (passport == null)
+            if (entity == null)
             {
-                throw new ServiceNotFoundExeption($"Passport {id} was not found");
+                throw new EntityNotFoundException($"Passport {id} was not found");
             }
 
-            _rep.UpdatePassport(entity);
+            _rep.UpdatePassport(entity, passport);
         }
 
         public void AddPassport(PassportModel passportModel)
@@ -60,7 +60,7 @@ namespace DogSitter.BLL.Services
             var passport = _rep.GetPassportById(id);
             if (passport == null)
             {
-                throw new ServiceNotFoundExeption($"Passport {id} was not found");
+                throw new EntityNotFoundException($"Passport {id} was not found");
             }
             return _map.Map<PassportModel>(passport);
         }

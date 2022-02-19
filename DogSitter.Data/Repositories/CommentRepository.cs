@@ -2,13 +2,13 @@
 
 namespace DogSitter.DAL.Repositories
 {
-    public class CommentRepository
+    public class CommentRepository : ICommentRepository
     {
         private DogSitterContext _context;
 
-        public CommentRepository()
+        public CommentRepository(DogSitterContext context)
         {
-            _context = DogSitterContext.GetInstance();
+            _context = context;
         }
 
         public void Add(Comment comment)
@@ -25,17 +25,22 @@ namespace DogSitter.DAL.Repositories
 
         public void Update(Comment comment)
         {
-            var entity = GetById(comment.Id);
+            var entity = _context.ChangeTracker.Entries<Comment>()
+                .First(a => a.Entity.Id == comment.Id).Entity;
+
             entity.Text = comment.Text;
             entity.Date = comment.Date;
             _context.SaveChanges();
         }
 
-        public void Update(int id, bool IsDeleted)
+        public void Update(Comment comment, bool IsDeleted)
         {
-            Comment comment = GetById(id);
             comment.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
+
+        public List<Comment> GetAllComentsBySitterId(int id) =>
+            _context.Comments.Where(x => x.Order.Sitter.Id == id).ToList();
+
     }
 }
