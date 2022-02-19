@@ -38,8 +38,32 @@ namespace DogSitter.DAL.Entity
                    PassportId == sitter.PassportId &&
                    AddressId == sitter.AddressId &&
                    Information == sitter.Information &&
-                   Rating == sitter.Rating;
+                   Rating == sitter.Rating &&
+                   Verified == sitter.Verified;
         }
 
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add(Id);
+            hash.Add(Password);
+            hash.Add(FirstName);
+            hash.Add(LastName);
+            hash.Add(IsDeleted);
+            hash.Add(PassportId);
+            hash.Add(AddressId);
+            hash.Add(Information);
+            hash.Add(Rating);
+            hash.Add(Verified);
+            hash.Add(Orders);
+            hash.Add(Services);
+            hash.Add(WorkTime);
+            hash.Add(Customers);
+            hash.Add(Contacts);
+            hash.Add(Passport);
+            hash.Add(Adress);
+            hash.Add(SubwayStation);
+            return hash.ToHashCode();
+        }
     }
 }
