@@ -31,7 +31,6 @@ namespace DogSitter.DAL.Repositories
         public void UpdateSubwayStation(SubwayStation exitingSubwayStation, SubwayStation subwayStationToUpdate)
         {
             exitingSubwayStation.Name = subwayStationToUpdate.Name;
-            exitingSubwayStation.Sitters = subwayStationToUpdate.Sitters;
             _context.SaveChanges();
         }
 

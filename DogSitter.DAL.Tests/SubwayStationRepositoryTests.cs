@@ -1,4 +1,4 @@
-﻿using DogSitter.DAL.Entity;
+﻿  using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
@@ -123,7 +123,6 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(updatedSubwayStation.Name, actual.Name);
             Assert.AreEqual(subwayStation.Sitters, actual.Sitters);
             Assert.AreEqual(subwayStation.IsDeleted, actual.IsDeleted);
-
         }
 
         [TestCase(true)]
