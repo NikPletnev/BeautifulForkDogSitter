@@ -8,12 +8,14 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests
 {
     public class ServiceServiceTests
     {
         private Mock<IServiceRepository> _serviceRepositoryMock;
+        private Mock<ISitterRepository> _sitterRepositoryMock;
         private IMapper _mapper;
         private ServiceService _service;
         private ServiceTestCaseSource _serviceMocks;
@@ -22,13 +24,14 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _serviceRepositoryMock = new Mock<IServiceRepository>();
+            _sitterRepositoryMock = new Mock<ISitterRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
         }
 
         [SetUp]
         public void SetUp()
         {
-            _service = new ServiceService(_serviceRepositoryMock.Object, _mapper);
+            _service = new ServiceService(_serviceRepositoryMock.Object, _sitterRepositoryMock.Object, _mapper);
             _serviceMocks = new ServiceTestCaseSource();
         }
 
@@ -73,7 +76,7 @@ namespace DogSitter.BLL.Tests
         [Test]
         public void GetServiceByIdNegativeTest()
         {
-            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Servi�e)null);
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Serviñe)null);
 
             Assert.Throws<EntityNotFoundException>(() => _service.GetServiceById(0));
         }
@@ -82,36 +85,36 @@ namespace DogSitter.BLL.Tests
         public void AddServiceTest()
         {
             //given
-            _serviceRepositoryMock.Setup(m => m.AddService(It.IsAny<Servi�e>()));
+            _serviceRepositoryMock.Setup(m => m.AddService(It.IsAny<Serviñe>()));
 
             //when 
             _service.AddService(It.IsAny<ServiceModel>());
 
             //then
-            _serviceRepositoryMock.Verify(m => m.AddService(It.IsAny<Servi�e>()), Times.Once);
+            _serviceRepositoryMock.Verify(m => m.AddService(It.IsAny<Serviñe>()), Times.Once);
         }
 
         [Test]
         public void UpdateServiceTest()
         {
             //given
-            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Servi�e>()));
-            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Servi�e());
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>()));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Serviñe());
 
             //when
             _service.UpdateService(new ServiceModel());
 
             //then
-            _serviceRepositoryMock.Verify(m => m.UpdateService(It.IsAny<Servi�e>()), Times.Once());
+            _serviceRepositoryMock.Verify(m => m.UpdateService(It.IsAny<Serviñe>()), Times.Once());
             _serviceRepositoryMock.Verify(m => m.UpdateService(
-                new Servi�e(), true), Times.Never());
+                new Serviñe(), true), Times.Never());
         }
 
         [Test]
         public void UpdateServiceNegativeTest()
         {
-            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Servi�e>()));
-            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Servi�e)null);
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>()));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Serviñe)null);
 
             Assert.Throws<EntityNotFoundException>(() => _service.UpdateService(new ServiceModel()));
         }
@@ -120,23 +123,23 @@ namespace DogSitter.BLL.Tests
         public void DeleteServiceTest()
         {
             //given
-            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Servi�e>(), true));
-            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Servi�e());
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>(), true));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Serviñe());
 
             //when
             _service.DeleteService(new ServiceModel());
 
             //then
-            _serviceRepositoryMock.Verify(m => m.UpdateService(It.IsAny<Servi�e>()), Times.Never());
+            _serviceRepositoryMock.Verify(m => m.UpdateService(It.IsAny<Serviñe>()), Times.Never());
             _serviceRepositoryMock.Verify(m => m.UpdateService(
-                It.IsAny<Servi�e>(), It.IsAny<bool>()), Times.Once());
+                It.IsAny<Serviñe>(), It.IsAny<bool>()), Times.Once());
         }
 
         [Test]
         public void DeleteServiceNegativeTest()
         {
-            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Servi�e>(), It.IsAny<bool>()));
-            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Servi�e)null);
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>(), It.IsAny<bool>()));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Serviñe)null);
 
             Assert.Throws<EntityNotFoundException>(() => _service.DeleteService(new ServiceModel()));
         }
@@ -144,25 +147,48 @@ namespace DogSitter.BLL.Tests
         public void RestoreServiceTest()
         {
             //given
-            _serviceRepositoryMock.Setup(m => m.RestoreService(It.IsAny<Servi�e>(), true));
-            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Servi�e());
+            _serviceRepositoryMock.Setup(m => m.RestoreService(It.IsAny<Serviñe>(), true));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns(new Serviñe());
 
             //when
             _service.RestoreService(new ServiceModel());
 
             //then
-            _serviceRepositoryMock.Verify(m => m.RestoreService(It.IsAny<Servi�e>(), false), Times.Once());
+            _serviceRepositoryMock.Verify(m => m.RestoreService(It.IsAny<Serviñe>(), false), Times.Once());
 
         }
 
         [Test]
         public void RestoreServiceNegativeTest()
         {
-            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Servi�e>(), It.IsAny<bool>()));
-            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Servi�e)null);
+            _serviceRepositoryMock.Setup(m => m.UpdateService(It.IsAny<Serviñe>(), It.IsAny<bool>()));
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Serviñe)null);
 
             Assert.Throws<EntityNotFoundException>(() => _service.DeleteService(new ServiceModel()));
         }
-    }
 
+        [TestCaseSource(typeof(GetAllServicesBySitterIdTestCaseSource))]
+        public void GetAllServicesBySitterIdTest(int id, Sitter sitter, List<Serviñe> service)
+        {
+            //given
+            _sitterRepositoryMock.Setup(m => m.GetById(id)).Returns(sitter);
+            _serviceRepositoryMock.Setup(m => m.GetAllServicesBySitterId(id)).Returns(service);
+
+            //when
+            var actual =_service.GetAllServicesBySitterId(id);
+
+            //then
+            _sitterRepositoryMock.Verify(m => m.GetById(id), Times.Once);
+            _serviceRepositoryMock.Verify(m => m.GetAllServicesBySitterId(id), Times.Once);
+            Assert.That(actual[0].Sitters.Count == 0);
+        }
+
+        [Test]
+        public void GetAllServicesBySitterIdNegativeTest()
+        {
+            _sitterRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Sitter)null);
+
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAllServicesBySitterId(It.IsAny<int>()));
+        }
+    }
 }
