@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
+using DogSitter.API.Attribute;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
+using DogSitter.DAL.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [AuthorizeRole(Role.Admin)]
     public class AdminsController : Controller
     {
         private IAdminService _service;
@@ -29,6 +33,7 @@ namespace DogSitter.API.Controllers
 
         //api/admins
         [HttpGet]
+        [AuthorizeRole(Role.Sitter, Role.Admin, Role.Customer)]
         public ActionResult<List<AdminOutputModel>> GetAllAdmins()
         {
             var admins = _map.Map<List<AdminOutputModel>>(_service.GetAllAdmins());

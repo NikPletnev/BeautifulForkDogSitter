@@ -11,11 +11,12 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 builder.Services.RegisterDogSitterServices();
 builder.Services.RegisterDogSitterRepositories();
 builder.Services.AddCustomAuth();
 builder.Services.AddConnectionString();
+builder.Services.AddSwagger();
 
 var app = builder.Build();
 

@@ -13,25 +13,6 @@ namespace DogSitter.DAL
 
         }
 
-        public DogSitterContext()
-        {
-
-        }
-
-        private static DogSitterContext _instance;
-
-        public static DogSitterContext GetInstance()
-        {
-            if (_instance == null)
-            {
-                //_instance = new DogSitterContext();
-
-                // закоментировал, потому что не у всех поменяно на маппер,
-                // и поэтому при удалении выдает ошибку
-            }
-            return _instance;
-        }
-
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
@@ -48,6 +29,20 @@ namespace DogSitter.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Default 
+
+            modelBuilder.Entity<Sitter>()
+            .Property(w => w.Role)
+            .HasDefaultValue(Role.Sitter);
+
+            modelBuilder.Entity<Customer>()
+            .Property(w => w.Role)
+            .HasDefaultValue(Role.Customer);
+
+            modelBuilder.Entity<Admin>()
+            .Property(w => w.Role)
+            .HasDefaultValue(Role.Admin);
+
             modelBuilder.Entity<Sitter>()
             .Property(w => w.Verified)
             .HasDefaultValue(0);
@@ -55,8 +50,6 @@ namespace DogSitter.DAL
             modelBuilder.Entity<Order>()
             .Property(a => a.Status)
             .HasDefaultValue((Status)1);
-
-            #region Default IsDeleted = 0
 
             modelBuilder.Entity<Address>()
             .Property(a => a.IsDeleted)

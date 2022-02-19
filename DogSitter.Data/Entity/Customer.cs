@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DogSitter.DAL.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.DAL.Entity
 {
@@ -11,6 +12,7 @@ namespace DogSitter.DAL.Entity
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
+        public Role Role { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
         public bool IsDeleted { get; set; }
         public virtual ICollection<Dog> Dogs { get; set; }

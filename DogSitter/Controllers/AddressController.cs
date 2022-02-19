@@ -8,6 +8,7 @@ namespace DogSitter.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    
     public class AddressController : Controller
     {
         private readonly IAddressService _addressService;
@@ -54,5 +55,6 @@ namespace DogSitter.API.Controllers
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
+        //GetAddressByCustomerId
     }
 }

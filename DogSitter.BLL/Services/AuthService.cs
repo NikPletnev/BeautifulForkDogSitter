@@ -32,6 +32,7 @@ namespace DogSitter.BLL.Services
         {
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.Name, user.FirstName ),
+                new(ClaimTypes.Role, user.Role.ToString()),
                 new Claim(ClaimTypes.UserData, user.Id.ToString())
             };
 

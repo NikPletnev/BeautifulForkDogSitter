@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DogSitter.DAL.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.DAL.Entity
 {
@@ -15,6 +16,7 @@ namespace DogSitter.DAL.Entity
         [Required]
         public int PassportId { get; set; }
         public int AddressId { get; set; }
+        public Role Role { get; set; }
         public string Information { get; set; }
         public double Rating { get; set; }
         public bool Verified { get; set; }
