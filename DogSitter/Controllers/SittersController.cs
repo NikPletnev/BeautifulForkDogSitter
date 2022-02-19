@@ -27,16 +27,16 @@ namespace DogSitter.API.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        //api/sitters/42
-        [HttpPatch("{id}")]
+        //api/sitters/block/42
+        [HttpPatch("block/{id}")]
         public ActionResult BlockSitterProfile(int id)
         {
             _service.BlockProfileSitterById(id);
             return NoContent();
         }
 
-        //api/sitters/42
-        [HttpPatch("{id}")]
+        //api/sitters/confirm/42
+        [HttpPatch("confirm/{id}")]
         public ActionResult ConfirmSitterProfile(int id)
         {
             _service.ConfirmProfileSitterById(id);

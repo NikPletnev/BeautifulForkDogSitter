@@ -10,13 +10,20 @@ namespace DogSitter.BLL.Services
     {
         private ISitterRepository _sitterRepository;
         private IServiceRepository _serviceRepository;
+        private ISitterRepository _sitterRepository;
+        private ISubwayStationRepository _subwayStationRepository;
+
         private IMapper _mapper;
 
         public SitterService(ISitterRepository sitterRepository, 
             IServiceRepository serviceRepository, IMapper mapper)
+        public SitterService(ISitterRepository sitterRepository, 
+            ISubwayStationRepository subwayStationRepository, IMapper mapper)
         {
             _sitterRepository = sitterRepository;
             _serviceRepository = serviceRepository;
+            _sitterRepository = sitterRepository;
+            _subwayStationRepository = subwayStationRepository;
             _mapper = mapper;
         }
 
@@ -126,6 +133,17 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Service {id} was not found");
 
             return _mapper.Map<List<SitterModel>>(_sitterRepository.GetAllSitterByServiceId(id));
+        }
+
+        public List<SitterModel> GetAllSittersWithWorkTimeBySubwayStation(SubwayStationModel subwayStationModel)
+        {
+            var subwayStation = _subwayStationRepository.GetSubwayStationById(subwayStationModel.Id);
+
+            if (subwayStation is null)
+                throw new EntityNotFoundException($"Subway station {subwayStation} was not found");
+
+            return _mapper.Map<List<SitterModel>>(_sitterRepository
+                .GetAllSittersWithWorkTimeBySubwayStation(subwayStation));
         }
     }
 }

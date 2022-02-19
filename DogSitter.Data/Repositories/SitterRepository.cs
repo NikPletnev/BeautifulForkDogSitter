@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -66,5 +67,9 @@ namespace DogSitter.DAL.Repositories
 
         public List<Sitter> GetAllSitterByServiceId(int id) =>
             _context.Services.First(s => s.Id == id).Sitters.Where(s => !s.IsDeleted).ToList();
+
+        public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation) =>
+            _context.Sitters.Where(s => s.SubwayStation.Id == subwaystation.Id && !s.IsDeleted)
+            .Include(s => s.WorkTime).ToList();
     }
 }
