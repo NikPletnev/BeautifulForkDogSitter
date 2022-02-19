@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using DogSitter.API.Attribute;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
+using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -20,6 +22,7 @@ namespace DogSitter.API.Controllers
         }
 
         //api/sitters
+        [AuthorizeRole(Role.Sitter)]
         [HttpPost]
         public ActionResult RegisterSitter([FromBody] SitterInsertInputModel sitter)
         {
@@ -28,6 +31,7 @@ namespace DogSitter.API.Controllers
         }
 
         //api/sitters/block/42
+        [AuthorizeRole(Role.Admin)]
         [HttpPatch("block/{id}")]
         public ActionResult BlockSitterProfile(int id)
         {
@@ -36,6 +40,7 @@ namespace DogSitter.API.Controllers
         }
 
         //api/sitters/confirm/42
+        [AuthorizeRole(Role.Admin)]
         [HttpPatch("confirm/{id}")]
         public ActionResult ConfirmSitterProfile(int id)
         {

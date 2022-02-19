@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using DogSitter.API.Attribute;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
+using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -39,6 +41,7 @@ namespace DogSitter.API.Controllers
             return Ok(services);
         }
 
+        [AuthorizeRole(Role.Admin, Role.Sitter)]
         [HttpPost]
         public ActionResult<ServiceOutputModel> AddService([FromBody] ServiceInsertInputModel service)
         {
@@ -47,6 +50,7 @@ namespace DogSitter.API.Controllers
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<ServiceOutputModel>(service));
         }
 
+        [AuthorizeRole(Role.Admin, Role.Sitter)]
         [HttpPut]
         public IActionResult UpdateService([FromBody] ServiceUpdateInputModel service)
         {
@@ -55,6 +59,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
+        [AuthorizeRole(Role.Admin, Role.Sitter)]
         [HttpDelete]
         public IActionResult DeleteService([FromBody] ServiceUpdateInputModel service)
         {

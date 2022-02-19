@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using DogSitter.API.Attribute;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Services;
+using DogSitter.DAL.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -19,10 +22,12 @@ namespace DogSitter.API.Controllers
         }
 
         //api/orders/42
+        [Authorize]
         [HttpPatch("{id}")]
         public IActionResult EditOrderStatusByOrderId(int id, [FromBody] OrderStatusUpdateInputModel order)
         {
             _service.EditOrderStatusByOrderId(id, order.OrderNewStatus);
+
             return NoContent();
         }
     }
