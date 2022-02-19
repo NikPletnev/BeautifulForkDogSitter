@@ -45,6 +45,19 @@ namespace DogSitter.DAL.Repositories
             var entity = GetAdminById(id);
             entity.IsDeleted = isDeleted;
             _context.SaveChanges();
-        }        
+        }
+
+        public Admin Login(Contact contact, string pass)
+        {
+            if (contact != null && contact.Admin != null)
+            {
+                if (contact.Admin.Password == pass)
+                {
+                    return contact.Admin;
+                }
+            }
+            return null;
+        }
+
     }
 }

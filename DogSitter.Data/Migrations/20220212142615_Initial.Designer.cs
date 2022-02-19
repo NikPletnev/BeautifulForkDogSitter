@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogSitter.DAL.Migrations
 {
     [DbContext(typeof(DogSitterContext))]
-    [Migration("20220131202909_FixProperties")]
-    partial class FixProperties
+    [Migration("20220212142615_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,21 @@ namespace DogSitter.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("AddressCustomer", b =>
+                {
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AddressId", "CustomersId");
+
+                    b.HasIndex("CustomersId");
+
+                    b.ToTable("AddressCustomer");
+                });
 
             modelBuilder.Entity("AddressSubwayStation", b =>
                 {
@@ -62,17 +77,15 @@ namespace DogSitter.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Apartament")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Apartament")
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("House")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("House")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -158,7 +171,7 @@ namespace DogSitter.DAL.Migrations
                     b.Property<int?>("AdminId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ContactTypeId")
+                    b.Property<int>("ContactType")
                         .HasColumnType("int");
 
                     b.Property<int?>("CustomerId")
@@ -180,35 +193,11 @@ namespace DogSitter.DAL.Migrations
 
                     b.HasIndex("AdminId");
 
-                    b.HasIndex("ContactTypeId");
-
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("SitterId");
 
                     b.ToTable("Contacts");
-                });
-
-            modelBuilder.Entity("DogSitter.DAL.Entity.ContactType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ContactTypes");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Customer", b =>
@@ -218,9 +207,6 @@ namespace DogSitter.DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -240,8 +226,6 @@ namespace DogSitter.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
 
                     b.ToTable("Customers");
                 });
@@ -276,17 +260,12 @@ namespace DogSitter.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Weight")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Dogs");
                 });
@@ -302,7 +281,10 @@ namespace DogSitter.DAL.Migrations
                     b.Property<int?>("CommentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DogsId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -319,7 +301,7 @@ namespace DogSitter.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("SitterId")
+                    b.Property<int>("SitterId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -332,6 +314,8 @@ namespace DogSitter.DAL.Migrations
                         .HasFilter("[CommentId] IS NOT NULL");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("DogsId");
 
                     b.HasIndex("SitterId");
 
@@ -488,6 +472,440 @@ namespace DogSitter.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SubwayStations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsDeleted = false,
+                            Name = "Девяткино"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "Гражданский проспект"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsDeleted = false,
+                            Name = "Академическая"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsDeleted = false,
+                            Name = "Политехническая"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsDeleted = false,
+                            Name = "Площадь Мужества"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            IsDeleted = false,
+                            Name = "Лесная"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            IsDeleted = false,
+                            Name = "Выборгская"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            IsDeleted = false,
+                            Name = "Площадь Ленина"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            IsDeleted = false,
+                            Name = "Чернышевская"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            IsDeleted = false,
+                            Name = "Площадь Восстания"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            IsDeleted = false,
+                            Name = "Владимирская"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            IsDeleted = false,
+                            Name = "Пушкинская"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            IsDeleted = false,
+                            Name = "Технологический институт(1)"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            IsDeleted = false,
+                            Name = "Балтийская"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            IsDeleted = false,
+                            Name = "Нарвская"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            IsDeleted = false,
+                            Name = "Кировский завод"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            IsDeleted = false,
+                            Name = "Автово"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            IsDeleted = false,
+                            Name = "Ленинский проспект"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            IsDeleted = false,
+                            Name = "Проспект Ветеранов"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            IsDeleted = false,
+                            Name = "Парнас"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            IsDeleted = false,
+                            Name = "Проспект Просвещения"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            IsDeleted = false,
+                            Name = "Озерки"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            IsDeleted = false,
+                            Name = "Удельная"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            IsDeleted = false,
+                            Name = "Пионерская"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            IsDeleted = false,
+                            Name = "Чёрная речка"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            IsDeleted = false,
+                            Name = "Петроградская"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            IsDeleted = false,
+                            Name = "Горьковская"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            IsDeleted = false,
+                            Name = "Невский проспект"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            IsDeleted = false,
+                            Name = "Сенная площадь"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            IsDeleted = false,
+                            Name = "Технологический институт(2)"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            IsDeleted = false,
+                            Name = "Фрунзенская"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            IsDeleted = false,
+                            Name = "Московские ворота"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            IsDeleted = false,
+                            Name = "Электросила"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            IsDeleted = false,
+                            Name = "Парк Победы"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            IsDeleted = false,
+                            Name = "Московская"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            IsDeleted = false,
+                            Name = "Звёздная"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            IsDeleted = false,
+                            Name = "Купчино"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            IsDeleted = false,
+                            Name = "Беговая"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            IsDeleted = false,
+                            Name = "Зенит"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            IsDeleted = false,
+                            Name = "Приморская"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            IsDeleted = false,
+                            Name = "Василеостровская"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            IsDeleted = false,
+                            Name = "Гостиный двор"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            IsDeleted = false,
+                            Name = "Маяковская"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            IsDeleted = false,
+                            Name = "Площадь Александра Невского(1)"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            IsDeleted = false,
+                            Name = "Елизаровская"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            IsDeleted = false,
+                            Name = "Ломоносовская"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            IsDeleted = false,
+                            Name = "Пролетарская"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            IsDeleted = false,
+                            Name = "Обухово"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            IsDeleted = false,
+                            Name = "Рыбацкое"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            IsDeleted = false,
+                            Name = "Спасская"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            IsDeleted = false,
+                            Name = "Достоевская"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            IsDeleted = false,
+                            Name = "Лиговский проспект"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            IsDeleted = false,
+                            Name = "Площадь Александра Невского(2)"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            IsDeleted = false,
+                            Name = "Новочеркасская"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            IsDeleted = false,
+                            Name = "Ладожская"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            IsDeleted = false,
+                            Name = "Проспект Большевиков"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            IsDeleted = false,
+                            Name = "Улица Дыбенко"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            IsDeleted = false,
+                            Name = "Комендантский проспект"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            IsDeleted = false,
+                            Name = "Старая Деревня"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            IsDeleted = false,
+                            Name = "Крестовский остров"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            IsDeleted = false,
+                            Name = "Чкаловская"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            IsDeleted = false,
+                            Name = "Спортивная"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            IsDeleted = false,
+                            Name = "Адмиралтейская"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            IsDeleted = false,
+                            Name = "Садовая"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            IsDeleted = false,
+                            Name = "Звенигородская"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            IsDeleted = false,
+                            Name = "Обводный канал"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            IsDeleted = false,
+                            Name = "Волковская"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            IsDeleted = false,
+                            Name = "Бухарестская"
+                        },
+                        new
+                        {
+                            Id = 69,
+                            IsDeleted = false,
+                            Name = "Международная"
+                        },
+                        new
+                        {
+                            Id = 70,
+                            IsDeleted = false,
+                            Name = "Проспект Славы"
+                        },
+                        new
+                        {
+                            Id = 71,
+                            IsDeleted = false,
+                            Name = "Дунайская"
+                        },
+                        new
+                        {
+                            Id = 72,
+                            IsDeleted = false,
+                            Name = "Шушуары"
+                        });
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.WorkTime", b =>
@@ -522,25 +940,25 @@ namespace DogSitter.DAL.Migrations
                     b.Property<int>("OrdersId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServiceICollectionId")
+                    b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
-                    b.HasKey("OrdersId", "ServiceICollectionId");
+                    b.HasKey("OrdersId", "ServiceId");
 
-                    b.HasIndex("ServiceICollectionId");
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("OrderServiсe");
                 });
 
             modelBuilder.Entity("ServiсeSitter", b =>
                 {
-                    b.Property<int>("ServiceICollectionId")
+                    b.Property<int>("ServicesId")
                         .HasColumnType("int");
 
                     b.Property<int>("SittersId")
                         .HasColumnType("int");
 
-                    b.HasKey("ServiceICollectionId", "SittersId");
+                    b.HasKey("ServicesId", "SittersId");
 
                     b.HasIndex("SittersId");
 
@@ -560,6 +978,21 @@ namespace DogSitter.DAL.Migrations
                     b.HasIndex("WorkTimeId");
 
                     b.ToTable("SitterWorkTime");
+                });
+
+            modelBuilder.Entity("AddressCustomer", b =>
+                {
+                    b.HasOne("DogSitter.DAL.Entity.Address", null)
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DogSitter.DAL.Entity.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("CustomersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AddressSubwayStation", b =>
@@ -598,12 +1031,6 @@ namespace DogSitter.DAL.Migrations
                         .WithMany("Contacts")
                         .HasForeignKey("AdminId");
 
-                    b.HasOne("DogSitter.DAL.Entity.ContactType", "ContactType")
-                        .WithMany()
-                        .HasForeignKey("ContactTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DogSitter.DAL.Entity.Customer", "Customer")
                         .WithMany("Contacts")
                         .HasForeignKey("CustomerId");
@@ -614,20 +1041,9 @@ namespace DogSitter.DAL.Migrations
 
                     b.Navigation("Admin");
 
-                    b.Navigation("ContactType");
-
                     b.Navigation("Customer");
 
                     b.Navigation("Sitter");
-                });
-
-            modelBuilder.Entity("DogSitter.DAL.Entity.Customer", b =>
-                {
-                    b.HasOne("DogSitter.DAL.Entity.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Dog", b =>
@@ -637,10 +1053,6 @@ namespace DogSitter.DAL.Migrations
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DogSitter.DAL.Entity.Order", null)
-                        .WithMany("Dogs")
-                        .HasForeignKey("OrderId");
 
                     b.Navigation("Customer");
                 });
@@ -652,16 +1064,26 @@ namespace DogSitter.DAL.Migrations
                         .HasForeignKey("DogSitter.DAL.Entity.Order", "CommentId");
 
                     b.HasOne("DogSitter.DAL.Entity.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DogSitter.DAL.Entity.Dog", "Dogs")
+                        .WithMany("Orders")
+                        .HasForeignKey("DogsId");
 
                     b.HasOne("DogSitter.DAL.Entity.Sitter", "Sitter")
                         .WithMany("Orders")
-                        .HasForeignKey("SitterId");
+                        .HasForeignKey("SitterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Comment");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Dogs");
 
                     b.Navigation("Sitter");
                 });
@@ -695,7 +1117,7 @@ namespace DogSitter.DAL.Migrations
 
                     b.HasOne("DogSitter.DAL.Entity.Serviсe", null)
                         .WithMany()
-                        .HasForeignKey("ServiceICollectionId")
+                        .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -704,7 +1126,7 @@ namespace DogSitter.DAL.Migrations
                 {
                     b.HasOne("DogSitter.DAL.Entity.Serviсe", null)
                         .WithMany()
-                        .HasForeignKey("ServiceICollectionId")
+                        .HasForeignKey("ServicesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -745,11 +1167,13 @@ namespace DogSitter.DAL.Migrations
                     b.Navigation("Contacts");
 
                     b.Navigation("Dogs");
+
+                    b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("DogSitter.DAL.Entity.Order", b =>
+            modelBuilder.Entity("DogSitter.DAL.Entity.Dog", b =>
                 {
-                    b.Navigation("Dogs");
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Passport", b =>
