@@ -22,7 +22,7 @@ namespace DogSitter.BLL.Tests
         {
             _addressRepositoryMock = new Mock<IAddressRepository>();
             _customerRepMock = new Mock<ICustomerRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _service = new AddressService(_mapper, _addressRepositoryMock.Object, _customerRepMock.Object);
         }
 

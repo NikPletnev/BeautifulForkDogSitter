@@ -1,3 +1,4 @@
+using DogSitter.API.Configs;
 using DogSitter.API.Extensions;
 using DogSitter.API.Infrastructure;
 using DogSitter.BLL.Configs;
@@ -5,7 +6,7 @@ using DogSitter.BLL.Configs;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAutoMapper(typeof(CustomMapper).Assembly, typeof(CustomMapper).Assembly);
+builder.Services.AddAutoMapper(typeof(BuisnessMapper).Assembly, typeof(DataMapper).Assembly);
 
 builder.Services.AddControllers();
 
@@ -28,6 +29,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

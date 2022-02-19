@@ -19,7 +19,7 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _sitterRepositoryMock = new Mock<ISitterRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _service = new SitterService(_sitterRepositoryMock.Object, _mapper);
         }
 

@@ -24,7 +24,7 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _orderRepositoryMock = new Mock<IOrderRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _service = new OrderService(_orderRepositoryMock.Object, _mapper);
         }
 

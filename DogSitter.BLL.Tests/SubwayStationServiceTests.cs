@@ -22,7 +22,7 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _subwayStationService = new SubwayStationService(_subwayStationRepositoryMock.Object, _mapper);
             _subwayStationMocks = new SubwayStationTestCaseSource();
         }

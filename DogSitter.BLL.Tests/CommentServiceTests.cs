@@ -25,7 +25,7 @@ namespace DogSitter.BLL.Tests
         {
             _commentRepositoryMock = new Mock<ICommentRepository>();
             _sitterRepositoryMock = new Mock<ISitterRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _comment = new CommentService(_commentRepositoryMock.Object, _mapper, _sitterRepositoryMock.Object);
             _commentMocks = new CommentTestCaseSourse();
         }
