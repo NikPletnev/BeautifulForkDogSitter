@@ -9,12 +9,12 @@ namespace DogSitter.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CommentController : Controller
+    public class CommentsController : Controller
     {
         private readonly ICommentService _service;
         private readonly IMapper _mapper;
 
-        public CommentController(IMapper mapper, ICommentService service)
+        public CommentsController(IMapper mapper, ICommentService service)
         {
             _mapper = mapper;
             _service = service;
