@@ -16,11 +16,8 @@ namespace DogSitter.BLL.Tests
     {
         private Mock<ISitterRepository> _sitterRepositoryMock;
         private Mock<ISubwayStationRepository> _subwayStationRepositoryMock;
-        private IMapper _mapper;
         private SitterService _service;
-        private readonly Mock<ISitterRepository> _sitterRepositoryMock;
-        private readonly IMapper _mapper;
-        private  SitterService _service;
+        private IMapper _mapper;
         private SitterTestCaseSourse _sitterTestCase;
 
         [SetUp]
@@ -34,7 +31,7 @@ namespace DogSitter.BLL.Tests
         [SetUp]
         public void SetUp()
         {
-            _service = new SitterService(_sitterRepositoryMock.Object, _mapper);
+            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object, _mapper);
             _sitterTestCase = new SitterTestCaseSourse();
         }
 
@@ -65,7 +62,7 @@ namespace DogSitter.BLL.Tests
             Assert.AreEqual(expected.Password, actual.Password);
             Assert.AreEqual(expected.Information, actual.Information);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
-            _sitterRepositoryMock.Verify(m => m.GetById(expected.Id));
+            _sitterRepositoryMock.Verify(m => m.GetById(expected.Id), Times.Once);
         }
 
         [Test]

@@ -20,6 +20,20 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Password = "qwe123",
                     Information ="GOOD SITTER",
                     Verified = true,
+                    Orders = new List<Order>(),
+                    WorkTime = new List<WorkTime>(),
+                    Contacts = new List<Contact>(),
+                    Passport = new Passport()
+                    {
+                        FirstName = " ",
+                        LastName = " ",
+                        DateOfBirth = DateTime.Now,
+                        Seria = " ",
+                        Number = " ",
+                        IssueDate = DateTime.Now,
+                        Division = " ",
+                        DivisionCode = " "
+                    },
                     IsDeleted = false
                 },
                 new Sitter()
@@ -30,6 +44,20 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Password = "123qwe",
                     Information ="BAD SITTER",
                     Verified = false,
+                    Orders = new List<Order>(),
+                    WorkTime = new List<WorkTime>(),
+                    Contacts = new List<Contact>(),
+                    Passport = new Passport()
+                    {
+                        FirstName = " ",
+                        LastName = " ",
+                        DateOfBirth = DateTime.Now,
+                        Seria = " ",
+                        Number = " ",
+                        IssueDate = DateTime.Now,
+                        Division = " ",
+                        DivisionCode = " "
+                    },
                     IsDeleted = true
                 }
             };
@@ -42,6 +70,20 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Password = "flug123",
                 Information = "SITTERs GOD",
                 Verified = true,
+                Orders = new List<Order>(),
+                WorkTime = new List<WorkTime>(),
+                Contacts = new List<Contact>(),
+                Passport = new Passport()
+                {
+                    FirstName = " ",
+                    LastName = " ",
+                    DateOfBirth = DateTime.Now,
+                    Seria = " ",
+                    Number = " ",
+                    IssueDate = DateTime.Now,
+                    Division = " ",
+                    DivisionCode = " "
+                },
                 IsDeleted = false
             };
     }

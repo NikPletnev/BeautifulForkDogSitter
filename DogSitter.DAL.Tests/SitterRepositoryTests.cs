@@ -3,6 +3,7 @@ using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -84,6 +85,20 @@ namespace DogSitter.DAL.Tests
                 Password = "flug123",
                 Information = "SITTERs GOD CHANGE GOD",
                 Verified = true,
+                Orders = new List<Order>(),
+                WorkTime = new List<WorkTime>(),
+                Contacts = new List<Contact>(),
+                Passport = new Passport()
+                {
+                    FirstName = " ",
+                    LastName = " ",
+                    DateOfBirth = DateTime.Now,
+                    Seria = " ",
+                    Number = " ",
+                    IssueDate = DateTime.Now,
+                    Division = " ",
+                    DivisionCode = " "
+                },
                 IsDeleted = false
             };
 
@@ -94,6 +109,10 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.FirstName, actual.FirstName);
             Assert.AreEqual(expected.LastName, actual.LastName);
             Assert.AreEqual(expected.Information, actual.Information);
+            Assert.AreEqual(expected.Orders, actual.Orders);
+            Assert.AreEqual(expected.WorkTime, actual.WorkTime);
+            Assert.AreEqual(expected.Contacts, actual.Contacts);
+            Assert.AreEqual(expected.Passport, actual.Passport);
         }
 
         [Test]
@@ -107,9 +126,6 @@ namespace DogSitter.DAL.Tests
 
             Assert.AreEqual(sitter.IsDeleted, true);
         }
-
-
-
 
         [TestCaseSource(typeof(EditStateProfileSitterByIdTestCaseSource))]
         public void ConfirmProfileSitterByIdTest(int id, bool verify, List<Sitter> sitters)
@@ -135,7 +151,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             //when
-            var actual = _sitterRepository.GetAllSittersWithWorkTimeBySubwayStation(subwayStation);
+            var actual = _repository.GetAllSittersWithWorkTimeBySubwayStation(subwayStation);
 
             //then
             Assert.AreEqual(expected, actual);
