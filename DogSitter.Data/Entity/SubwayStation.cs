@@ -9,5 +9,18 @@ namespace DogSitter.DAL.Entity
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
         public virtual ICollection<Sitter> Sitters { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is SubwayStation station &&
+                   Id == station.Id &&
+                   Name == station.Name &&
+                   IsDeleted == station.IsDeleted;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name, IsDeleted, Sitters);
+        }
     }
 }
