@@ -10,15 +10,11 @@ namespace DogSitter.BLL.Services
     {
         private ISitterRepository _sitterRepository;
         private IServiceRepository _serviceRepository;
-        private ISitterRepository _sitterRepository;
         private ISubwayStationRepository _subwayStationRepository;
-
         private IMapper _mapper;
 
         public SitterService(ISitterRepository sitterRepository, 
-            IServiceRepository serviceRepository, IMapper mapper)
-        public SitterService(ISitterRepository sitterRepository, 
-            ISubwayStationRepository subwayStationRepository, IMapper mapper)
+            ISubwayStationRepository subwayStationRepository, IServiceRepository serviceRepository, IMapper mapper)
         {
             _sitterRepository = sitterRepository;
             _serviceRepository = serviceRepository;

@@ -27,8 +27,8 @@ namespace DogSitter.BLL.Tests
             _serviceRepositoryMock = new Mock<IServiceRepository>();
             _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
-            _service = new SitterService(_sitterRepositoryMock.Object, _serviceRepositoryMock.Object, _mapper);
-            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object, _mapper);
+            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object,
+                _serviceRepositoryMock.Object, _mapper);
         }
 
         [TestCase(1)]
