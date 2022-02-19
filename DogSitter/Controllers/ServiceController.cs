@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using DogSitter.BLL.Services;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
+using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -25,7 +25,7 @@ namespace DogSitter.API.Controllers
         {
             var service = _mapper.Map<ServiceOutputModel>(_serviceService.GetServiceById(id));
             if (service != null)
-                return Ok(service); 
+                return Ok(service);
             else
                 return NotFound($"Сервис с Id = {id} не найден!");
         }

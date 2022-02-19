@@ -1,5 +1,4 @@
-﻿using DogSitter.DAL.Entity;
-using DogSitter.DAL.Enums;
+﻿using DogSitter.DAL.Enums;
 
 namespace DogSitter.BLL.Models
 {

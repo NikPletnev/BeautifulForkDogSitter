@@ -2,7 +2,7 @@
 {
     public enum ContactType
     {
-        phone = 1,
-        mail = 2
+        Phone = 1,
+        Mail = 2
     }
 }
