@@ -55,8 +55,7 @@ namespace DogSitter.BLL.Tests
 
             //then
             Assert.IsNotNull(actual);
-            Assert.AreEqual(actual.Count, expected.Count);
-            Assert.That(actual[0].Sitters.Count > 0);
+            Assert.That(actual[0].Sitters.Count == 0);
             _subwayStationRepositoryMock.Verify(m => m.GetAllSubwayStationsWhereSitterExist(), Times.Once);
         }
 
@@ -74,7 +73,7 @@ namespace DogSitter.BLL.Tests
             Assert.IsNotNull(actual);
             Assert.AreEqual(actual.Id, expected.Id);
             Assert.AreEqual(actual.Name, expected.Name);
-            Assert.That(actual.Sitters.Count > 0);
+            Assert.That(actual.Sitters.Count == 0);
             _subwayStationRepositoryMock.Verify(m => m.GetSubwayStationById(expected.Id), Times.Once);
         }
 
@@ -104,7 +103,8 @@ namespace DogSitter.BLL.Tests
         public void UpdateSubwayStationTest()
         {
             //given
-            _subwayStationRepositoryMock.Setup(m => m.UpdateSubwayStation(It.IsAny<SubwayStation>()));
+            _subwayStationRepositoryMock.Setup(m => m.UpdateSubwayStation(
+                It.IsAny<SubwayStation>(), It.IsAny<SubwayStation>()));
             _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(It.IsAny<int>()))
                 .Returns(new SubwayStation());
 
@@ -113,15 +113,14 @@ namespace DogSitter.BLL.Tests
 
             //then
             _subwayStationRepositoryMock.Verify(m => m.UpdateSubwayStation(
-                It.IsAny<SubwayStation>()), Times.Once());
-            _subwayStationRepositoryMock.Verify(m => m.UpdateSubwayStation(
-                new SubwayStation(), true), Times.Never());
+                It.IsAny<SubwayStation>(), It.IsAny<SubwayStation>()), Times.Once());
         }
 
         [Test]
         public void UpdateSubwayStationNegativeTest()
         {
-            _subwayStationRepositoryMock.Setup(m => m.UpdateSubwayStation(It.IsAny<SubwayStation>()));
+            _subwayStationRepositoryMock.Setup(m => m.UpdateSubwayStation(
+                It.IsAny<SubwayStation>(), It.IsAny<SubwayStation>()));
             _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(It.IsAny<int>()))
                 .Returns((SubwayStation)null);
 
@@ -133,7 +132,8 @@ namespace DogSitter.BLL.Tests
         public void DeleteSubwayStationTest()
         {
             //given
-            _subwayStationRepositoryMock.Setup(m => m.UpdateSubwayStation(It.IsAny<SubwayStation>(), true));
+            _subwayStationRepositoryMock.Setup(m => m.UpdateOrDeleteSubwayStation(
+               It.IsAny<SubwayStation>(), It.IsAny<bool>()));
             _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(It.IsAny<int>()))
                 .Returns(new SubwayStation());
 
@@ -141,16 +141,14 @@ namespace DogSitter.BLL.Tests
             _subwayStationService.DeleteSubwayStation(new SubwayStationModel());
 
             //then
-            _subwayStationRepositoryMock.Verify(m => m.UpdateSubwayStation(
-                It.IsAny<SubwayStation>()), Times.Never());
-            _subwayStationRepositoryMock.Verify(m => m.UpdateSubwayStation(
-                It.IsAny<SubwayStation>(), It.IsAny<bool>()), Times.Once());
+            _subwayStationRepositoryMock.Verify(m => m.UpdateOrDeleteSubwayStation(
+               It.IsAny<SubwayStation>(), true), Times.Once());
         }
 
         [Test]
         public void DeleteSubwayStationNegativeTest()
         {
-            _subwayStationRepositoryMock.Setup(m => m.UpdateSubwayStation(
+            _subwayStationRepositoryMock.Setup(m => m.UpdateOrDeleteSubwayStation(
                 It.IsAny<SubwayStation>(), It.IsAny<bool>()));
             _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(
                 It.IsAny<int>())).Returns((SubwayStation)null);
@@ -158,28 +156,29 @@ namespace DogSitter.BLL.Tests
             Assert.Throws<EntityNotFoundException>(() =>
             _subwayStationService.DeleteSubwayStation(new SubwayStationModel()));
         }
+
         [Test]
         public void RestoreSubwayStationTest()
         {
             //given
-            _subwayStationRepositoryMock.Setup(m => m.RestoreSubwayStation(
-                It.IsAny<SubwayStation>(), true));
-            _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(
-                It.IsAny<int>())).Returns(new SubwayStation());
+            _subwayStationRepositoryMock.Setup(m => m.UpdateOrDeleteSubwayStation(
+               It.IsAny<SubwayStation>(), It.IsAny<bool>()));
+            _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(It.IsAny<int>()))
+                .Returns(new SubwayStation());
 
             //when
             _subwayStationService.RestoreSubwayStation(new SubwayStationModel());
 
             //then
-            _subwayStationRepositoryMock.Verify(m => m.RestoreSubwayStation(
-                It.IsAny<SubwayStation>(), false), Times.Once());
+            _subwayStationRepositoryMock.Verify(m => m.UpdateOrDeleteSubwayStation(
+               It.IsAny<SubwayStation>(), false), Times.Once());
 
         }
 
         [Test]
         public void RestoreSubwayStationNegativeTest()
         {
-            _subwayStationRepositoryMock.Setup(m => m.UpdateSubwayStation(
+            _subwayStationRepositoryMock.Setup(m => m.UpdateOrDeleteSubwayStation(
                 It.IsAny<SubwayStation>(), It.IsAny<bool>()));
             _subwayStationRepositoryMock.Setup(m => m.GetSubwayStationById(
                 It.IsAny<int>())).Returns((SubwayStation)null);
