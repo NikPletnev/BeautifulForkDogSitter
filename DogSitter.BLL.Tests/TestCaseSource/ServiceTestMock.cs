@@ -40,16 +40,6 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     DurationHours = 3.0,
                     IsDeleted = false
                 };
-
-        public ServiceModel GetMockServiceModel() =>
-                new ServiceModel()
-                {
-                    Id = 3,
-                    Name = "Name4",
-                    Description = "Description4",
-                    Price = 4000m,
-                    DurationHours = 4.0
-                };
     }
 }
 
