@@ -20,6 +20,24 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Price = 100,
                     Status = Status.created,
                     Mark = 5,
+                    Customer = new Customer()
+                    {
+                        FirstName = "",
+                        LastName = " ",
+                        Password = " "
+                    },
+                    Sitter = new Sitter()
+                    {
+                        FirstName = "",
+                        LastName = " ",
+                        Password = " "
+                    },
+                    Comment = new Comment()
+                    {
+                        Text = " "
+                    },
+                    Dogs = new List<Dog>(),
+                    Service = new List<Serviсe>(),
                     IsDeleted = false
                 },
                 new Order()
@@ -29,6 +47,24 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Price = 301,
                     Status = Status.created,
                     Mark = 5,
+                    Customer = new Customer()
+                    {
+                        FirstName = "",
+                        LastName = " ",
+                        Password = " "
+                    },
+                    Sitter = new Sitter()
+                    {
+                        FirstName = "",
+                        LastName = " ",
+                        Password = " "
+                    },
+                    Comment = new Comment()
+                    {
+                        Text = " "
+                    },
+                    Dogs = new List<Dog>(),
+                    Service = new List<Serviсe>(),
                     IsDeleted = true
                 }
             };
@@ -40,16 +76,65 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Price = 303,
                 Status = Status.created,
                 Mark = 1,
+                Customer = new Customer()
+                {
+                    FirstName = " ",
+                    LastName = " ",
+                    Password = " "
+                },
+                Sitter = new Sitter()
+                {
+                    FirstName = " ",
+                    LastName = " ",
+                    Password = " "
+                },
+                Comment = new Comment() 
+                {
+                    Text = " " 
+                },
+                Dogs = new List<Dog>(),
+                Service = new List<Serviсe>(),
+                IsDeleted = false
+            };
+
+        public static Order GetOrderByUpdate() =>
+            new Order()
+            {
+                Id = 3,
+                OrderDate = DateTime.Now,
+                Price = 303,
+                Status = Status.created,
+                Mark = 1,
+                Sitter = new Sitter()
+                {
+                    FirstName = " ",
+                    LastName = " ",
+                    Password = " "
+                },
+                Comment = new Comment()
+                {
+                    Text = " "
+                },
                 IsDeleted = false
             };
         public static Order GetEditOrderStatus() =>
              new Order()
              {
                  Id = 4,
-                 OrderDate = new DateTime(2011, 11, 11),
+                 OrderDate = DateTime.Now,
+                 Price = 303,
                  Status = Status.created,
-                 CommentId = 1,
-                 Price = 100,
+                 Mark = 1,
+                 Sitter = new Sitter()
+                 {
+                     FirstName = " ",
+                     LastName = " ",
+                     Password = " "
+                 },
+                 Comment = new Comment()
+                 {
+                     Text = " "
+                 },
                  IsDeleted = false
              };
     }

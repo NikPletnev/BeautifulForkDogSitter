@@ -71,9 +71,9 @@ namespace DogSitter.DAL.Tests
         }
 
         [Test]
-        public void UodateOrderTest()
+        public void UpdateOrderTest()
         {
-            var order = OrderTestCaseSourse.GetOrder();
+            var order = OrderTestCaseSourse.GetOrderByUpdate();
             _context.Orders.Add(order);
             _context.SaveChanges();
 
@@ -81,11 +81,21 @@ namespace DogSitter.DAL.Tests
             {
                 Id = 3,
                 OrderDate = DateTime.Now,
-                Status = Status.completed,
-                Price = 100,
+                Price = 303,
+                Status = Status.created,
+                Mark = 1,
+                Sitter = new Sitter()
+                {
+                    FirstName = " ",
+                    LastName = " ",
+                    Password = " "
+                },
+                Comment = new Comment()
+                {
+                    Text = " "
+                },
                 IsDeleted = false
             };
-            _repository.Add(OrderTestCaseSourse.GetEditOrderStatus());
             _repository.Update(expected);
             var actual = _context.Orders.First(x => x.Id == order.Id);
 
@@ -93,6 +103,8 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.OrderDate, actual.OrderDate);
             Assert.AreEqual(expected.Status, actual.Status);
             Assert.AreEqual(expected.Price, actual.Price);
+            Assert.AreEqual(expected.Mark, actual.Mark);
+            Assert.AreEqual(expected.Sitter, actual.Sitter);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
         }
 
@@ -116,7 +128,7 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(order.IsDeleted, false);
         }
 
-        [TestCase(4, 2)]
+        [TestCase(3, 2)]
         public void EditOrderStatusByOrderId(int id, int status)
         {
             //given
@@ -131,6 +143,12 @@ namespace DogSitter.DAL.Tests
 
             //then
             Assert.AreEqual((Status)status, actual.Status);
+            Assert.AreEqual(order.Id, actual.Id);
+            Assert.AreEqual(order.OrderDate, actual.OrderDate);
+            Assert.AreEqual(order.Price, actual.Price);
+            Assert.AreEqual(order.Mark, actual.Mark);
+            Assert.AreEqual(order.Sitter, actual.Sitter);
+            Assert.AreEqual(order.IsDeleted, actual.IsDeleted);
 
         }
     }
