@@ -6,9 +6,9 @@ namespace DogSitter.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController:Controller
+    public class AuthController : Controller
     {
-        private readonly IAuthService _authService; 
+        private readonly IAuthService _authService;
 
         public AuthController(IAuthService authService)
         {

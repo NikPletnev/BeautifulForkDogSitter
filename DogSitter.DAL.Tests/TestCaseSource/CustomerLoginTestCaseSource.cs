@@ -9,7 +9,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
     {
         public IEnumerator GetEnumerator()
         {
-            List<Customer> Customers = new List<Customer>() 
+            List<Customer> Customers = new List<Customer>()
             {
               new Customer()
               {   FirstName = "FirstName1",
@@ -19,7 +19,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                   {
                       new Contact {
                           Value = "Value1",
-                          ContactType = ContactType.phone} 
+                          ContactType = ContactType.Phone}
                   },
                   IsDeleted = false },
                 new Customer()
@@ -32,7 +32,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                       new Contact
                     {
                           Value ="Value2",
-                          ContactType = ContactType.mail}
+                          ContactType = ContactType.Mail}
                     },
                     IsDeleted = false
                 },
@@ -48,7 +48,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
             {
                 Id = 1,
                 Value = "Value1",
-                ContactType = ContactType.phone
+                ContactType = ContactType.Phone
             };
 
             string pass = "Password1";
@@ -63,7 +63,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                   {
                       new Contact {
                           Value = "Value1",
-                          ContactType = ContactType.phone}
+                          ContactType = ContactType.Phone}
                   },
                 IsDeleted = false
             };

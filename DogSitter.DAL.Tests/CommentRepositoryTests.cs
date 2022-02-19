@@ -6,8 +6,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests
 {
@@ -132,6 +130,18 @@ namespace DogSitter.DAL.Tests
 
             //then
             Assert.AreEqual(comment.IsDeleted, false);
+        }
+
+        [TestCaseSource(typeof(GetAllComentsBySitterIdTestCaseSource))]
+        public void GetAllComentsBySitterIdTest(List<Order> orders, int id, List<Comment> expected)
+        {
+            //given
+            _context.Orders.AddRange(orders);
+            _context.SaveChanges();
+            //when
+            var actual = _repository.GetAllComentsBySitterId(id);
+            //then
+            Assert.AreEqual(actual, expected);
         }
     }
 }

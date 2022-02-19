@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using DogSitter.API.Configs;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
-using DogSitter.DAL.Entity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.Controllers
@@ -14,7 +12,7 @@ namespace DogSitter.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService _service;
-        private readonly IMapper _mapper; 
+        private readonly IMapper _mapper;
 
         public CustomerController(IMapper CustomMapper, ICustomerService customerService)
         {
