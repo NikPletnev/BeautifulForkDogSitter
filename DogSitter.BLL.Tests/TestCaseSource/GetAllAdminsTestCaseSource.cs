@@ -1,6 +1,5 @@
 ﻿using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
-using DogSitter.DAL.Enums;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -17,7 +16,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
 
             List<AdminModel> adminsModel = new List<AdminModel>() {
               new AdminModel() { FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234" },
-              new AdminModel() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234" } } ;
+              new AdminModel() { FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234" } };
 
             yield return new object[] { admins, adminsModel };
         }

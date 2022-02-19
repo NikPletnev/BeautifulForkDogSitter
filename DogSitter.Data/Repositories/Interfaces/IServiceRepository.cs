@@ -6,6 +6,7 @@ namespace DogSitter.DAL.Repositories
     {
         void AddService(Serviсe service);
         List<Serviсe> GetAllServices();
+        List<Serviсe> GetAllServicesBySitterId(int id);
         Serviсe GetServiceById(int id);
         void UpdateService(Serviсe service, bool IsDeleted);
         void UpdateService(Serviсe service);

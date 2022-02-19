@@ -1,14 +1,10 @@
 ﻿using DogSitter.DAL.Entity;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
-    public class CommentTestCaseSource 
+    public class CommentTestCaseSource
     {
         public static List<Comment> GetComments() =>
             new List<Comment>()

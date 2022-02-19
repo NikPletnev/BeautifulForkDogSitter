@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Models;
-using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
-using DogSitter.DAL.Entity;
 
 namespace DogSitter.API.Configs
 {
@@ -15,10 +13,10 @@ namespace DogSitter.API.Configs
             CreateMap<AdminUpdateInputModel, AdminModel>();
             CreateMap<AdminModel, AdminOutputModel>();
 
-            CreateMap<ContactModel, ContactOutputModel > ();
+            CreateMap<ContactModel, ContactOutputModel>();
             CreateMap<ContactInsertInputModel, ContactModel>();
 
-            CreateMap<ContactModel, ContactOutputModel > ()
+            CreateMap<ContactModel, ContactOutputModel>()
             .ForMember(dest => dest.ContactType, act => act.MapFrom(src => src.ContactType));
             CreateMap<ContactInsertInputModel, ContactModel>()
             .ForMember(dest => dest.ContactType, act => act.MapFrom(src => src.ContactType));

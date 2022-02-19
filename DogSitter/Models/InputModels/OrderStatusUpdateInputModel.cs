@@ -2,6 +2,6 @@
 {
     public class OrderStatusUpdateInputModel
     {
-        public int OrderNewStatus { get; set; }  
+        public int OrderNewStatus { get; set; }
     }
 }

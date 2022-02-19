@@ -14,11 +14,13 @@ namespace DogSitter.BLL.Tests
 {
     public class PassportServiceTests
     {
-        private readonly Mock<IPassportRepository> _passportRepositoryMock;
-        private readonly IMapper _mapper;
-        private readonly PassportService _service;
+        private Mock<IPassportRepository> _passportRepositoryMock;
+        private IMapper _mapper;
+        private PassportService _service;
 
-        public PassportServiceTests()
+
+        [SetUp]
+        public void Setup()
         {
             _passportRepositoryMock = new Mock<IPassportRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
@@ -30,25 +32,27 @@ namespace DogSitter.BLL.Tests
         public void UpdatePassportTest(int id, Passport entity, PassportModel model)
         {
             //given
-            _passportRepositoryMock.Setup(x => x.UpdatePassport(entity)).Verifiable();
+
+            _passportRepositoryMock.Setup(x => x.UpdatePassport(entity, It.IsAny<Passport>())).Verifiable();
             _passportRepositoryMock.Setup(x => x.GetPassportById(id)).Returns(entity);
             //when       
             _service.UpdatePassport(id, model);
             //then
-            Assert.AreEqual(model.IsDeleted, entity.IsDeleted);
-            _passportRepositoryMock.Verify();
             _passportRepositoryMock.Verify(x => x.GetPassportById(id), Times.Once);
-            _passportRepositoryMock.Verify(x => x.UpdatePassport(entity), Times.Once);
+            _passportRepositoryMock.Verify(x => x.UpdatePassport(entity, It.IsAny<Passport>()), Times.Once);
         }
 
         [TestCase(100)]
         public void UpdatePassportTest_WhenPassportNotFound_ShouldThrowEntityNotFoundException(int id)
         {
             //given
-            _passportRepositoryMock.Setup(x => x.UpdatePassport(It.IsAny<Passport>()));
+            _passportRepositoryMock.Setup(x => x.UpdatePassport(It.IsAny<Passport>(), It.IsAny<Passport>()));
+            _passportRepositoryMock.Setup(x => x.GetPassportById(id));
             //when
             //then
             Assert.Throws<EntityNotFoundException>(() => _service.UpdatePassport(id, new PassportModel()));
+            _passportRepositoryMock.Verify(x => x.UpdatePassport(It.IsAny<Passport>(), It.IsAny<Passport>()), Times.Never);
+            _passportRepositoryMock.Verify(x => x.GetPassportById(id), Times.Once);
         }
 
         [TestCase(111)]
@@ -75,6 +79,8 @@ namespace DogSitter.BLL.Tests
             //then
 
             Assert.Throws<ServiceNotEnoughDataExeption>(() => _service.UpdatePassport(id, model));
+            _passportRepositoryMock.Verify(x => x.UpdatePassport(It.IsAny<Passport>(), It.IsAny<Passport>()), Times.Never);
+            _passportRepositoryMock.Verify(x => x.GetPassportById(id), Times.Never);
         }
 
         [Test]
@@ -97,9 +103,9 @@ namespace DogSitter.BLL.Tests
 
             _passportRepositoryMock.Setup(x => x.AddPassport(It.IsAny<Passport>())).Verifiable();
             //when         
-             _service.AddPassport(model);
+            _service.AddPassport(model);
             //then
-            _passportRepositoryMock.Verify();
+            _passportRepositoryMock.Verify(x => x.AddPassport(It.IsAny<Passport>()), Times.Once);
         }
 
         [TestCaseSource(typeof(AddPassportNegativeTestCaseSource))]
@@ -109,10 +115,11 @@ namespace DogSitter.BLL.Tests
             //when
             //then
             Assert.Throws<ServiceNotEnoughDataExeption>(() => _service.AddPassport(passport));
+            _passportRepositoryMock.Verify(x => x.AddPassport(It.IsAny<Passport>()), Times.Never);
         }
 
         [TestCaseSource(typeof(GetByIdAndUpdatePassportTestCaseSource))]
-        public void GetPassportByIdTest(int id, Passport entity, PassportModel expected )
+        public void GetPassportByIdTest(int id, Passport entity, PassportModel expected)
         {
             //given
             _passportRepositoryMock.Setup(x => x.GetPassportById(id)).Returns(entity).Verifiable();
@@ -120,7 +127,7 @@ namespace DogSitter.BLL.Tests
             PassportModel actual = _service.GetPassportById(id);
             //then
             Assert.AreEqual(expected, actual);
-            _passportRepositoryMock.Verify();
+            _passportRepositoryMock.Verify(x => x.GetPassportById(id), Times.Once);
         }
 
         [TestCase(11)]
@@ -131,7 +138,7 @@ namespace DogSitter.BLL.Tests
             //when
             //then
             Assert.Throws<EntityNotFoundException>(() => _service.GetPassportById(id));
-            _passportRepositoryMock.Verify();
+            _passportRepositoryMock.Verify(x => x.GetPassportById(id), Times.Once);
         }
     }
 }
