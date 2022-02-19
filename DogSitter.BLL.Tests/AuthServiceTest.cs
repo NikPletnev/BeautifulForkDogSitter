@@ -5,7 +5,6 @@ using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
-using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
@@ -42,12 +41,12 @@ namespace DogSitter.BLL.Tests
             //given
             _adminRepositoryMock.Setup(a => a.Login(contact, password)).Returns(admin);
             _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
-            
+
             //when
             var result = _service.GetAdminForLogin(contact.Value, password);
 
             //then
-           
+
             Assert.AreEqual(expected, result);
         }
 
@@ -62,7 +61,7 @@ namespace DogSitter.BLL.Tests
             var result = _service.GetCustomerForLogin(contact.Value, password);
 
             //then
-            
+
             Assert.AreEqual(expected, result);
         }
 
@@ -107,8 +106,8 @@ namespace DogSitter.BLL.Tests
             //when
 
             //then
-            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() => 
-            _service.GetAdminForLogin( contact.Value, password));
+            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
+            _service.GetAdminForLogin(contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
 
         }
@@ -126,7 +125,7 @@ namespace DogSitter.BLL.Tests
 
             //then
             EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetAdminForLogin( contact.Value, password));
+            _service.GetAdminForLogin(contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
@@ -142,8 +141,8 @@ namespace DogSitter.BLL.Tests
             //when
 
             //then
-            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() => 
-            _service.GetCustomerForLogin( contact.Value, password));
+            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
+            _service.GetCustomerForLogin(contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
 
         }
@@ -161,8 +160,8 @@ namespace DogSitter.BLL.Tests
             //when
 
             //then
-            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(()=>
-            _service.GetCustomerForLogin( contact.Value, password));
+            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
+            _service.GetCustomerForLogin(contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
@@ -179,7 +178,7 @@ namespace DogSitter.BLL.Tests
 
             //then
             EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetSitterForLogin( contact.Value, password));
+            _service.GetSitterForLogin(contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
 
         }
@@ -197,8 +196,8 @@ namespace DogSitter.BLL.Tests
             //when
 
             //then
-            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() => 
-            _service.GetSitterForLogin( contact.Value, password));
+            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
+            _service.GetSitterForLogin(contact.Value, password));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 

@@ -1,10 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
@@ -13,7 +9,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
         public IEnumerator GetEnumerator()
         {
             List<Dog> dogs = new List<Dog>() {
-              new Dog() 
+              new Dog()
               {
                   Id = 1,
                   Name = "TestDog1",

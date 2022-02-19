@@ -32,7 +32,7 @@ namespace DogSitter.BLL.Tests
                   },
                   IsDeleted = false
               };
-              
+
 
             List<Dog> expected = new List<Dog>()
             {
@@ -58,7 +58,7 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                IsDeleted = true            
+                IsDeleted = true
             };
 
             List<Dog> expected2 = new List<Dog>() { };

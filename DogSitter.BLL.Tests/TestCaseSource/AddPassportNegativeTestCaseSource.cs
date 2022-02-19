@@ -1,10 +1,6 @@
 ﻿using DogSitter.BLL.Models;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
@@ -42,7 +38,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 IsDeleted = false
             };
 
-            yield return new object[] {model2 };
+            yield return new object[] { model2 };
 
             PassportModel model3 = new PassportModel()
             {
@@ -59,7 +55,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 IsDeleted = false
             };
 
-            yield return new object[] {model3 };
+            yield return new object[] { model3 };
         }
     }
 }

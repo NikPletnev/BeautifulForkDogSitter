@@ -11,5 +11,14 @@ namespace DogSitter.DAL.Entity
         public DateTime Date { get; set; }
         public bool IsDeleted { get; set; }
         public virtual Order Order { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Comment comment &&
+                   Id == comment.Id &&
+                   Text == comment.Text &&
+                   Date == comment.Date &&
+                   IsDeleted == comment.IsDeleted;
+        }
     }
 }

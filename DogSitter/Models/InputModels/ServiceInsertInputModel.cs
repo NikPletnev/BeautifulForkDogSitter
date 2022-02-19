@@ -1,6 +1,6 @@
 ﻿namespace DogSitter.API.Models
 {
-    public class ServiceInsertInputModel 
+    public class ServiceInsertInputModel
     {
         public string Name { get; set; }
         public string Description { get; set; }

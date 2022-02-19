@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
@@ -20,7 +19,7 @@ namespace DogSitter.BLL.Services
 
         public void UpdateAdmin(int id, AdminModel adminModel)
         {
-            if(adminModel.FirstName == String.Empty ||
+            if (adminModel.FirstName == String.Empty ||
                 adminModel.LastName == String.Empty ||
                 adminModel.Password == String.Empty ||
                 adminModel.Contacts.Count == 0)
@@ -28,15 +27,15 @@ namespace DogSitter.BLL.Services
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the admin {id}");
             }
 
-            var entity = _map.Map<Admin>(adminModel);
-            var admin = _rep.GetAdminById(id);
+            var admin = _map.Map<Admin>(adminModel);
+            var entity = _rep.GetAdminById(id);
 
-            if (admin == null)
+            if (entity == null)
             {
                 throw new EntityNotFoundException($"Admin {id} was not found");
             }
 
-            _rep.UpdateAdmin(entity);
+            _rep.UpdateAdmin(entity, admin);
         }
 
         public void DeleteAdmin(int id)
@@ -47,7 +46,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Admin {id} was not found");
             }
 
-            _rep.UpdateAdmin(id, true);
+            _rep.UpdateAdmin(admin, true);
         }
 
         public void RestoreAdmin(int id)
@@ -58,7 +57,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Admin {id} was not found");
             }
 
-            _rep.UpdateAdmin(id, false);
+            _rep.UpdateAdmin(admin, false);
         }
 
         public void AddAdmin(AdminModel adminModel)

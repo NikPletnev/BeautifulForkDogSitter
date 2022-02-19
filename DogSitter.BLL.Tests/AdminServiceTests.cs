@@ -14,11 +14,12 @@ namespace DogSitter.BLL.Tests
 {
     public class AdminServiceTests
     {
-        private readonly Mock<IAdminRepository> _adminRepositoryMock;
-        private readonly IMapper _mapper;
-        private readonly AdminService _service;
+        private Mock<IAdminRepository> _adminRepositoryMock;
+        private IMapper _mapper;
+        private AdminService _service;
 
-        public AdminServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _adminRepositoryMock = new Mock<IAdminRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
@@ -29,14 +30,13 @@ namespace DogSitter.BLL.Tests
         public void UpdateAdminTest(int id, Admin entity, AdminModel model)
         {
             //given
-            _adminRepositoryMock.Setup(x => x.UpdateAdmin(entity)).Verifiable();
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(It.IsAny<Admin>(), entity)).Verifiable();
             _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(entity).Verifiable();
             //when
             _service.UpdateAdmin(id, model);
             //then
-            _adminRepositoryMock.Verify(x => x.GetAdminById(id));
-            _adminRepositoryMock.Verify(x => x.UpdateAdmin(entity), Times.Once);
-
+            _adminRepositoryMock.Verify(x => x.GetAdminById(id), Times.Once);
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(It.IsAny<Admin>(), entity), Times.Once);
         }
 
         [TestCase(99)]
@@ -48,14 +48,15 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<ContactModel> { new ContactModel 
-                { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<ContactModel> { new ContactModel
+                { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
             };
-            _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(It.IsAny<Admin>());
+            _adminRepositoryMock.Setup(x => x.GetAdminById(id));
             //when
             //then
             Assert.Throws<EntityNotFoundException>(() => _service.UpdateAdmin(id, admin));
-
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(It.IsAny<Admin>(), It.IsAny<Admin>()), Times.Never);
+            _adminRepositoryMock.Verify(x => x.GetAdminById(id), Times.Once);
         }
 
         [TestCase(99)]
@@ -67,12 +68,14 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "",
                 Password = "",
-                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
             };
             _adminRepositoryMock.Setup(x => x.GetAdminById(id)).Returns(It.IsAny<Admin>());
             //when
             //then
             Assert.Throws<ServiceNotEnoughDataExeption>(() => _service.UpdateAdmin(id, admin));
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(It.IsAny<Admin>(), It.IsAny<Admin>()), Times.Never);
+            _adminRepositoryMock.Verify(x => x.GetAdminById(id), Times.Never);
         }
 
         [TestCaseSource(typeof(AddAdminTestCaseSource))]
@@ -96,12 +99,13 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "",
                 Password = "",
-                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<ContactModel> { new ContactModel { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
             };
             //when
 
             //then
             Assert.Throws<ServiceNotEnoughDataExeption>(() => _service.AddAdmin(admin));
+            _adminRepositoryMock.Verify(x => x.AddAdmin(It.IsAny<Admin>()), Times.Never);
         }
 
         [TestCase(138)]
@@ -114,16 +118,16 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
                 IsDeleted = false
             };
 
-            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, true));
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin, true));
             _adminRepositoryMock.Setup(x => x.GetAdminById(admin.Id)).Returns(admin);
             //when
             _service.DeleteAdmin(id);
             //then
-            _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin.Id, true), Times.Once);
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin, true), Times.Once);
             _adminRepositoryMock.Verify(x => x.GetAdminById(admin.Id), Times.Once);
         }
 
@@ -137,17 +141,17 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
                 IsDeleted = false
             };
 
             _adminRepositoryMock.Setup(x => x.GetAdminById(admin.Id)).Returns(admin).Verifiable();
-            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, false)).Verifiable();
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin, false)).Verifiable();
             //when
             _service.RestoreAdmin(id);
             //then
-            _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin.Id, false), Times.Once);
-            _adminRepositoryMock.Verify(x => x.GetAdminById(admin.Id));
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin, false), Times.Once);
+            _adminRepositoryMock.Verify(x => x.GetAdminById(admin.Id), Times.Once);
 
         }
 
@@ -161,19 +165,19 @@ namespace DogSitter.BLL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.mail } },
+                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = DAL.Enums.ContactType.Mail } },
                 IsDeleted = false
             };
 
-            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, true));
-            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin.Id, false));
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin, true));
+            _adminRepositoryMock.Setup(x => x.UpdateAdmin(admin, false));
             _adminRepositoryMock.Setup(x => x.GetAdminById(admin.Id));
             //when
 
             //then
             Assert.Throws<EntityNotFoundException>(() => _service.DeleteAdmin(id));
             Assert.Throws<EntityNotFoundException>(() => _service.RestoreAdmin(id));
-            _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin.Id, It.IsAny<bool>()), Times.Never);
+            _adminRepositoryMock.Verify(x => x.UpdateAdmin(admin, It.IsAny<bool>()), Times.Never);
             _adminRepositoryMock.Verify(x => x.GetAdminById(admin.Id));
         }
 
@@ -204,10 +208,11 @@ namespace DogSitter.BLL.Tests
             //when
             //then
             Assert.Throws<EntityNotFoundException>(() => _service.GetAdminById(id));
+            _adminRepositoryMock.Verify(x => x.GetAdminById(id), Times.Once);
         }
 
         [TestCaseSource(typeof(GetAllAdminsTestCaseSource))]
-        public void GetAllAdminsTest(List<Admin> admins, List<AdminModel> expected) 
+        public void GetAllAdminsTest(List<Admin> admins, List<AdminModel> expected)
         {
             //given
             _adminRepositoryMock.Setup(x => x.GetAllAdmins()).Returns(admins);

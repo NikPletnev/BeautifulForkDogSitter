@@ -1,10 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
@@ -15,10 +11,10 @@ namespace DogSitter.DAL.Tests.TestCaseSource
             int id = 2;
 
             List<Customer> customers = new List<Customer>() {
-              new Customer() 
-              { 
-                  FirstName = "Иван", 
-                  LastName = "Иванов", 
+              new Customer()
+              {
+                  FirstName = "Иван",
+                  LastName = "Иванов",
                   Password = "VANYA1234" ,
                   Dogs = new List<Dog>()
                   {
@@ -32,48 +28,48 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                           IsDeleted = false
                       }
                   },
-                  IsDeleted = false 
+                  IsDeleted = false
               },
-              new Customer() 
-              { 
+              new Customer()
+              {
                   FirstName = "Иван2",
-                  LastName = "Иванов2", 
+                  LastName = "Иванов2",
                   Password = "2VANYA1234",
-                  Dogs = new List<Dog>() 
-                  { 
-                      new Dog() 
-                      { 
-                          Id =  2, 
-                          Name = "Белка", 
-                          Age = 1, 
+                  Dogs = new List<Dog>()
+                  {
+                      new Dog()
+                      {
+                          Id =  2,
+                          Name = "Белка",
+                          Age = 1,
                           Breed = "Лабрадор",
-                          Weight = 31.8, 
-                          Description = "ййй", 
+                          Weight = 31.8,
+                          Description = "ййй",
                           IsDeleted = false
-                      } 
+                      }
                   },
-                  IsDeleted = false 
+                  IsDeleted = false
               },
-              new Customer() 
-              { 
-                  FirstName = "Иван2", 
-                  LastName = "Иванов2", 
-                  Password = "2VANYA1234", 
+              new Customer()
+              {
+                  FirstName = "Иван2",
+                  LastName = "Иванов2",
+                  Password = "2VANYA1234",
                   IsDeleted = true }
             };
 
-            List<Dog> expected = new List<Dog>() 
-            { 
-                new Dog() 
-                { 
-                    Id =  2, 
-                    Name = "Белка", 
-                    Age = 1, 
-                    Breed = "Лабрадор", 
-                    Weight = 31.8, 
-                    Description = "ййй", 
+            List<Dog> expected = new List<Dog>()
+            {
+                new Dog()
+                {
+                    Id =  2,
+                    Name = "Белка",
+                    Age = 1,
+                    Breed = "Лабрадор",
+                    Weight = 31.8,
+                    Description = "ййй",
                     IsDeleted = false
-                } 
+                }
             };
 
             yield return new object[] { id, customers, expected };
