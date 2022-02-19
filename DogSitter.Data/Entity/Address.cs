@@ -30,8 +30,6 @@ namespace DogSitter.DAL.Entity
                 IsDeleted == other.IsDeleted;
         }
 
-      
-
         public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
@@ -39,6 +37,11 @@ namespace DogSitter.DAL.Entity
             if (ReferenceEquals(this, obj))
                 return true;
             return obj.GetType() == GetType() && Equals((Address)obj);
+        }
+
+        public override string ToString()
+        {
+            return $"{Id} {Name} {City} {Street} {House} {Apartament}";
         }
 
     }

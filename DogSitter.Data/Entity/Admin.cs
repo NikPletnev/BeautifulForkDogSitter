@@ -16,7 +16,7 @@ namespace DogSitter.DAL.Entity
 
         public override bool Equals(object obj)
         {
-            
+
             return obj is Admin admin &&
                    Id == admin.Id &&
                    Password == admin.Password &&

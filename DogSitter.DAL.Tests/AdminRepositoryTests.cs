@@ -1,5 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
@@ -57,10 +56,10 @@ namespace DogSitter.DAL.Tests
 
             var expected = new List<Admin>() {
                 new Admin() { Id = 1, FirstName = "Иван", LastName = "Иванов", Password = "VANYA1234",
-                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = Enums.ContactType.phone} } ,
+                  Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = Enums.ContactType.Phone} } ,
                   IsDeleted = false} ,
                 new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234",
-                  Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.mail} },
+                  Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.Mail} },
                   IsDeleted = false }
                 };
 
@@ -100,7 +99,7 @@ namespace DogSitter.DAL.Tests
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.mail } },
+                Contacts = new List<Contact> { new Contact { Value = "qwertyu@icloud.com", ContactType = Enums.ContactType.Mail } },
                 IsDeleted = false
             };
 
@@ -136,12 +135,11 @@ namespace DogSitter.DAL.Tests
 
             var expected = new Admin() { Id = 2, FirstName = "Иван2", LastName = "Иванов2", Password = "2VANYA1234", IsDeleted = true };
 
-            //when
-            _rep.UpdateAdmin(2, true);
-            var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
+            var admin = _context.Admins.FirstOrDefault(z => z.Id == 2);
 
-            //then
-            Assert.AreEqual(expected, actual);
+            //when
+            _rep.UpdateAdmin(admin, true);
+            var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
         }
 
         [TestCaseSource(typeof(AdminTestCaseSource))]
@@ -151,18 +149,17 @@ namespace DogSitter.DAL.Tests
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
 
-            var newAdmin = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234" };
-
-            var expected = new Admin() { Id = 2, FirstName = "Иван222", LastName = "Иванов22", Password = "4321VANYA1234", IsDeleted = false };
-
+            var newAdmin = new Admin() { Id = 2, FirstName = "Иван!!222", LastName = "Иванов!!22", Password = "!4321VANYA1234!" };
+            var expected = new Admin() { Id = 2, FirstName = "Иван!!222", LastName = "Иванов!!22", Password = "!4321VANYA1234!", IsDeleted = false };
+            var admin = _context.Admins.FirstOrDefault(x => x.Id == 2);
             //when
-            _rep.UpdateAdmin(newAdmin);
-
-            var actual = _context.Admins.FirstOrDefault(z => z.Id == 2);
+            _rep.UpdateAdmin(newAdmin, admin);
+            var actual = _context.Admins.FirstOrDefault(y => y.Id == 2);
 
             //then
             Assert.AreEqual(expected, actual);
         }
+
         [TestCaseSource(typeof(AdminLoginTestCaseSource))]
         public void LoginTest(List<Admin> admins, Contact contact, string pass, Admin expected)
         {

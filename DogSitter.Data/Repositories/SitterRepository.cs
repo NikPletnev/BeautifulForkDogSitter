@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 using DogSitter.DAL.Repositories.Interfaces;
 
 namespace DogSitter.DAL.Repositories
@@ -64,5 +65,9 @@ namespace DogSitter.DAL.Repositories
             }
             return null;
         }
+
+        public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation) =>
+            _context.Sitters.Where(s => s.SubwayStation.Id == subwaystation.Id && !s.IsDeleted)
+            .Include(s => s.WorkTime).ToList();
     }
 }

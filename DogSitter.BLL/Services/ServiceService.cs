@@ -9,11 +9,14 @@ namespace DogSitter.BLL.Services
     public class ServiceService : IServiceService
     {
         private readonly IServiceRepository _serviceRepository;
+        private readonly ISitterRepository _sitterRepository;
         private readonly IMapper _mapper;
 
-        public ServiceService(IServiceRepository serviceRepository, IMapper mapper)
+        public ServiceService(IServiceRepository serviceRepository, 
+            ISitterRepository sitterRepository, IMapper mapper)
         {
             _serviceRepository = serviceRepository;
+            _sitterRepository = sitterRepository;
             _mapper = mapper;
         }
 
@@ -60,7 +63,7 @@ namespace DogSitter.BLL.Services
 
             _serviceRepository.UpdateService(service, true);
         }
-         
+
         public void RestoreService(ServiceModel serviceModel)
         {
             var service = _mapper.Map<Serviсe>(serviceModel);
@@ -69,6 +72,16 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"{service} не найден!");
 
             _serviceRepository.RestoreService(service, false);
+        }
+
+        public List<ServiceModel> GetAllServicesBySitterId(int id)
+        {
+            var sitter = _sitterRepository.GetById(id);
+
+            if (sitter is null)
+                throw new EntityNotFoundException($"Sitter {id} was not found");
+
+            return _mapper.Map<List<ServiceModel>>(_serviceRepository.GetAllServicesBySitterId(id));
         }
     }
 }

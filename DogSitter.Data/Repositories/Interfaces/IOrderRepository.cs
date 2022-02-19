@@ -1,5 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using DogSitter.DAL.Enums;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -9,7 +8,7 @@ namespace DogSitter.DAL.Repositories
         void EditOrderStatusByOrderId(Order order, int status);
         List<Order> GetAll();
         Order GetById(int id);
-        void Update(int id, bool IsDeleted);
-        void Update(Order order);
+        void Update(Order entity, Order order);
+        void Update(Order order, bool IsDeleted);
     }
 }
