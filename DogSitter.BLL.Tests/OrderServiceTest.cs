@@ -10,6 +10,7 @@ using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests
 {
@@ -105,6 +106,57 @@ namespace DogSitter.BLL.Tests
             //when
             //then
             Assert.Throws<EntityNotFoundException>(() => _service.EditOrderStatusByOrderId(id, status));
+        }
+
+        [TestCaseSource(typeof(GetAllOrdersBySitterIdTestCaseSource))]
+        public void GetAllOrdersBySitterId(int id, Sitter sitter, List<Order> orders)
+        {
+            //given
+            _sitterRepMock.Setup(x => x.GetById(id)).Returns(sitter);
+            _orderRepositoryMock.Setup(x => x.GetAllOrdersBySitterId(id)).Returns(orders);
+            //when
+            var actual = _service.GetAllOrdersBySitterId(id);
+            //then
+            _sitterRepMock.Verify(x => x.GetById(id));
+            _orderRepositoryMock.Verify(x => x.GetAllOrdersBySitterId(id), Times.Once);
+        }
+
+        [TestCase(1)]
+        public void GetAllOrdersBySitterId_WhenSitterNotFound_ShouldThrowEntityNotFoundException(int id)
+        {
+            //given
+            _sitterRepMock.Setup(x => x.GetById(id));
+            //when
+            //then
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAllOrdersBySitterId(id));
+            _sitterRepMock.Verify(x => x.GetById(id));
+            _orderRepositoryMock.Verify(x => x.GetAllOrdersBySitterId(id), Times.Never);
+        }
+
+        [TestCaseSource(typeof(GetAllOrdersByCustomerIdTestCaseSource))]
+        public void GetAllOrdersByCustomerId(int id, Customer customer, List<Order> orders)
+        {
+            //given
+            _customerRepMock.Setup(x => x.GetCustomerById(id)).Returns(customer);
+            _orderRepositoryMock.Setup(x => x.GetAllOrdersByCustomerId(id)).Returns(orders);
+            //when
+            var actual = _service.GetAllOrdersByCustomerId(id);
+            //then
+            _customerRepMock.Verify(x => x.GetCustomerById(id));
+            _orderRepositoryMock.Verify(x => x.GetAllOrdersByCustomerId(id), Times.Once);
+        }
+
+        [TestCase(1)]
+        public void GetAllOrdersByCustomerId_WhenCustomerNotFound_ShouldThrowEntityNotFoundException(int id)
+        {
+            //given
+            _customerRepMock.Setup(x => x.GetCustomerById(id));
+            _orderRepositoryMock.Setup(x => x.GetAllOrdersByCustomerId(id));
+            //when
+            //then
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAllOrdersByCustomerId(id));
+            _customerRepMock.Verify(x => x.GetCustomerById(id));
+            _orderRepositoryMock.Verify(x => x.GetAllOrdersByCustomerId(id), Times.Never);
         }
 
 
