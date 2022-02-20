@@ -22,6 +22,7 @@ namespace DogSitter.API.Extensions
             services.AddScoped<ISubwayStationService, SubwayStationService>();
             services.AddScoped<IWorkTimeService, WorkTimeService>();
             services.AddScoped<IServiceService, ServiceService>();
+            services.AddScoped<ICommentService, CommentService>();
         }
 
         public static void RegisterDogSitterRepositories(this IServiceCollection services)
@@ -34,6 +35,7 @@ namespace DogSitter.API.Extensions
             services.AddScoped<ISubwayStationRepository, SubwayStationRepository>();
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IWorkTimeRepository, WorkTimeRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
         }
 
         public static void AddCustomAuth(this IServiceCollection services)

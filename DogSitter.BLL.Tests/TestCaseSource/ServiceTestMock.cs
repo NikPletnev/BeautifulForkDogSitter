@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
-    public class ServiceTestCaseSource
+    public class ServiceTestMock
     {
         public List<Serviсe> GetMockServices() =>
             new List<Serviсe>()
@@ -39,16 +39,6 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Price = 3000m,
                     DurationHours = 3.0,
                     IsDeleted = false
-                };
-
-        public ServiceModel GetMockServiceModel() =>
-                new ServiceModel()
-                {
-                    Id = 3,
-                    Name = "Name4",
-                    Description = "Description4",
-                    Price = 4000m,
-                    DurationHours = 4.0
                 };
     }
 }

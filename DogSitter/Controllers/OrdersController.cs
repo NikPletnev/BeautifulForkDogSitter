@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DogSitter.API.Models.InputModels;
+using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
+using DogSitter.BLL.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -11,12 +13,33 @@ namespace DogSitter.API.Controllers
     public class OrdersController : Controller
     {
         private IOrderService _service;
-        private IMapper _map;
+        private IMapper _mapper;
 
         public OrdersController(IMapper mapper, IOrderService orderService)
         {
             _service = orderService;
-            _map = mapper;
+            _mapper = mapper;
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteOrder(int id)
+        {
+            _service.DeleteById(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateOrder([FromRoute] int id, [FromBody] OrderUpdateInputModel order)
+        {
+            _service.Update(_mapper.Map<OrderModel>(order));
+            return Ok();
+        }
+
+        [HttpPost]
+        public ActionResult AddOrder([FromBody] OrderInsertInputModel order)
+        {
+            _service.Add(_mapper.Map<OrderModel>(order));
+            return StatusCode(StatusCodes.Status201Created, _mapper.Map<OrderOutputModel>(order));
         }
 
         //api/orders/42
