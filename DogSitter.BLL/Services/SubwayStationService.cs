@@ -49,12 +49,14 @@ namespace DogSitter.BLL.Services
 
         public void UpdateSubwayStation(SubwayStationModel subwayStationModel)
         {
-            var subwayStation = _mapper.Map<SubwayStation>(subwayStationModel);
+            var exitingSubwayStation = _mapper.Map<SubwayStation>(subwayStationModel);
 
-            if (_subwayStationRepository.GetSubwayStationById(subwayStation.Id) is null)
-                throw new EntityNotFoundException($"{subwayStation} не найдена!");
+            if (_subwayStationRepository.GetSubwayStationById(exitingSubwayStation.Id) is null)
+                throw new EntityNotFoundException($"{exitingSubwayStation} не найдена!");
 
-            _subwayStationRepository.UpdateSubwayStation(subwayStation);
+            var subwayStationToUpdate = _mapper.Map<SubwayStation>(exitingSubwayStation);
+
+            _subwayStationRepository.UpdateSubwayStation(exitingSubwayStation, subwayStationToUpdate);
         }
 
         public void DeleteSubwayStation(SubwayStationModel subwayStationModel)
@@ -64,7 +66,7 @@ namespace DogSitter.BLL.Services
             if (_subwayStationRepository.GetSubwayStationById(subwayStation.Id) is null)
                 throw new EntityNotFoundException($"{subwayStation} не найдена!");
 
-            _subwayStationRepository.UpdateSubwayStation(subwayStation, true);
+            _subwayStationRepository.UpdateOrDeleteSubwayStation(subwayStation, true);
         }
 
         public void RestoreSubwayStation(SubwayStationModel subwayStationModel)
@@ -74,7 +76,7 @@ namespace DogSitter.BLL.Services
             if (_subwayStationRepository.GetSubwayStationById(subwayStation.Id) is null)
                 throw new EntityNotFoundException($"{subwayStation} не найдена!");
 
-            _subwayStationRepository.RestoreSubwayStation(subwayStation, false);
+            _subwayStationRepository.UpdateOrDeleteSubwayStation(subwayStation, false);
         }
     }
 }

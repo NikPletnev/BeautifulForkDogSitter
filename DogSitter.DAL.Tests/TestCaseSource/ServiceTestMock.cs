@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
-    public static class ServiceTestCaseSourse
+    public static class ServiceTestMock
     {
         public static List<Serviсe> GetServices() =>
             new List<Serviсe>()
