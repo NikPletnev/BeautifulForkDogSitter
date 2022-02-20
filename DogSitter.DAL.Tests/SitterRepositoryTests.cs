@@ -29,7 +29,6 @@ namespace DogSitter.DAL.Tests
             _context.Database.EnsureCreated();
 
             _repository = new SitterRepository(_context);
-
             var sitters = SitterTestCaseSourse.GetSitters();
             _context.Sitters.AddRange(sitters);
 
@@ -150,7 +149,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             //when
-            var actual = _sitterRepository.GetAllSitterByServiceId(id);
+            var actual = _repository.GetAllSitterByServiceId(id);
 
             //then
             Assert.AreEqual(expected, actual);

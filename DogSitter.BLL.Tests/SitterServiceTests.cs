@@ -33,7 +33,7 @@ namespace DogSitter.BLL.Tests
         [SetUp]
         public void SetUp()
         {
-            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object, _mapper);
+            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object, _serviceRepositoryMock.Object,  _mapper);
             _sitterTestCase = new SitterTestCaseSourse();
         }
 

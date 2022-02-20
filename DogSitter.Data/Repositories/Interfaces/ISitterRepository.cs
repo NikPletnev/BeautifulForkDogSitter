@@ -1,7 +1,7 @@
 ﻿using DogSitter.DAL.Entity;
 
-namespace DogSitter.DAL.Repositories.Interfaces
-{
+namespace DogSitter.DAL.Repositories
+{ 
     public interface ISitterRepository
     {
         void Add(Sitter sitter);
