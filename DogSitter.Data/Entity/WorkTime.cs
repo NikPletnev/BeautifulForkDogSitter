@@ -12,7 +12,7 @@ namespace DogSitter.DAL.Entity
         [Required]
         public Weekday Weekday { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual ICollection<Sitter> Sitter { get; set; }
+        public virtual Sitter Sitter { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -21,12 +21,7 @@ namespace DogSitter.DAL.Entity
                    Start == time.Start &&
                    End == time.End &&
                    Weekday == time.Weekday &&
-                   IsDeleted == time.IsDeleted; 
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, Start, End, Weekday, IsDeleted, Sitter);
+                   IsDeleted == time.IsDeleted;
         }
     }
 }

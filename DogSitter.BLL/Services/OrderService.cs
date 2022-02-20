@@ -49,8 +49,7 @@ namespace DogSitter.BLL.Services
         public void Update(OrderModel orderModel)
         {
             if (orderModel.Price == 0 ||
-                orderModel.Status == 0 ||
-                orderModel.Mark == null)
+                orderModel.Status == 0)
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the order {orderModel.Id}");
             }
@@ -59,7 +58,14 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
-            _repository.Update(order);
+            if (order.Status == Status.Created)
+            {
+                _repository.Update(order, _mapper.Map<Order>(orderModel));
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
         public void DeleteById(int id)
@@ -70,7 +76,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.Update(id, IsDelete);
+            _repository.Update(order, IsDelete);
         }
 
         public void Restore(int id)
@@ -81,7 +87,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.Update(id, IsDelete);
+            _repository.Update(order, IsDelete);
         }
         public void EditOrderStatusByOrderId(int id, int status)
         {

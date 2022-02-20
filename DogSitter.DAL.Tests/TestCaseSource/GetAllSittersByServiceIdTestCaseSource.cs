@@ -18,39 +18,25 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                   Description = "Description1",
                   Price = 1000m,
                   DurationHours = 1.0,
-                  Sitters = new List<Sitter>()
+                  Sitter = new Sitter()
                   {
-                      new Sitter()
-                      {
-                          Id = 1,
-                          FirstName = "FirstName1",
-                          LastName = "LastName1",
-                          Password = "Password1",
-                          IsDeleted = false
-                      },
-                      new Sitter()
-                      {
-                          Id = 2,
-                          FirstName = "FirstName2",
-                          LastName = "LastName2",
-                          Password = "Password2",
-                         IsDeleted = true
-                      },
+                      Id = 1,
+                      FirstName = "FirstName1",
+                      LastName = "LastName1",
+                      Password = "Password1",
+                      IsDeleted = false
                   },
                   IsDeleted = false
               };
 
-            List<Sitter> expected = new List<Sitter>()
-                  {
-                      new Sitter()
-                      {
-                          Id = 1,
-                          FirstName = "FirstName1",
-                          LastName = "LastName1",
-                          Password = "Password1",
-                          IsDeleted = false
-                      }
-            };
+               Sitter expected = new Sitter()
+               {
+                   Id = 1,
+                   FirstName = "FirstName1",
+                   LastName = "LastName1",
+                   Password = "Password1",
+                   IsDeleted = false                  
+               };
 
             yield return new object[] { id, service, expected };
         }

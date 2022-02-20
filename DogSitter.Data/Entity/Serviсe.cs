@@ -15,7 +15,7 @@ namespace DogSitter.DAL.Entity
         public double DurationHours { get; set; }
         public bool IsDeleted { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Sitter> Sitters { get; set; }
+        public virtual Sitter Sitter { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -26,11 +26,6 @@ namespace DogSitter.DAL.Entity
                    Price == serviсe.Price &&
                    DurationHours == serviсe.DurationHours &&
                    IsDeleted == serviсe.IsDeleted;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, Name, Description, Price, DurationHours, IsDeleted, Orders, Sitters);
         }
     }
 }

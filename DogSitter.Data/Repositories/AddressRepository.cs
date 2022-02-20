@@ -4,7 +4,6 @@ namespace DogSitter.DAL.Repositories
 {
     public class AddressRepository : IAddressRepository
     {
-
         private DogSitterContext _context;
 
         public AddressRepository(DogSitterContext context)
@@ -24,7 +23,6 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-
         public void UpdateAddress(Address address)
         {
             var entity = GetAddressById(address.Id);
@@ -36,7 +34,6 @@ namespace DogSitter.DAL.Repositories
             entity.SubwayStations = address.SubwayStations;
             _context.SaveChanges();
         }
-
 
         public void UpdateAddress(int id, bool IsDeleted)
         {

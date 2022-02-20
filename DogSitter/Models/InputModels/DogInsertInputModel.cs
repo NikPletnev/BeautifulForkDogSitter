@@ -3,7 +3,5 @@
     public class DogInsertInputModel : DogUpdateInputModel
     {
         //создание
-        public CustomerOutputModel Customer { get; set; }
-
     }
 }

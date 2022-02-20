@@ -15,7 +15,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Weekday = Weekday.Sunday,
-                    Sitter = new List<Sitter>(),
+                    Sitter = new Sitter(),
                     IsDeleted = false
                 },
 
@@ -25,7 +25,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Weekday = Weekday.Saturday,
-                    Sitter = new List<Sitter>(),
+                    Sitter = new Sitter(),
                     IsDeleted = true
                 }
             };
@@ -37,7 +37,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Weekday = Weekday.Saturday,
-                    Sitter = new List<Sitter>(),
+                    Sitter = new Sitter(),
                     IsDeleted = false
                 };
     }

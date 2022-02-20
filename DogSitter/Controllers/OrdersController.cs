@@ -2,8 +2,10 @@
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using DogSitter.BLL.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using DogSitter.API.Models;
 
 namespace DogSitter.API.Controllers
 {
@@ -42,10 +44,12 @@ namespace DogSitter.API.Controllers
         }
 
         //api/orders/42
+        [Authorize]
         [HttpPatch("{id}")]
         public IActionResult EditOrderStatusByOrderId(int id, [FromBody] OrderStatusUpdateInputModel order)
         {
             _service.EditOrderStatusByOrderId(id, order.OrderNewStatus);
+
             return NoContent();
         }
     }

@@ -4,6 +4,7 @@ using DogSitter.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogSitter.DAL.Migrations
 {
     [DbContext(typeof(DogSitterContext))]
-    partial class DogSitterContextModelSnapshot : ModelSnapshot
+    [Migration("20220220115255_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,7 +108,13 @@ namespace DogSitter.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AdminId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ContactType")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -114,7 +122,7 @@ namespace DogSitter.DAL.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<int?>("UserId")
+                    b.Property<int?>("SitterId")
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
@@ -123,7 +131,11 @@ namespace DogSitter.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AdminId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("SitterId");
 
                     b.ToTable("Contacts");
                 });
@@ -942,11 +954,23 @@ namespace DogSitter.DAL.Migrations
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Contact", b =>
                 {
-                    b.HasOne("DogSitter.DAL.Entity.User", "User")
+                    b.HasOne("DogSitter.DAL.Entity.Admin", "Admin")
                         .WithMany("Contacts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AdminId");
 
-                    b.Navigation("User");
+                    b.HasOne("DogSitter.DAL.Entity.Customer", "Customer")
+                        .WithMany("Contacts")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("DogSitter.DAL.Entity.Sitter", "Sitter")
+                        .WithMany("Contacts")
+                        .HasForeignKey("SitterId");
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Sitter");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Dog", b =>
@@ -1117,13 +1141,15 @@ namespace DogSitter.DAL.Migrations
                     b.Navigation("Sitters");
                 });
 
-            modelBuilder.Entity("DogSitter.DAL.Entity.User", b =>
+            modelBuilder.Entity("DogSitter.DAL.Entity.Admin", b =>
                 {
                     b.Navigation("Contacts");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Customer", b =>
                 {
+                    b.Navigation("Contacts");
+
                     b.Navigation("Dogs");
 
                     b.Navigation("Orders");
@@ -1131,6 +1157,8 @@ namespace DogSitter.DAL.Migrations
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Sitter", b =>
                 {
+                    b.Navigation("Contacts");
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
