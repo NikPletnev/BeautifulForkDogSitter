@@ -34,6 +34,8 @@ namespace DogSitter.DAL.Tests
             _context.Sitters.AddRange(sitters);
 
             _context.SaveChanges();
+
+            _repository = new SitterRepository(_context);
         }
 
         [Test]
@@ -116,7 +118,7 @@ namespace DogSitter.DAL.Tests
         }
 
         [Test]
-        public void UodateIsDeleteTest()
+        public void UpdateIsDeleteTest()
         {
             var sitter = SitterTestCaseSourse.GetSitter();
             _context.Sitters.Add(sitter);

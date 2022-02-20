@@ -28,7 +28,7 @@ namespace DogSitter.BLL.Services
             var sitter = _sitterRepository.GetById(id);
             if (sitter == null)
             {
-               throw new Exception($"Sitter {id} was not found");
+               throw new EntityNotFoundException($"Sitter {id} was not found");
             }
            return _mapper.Map<SitterModel>(sitter);
         }

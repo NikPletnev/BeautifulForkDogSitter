@@ -95,7 +95,7 @@ namespace DogSitter.BLL.Tests
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
-        [TestCaseSource(typeof(UpdateAddressTestCaseSource))]
+        [TestCaseSource(typeof(UpdateDogTestCaseSource))]
         public void UpdateDogMustUpdateDog(int id, Dog dog, DogModel dogToUpdate)
         {
             _dogRepositoryMock.Setup(y => y.UpdateDog(dog));
@@ -123,8 +123,7 @@ namespace DogSitter.BLL.Tests
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
-
-        [TestCaseSource(typeof(UpdateAddressTestCaseSource))]
+        [TestCaseSource(typeof(UpdateDogTestCaseSource))]
         public void UpdateDogMustThrowEntityNotFoundException(int id, Dog dogEntity, DogModel dog)
         {
             //given

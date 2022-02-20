@@ -87,14 +87,6 @@ namespace DogSitter.DAL.Tests
             _context.Comments.Add(comment);
             _context.SaveChanges();
 
-            var oldComment = new Comment()
-            {
-                Id = comment.Id,
-                Text = "ChangeText",
-                Date = DateTime.Now,
-                IsDeleted = comment.IsDeleted,
-            };
-
             var expected = new Comment()
             {
                 Id = comment.Id,
@@ -104,7 +96,7 @@ namespace DogSitter.DAL.Tests
             };
 
             //when
-            _repository.Update(oldComment, expected);
+            _repository.Update(comment, expected);
             var actual = _context.Comments.First(x => x.Id == comment.Id);
 
             //then

@@ -23,10 +23,5 @@ namespace DogSitter.DAL.Entity
                    Weekday == time.Weekday &&
                    IsDeleted == time.IsDeleted;
         }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, Start, End, Weekday, IsDeleted, Sitter);
-        }
     }
 }
