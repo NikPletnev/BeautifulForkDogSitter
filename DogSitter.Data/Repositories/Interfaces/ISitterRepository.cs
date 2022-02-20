@@ -1,6 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
 
-namespace DogSitter.DAL.Repositories
+namespace DogSitter.DAL.Repositories.Interfaces
 {
     public interface ISitterRepository
     {

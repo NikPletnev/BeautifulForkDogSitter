@@ -2,7 +2,7 @@
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
-using DogSitter.DAL.Repositories;
+using DogSitter.DAL.Repositories.Interfaces;
 
 namespace DogSitter.BLL.Services
 {
@@ -33,7 +33,7 @@ namespace DogSitter.BLL.Services
             catch (Exception)
             {
 
-                throw new Exception("Ситтер не найден");
+                throw new Exception($"Sitter {id} was not found");
             }
         }
         public List<SitterModel> GetAll()
@@ -59,24 +59,13 @@ namespace DogSitter.BLL.Services
             catch (Exception)
             {
 
-                throw new Exception("Ситтер не найден");
+                throw new Exception($"Sitter {sitterModel.Id} was not found");
             }
             _sitterRepository.Update(sitter);
         }
 
         public void DeleteById(int id)
-        {
-            try
-            {
-                var entity = _sitterRepository.GetById(id);
-
-            }
-            catch (Exception)
-            {
-
-                throw new Exception("Ситтер не найден");
-            }
-
+        {            
             bool delete = true;
             _sitterRepository.Update(id, delete);
             _sitterRepository.EditProfileStateBySitterId(id, false);
@@ -84,16 +73,6 @@ namespace DogSitter.BLL.Services
 
         public void Restore(int id)
         {
-            try
-            {
-                var entity = _sitterRepository.GetById(id);
-
-            }
-            catch (Exception)
-            {
-
-                throw new Exception("Ситтер не найден");
-            }
             bool Delete = false;
             _sitterRepository.Update(id, Delete);
         }
