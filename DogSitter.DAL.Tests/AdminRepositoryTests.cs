@@ -167,7 +167,7 @@ namespace DogSitter.DAL.Tests
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
             var foundAdmin = _context.Admins.FirstOrDefault(x => x.Id == 1);
-            contact.Admin = foundAdmin;
+            contact.User = foundAdmin;
             _context.SaveChanges();
             //when
             var actual = _rep.Login(contact, pass);

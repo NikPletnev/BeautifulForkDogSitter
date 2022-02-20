@@ -45,74 +45,15 @@ namespace DogSitter.BLL.Services
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        public AdminModel GetAdminForLogin(string contact, string pass)
+        public UserModel GetUserForLogin(string contact, string pass)
         {
             Contact foundContact = _contactRepository.GetContactByValue(contact);
-            AdminModel admin;
-            if (foundContact != null)
+            if (foundContact == null || foundContact.User == null || foundContact.User.Password != pass)
             {
-                var foundAdmin = _adminRepository.Login(foundContact, pass);
-                if (foundAdmin == null)
-                {
-                    throw new EntityNotFoundException("Admin not found");
-                }
-                else
-                {
-                    admin = _map.Map<AdminModel>(foundAdmin);
-                }
+                throw new EntityNotFoundException("данные");
             }
-            else
-            {
-                throw new EntityNotFoundException("Contact not found");
-            }
-            return admin;
+            UserModel user = _map.Map<UserModel>(foundContact.User);
+            return user;
         }
-
-        public CustomerModel GetCustomerForLogin(string contact, string pass)
-        {
-            Contact foundContact = _contactRepository.GetContactByValue(contact);
-            CustomerModel customer;
-            if (foundContact != null)
-            {
-                var foundCustomer = _customerRepository.Login(foundContact, pass);
-                if (foundCustomer == null)
-                {
-                    throw new EntityNotFoundException("Customer not found");
-                }
-                else
-                {
-                    customer = _map.Map<CustomerModel>(foundCustomer);
-                }
-            }
-            else
-            {
-                throw new EntityNotFoundException("Contact not found");
-            }
-            return customer;
-        }
-
-        public SitterModel GetSitterForLogin(string contact, string pass)
-        {
-            Contact foundContact = _contactRepository.GetContactByValue(contact);
-            SitterModel sitter;
-            if (foundContact != null)
-            {
-                var foundSitter = _sitterRepository.Login(foundContact, pass);
-                if (foundSitter == null)
-                {
-                    throw new EntityNotFoundException("Sitter not found");
-                }
-                else
-                {
-                    sitter = _map.Map<SitterModel>(foundSitter);
-                }
-            }
-            else
-            {
-                throw new EntityNotFoundException("Contact not found");
-            }
-            return sitter;
-        }
-
     }
 }

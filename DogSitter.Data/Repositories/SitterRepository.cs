@@ -16,7 +16,7 @@ namespace DogSitter.DAL.Repositories
             _context.Sitters.FirstOrDefault(x => x.Id == id);
 
         public List<Sitter> GetAll() =>
-            _context.Sitters.Where(d => d.IsDeleted).ToList();
+            _context.Sitters.Where(d => !d.IsDeleted).ToList();
 
         public void Add(Sitter sitter)
         {
@@ -52,17 +52,6 @@ namespace DogSitter.DAL.Repositories
                 entity.Verified = verify;
                 _context.SaveChanges();
             }
-        }
-        public Sitter Login(Contact contact, string pass)
-        {
-            if (contact != null && contact.Sitter != null)
-            {
-                if (contact.Sitter.Password == pass)
-                {
-                    return contact.Sitter;
-                }
-            }
-            return null;
         }
 
         public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation) =>

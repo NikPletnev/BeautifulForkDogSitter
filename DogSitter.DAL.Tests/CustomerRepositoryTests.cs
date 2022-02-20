@@ -35,7 +35,7 @@ namespace DogSitter.DAL.Tests
             _context.Customers.AddRange(customers);
             _context.SaveChanges();
             var foundCustomer = _context.Customers.FirstOrDefault(c => c.Id == 1);
-            contact.Customer = foundCustomer;
+            contact.User = foundCustomer;
             _context.SaveChanges();
 
             //when

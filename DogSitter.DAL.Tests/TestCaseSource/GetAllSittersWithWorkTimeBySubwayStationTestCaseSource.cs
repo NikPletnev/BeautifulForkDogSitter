@@ -9,11 +9,11 @@ namespace DogSitter.DAL.Tests.TestCaseSource
     {
         public IEnumerator GetEnumerator()
         {
-             SubwayStation subwayStation = new SubwayStation()
-              {
-                  Id = 73,
-                  Name = "Name1",
-                  Sitters = new List<Sitter>()
+            SubwayStation subwayStation = new SubwayStation()
+            {
+                Id = 73,
+                Name = "Name1",
+                Sitters = new List<Sitter>()
                   {
                     new Sitter()
                     {
@@ -48,8 +48,8 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         IsDeleted = false
                     }
                   },
-                  IsDeleted = false
-              };
+                IsDeleted = false
+            };
 
             List<Sitter> sitters = new List<Sitter>()
             {
@@ -145,7 +145,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
         };
             yield return new object[] { subwayStation, sitters, expected };
         }
-       
+
     }
 }
 

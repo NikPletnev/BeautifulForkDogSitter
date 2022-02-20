@@ -18,7 +18,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.Phone } },
                 IsDeleted = false
             };
-            var expected = new AdminModel()
+            var expected = new UserModel()
             {
 
                 FirstName = "Иван",
@@ -28,7 +28,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 IsDeleted = false
             };
 
-            Contact contact = new Contact() { Id = 1, Value = "12345678", ContactType = ContactType.Phone };
+            Contact contact = new Contact() { Id = 1, Value = "12345678", ContactType = ContactType.Phone, User = (User)admin };
 
             string password = "123456";
 

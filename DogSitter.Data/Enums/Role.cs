@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DogSitter.DAL.Enums
+﻿namespace DogSitter.DAL.Enums
 {
     public enum Role
     {
         Admin = 1,
-        Customer = 2, 
+        Customer = 2,
         Sitter = 3
     }
 }

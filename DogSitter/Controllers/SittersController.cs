@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Attribute;
+using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
@@ -21,13 +22,18 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
-        //api/sitters
-        [AuthorizeRole(Role.Sitter)]
+        //api/sitters       
         [HttpPost]
         public ActionResult RegisterSitter([FromBody] SitterInsertInputModel sitter)
         {
             _service.Add(_mapper.Map<SitterModel>(sitter));
             return StatusCode(StatusCodes.Status201Created);
+        }
+
+        [HttpGet]
+        public ActionResult GetAllSitter()
+        {
+            return Ok(_mapper.Map<List<SitterOutputModel>>(_service.GetAll()));
         }
 
         //api/sitters/block/42

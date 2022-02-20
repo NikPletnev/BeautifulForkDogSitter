@@ -21,7 +21,7 @@ namespace DogSitter.DAL.Entity
                    Start == time.Start &&
                    End == time.End &&
                    Weekday == time.Weekday &&
-                   IsDeleted == time.IsDeleted; 
+                   IsDeleted == time.IsDeleted;
         }
 
         public override int GetHashCode()

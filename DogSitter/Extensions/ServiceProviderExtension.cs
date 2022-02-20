@@ -19,6 +19,9 @@ namespace DogSitter.API.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ISitterService, SitterService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ISubwayStationService, SubwayStationService>();
+            services.AddScoped<IWorkTimeService, WorkTimeService>();
+            services.AddScoped<IServiceService, ServiceService>();
         }
 
         public static void RegisterDogSitterRepositories(this IServiceCollection services)
@@ -28,6 +31,9 @@ namespace DogSitter.API.Extensions
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ISitterRepository, SitterRepository>();
+            services.AddScoped<ISubwayStationRepository, SubwayStationRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IWorkTimeRepository, WorkTimeRepository>();
         }
 
         public static void AddCustomAuth(this IServiceCollection services)
@@ -60,10 +66,19 @@ namespace DogSitter.API.Extensions
         {
             services.AddDbContext<DogSitterContext>(
                 options => options.UseSqlServer(
-                    @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB;
-                    Persist Security Info=True; User ID = student; Password = qwe!23; Pooling = False; 
-                    MultipleActiveResultSets = False; Connect Timeout = 60; Encrypt = False; 
-                    TrustServerCertificate = False"));
+                    @"Server=(localdb)\mssqllocaldb;Database=DogSitterDB2;Trusted_Connection=True;"));
+
+
+            //Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = DogSitterDB;
+            //                Integrated Security=True;Connect 
+            //                Timeout=30;Encrypt=False;TrustServerCertificate=False;
+            //                ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+
+
+            //@"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB;
+            //Persist Security Info=True; User ID = student; Password = qwe!23; Pooling = False; 
+            //MultipleActiveResultSets = False; Connect Timeout = 60; Encrypt = False; 
+            //TrustServerCertificate = False"));
         }
 
         public static void AddSwagger(this IServiceCollection services)

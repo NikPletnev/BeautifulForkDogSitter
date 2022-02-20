@@ -13,6 +13,7 @@ namespace DogSitter.DAL
 
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
@@ -29,11 +30,17 @@ namespace DogSitter.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Customer>().ToTable("Customers");
+            modelBuilder.Entity<Admin>().ToTable("Admins");
+            modelBuilder.Entity<Sitter>().ToTable("Sitters");
+
+            modelBuilder.Entity<Contact>(entity => entity.HasIndex(e => e.Value).IsUnique());
+
             #region Default 
 
             modelBuilder.Entity<Sitter>()
-            .Property(w => w.Role)
-            .HasDefaultValue(Role.Sitter);
+        .Property(w => w.Role)
+        .HasDefaultValue(Role.Sitter);
 
             modelBuilder.Entity<Customer>()
             .Property(w => w.Role)
@@ -179,6 +186,7 @@ namespace DogSitter.DAL
                 new SubwayStation { Id = 72, Name = "Шушуары", IsDeleted = false }
                             });
             #endregion
+
 
         }
 

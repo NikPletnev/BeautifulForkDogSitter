@@ -9,7 +9,6 @@ namespace DogSitter.DAL.Repositories
         List<Sitter> GetAll();
         List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation);
         Sitter GetById(int id);
-        Sitter Login(Contact contact, string pass);
         void Update(int id, bool isDeleted);
         void Update(Sitter sitter);
     }

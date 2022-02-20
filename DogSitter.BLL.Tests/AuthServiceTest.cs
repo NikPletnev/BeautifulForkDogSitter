@@ -5,6 +5,7 @@ using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
@@ -36,44 +37,13 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
-        public void GetAdminForLoginTestMustReturnAdmin(Admin admin, AdminModel expected, Contact contact, string password)
+        public void GetUserForLoginTestMustReturnAdmin(Admin admin, UserModel expected, Contact contact, string password)
         {
             //given
-            _adminRepositoryMock.Setup(a => a.Login(contact, password)).Returns(admin);
             _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
 
             //when
-            var result = _service.GetAdminForLogin(contact.Value, password);
-
-            //then
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestCaseSource(typeof(LoginCustomerTestCaseSource))]
-        public void GetCustomerForLoginTestMustReturnCustomer(Customer customer, CustomerModel expected, Contact contact, string password)
-        {
-            //given
-            _customerRepositoryMock.Setup(a => a.Login(contact, password)).Returns(customer);
-            _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
-
-            //when
-            var result = _service.GetCustomerForLogin(contact.Value, password);
-
-            //then
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestCaseSource(typeof(LoginSitterTestCaseSource))]
-        public void GetSitterForLoginTestMustReturnSitter(Sitter sitter, SitterModel expected, Contact contact, string password)
-        {
-            //given
-            _sitterRepositoryMock.Setup(a => a.Login(contact, password)).Returns(sitter);
-            _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
-
-            //when
-            var result = _service.GetSitterForLogin(contact.Value, password);
+            var result = _service.GetUserForLogin(contact.Value, password);
 
             //then
 
@@ -94,111 +64,48 @@ namespace DogSitter.BLL.Tests
             Assert.IsTrue(ValidateToken(token));
         }
 
-        [TestCaseSource(typeof(LoginAdminTestCaseSource))]
-        public void LoginAdminTest_WhenAdminNotFound_ShouldThrowEntityNotFoundException(Admin admin, AdminModel expected, Contact contact, string password)
+        [Test]
+        public void LoginUserTest_WhenUserNotFound_ShouldThrowEntityNotFoundException()
         {
             //given
-            Admin nullAdmin = null;
-            _adminRepositoryMock.Setup(a => a.Login(contact, password)).Returns(nullAdmin);
+            Contact contact = new Contact()
+            {
+                Id = 1,
+                Value = "12345678",
+                ContactType = ContactType.Phone
+            };
+
+            string password = "1234567";
+
             _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
-            string expectedMessage = "Admin not found";
 
             //when
 
             //then
             EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetAdminForLogin(contact.Value, password));
-            Assert.That(ex.Message, Is.EqualTo(expectedMessage));
-
+            _service.GetUserForLogin(contact.Value, password));
         }
 
-        [TestCaseSource(typeof(LoginAdminTestCaseSource))]
-        public void LoginAdminTest_WhenContactNotFound_ShouldThrowEntityNotFoundException(Admin admin, AdminModel expected, Contact contact, string password)
+        [Test]
+        public void LoginUserTest_WhenContactNotFound_ShouldThrowEntityNotFoundException()
         {
             //given
-            Contact nullContact = null;
-            _adminRepositoryMock.Setup(a => a.Login(contact, password)).Returns(admin);
-            _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(nullContact);
-            string expectedMessage = "Contact not found";
+            Contact contact = new Contact()
+            {
+                Id = 1,
+                Value = "12345678",
+                ContactType = ContactType.Phone
+            };
+
+            string password = "1234567";
+
+            _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value));
 
             //when
 
             //then
             EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetAdminForLogin(contact.Value, password));
-            Assert.That(ex.Message, Is.EqualTo(expectedMessage));
-        }
-
-        [TestCaseSource(typeof(LoginCustomerTestCaseSource))]
-        public void LoginCustomerTestEntityNotFoundExceptionCustomerNotFound(Customer customer, CustomerModel expected, Contact contact, string password)
-        {
-            //given
-            Customer nullCustomer = null;
-            _customerRepositoryMock.Setup(a => a.Login(contact, password)).Returns(nullCustomer);
-            _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
-            string expectedMessage = "Customer not found";
-
-            //when
-
-            //then
-            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetCustomerForLogin(contact.Value, password));
-            Assert.That(ex.Message, Is.EqualTo(expectedMessage));
-
-        }
-
-
-        [TestCaseSource(typeof(LoginCustomerTestCaseSource))]
-        public void LoginCustomerTestEntityNotFoundExceptionContactNotFound(Customer customer, CustomerModel expected, Contact contact, string password)
-        {
-            //given
-            Contact nullContact = null;
-            _customerRepositoryMock.Setup(a => a.Login(contact, password)).Returns(customer);
-            _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(nullContact);
-            string expectedMessage = "Contact not found";
-
-            //when
-
-            //then
-            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetCustomerForLogin(contact.Value, password));
-            Assert.That(ex.Message, Is.EqualTo(expectedMessage));
-        }
-
-        [TestCaseSource(typeof(LoginSitterTestCaseSource))]
-        public void LoginSitterTestEntityNotFoundExceptionSitterNotFound(Sitter sitter, SitterModel expected, Contact contact, string password)
-        {
-            //given
-            Sitter nullSitter = null;
-            _sitterRepositoryMock.Setup(a => a.Login(contact, password)).Returns(nullSitter);
-            _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
-            string expectedMessage = "Sitter not found";
-
-            //when
-
-            //then
-            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetSitterForLogin(contact.Value, password));
-            Assert.That(ex.Message, Is.EqualTo(expectedMessage));
-
-        }
-
-
-        [TestCaseSource(typeof(LoginSitterTestCaseSource))]
-        public void LoginSitterTestEntityNotFoundExceptionContactNotFound(Sitter sitter, SitterModel expected, Contact contact, string password)
-        {
-            //given
-            Contact nullContact = null;
-            _sitterRepositoryMock.Setup(a => a.Login(contact, password)).Returns(sitter);
-            _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(nullContact);
-            string expectedMessage = "Contact not found";
-
-            //when
-
-            //then
-            EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetSitterForLogin(contact.Value, password));
-            Assert.That(ex.Message, Is.EqualTo(expectedMessage));
+            _service.GetUserForLogin(contact.Value, password));
         }
 
         private static bool ValidateToken(string authToken)

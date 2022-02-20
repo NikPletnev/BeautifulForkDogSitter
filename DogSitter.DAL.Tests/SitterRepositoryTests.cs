@@ -37,7 +37,7 @@ namespace DogSitter.DAL.Tests
             _context.Sitters.AddRange(sitters);
             _context.SaveChanges();
             var findedSitter = _context.Sitters.FirstOrDefault(x => x.Id == 1);
-            contact.Sitter = findedSitter;
+            contact.User = findedSitter;
             _context.SaveChanges();
             //when
             var actual = _sitterRepository.Login(contact, pass);

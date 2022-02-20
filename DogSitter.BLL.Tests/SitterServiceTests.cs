@@ -8,6 +8,7 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests
 {
@@ -23,7 +24,7 @@ namespace DogSitter.BLL.Tests
         {
             _sitterRepositoryMock = new Mock<ISitterRepository>();
             _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object, _mapper);
         }
 
@@ -93,7 +94,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetAllSittersWithWorkTimeBySubwayStationTestCaseSource))]
-        public void GetAllSittersWithWorkTimeBySubwayStationTest(SubwayStation subwayStation, 
+        public void GetAllSittersWithWorkTimeBySubwayStationTest(SubwayStation subwayStation,
             SubwayStationModel subwayStationModel, List<Sitter> sitters)
         {
             //given
@@ -107,9 +108,9 @@ namespace DogSitter.BLL.Tests
 
             //then
             _subwayStationRepositoryMock.Verify(ss => ss.GetSubwayStationById(subwayStation.Id), Times.Once);
-            _sitterRepositoryMock.Verify(s => 
+            _sitterRepositoryMock.Verify(s =>
             s.GetAllSittersWithWorkTimeBySubwayStation(subwayStation), Times.Once);
-    }
+        }
 
         [Test]
         public void GetAllSittersWithWorkTimeBySubwayStationNegativeTest()
@@ -117,7 +118,7 @@ namespace DogSitter.BLL.Tests
             _subwayStationRepositoryMock.Setup(ss => ss.GetSubwayStationById(It.IsAny<int>()))
                 .Returns((SubwayStation)null);
 
-            Assert.Throws<EntityNotFoundException>(() => 
+            Assert.Throws<EntityNotFoundException>(() =>
             _service.GetAllSittersWithWorkTimeBySubwayStation(new SubwayStationModel()));
         }
 

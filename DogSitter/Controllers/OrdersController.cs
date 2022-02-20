@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using DogSitter.API.Attribute;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Services;
-using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

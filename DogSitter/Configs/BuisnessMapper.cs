@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Models;
+using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 
 namespace DogSitter.API.Configs
@@ -31,6 +32,9 @@ namespace DogSitter.API.Configs
             CreateMap<ServiceInsertInputModel, ServiceModel>();
             CreateMap<ServiceUpdateInputModel, ServiceModel>();
             CreateMap<ServiceModel, ServiceOutputModel>();
+
+            CreateMap<SitterInsertInputModel, SitterModel>();
+            CreateMap<SitterModel, SitterOutputModel>();
         }
     }
 }
