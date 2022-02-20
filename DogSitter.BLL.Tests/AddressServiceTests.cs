@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests
 {
@@ -103,11 +105,11 @@ namespace DogSitter.BLL.Tests
         public void AddAddressMustAddAddress(AddressModel address)
         {
             //given
-            _addressRepositoryMock.Setup(x => x.AddAddress(It.IsAny<Address>())).Verifiable();
+            _addressRepositoryMock.Setup(x => x.AddAddress(It.IsAny<Address>()));
             //when
             _service.AddAddress(address);
             //then
-            _addressRepositoryMock.Verify(x => x.AddAddress(It.IsAny<Address>()));
+            _addressRepositoryMock.Verify(x => x.AddAddress(It.IsAny<Address>()), Times.Once);
         }
 
 
@@ -115,7 +117,7 @@ namespace DogSitter.BLL.Tests
         public void AddAddressMustThrowServieNotEnoughDataExeption(AddressModel address, Address addressEntity)
         {
             //given
-            _addressRepositoryMock.Setup(x => x.AddAddress(It.IsAny<Address>())).Verifiable();
+            _addressRepositoryMock.Setup(x => x.AddAddress(It.IsAny<Address>()));
             var expectedMessage = "There is not enough data to create new address";
             //when
 
@@ -128,8 +130,8 @@ namespace DogSitter.BLL.Tests
         [TestCaseSource(typeof(UpdateAddressTestCaseSource))]
         public void UpdateAddressMustUpdateAddress(Address address, AddressModel addressToUpdate)
         {
-            _addressRepositoryMock.Setup(x => x.UpdateAddress(address)).Verifiable();
-            _addressRepositoryMock.Setup(x => x.GetAddressById(address.Id)).Returns(address).Verifiable();
+            _addressRepositoryMock.Setup(x => x.UpdateAddress(address));
+            _addressRepositoryMock.Setup(x => x.GetAddressById(address.Id)).Returns(address);
             //when
             _service.UpdateAddress(addressToUpdate);
             //then
@@ -141,8 +143,8 @@ namespace DogSitter.BLL.Tests
         public void UpdateAddressMustThrowServieNotEnoughDataExeption(AddressModel address, Address addressEntity)
         {
             //given
-            _addressRepositoryMock.Setup(x => x.UpdateAddress(addressEntity)).Verifiable();
-            _addressRepositoryMock.Setup(x => x.GetAddressById(addressEntity.Id)).Returns(addressEntity).Verifiable();
+            _addressRepositoryMock.Setup(x => x.UpdateAddress(addressEntity));
+            _addressRepositoryMock.Setup(x => x.GetAddressById(addressEntity.Id)).Returns(addressEntity);
             var expectedMessage = "There is not enough data to update address";
             //when
 
@@ -158,8 +160,8 @@ namespace DogSitter.BLL.Tests
         {
             //given
             Address nullAddress = null;
-            _addressRepositoryMock.Setup(x => x.UpdateAddress(addressEntity)).Verifiable();
-            _addressRepositoryMock.Setup(x => x.GetAddressById(addressEntity.Id)).Returns(nullAddress).Verifiable();
+            _addressRepositoryMock.Setup(x => x.UpdateAddress(addressEntity));
+            _addressRepositoryMock.Setup(x => x.GetAddressById(addressEntity.Id)).Returns(nullAddress);
             var expectedMessage = "Address not found";
             //when
 
