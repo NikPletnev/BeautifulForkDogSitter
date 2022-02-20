@@ -6,6 +6,6 @@ namespace DogSitter.DAL.Repositories
     {
         void AddPassport(Passport passport);
         Passport GetPassportById(int id);
-        void UpdatePassport(Passport passport);
+        void UpdatePassport(Passport entity, Passport passport);
     }
 }

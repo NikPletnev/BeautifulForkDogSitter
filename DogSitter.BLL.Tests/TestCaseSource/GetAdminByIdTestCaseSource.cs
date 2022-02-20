@@ -1,5 +1,4 @@
 ﻿using DogSitter.DAL.Entity;
-using DogSitter.DAL.Enums;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -28,7 +27,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 FirstName = "Иван2",
                 LastName = "Иванов2",
                 Password = "2VANYA1234",
-                Contacts = new List<Contact> {  },
+                Contacts = new List<Contact> { },
                 IsDeleted = false
             };
 

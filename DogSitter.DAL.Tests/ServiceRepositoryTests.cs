@@ -27,7 +27,7 @@ namespace DogSitter.DAL.Tests
 
             _serviceRepository = new ServiceRepository(_context);
 
-            var services = ServiceTestCaseSourse.GetServices();
+            var services = ServiceTestMock.GetServices();
             _context.Services.AddRange(services);
 
             _context.SaveChanges();
@@ -66,7 +66,7 @@ namespace DogSitter.DAL.Tests
         public void AddServiceTest()
         {
             //given
-            var expected = ServiceTestCaseSourse.GetService();
+            var expected = ServiceTestMock.GetService();
 
             //when
             _serviceRepository.AddService(expected);
@@ -81,7 +81,7 @@ namespace DogSitter.DAL.Tests
         public void UpdateServiceTest()
         {
             //given
-            var service = ServiceTestCaseSourse.GetService();
+            var service = ServiceTestMock.GetService();
             _context.Services.Add(service);
 
             _context.SaveChanges();
@@ -118,7 +118,7 @@ namespace DogSitter.DAL.Tests
         public void UpdateIsDeleteServiceTest()
         {
             //given
-            var service = ServiceTestCaseSourse.GetService();
+            var service = ServiceTestMock.GetService();
 
             //when
             _serviceRepository.UpdateService(service, true);
@@ -131,13 +131,27 @@ namespace DogSitter.DAL.Tests
         public void RestoreServiceTest()
         {
             //given
-            var service = ServiceTestCaseSourse.GetService();
+            var service = ServiceTestMock.GetService();
 
             //when
             _serviceRepository.RestoreService(service, false);
 
             //then
             Assert.AreEqual(service.IsDeleted, false);
+        }
+
+        [TestCaseSource(typeof(GetAllServicesBySitterIdTestCaseSource))]
+        public void GetAllServicesBySitterIdTest(int id, Sitter sitter, List<Serviñe> expected)
+        {
+            //given
+            _context.Sitters.AddRange(sitter);
+            _context.SaveChanges();
+
+            //when
+            var actual = _serviceRepository.GetAllServicesBySitterId(id);
+
+            //then
+            Assert.AreEqual(expected, actual);
         }
     }
 }

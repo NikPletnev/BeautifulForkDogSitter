@@ -44,5 +44,19 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.AreEqual(expected, actual);
         }
+
+        [TestCaseSource(typeof(CustomerChangeCustomerTestCaseSource))]
+        public void ChangeCustomerAddressTestMustChangeAddress(Customer customer, Customer expected, Address address)
+        {
+            //given
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+
+            //when
+            _customerRepository.ChangeCustomerAddress(customer, address);
+
+            //then
+            Assert.AreEqual(expected, customer);
+        }
     }
 }
