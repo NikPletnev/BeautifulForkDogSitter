@@ -12,7 +12,7 @@ namespace DogSitter.DAL.Entity
         [Required]
         public Weekday Weekday { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual ICollection<Sitter> Sitter { get; set; }
+        public virtual Sitter Sitter { get; set; }
 
         public override bool Equals(object obj)
         {

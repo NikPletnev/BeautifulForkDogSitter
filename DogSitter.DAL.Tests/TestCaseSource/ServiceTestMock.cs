@@ -39,7 +39,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     DurationHours = 3.0,
                     IsDeleted = false,
                     Orders = new List<Order>(),
-                    Sitters = new List<Sitter>()
+                    Sitter = new Sitter()
                 };
     }
 }

@@ -79,7 +79,7 @@ namespace DogSitter.DAL.Tests
                 Start = DateTime.Now,
                 End = DateTime.Now,
                 Weekday = Weekday.Thursday,
-                Sitter = new List<Sitter>(),
+                Sitter = new Sitter(),
                 IsDeleted = workTime.IsDeleted
             };
 

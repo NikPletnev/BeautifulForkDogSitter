@@ -5,6 +5,7 @@ using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
 using DogSitter.BLL.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using DogSitter.API.Models;
 
 namespace DogSitter.API.Controllers
 {

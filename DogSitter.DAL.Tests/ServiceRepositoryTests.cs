@@ -95,7 +95,7 @@ namespace DogSitter.DAL.Tests
                 DurationHours = 0.0,
                 IsDeleted = service.IsDeleted,
                 Orders = new List<Order>(),
-                Sitters = new List<Sitter>()
+                Sitter = new Sitter()
             };
 
             //when
@@ -111,7 +111,7 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.DurationHours, actual.DurationHours);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Orders, actual.Orders);
-            Assert.AreEqual(expected.Sitters, actual.Sitters);
+            Assert.AreEqual(expected.Sitter, actual.Sitter);
         }
 
         [Test]

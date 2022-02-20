@@ -23,7 +23,6 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-
         public void UpdateCustomer(Customer customer)
         {
             var entity = GetCustomerById(customer.Id);
@@ -33,7 +32,6 @@ namespace DogSitter.DAL.Repositories
             entity.Dogs = customer.Dogs;
             entity.Sitter = customer.Sitter;
             entity.Address = customer.Address;
-            entity.Orders = customer.Orders;
             _context.SaveChanges();
         }
 

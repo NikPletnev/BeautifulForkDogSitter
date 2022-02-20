@@ -59,7 +59,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
-            _repository.Update(order);
+            _repository.Update(order, _mapper.Map<Order>(orderModel));
         }
 
         public void DeleteById(int id)
@@ -70,7 +70,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.Update(id, IsDelete);
+            _repository.Update(order, IsDelete);
         }
 
         public void Restore(int id)
@@ -81,7 +81,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.Update(id, IsDelete);
+            _repository.Update(order, IsDelete);
         }
         public void EditOrderStatusByOrderId(int id, int status)
         {

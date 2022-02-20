@@ -34,7 +34,7 @@ namespace DogSitter.BLL.Services
             _workTimeRepository.AddWorkTime(workTime);
         }
 
-        public void UpdateWorkTime(int id, WorkTimeModel workTimeModel)
+        public void UpdateWorkTime(WorkTimeModel workTimeModel)
         {
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
 

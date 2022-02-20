@@ -30,15 +30,6 @@ namespace DogSitter.API.Controllers
                 return NotFound($"WorkTime {id} not found");
         }
 
-        //api/workTimes
-        [HttpGet]
-        public ActionResult<List<WorkTimeOutputModel>> GetAllWorkTimes()
-        {
-            var workTimes = _mapper.Map<List<WorkTimeOutputModel>>(_workTimeService.GetAllWorkTimes());
-
-            return Ok(workTimes);
-        }
-
         [HttpPost]
         public ActionResult<WorkTimeOutputModel> AddWorkTime([FromBody] WorkTimeInsertInputModel workTime)
         {
@@ -49,27 +40,27 @@ namespace DogSitter.API.Controllers
 
         //api/workTimes/77
         [HttpPut("{id}")]
-        public IActionResult UpdateWorkTime(int id, [FromBody] WorkTimeUpdateInputModel workTime)
+        public IActionResult UpdateWorkTime( [FromBody] WorkTimeUpdateInputModel workTime)
         {
-            _workTimeService.UpdateWorkTime(id, _mapper.Map<WorkTimeModel>(workTime));
+            _workTimeService.UpdateWorkTime(_mapper.Map<WorkTimeModel>(workTime));
 
             return NoContent();
         }
          
         //api/workTimes/77
         [HttpDelete("{id}")]
-        public IActionResult DeleteWorkTime(int id)
+        public IActionResult DeleteWorkTime([FromBody] WorkTimeUpdateInputModel workTime)
         {
-            _workTimeService.DeleteWorkTime(id);
+            _workTimeService.DeleteWorkTime(_mapper.Map<WorkTimeModel>(workTime));
 
             return NoContent();
         }
 
         //api/workTimes/77
         [HttpPatch("{id}")]
-        public IActionResult RestoreWorkTime(int id)
+        public IActionResult RestoreWorkTime([FromBody] WorkTimeUpdateInputModel workTime)
         {
-            _workTimeService.RestoreWorkTime(id);
+            _workTimeService.RestoreWorkTime(_mapper.Map<WorkTimeModel>(workTime));
 
             return Ok();
         }

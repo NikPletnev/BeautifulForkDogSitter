@@ -35,7 +35,7 @@ namespace DogSitter.BLL.Tests
             _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
             _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>())).Verifiable();
             //when       
-            _service.UpdateOrder(id, model);
+            _service.Update(model);
             //then            
             _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
             _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Once);
@@ -50,7 +50,7 @@ namespace DogSitter.BLL.Tests
             //when       
 
             //then            
-            Assert.Throws<EntityNotFoundException>(() => _service.UpdateOrder(id, model));
+            Assert.Throws<EntityNotFoundException>(() => _service.Update(model));
             _orderRepositoryMock.Verify(x => x.GetById(id));
             _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
         }
@@ -64,7 +64,7 @@ namespace DogSitter.BLL.Tests
             //when       
 
             //then            
-            Assert.Throws<Exception>(() => _service.UpdateOrder(id, model));
+            Assert.Throws<Exception>(() => _service.Update(model));
             _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
             _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
         }
