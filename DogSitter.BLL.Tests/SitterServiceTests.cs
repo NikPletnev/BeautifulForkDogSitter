@@ -15,6 +15,7 @@ namespace DogSitter.BLL.Tests
     public class SitterServiceTests
     {
         private Mock<ISitterRepository> _sitterRepositoryMock;
+        private Mock<IServiceRepository> _serviceRepositoryMock;
         private Mock<ISubwayStationRepository> _subwayStationRepositoryMock;
         private IMapper _mapper;
         private SitterService _service;
@@ -23,9 +24,11 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _sitterRepositoryMock = new Mock<ISitterRepository>();
+            _serviceRepositoryMock = new Mock<IServiceRepository>();
             _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
-            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object, _mapper);
+            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object,
+                _serviceRepositoryMock.Object, _mapper);
         }
 
         [TestCase(1)]
@@ -93,6 +96,30 @@ namespace DogSitter.BLL.Tests
             _sitterRepositoryMock.Verify(x => x.GetById(id), Times.Once);
         }
 
+        [TestCaseSource(typeof(GetAllSittersByServiceIdTestCaseSource))] 
+        public void GetAllSittersByServiceIdTest(int id, Serviсe service, List<Sitter> sitters)
+        {
+            //given
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(id)).Returns(service);
+            _sitterRepositoryMock.Setup(m => m.GetAllSitterByServiceId(id)).Returns(sitters);
+
+            //when
+            var actual = _service.GetAllSitterByServiceId(id);
+
+            //then
+            _serviceRepositoryMock.Verify(m => m.GetServiceById(id), Times.Once);
+            _sitterRepositoryMock.Verify(m => m.GetAllSitterByServiceId(id), Times.Once);
+            Assert.That(actual[0].Services.Count == 0);
+        }
+
+        [Test]
+        public void GetAllSittersByServiceIdNegativeTest()
+        {
+            _serviceRepositoryMock.Setup(m => m.GetServiceById(It.IsAny<int>())).Returns((Serviсe)null);
+
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAllSitterByServiceId(It.IsAny<int>()));
+        }
+
         [TestCaseSource(typeof(GetAllSittersWithWorkTimeBySubwayStationTestCaseSource))]
         public void GetAllSittersWithWorkTimeBySubwayStationTest(SubwayStation subwayStation, 
             SubwayStationModel subwayStationModel, List<Sitter> sitters)
@@ -124,3 +151,4 @@ namespace DogSitter.BLL.Tests
 
     };
 }
+
