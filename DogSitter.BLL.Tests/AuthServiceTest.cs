@@ -27,17 +27,13 @@ namespace DogSitter.BLL.Tests
         [SetUp]
         public void Setup()
         {
-            _adminRepositoryMock = new Mock<IAdminRepository>();
             _contactRepositoryMock = new Mock<IContactRepository>();
-            _sitterRepositoryMock = new Mock<ISitterRepository>();
-            _customerRepositoryMock = new Mock<ICustomerRepository>();
             _map = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new AuthService(_contactRepositoryMock.Object, _adminRepositoryMock.Object, _customerRepositoryMock.Object, _sitterRepositoryMock.Object, _map);
-
+            _service = new AuthService(_contactRepositoryMock.Object, _map);
         }
 
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
-        public void GetUserForLoginTestMustReturnAdmin(Admin admin, UserModel expected, Contact contact, string password)
+        public void GetUserForLoginTestMustReturnAdmin(UserModel expected, Contact contact, string password)
         {
             //given
             _contactRepositoryMock.Setup(a => a.GetContactByValue(contact.Value)).Returns(contact);
@@ -46,8 +42,7 @@ namespace DogSitter.BLL.Tests
             var result = _service.GetUserForLogin(contact.Value, password);
 
             //then
-
-            Assert.AreEqual(expected, result);
+            _contactRepositoryMock.Verify(m => m.GetContactByValue(contact.Value), Times.Once);
         }
 
         [TestCaseSource(typeof(GetTokenTestCaseSourse))]

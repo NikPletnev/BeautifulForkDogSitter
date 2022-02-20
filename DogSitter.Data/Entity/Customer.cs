@@ -14,8 +14,6 @@
 
         public bool Equals(Customer other)
         {
-
-
             return other != null &&
                    Id == other.Id &&
                    Password == other.Password &&

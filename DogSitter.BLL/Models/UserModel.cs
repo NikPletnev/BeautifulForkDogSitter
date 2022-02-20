@@ -33,6 +33,5 @@ namespace DogSitter.BLL.Models
                    FirstName == model.FirstName &&
                    LastName == model.LastName;
         }
-
     }
 }

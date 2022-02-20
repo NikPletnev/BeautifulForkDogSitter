@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -12,18 +13,11 @@ namespace DogSitter.BLL.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IAdminRepository _adminRepository;
-        private readonly ICustomerRepository _customerRepository;
-        private readonly ISitterRepository _sitterRepository;
         private readonly IContactRepository _contactRepository;
         private readonly IMapper _map;
 
-        public AuthService(IContactRepository contactRepository, IAdminRepository adminRepository,
-            ICustomerRepository customerRepository, ISitterRepository sitterRepository, IMapper mapper)
+        public AuthService(IContactRepository contactRepository, IMapper mapper)
         {
-            _adminRepository = adminRepository;
-            _customerRepository = customerRepository;
-            _sitterRepository = sitterRepository;
             _contactRepository = contactRepository;
             _map = mapper;
         }
@@ -48,7 +42,8 @@ namespace DogSitter.BLL.Services
         public UserModel GetUserForLogin(string contact, string pass)
         {
             Contact foundContact = _contactRepository.GetContactByValue(contact);
-            if (foundContact == null || foundContact.User == null || foundContact.User.Password != pass)
+            if (foundContact == null || foundContact.User == null || 
+                !PasswordHash.ValidatePassword(pass, foundContact.User.Password))
             {
                 throw new EntityNotFoundException("данные");
             }

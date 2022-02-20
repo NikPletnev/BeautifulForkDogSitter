@@ -55,7 +55,6 @@ namespace DogSitter.BLL.Tests
 
             //then
             Assert.IsNotNull(actual);
-            Assert.That(actual[0].Sitters.Count == 0);
             _subwayStationRepositoryMock.Verify(m => m.GetAllSubwayStationsWhereSitterExist(), Times.Once);
         }
 
@@ -73,7 +72,6 @@ namespace DogSitter.BLL.Tests
             Assert.IsNotNull(actual);
             Assert.AreEqual(actual.Id, expected.Id);
             Assert.AreEqual(actual.Name, expected.Name);
-            Assert.That(actual.Sitters.Count == 0);
             _subwayStationRepositoryMock.Verify(m => m.GetSubwayStationById(expected.Id), Times.Once);
         }
 

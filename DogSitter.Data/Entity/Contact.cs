@@ -25,8 +25,5 @@ namespace DogSitter.DAL.Entity
         {
             return $"{Id} {Value} {ContactType}";
         }
-
-
-
     }
 }

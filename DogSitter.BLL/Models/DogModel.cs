@@ -19,8 +19,7 @@
                    Weight == model.Weight &&
                    Description == model.Description &&
                    Breed == model.Breed &&
-                   IsDeleted == model.IsDeleted &&
-                   EqualityComparer<CustomerModel>.Default.Equals(Customer, model.Customer);
+                   IsDeleted == model.IsDeleted;
         }
     }
 }

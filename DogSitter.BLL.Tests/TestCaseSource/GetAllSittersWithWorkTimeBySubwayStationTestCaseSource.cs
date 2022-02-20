@@ -30,19 +30,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
             SubwayStationModel subwayStationModel = new SubwayStationModel()
             {
                 Id = 1,
-                Name = "Name1",
-                Sitters = new List<SitterModel>()
-                {
-                    new SitterModel()
-                    {
-                        Id = 1,
-                        FirstName = "FirstName1",
-                        LastName = "LastName1",
-                        Password = "Password1",
-                        Contacts = new List<ContactModel>(),
-                        IsDeleted = false
-                    }
-                }
+                Name = "Name1"
             };
 
             List<Sitter> sitters = new List<Sitter>()
