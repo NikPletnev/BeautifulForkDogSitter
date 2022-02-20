@@ -21,6 +21,7 @@ namespace DogSitter.DAL.Entity
 
         public override bool Equals(object obj)
         {
+
             return obj is Dog dog &&
                    Id == dog.Id &&
                    Name == dog.Name &&
