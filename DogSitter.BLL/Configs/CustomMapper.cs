@@ -9,6 +9,7 @@ namespace DogSitter.BLL.Configs
     {
         public CustomMapper()
         {
+            CreateMap<Address, AddressModel>().ReverseMap();
             CreateMap<Customer, CustomerModel>().ReverseMap();
             CreateMap<Sitter, SitterModel>().ReverseMap();
             CreateMap<Comment, CommentModel>().ReverseMap();
