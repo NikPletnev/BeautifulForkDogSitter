@@ -35,6 +35,17 @@ namespace DogSitter.API.Configs
 
             CreateMap<SitterInsertInputModel, SitterModel>();
             CreateMap<SitterModel, SitterOutputModel>();
+
+            CreateMap<CustomerModel, CustomerOutputModel>();
+            CreateMap<CustomerInputModel, CustomerModel>();
+
+            CreateMap<SubwayStationModel, SubwayStationOutputModel>();
+            CreateMap<SubwayStationInputModel, SubwayStationModel>();
+
+            CreateMap<DogModel, DogOutputModel>();
+            CreateMap<DogUpdateInputModel, DogModel>();
+
+
         }
     }
 }

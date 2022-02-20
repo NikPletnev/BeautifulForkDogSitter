@@ -27,7 +27,7 @@ namespace DogSitter.API.Controllers
             return Ok(_mapper.Map<CommentOutputModel>(comments));
         }
 
-        [HttpGet("{id")]
+        [HttpGet("{id}")]
         public ActionResult<CommentOutputModel> GetCommentById(int id)
         {
             var comments = _service.GetById(id);
