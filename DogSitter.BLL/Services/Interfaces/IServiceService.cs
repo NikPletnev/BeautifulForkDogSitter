@@ -6,6 +6,7 @@ namespace DogSitter.BLL.Services
     {
         void AddService(ServiceModel serviceModel);
         List<ServiceModel> GetAllServices();
+        List<ServiceModel> GetAllServicesBySitterId(int id);
         ServiceModel GetServiceById(int id);
         void DeleteService(ServiceModel serviceModel);
         void UpdateService(ServiceModel serviceModel);

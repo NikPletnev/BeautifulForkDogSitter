@@ -1,4 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
+using DogSitter.DAL.Repositories.Interfaces;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -15,7 +17,7 @@ namespace DogSitter.DAL.Repositories
             _context.Sitters.FirstOrDefault(x => x.Id == id);
 
         public List<Sitter> GetAll() =>
-            _context.Sitters.Where(d => d.IsDeleted).ToList();
+            _context.Sitters.Where(d => !d.IsDeleted).ToList();
 
         public void Add(Sitter sitter)
         {
@@ -63,5 +65,12 @@ namespace DogSitter.DAL.Repositories
             }
             return null;
         }
+
+        public List<Sitter> GetAllSitterByServiceId(int id) =>
+            _context.Services.First(s => s.Id == id).Sitters.Where(s => !s.IsDeleted).ToList();
+
+        public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation) =>
+            _context.Sitters.Where(s => s.SubwayStation.Id == subwaystation.Id && !s.IsDeleted)
+            .Include(s => s.WorkTime).ToList();
     }
 }

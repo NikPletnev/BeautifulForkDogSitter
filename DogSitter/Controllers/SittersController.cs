@@ -1,46 +1,73 @@
 ﻿using AutoMapper;
+using DogSitter.API.Configs;
+using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
+using DogSitter.DAL.Entity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SittersController : ControllerBase
+    [Route("api/[controller]")]
+    public class SittersController : Controller
     {
-        private ISitterService _service;
-        private IMapper _mapper;
+        private readonly ISitterService _service;
+        private readonly IMapper _mapper;
 
-        public SittersController(ISitterService service, IMapper mapper)
+        public SittersController(ISitterService sitterService, IMapper mapper)
         {
-            _service = service;
+            _service = sitterService;
             _mapper = mapper;
         }
 
-        //api/sitters
+        [HttpGet("{id}")]
+        public ActionResult<SitterOutputModel> GetbyId(int id)
+        {
+            var sitter = _service.GetById(id);
+            var sitterModel = _mapper.Map<SitterOutputModel>(sitter);
+            return Ok(sitterModel);
+        }
+
+        [HttpGet]
+        public ActionResult<List<SitterOutputModel>> GetAll(int id)
+        {
+            var sitters = _service.GetAll();
+            var sittersModel = _mapper.Map<SitterOutputModel>(sitters);
+            return Ok(sittersModel);
+        }
+
         [HttpPost]
-        public ActionResult RegisterSitter([FromBody] SitterInsertInputModel sitter)
+        public ActionResult Add ([FromBody] SitterInsertInputModel sittetModel)
         {
-            _service.Add(_mapper.Map<SitterModel>(sitter));
-            return StatusCode(StatusCodes.Status201Created);
+            var sitter = _mapper.Map<SitterModel>( sittetModel);
+            _service.Add(sitter);
+            return StatusCode(StatusCodes.Status201Created, sitter);
         }
 
-        //api/sitters/42
-        [HttpPatch("{id}")]
-        public ActionResult BlockSitterProfile(int id)
+        [HttpPut("{id}")]
+        public ActionResult Update([FromRoute] int id, [FromBody] SitterUpdateInputModel sitterModel)
         {
-            _service.BlockProfileSitterById(id);
+            var sitter = _mapper.Map<SitterModel>(sitterModel);
+            _service.Update(sitter);
             return NoContent();
         }
 
-        //api/sitters/42
-        [HttpPatch("{id}")]
-        public ActionResult ConfirmSitterProfile(int id)
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
         {
-            _service.ConfirmProfileSitterById(id);
+            _service.DeleteById(id);
             return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public ActionResult Restore(int id)
+        {
+            _service.Restore(id);
+            return Ok();
         }
     }
 }
