@@ -118,7 +118,7 @@ namespace DogSitter.BLL.Tests
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(new Comment());
 
             //when
-            _comment.DeleteById(new CommentModel());
+            _comment.DeleteById(1);
 
             //then
             _commentRepositoryMock.Verify(m => m.Update(It.IsAny<Comment>()), Times.Never());
@@ -132,7 +132,7 @@ namespace DogSitter.BLL.Tests
             _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>(), It.IsAny<bool>()));
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Comment)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(new CommentModel()));
+            Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(0));
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace DogSitter.BLL.Tests
             _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>(), It.IsAny<bool>()));
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Comment)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(new CommentModel()));
+            Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(0));
         }
 
         [TestCaseSource(typeof(GetAllComentsBySitterIdTestCaseSource))]
