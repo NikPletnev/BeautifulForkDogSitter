@@ -21,11 +21,18 @@ namespace DogSitter.BLL.Services
 
         public void UpdateDog(int id, DogModel dogModel)
         {
+            if (dogModel.Name == String.Empty ||
+                dogModel.Age <= 0 ||
+                dogModel.Weight <= 0 ||
+                dogModel.Breed == String.Empty)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to update dog");
+            }
             var entity = _mapper.Map<Dog>(dogModel);
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
-                throw new Exception($"Dog {id} was not found");
+                throw new EntityNotFoundException($"Dog {id} was not found");
             }
 
             _rep.UpdateDog(entity);
@@ -36,7 +43,7 @@ namespace DogSitter.BLL.Services
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
-                throw new Exception($"Dog {id} was not found");
+                throw new EntityNotFoundException($"Dog {id} was not found");
             }
 
             _rep.UpdateDog(id, true);
@@ -47,7 +54,7 @@ namespace DogSitter.BLL.Services
             var dog = _rep.GetDogById(id);
             if (dog == null)
             {
-                throw new Exception($"Dog {id} was not found");
+                throw new EntityNotFoundException($"Dog {id} was not found");
             }
 
             _rep.UpdateDog(id, false);
@@ -55,6 +62,13 @@ namespace DogSitter.BLL.Services
 
         public void AddDog(DogModel dogModel)
         {
+            if (dogModel.Name == String.Empty ||
+                dogModel.Age <= 0 ||
+                dogModel.Weight <= 0 ||
+                dogModel.Breed == String.Empty)
+            {
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to create new dog");
+            }
             _rep.AddDog(_mapper.Map<Dog>(dogModel));
         }
 
