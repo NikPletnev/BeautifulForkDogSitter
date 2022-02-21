@@ -23,9 +23,8 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateCustomer(Customer customer)
-        {
-            var entity = GetCustomerById(customer.Id);
+        public void UpdateCustomer(Customer customer, Customer entity)
+        {   
             entity.FirstName = customer.FirstName;
             entity.LastName = customer.LastName;
             entity.Contacts = customer.Contacts;
