@@ -59,7 +59,6 @@ namespace DogSitter.DAL.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            Assert.That(actual.IsDeleted == false | true);
         }
 
         [Test]
@@ -86,7 +85,7 @@ namespace DogSitter.DAL.Tests
 
             _context.SaveChanges();
 
-            var expected = new Serviñe()
+            var updatedService = new Serviñe()
             {
                 Id = service.Id,
                 Name = "ChangeName",
@@ -104,45 +103,32 @@ namespace DogSitter.DAL.Tests
             };
 
             //when
-            _serviceRepository.UpdateService(expected);
+            _serviceRepository.UpdateService(service, updatedService);
 
             var actual = _context.Services.First(a => a.Id == service.Id);
 
             //then
-            Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.Name, actual.Name);
-            Assert.AreEqual(expected.Description, actual.Description);
-            Assert.AreEqual(expected.Price, actual.Price);
-            Assert.AreEqual(expected.DurationHours, actual.DurationHours);
-            Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
-            Assert.AreEqual(expected.Orders, actual.Orders);
-            //Assert.AreEqual(expected.Sitter, actual.Sitter);
+            Assert.AreEqual(updatedService.Id, actual.Id);
+            Assert.AreEqual(updatedService.Name, actual.Name);
+            Assert.AreEqual(updatedService.Description, actual.Description);
+            Assert.AreEqual(updatedService.Price, actual.Price);
+            Assert.AreEqual(updatedService.DurationHours, actual.DurationHours);
+            Assert.AreEqual(updatedService.IsDeleted, actual.IsDeleted);
+            Assert.AreEqual(updatedService.Orders, actual.Orders);
         }
 
-        [Test]
-        public void UpdateIsDeleteServiceTest()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void UpdateOrDeleteServiceTest(bool isDeleted)
         {
             //given
             var service = ServiceTestMock.GetService();
-
+             
             //when
-            _serviceRepository.UpdateService(service, true);
+            _serviceRepository.UpdateOrDeleteService(service, isDeleted);
 
             //then
-            Assert.AreEqual(service.IsDeleted, true);
-        }
-
-        [Test]
-        public void RestoreServiceTest()
-        {
-            //given
-            var service = ServiceTestMock.GetService();
-
-            //when
-            _serviceRepository.RestoreService(service, false);
-
-            //then
-            Assert.AreEqual(service.IsDeleted, false);
+            Assert.AreEqual(service.IsDeleted, isDeleted);
         }
 
         //[TestCaseSource(typeof(GetAllServicesBySitterIdTestCaseSource))]
