@@ -1,9 +1,11 @@
 ﻿using DogSitter.DAL.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.API.Models.InputModels
 {
     public class OrderInsertInputModel
     {
+        [Required]
         public DateTime Date { get; set; }
         public decimal Price { get; set; }
         public Status Status { get; set; }
