@@ -38,7 +38,7 @@ namespace DogSitter.DAL.Repositories
         }
 
         public List<Comment> GetAllComentsBySitterId(int id) =>
-            _context.Comments.Where(x => x.Order.Sitter.Id == id).Include(x => x.Order.Customer).ToList();
+            _context.Comments.Where(x => x.Order.Sitter.Id == id).Include(x => x.Customer).ToList();
 
     }
 }
