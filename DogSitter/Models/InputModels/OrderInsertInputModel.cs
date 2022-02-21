@@ -7,7 +7,9 @@ namespace DogSitter.API.Models.InputModels
     {
         [Required]
         public DateTime Date { get; set; }
+        [Required]
         public decimal Price { get; set; }
+        [Required]
         public Status Status { get; set; }
         public int Mark { get; set; }
     }

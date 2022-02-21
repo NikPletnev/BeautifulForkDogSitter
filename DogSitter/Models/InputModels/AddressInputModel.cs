@@ -14,6 +14,7 @@ namespace DogSitter.API.Models
         [Required]
         public int House { get; set; }
         public int Apartament { get; set; }
+        [Required]
         public List<SubwayStationInputModel> SubwayStations { get; set; }
     }
 }

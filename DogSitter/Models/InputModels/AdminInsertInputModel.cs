@@ -8,7 +8,7 @@ namespace DogSitter.API.Models
     {
         //добавление
         [Required]
-        [Range (4, 20)]
+        [MinLength(4)]
         public string Password { get; set; }
         [Required]
         public string FirstName { get; set; }

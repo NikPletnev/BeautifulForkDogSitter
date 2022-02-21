@@ -20,7 +20,6 @@ namespace DogSitter.API.Models
         public string Division { get; set; }
         [Required]
         public string DivisionCode { get; set; }
-        [Required]
         public string Registration { get; set; }
     }
 }

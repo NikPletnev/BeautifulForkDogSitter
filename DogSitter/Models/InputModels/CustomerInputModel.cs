@@ -11,7 +11,7 @@ namespace DogSitter.API.Models
         [Required]
         public string LastName { get; set; }
         [Required]
-        [Range(4, 20)]
+        [MinLength(4)]
         public string Password { get; set; }
         [Required]
         public List<ContactInsertInputModel> Contacts { get; set; }
