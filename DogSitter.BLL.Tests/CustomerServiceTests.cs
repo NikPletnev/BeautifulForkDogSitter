@@ -87,7 +87,7 @@ namespace DogSitter.BLL.Tests
             
             _customerRepositoryMock.Setup(x => x.GetCustomerById(customer.Id)).Returns(customer);
             //when
-            _service.UpdateCustomer(customerToUpdate);
+            _service.UpdateCustomer(customer.Id, customerToUpdate);
             //then
             _customerRepositoryMock.Verify(y => y.UpdateCustomer(It.IsAny<Customer>(), It.IsAny<Customer>()), Times.Once);
             _customerRepositoryMock.Verify(x => x.GetCustomerById(customer.Id));
@@ -105,12 +105,12 @@ namespace DogSitter.BLL.Tests
 
             //then
             ServiceNotEnoughDataExeption ex = Assert.Throws<ServiceNotEnoughDataExeption>(() =>
-            _service.UpdateCustomer(customer));
+            _service.UpdateCustomer(customer.Id, customer));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
         [TestCaseSource(typeof(UpdateCustomerTestCaseSource))]
-        public void UpdateCustomerMustThrowEntityNotFoundException( CustomerModel customer, Customer customerEntity)
+        public void UpdateCustomerMustThrowEntityNotFoundException(CustomerModel customer, Customer customerEntity)
         {
             //given
             Customer nullCustomer = null;
@@ -121,7 +121,7 @@ namespace DogSitter.BLL.Tests
 
             //then
             EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.UpdateCustomer(customer));
+            _service.UpdateCustomer(customer.Id, customer));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 

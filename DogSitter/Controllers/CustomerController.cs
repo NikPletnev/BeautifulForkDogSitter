@@ -69,7 +69,7 @@ namespace DogSitter.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.UpdateCustomer(_mapper.Map<CustomerModel>(customer));
+            _service.UpdateCustomer(id, _mapper.Map<CustomerModel>(customer));
             return Ok();
         }
 

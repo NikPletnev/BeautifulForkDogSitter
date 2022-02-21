@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
@@ -21,19 +22,17 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
-        //api/workTime/77
-        [HttpGet("{id}")]
-        public ActionResult<WorkTimeOutputModel> GetWorkTimeById(int id)
-        {
-            var workTime = _mapper.Map<WorkTimeOutputModel>(_workTimeService.GetWorkTimeById(id));
-
-            return Ok(workTime);
-        }
 
         [AuthorizeRole(Role.Sitter)]
         [HttpPost]
         public ActionResult<WorkTimeOutputModel> AddWorkTime([FromBody] WorkTimeInsertInputModel workTime)
         {
+            var userId = this.GetUserId();
+            if (userId is null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
             _workTimeService.AddWorkTime(_mapper.Map<WorkTimeModel>(workTime));
 
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<WorkTimeOutputModel>(workTime));
@@ -44,6 +43,12 @@ namespace DogSitter.API.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateWorkTime(int id, [FromBody] WorkTimeUpdateInputModel workTime)
         {
+            var userId = this.GetUserId();
+            if (userId is null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
             _workTimeService.UpdateWorkTime(id, _mapper.Map<WorkTimeModel>(workTime));
 
             return NoContent();
@@ -54,6 +59,12 @@ namespace DogSitter.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteWorkTime(int id)
         {
+            var userId = this.GetUserId();
+            if (userId is null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
             _workTimeService.DeleteWorkTime(id);
 
             return NoContent();
@@ -64,6 +75,12 @@ namespace DogSitter.API.Controllers
         [HttpPatch("{id}")]
         public IActionResult RestoreWorkTime(int id)
         {
+            var userId = this.GetUserId();
+            if (userId is null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
             _workTimeService.RestoreWorkTime(id);
 
             return Ok();

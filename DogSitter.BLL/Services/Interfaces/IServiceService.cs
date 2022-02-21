@@ -8,8 +8,8 @@ namespace DogSitter.BLL.Services
         List<ServiceModel> GetAllServices();
         List<ServiceModel> GetAllServicesBySitterId(int id);
         ServiceModel GetServiceById(int id);
-        void DeleteService(ServiceModel serviceModel);
-        void UpdateService(ServiceModel serviceModel);
-        void RestoreService(ServiceModel serviceModel);
+        void DeleteService(int id);
+        void UpdateService(int id, ServiceModel serviceModel);
+        void RestoreService(int id);
     }
 }

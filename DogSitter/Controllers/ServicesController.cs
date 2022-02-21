@@ -36,6 +36,7 @@ namespace DogSitter.API.Controllers
         public ActionResult<List<ServiceOutputModel>> GetAllServices()
         {
             var services = _mapper.Map<List<ServiceOutputModel>>(_serviceService.GetAllServices());
+
             return Ok(services);
         }
 
@@ -44,40 +45,77 @@ namespace DogSitter.API.Controllers
         public ActionResult<ServiceOutputModel> AddService([FromBody] ServiceInsertInputModel service)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
 
             _serviceService.AddService(_mapper.Map<ServiceModel>(service));
+
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<ServiceOutputModel>(service));
         }
 
         [AuthorizeRole(Role.Admin, Role.Sitter)]
-        [HttpPut]
-        public IActionResult UpdateService([FromBody] ServiceUpdateInputModel service)
+        [HttpPut("{id}")]
+        public IActionResult UpdateService(int id, [FromBody] ServiceUpdateInputModel service)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.UpdateService(_mapper.Map<ServiceModel>(service));
+            _serviceService.UpdateService(id, _mapper.Map<ServiceModel>(service));
+
             return NoContent();
         }
 
         [AuthorizeRole(Role.Admin, Role.Sitter)]
-        [HttpDelete]
-        public IActionResult DeleteService([FromBody] ServiceUpdateInputModel service)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteService(int id)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
-            _serviceService.DeleteService(_mapper.Map<ServiceModel>(service));
+
+            _serviceService.DeleteService(id);
+
             return NoContent();
         }
+
+        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [HttpDelete("{id}")]
+        public IActionResult RestoreService(int id)
+        {
+            var userId = this.GetUserId();
+            if (userId is null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            _serviceService.RestoreService(id);
+
+            return NoContent();
+        }
+
+        //api/Services
+        [AuthorizeRole(Role.Admin, Role.Customer)]
+        [HttpGet("sitters/{id}")]
+        public ActionResult<List<ServiceOutputModel>> GetAllServicesBySitterId(int id)
+        {
+            var userId = this.GetUserId();
+            if (userId is null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            var services = _mapper.Map<List<ServiceOutputModel>>(_serviceService.GetAllServicesBySitterId(id));
+
+            return Ok(services);
+        }
+
+
     }
 }

@@ -44,36 +44,36 @@ namespace DogSitter.BLL.Services
             _serviceRepository.AddService(service);
         }
 
-        public void UpdateService(ServiceModel serviceModel)
+        public void UpdateService(int id, ServiceModel serviceModel)
         {
-            var exitingService = _mapper.Map<Serviсe>(serviceModel);
+            var serviceToUpdate = _mapper.Map<Serviсe>(serviceModel);
 
-            if (_serviceRepository.GetServiceById(exitingService.Id) is null)
-                throw new EntityNotFoundException($"Service {exitingService.Name} wasn't found");
+            var exitingService = _serviceRepository.GetServiceById(id);
 
-            var serviceToUpdate = _mapper.Map<Serviсe>(exitingService);
+            if (exitingService is null)
+                throw new EntityNotFoundException("Service wasn't found");
 
             _serviceRepository.UpdateService(exitingService, serviceToUpdate);
         }
 
-        public void DeleteService(ServiceModel serviceModel)
+        public void DeleteService(int id)
         {
-            var service = _mapper.Map<Serviсe>(serviceModel);
+            var serviceToDelete = _serviceRepository.GetServiceById(id);
 
-            if (_serviceRepository.GetServiceById(service.Id) is null)
-                throw new EntityNotFoundException($" Service {service.Name} wasn't found");
+            if (serviceToDelete is null)
+                throw new EntityNotFoundException("Subway station wasn't found");
 
-            _serviceRepository.UpdateOrDeleteService(service, true);
+            _serviceRepository.UpdateOrDeleteService(serviceToDelete, true);
         }
 
-        public void RestoreService(ServiceModel serviceModel)
+        public void RestoreService(int id)
         {
-            var service = _mapper.Map<Serviсe>(serviceModel);
+            var serviceToRestore = _serviceRepository.GetServiceById(id);
 
-            if (_serviceRepository.GetServiceById(service.Id) is null)
-                throw new EntityNotFoundException($"Service {service.Name} wasn't found");
+            if (serviceToRestore is null)
+                throw new EntityNotFoundException("Subway station wasn't found");
 
-            _serviceRepository.UpdateOrDeleteService(service, false);
+            _serviceRepository.UpdateOrDeleteService(serviceToRestore, true);
         }
 
         public List<ServiceModel> GetAllServicesBySitterId(int id)
