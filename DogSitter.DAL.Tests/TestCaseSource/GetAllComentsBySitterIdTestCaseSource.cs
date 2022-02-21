@@ -91,6 +91,16 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Text = "Privet1",
                     Date = new DateTime(1999, 11, 11),
                     IsDeleted = false,
+                    Order = new Order()
+                    {
+                        Id = 1,
+                        OrderDate = new DateTime(2011, 11, 11),
+                        Status = Status.Created,
+                        CommentId = 1,
+                        Price = 100,
+                        IsDeleted = false,
+                        Sitter = sitter
+                    }
                 },
                 new Comment()
                 {
@@ -98,6 +108,16 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Text = "Privet2",
                     Date = new DateTime(1999, 1, 1),
                     IsDeleted = false,
+                    Order = new Order()
+                    {
+                        Id = 2,
+                        OrderDate = new DateTime(2011, 11, 11),
+                        Status = Status.Created,
+                        CommentId = 2,
+                        Price = 100,
+                        IsDeleted = false,
+                        Sitter= sitter
+                    }
                 }
             };
 
