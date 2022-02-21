@@ -2,6 +2,7 @@
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
@@ -10,13 +11,15 @@ namespace DogSitter.BLL.Services
     {
         private readonly IServiceRepository _serviceRepository;
         private readonly ISitterRepository _sitterRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
         public ServiceService(IServiceRepository serviceRepository, 
-            ISitterRepository sitterRepository, IMapper mapper)
+            ISitterRepository sitterRepository, IUserRepository userRepository, IMapper mapper)
         {
             _serviceRepository = serviceRepository;
             _sitterRepository = sitterRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -37,18 +40,30 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<ServiceModel>>(services);
         }
 
-        public void AddService(ServiceModel serviceModel)
+        public void AddService(int userId, ServiceModel serviceModel)
         {
             var service = _mapper.Map<Serviсe>(serviceModel);
+
+            var user = _userRepository.GetUserById(userId);
+
+            if (user.Role != Role.Admin)
+            {
+                service.Sitter = (Sitter)user;
+            }
 
             _serviceRepository.AddService(service);
         }
 
-        public void UpdateService(int id, ServiceModel serviceModel)
+        public void UpdateService(int userId, int id, ServiceModel serviceModel)
         {
             var serviceToUpdate = _mapper.Map<Serviсe>(serviceModel);
 
             var exitingService = _serviceRepository.GetServiceById(id);
+
+            if (serviceToUpdate.Sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
+            }
 
             if (exitingService is null)
                 throw new EntityNotFoundException("Service wasn't found");
@@ -56,32 +71,53 @@ namespace DogSitter.BLL.Services
             _serviceRepository.UpdateService(exitingService, serviceToUpdate);
         }
 
-        public void DeleteService(int id)
+        public void DeleteService(int userId, int id)
         {
             var serviceToDelete = _serviceRepository.GetServiceById(id);
 
+            if (serviceToDelete.Sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
+            }
+
             if (serviceToDelete is null)
+            {
                 throw new EntityNotFoundException("Subway station wasn't found");
+            }
 
             _serviceRepository.UpdateOrDeleteService(serviceToDelete, true);
         }
 
-        public void RestoreService(int id)
+        public void RestoreService(int userId, int id)
         {
             var serviceToRestore = _serviceRepository.GetServiceById(id);
 
+            if (serviceToRestore.Sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
+            }
+
             if (serviceToRestore is null)
+            {
                 throw new EntityNotFoundException("Subway station wasn't found");
+            }
 
             _serviceRepository.UpdateOrDeleteService(serviceToRestore, true);
         }
 
-        public List<ServiceModel> GetAllServicesBySitterId(int id)
+        public List<ServiceModel> GetAllServicesBySitterId(int userId, int id)
         {
             var sitter = _sitterRepository.GetById(id);
 
+            if (sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
+            }
+
             if (sitter is null)
+            {
                 throw new EntityNotFoundException($"Sitter wasn't found");
+            }
 
             return _mapper.Map<List<ServiceModel>>(_serviceRepository.GetAllServicesBySitterId(id));
         }

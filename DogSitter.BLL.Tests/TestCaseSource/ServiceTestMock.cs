@@ -30,6 +30,8 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 }
             };
 
+        public int GetUserId() => 3;
+
         public Serviсe GetMockService() =>
                 new Serviсe()
                 {

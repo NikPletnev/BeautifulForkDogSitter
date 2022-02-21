@@ -50,7 +50,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.AddService(_mapper.Map<ServiceModel>(service));
+            _serviceService.AddService(userId.Value, _mapper.Map<ServiceModel>(service));
 
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<ServiceOutputModel>(service));
         }
@@ -65,7 +65,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.UpdateService(id, _mapper.Map<ServiceModel>(service));
+            _serviceService.UpdateService(userId.Value, id, _mapper.Map<ServiceModel>(service));
 
             return NoContent();
         }
@@ -80,7 +80,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.DeleteService(id);
+            _serviceService.DeleteService(userId.Value, id);
 
             return NoContent();
         }
@@ -95,7 +95,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.RestoreService(id);
+            _serviceService.RestoreService(userId.Value, id);
 
             return NoContent();
         }
@@ -111,11 +111,11 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            var services = _mapper.Map<List<ServiceOutputModel>>(_serviceService.GetAllServicesBySitterId(id));
+            var services = _mapper.Map<List<ServiceOutputModel>>(
+                _serviceService.GetAllServicesBySitterId(userId.Value, id));
 
             return Ok(services);
         }
-
 
     }
 }
