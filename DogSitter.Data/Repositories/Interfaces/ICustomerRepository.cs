@@ -8,7 +8,7 @@ namespace DogSitter.DAL.Repositories
         void DeleteCustomerById(int id);
         List<Customer> GetAllCustomers();
         Customer GetCustomerById(int id);
-        void UpdateCustomer(Customer customer);
+        void UpdateCustomer(Customer customer, Customer entity);
         void UpdateCustomer(int id, bool isDeleted);
     }
 }
