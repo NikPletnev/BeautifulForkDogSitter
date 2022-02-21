@@ -59,7 +59,6 @@ namespace DogSitter.DAL.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            Assert.That(actual.IsDeleted == false | true);
         }
 
         [Test]
@@ -104,7 +103,7 @@ namespace DogSitter.DAL.Tests
             };
 
             //when
-            _serviceRepository.UpdateService(expected);
+            _serviceRepository.UpdateService(service, expected);
 
             var actual = _context.Services.First(a => a.Id == service.Id);
 
@@ -116,33 +115,20 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.DurationHours, actual.DurationHours);
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
             Assert.AreEqual(expected.Orders, actual.Orders);
-            //Assert.AreEqual(expected.Sitter, actual.Sitter);
         }
 
-        [Test]
-        public void UpdateIsDeleteServiceTest()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void UpdateOrDeleteServiceTest(bool isDeleted)
         {
             //given
             var service = ServiceTestMock.GetService();
-
+             
             //when
-            _serviceRepository.UpdateService(service, true);
+            _serviceRepository.UpdateOrDeleteService(service, isDeleted);
 
             //then
-            Assert.AreEqual(service.IsDeleted, true);
-        }
-
-        [Test]
-        public void RestoreServiceTest()
-        {
-            //given
-            var service = ServiceTestMock.GetService();
-
-            //when
-            _serviceRepository.RestoreService(service, false);
-
-            //then
-            Assert.AreEqual(service.IsDeleted, false);
+            Assert.AreEqual(service.IsDeleted, isDeleted);
         }
 
         //[TestCaseSource(typeof(GetAllServicesBySitterIdTestCaseSource))]
