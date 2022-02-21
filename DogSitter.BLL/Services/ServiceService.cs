@@ -71,7 +71,7 @@ namespace DogSitter.BLL.Services
             var service = _mapper.Map<Serviсe>(serviceModel);
 
             if (_serviceRepository.GetServiceById(service.Id) is null)
-                throw new EntityNotFoundException($"Сервис {service.Name} wasn't found");
+                throw new EntityNotFoundException($"Service {service.Name} wasn't found");
 
             _serviceRepository.UpdateOrDeleteService(service, false);
         }
