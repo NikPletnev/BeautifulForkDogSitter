@@ -22,7 +22,6 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
-
         [AuthorizeRole(Role.Sitter)]
         [HttpPost]
         public ActionResult<WorkTimeOutputModel> AddWorkTime([FromBody] WorkTimeInsertInputModel workTime)
