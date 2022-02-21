@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
@@ -35,7 +36,6 @@ namespace DogSitter.API.Controllers
         public ActionResult<List<ServiceOutputModel>> GetAllServices()
         {
             var services = _mapper.Map<List<ServiceOutputModel>>(_serviceService.GetAllServices());
-
             return Ok(services);
         }
 
@@ -43,8 +43,13 @@ namespace DogSitter.API.Controllers
         [HttpPost]
         public ActionResult<ServiceOutputModel> AddService([FromBody] ServiceInsertInputModel service)
         {
-            _serviceService.AddService(_mapper.Map<ServiceModel>(service));
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            _serviceService.AddService(_mapper.Map<ServiceModel>(service));
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<ServiceOutputModel>(service));
         }
 
@@ -52,8 +57,13 @@ namespace DogSitter.API.Controllers
         [HttpPut]
         public IActionResult UpdateService([FromBody] ServiceUpdateInputModel service)
         {
-            _serviceService.UpdateService(_mapper.Map<ServiceModel>(service));
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            _serviceService.UpdateService(_mapper.Map<ServiceModel>(service));
             return NoContent();
         }
 
@@ -61,8 +71,12 @@ namespace DogSitter.API.Controllers
         [HttpDelete]
         public IActionResult DeleteService([FromBody] ServiceUpdateInputModel service)
         {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
             _serviceService.DeleteService(_mapper.Map<ServiceModel>(service));
-
             return NoContent();
         }
     }

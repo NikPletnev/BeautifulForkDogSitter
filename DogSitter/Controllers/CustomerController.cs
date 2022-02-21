@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
@@ -26,6 +27,12 @@ namespace DogSitter.Controllers
         [HttpGet("{id}")]
         public ActionResult<CustomerOutputModel> GetCustomerById(int id)
         {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
             var customer = _service.GetCustomerById(id);
 
             return Ok(_mapper.Map<CustomerOutputModel>(customer));
@@ -35,8 +42,13 @@ namespace DogSitter.Controllers
         [HttpGet]
         public ActionResult<List<CustomerOutputModel>> GetAllCustomers()
         {
-            var customer = _service.GetAllCustomers();
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            var customer = _service.GetAllCustomers();
             return Ok(_mapper.Map<CustomerOutputModel>(customer));
         }
 
@@ -44,16 +56,20 @@ namespace DogSitter.Controllers
         public ActionResult RegisterCustomer([FromBody] CustomerInputModel customer)
         {
             _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
-
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<CustomerOutputModel>(customer));
         }
 
         [AuthorizeRole(Role.Customer)]
-        [HttpPut]
-        public ActionResult UpdateCustomer([FromBody] CustomerInputModel customer)
+        [HttpPut("{id}")]
+        public ActionResult UpdateCustomer(int id, [FromBody] CustomerInputModel customer)
         {
-            _service.UpdateCustomer(_mapper.Map<CustomerModel>(customer));
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            _service.UpdateCustomer(_mapper.Map<CustomerModel>(customer));
             return Ok();
         }
 
@@ -61,8 +77,13 @@ namespace DogSitter.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeleteCustomer(int id)
         {
-            _service.DeleteCustomerById(id);
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            _service.DeleteCustomerById(id);
             return NoContent();
         }
     }
