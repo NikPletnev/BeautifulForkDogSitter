@@ -12,12 +12,12 @@ namespace DogSitter.Controllers
     [ApiController]
     [Route("api/[controller]")]
 
-    public class CustomerController : Controller
+    public class CustomersController : Controller
     {
         private readonly ICustomerService _service;
         private readonly IMapper _mapper;
 
-        public CustomerController(IMapper CustomMapper, ICustomerService customerService)
+        public CustomersController(IMapper CustomMapper, ICustomerService customerService)
         {
             _mapper = CustomMapper;
             _service = customerService;
