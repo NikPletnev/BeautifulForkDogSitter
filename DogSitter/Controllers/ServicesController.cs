@@ -11,12 +11,12 @@ namespace DogSitter.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ServiceController : Controller
+    public class ServicesController : Controller
     {
         private readonly IServiceService _serviceService;
         private readonly IMapper _mapper;
 
-        public ServiceController(IServiceService serviceService, IMapper mapper)
+        public ServicesController(IServiceService serviceService, IMapper mapper)
         {
             _serviceService = serviceService;
             _mapper = mapper;
@@ -27,10 +27,8 @@ namespace DogSitter.API.Controllers
         public ActionResult<ServiceOutputModel> GetServiceById(int id)
         {
             var service = _mapper.Map<ServiceOutputModel>(_serviceService.GetServiceById(id));
-            if (service != null)
-                return Ok(service);
-            else
-                return NotFound($"Сервис с Id = {id} не найден!");
+
+            return Ok(service);
         }
 
         //api/Services

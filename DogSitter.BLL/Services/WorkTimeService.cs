@@ -34,33 +34,33 @@ namespace DogSitter.BLL.Services
             _workTimeRepository.AddWorkTime(workTime);
         }
 
-        public void UpdateWorkTime(WorkTimeModel workTimeModel)
+        public void UpdateWorkTime(int id, WorkTimeModel workTimeModel)
         {
-            var exitingworkTime = _mapper.Map<WorkTime>(workTimeModel);
-
-            if (_workTimeRepository.GetWorkTimeById(exitingworkTime.Id) is null)
-                throw new EntityNotFoundException($"WorkTime wasn't found!");
+            var exitingworkTime = _workTimeRepository.GetWorkTimeById(id);
 
             var workTimeToUpdate = _mapper.Map<WorkTime>(workTimeModel);
+
+            if (exitingworkTime is null)
+                throw new EntityNotFoundException($"WorkTime wasn't found!");
 
             _workTimeRepository.UpdateWorkTime(exitingworkTime, workTimeToUpdate);
         }
 
-        public void DeleteWorkTime(WorkTimeModel workTimeModel)
+        public void DeleteWorkTime(int id)
         {
-            var workTime = _mapper.Map<WorkTime>(workTimeModel);
+            var workTime = _workTimeRepository.GetWorkTimeById(id);
 
-            if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
+            if (workTime is null)
                 throw new EntityNotFoundException($"WorkTime wasn't found!");
 
             _workTimeRepository.UpdateOrDeleteWorkTime(workTime, true);
         }
 
-        public void RestoreWorkTime(WorkTimeModel workTimeModel)
+        public void RestoreWorkTime(int id)
         {
-            var workTime = _mapper.Map<WorkTime>(workTimeModel);
+            var workTime = _workTimeRepository.GetWorkTimeById(id);
 
-            if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
+            if (workTime is null)
                 throw new EntityNotFoundException($"WorkTime wasn't found!");
 
             _workTimeRepository.UpdateOrDeleteWorkTime(workTime, false);

@@ -107,7 +107,7 @@ namespace DogSitter.BLL.Tests
                 .Returns(new SubwayStation());
 
             //when
-            _subwayStationService.UpdateSubwayStation(new SubwayStationModel());
+            _subwayStationService.UpdateSubwayStation(It.IsAny<int>(), new SubwayStationModel());
 
             //then
             _subwayStationRepositoryMock.Verify(m => m.UpdateSubwayStation(
@@ -123,7 +123,7 @@ namespace DogSitter.BLL.Tests
                 .Returns((SubwayStation)null);
 
             Assert.Throws<EntityNotFoundException>(() =>
-            _subwayStationService.UpdateSubwayStation(new SubwayStationModel()));
+            _subwayStationService.UpdateSubwayStation(It.IsAny<int>(), new SubwayStationModel()));
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace DogSitter.BLL.Tests
                 .Returns(new SubwayStation());
 
             //when
-            _subwayStationService.DeleteSubwayStation(new SubwayStationModel());
+            _subwayStationService.DeleteSubwayStation(It.IsAny<int>());
 
             //then
             _subwayStationRepositoryMock.Verify(m => m.UpdateOrDeleteSubwayStation(
@@ -152,7 +152,7 @@ namespace DogSitter.BLL.Tests
                 It.IsAny<int>())).Returns((SubwayStation)null);
 
             Assert.Throws<EntityNotFoundException>(() =>
-            _subwayStationService.DeleteSubwayStation(new SubwayStationModel()));
+            _subwayStationService.DeleteSubwayStation(It.IsAny<int>()));
         }
 
         [Test]
@@ -165,12 +165,11 @@ namespace DogSitter.BLL.Tests
                 .Returns(new SubwayStation());
 
             //when
-            _subwayStationService.RestoreSubwayStation(new SubwayStationModel());
+            _subwayStationService.RestoreSubwayStation(It.IsAny<int>());
 
             //then
             _subwayStationRepositoryMock.Verify(m => m.UpdateOrDeleteSubwayStation(
                It.IsAny<SubwayStation>(), false), Times.Once());
-
         }
 
         [Test]
@@ -182,7 +181,7 @@ namespace DogSitter.BLL.Tests
                 It.IsAny<int>())).Returns((SubwayStation)null);
 
             Assert.Throws<EntityNotFoundException>(() =>
-            _subwayStationService.DeleteSubwayStation(new SubwayStationModel()));
+            _subwayStationService.DeleteSubwayStation(It.IsAny<int>()));
         }
     }
 }
