@@ -17,10 +17,5 @@ namespace DogSitter.DAL.Entity
                    Name == station.Name &&
                    IsDeleted == station.IsDeleted;
         }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, Name, IsDeleted, Sitters);
-        }
     }
 }

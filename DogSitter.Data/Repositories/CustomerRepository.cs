@@ -23,17 +23,14 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-
-        public void UpdateCustomer(Customer customer)
-        {
-            var entity = GetCustomerById(customer.Id);
+        public void UpdateCustomer(Customer customer, Customer entity)
+        {   
             entity.FirstName = customer.FirstName;
             entity.LastName = customer.LastName;
             entity.Contacts = customer.Contacts;
             entity.Dogs = customer.Dogs;
             entity.Sitter = customer.Sitter;
             entity.Address = customer.Address;
-            entity.Orders = customer.Orders;
             _context.SaveChanges();
         }
 
@@ -56,18 +53,6 @@ namespace DogSitter.DAL.Repositories
             customer.Address = address;
             _context.Addresses.Add(address);
             _context.SaveChanges();
-        }
-
-        public Customer Login(Contact contact, string pass)
-        {
-            if (contact != null && contact.Customer != null)
-            {
-                if (contact.Customer.Password == pass)
-                {
-                    return contact.Customer;
-                }
-            }
-            return null;
         }
     }
 }

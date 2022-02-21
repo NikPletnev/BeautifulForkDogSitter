@@ -22,7 +22,7 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _workTimeRepositoryMock = new Mock<IWorkTimeRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _service = new WorkTimeService(_workTimeRepositoryMock.Object, _mapper);
             _workTimeMocks = new WorkTimeTestMocks();
         }
@@ -71,73 +71,73 @@ namespace DogSitter.BLL.Tests
         public void UpdateWorkTimeTest()
         {
             //given
-            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>()));
+            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), It.IsAny<WorkTime>()));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(new WorkTime());
 
             //when
-            _service.UpdateWorkTime(new WorkTimeModel());
+            _service.UpdateWorkTime(It.IsAny<int>(), new WorkTimeModel());
 
             //then
-            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(It.IsAny<WorkTime>()), Times.Once());
-            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(
+            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), It.IsAny<WorkTime>()), Times.Once());
+            _workTimeRepositoryMock.Verify(m => m.UpdateOrDeleteWorkTime(
                 new WorkTime(), true), Times.Never());
         }
 
         [Test]
         public void UpdateWorkTimeNegativeTest()
         {
-            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>()));
+            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), It.IsAny<WorkTime>()));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _service.UpdateWorkTime(new WorkTimeModel()));
+            Assert.Throws<EntityNotFoundException>(() => _service.UpdateWorkTime(It.IsAny<int>(), new WorkTimeModel()));
         }
 
         [Test]
         public void DeleteWorkTimeTest()
         {
             //given
-            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), true));
+            _workTimeRepositoryMock.Setup(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), true));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(new WorkTime());
 
             //when
-            _service.DeleteWorkTime(new WorkTimeModel());
+            _service.DeleteWorkTime(It.IsAny<int>());
 
             //then
-            _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), true), Times.Once());
+            _workTimeRepositoryMock.Verify(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), true), Times.Once());
             _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(
-                It.IsAny<WorkTime>()), Times.Never());
+                It.IsAny<WorkTime>(), It.IsAny<WorkTime>()), Times.Never());
         }
 
         [Test]
         public void DeleteWorkTimeNegativeTest()
         {
-            _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), true));
+            _workTimeRepositoryMock.Setup(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), true));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _service.DeleteWorkTime(new WorkTimeModel()));
+            Assert.Throws<EntityNotFoundException>(() => _service.DeleteWorkTime(It.IsAny<int>()));
         }
 
         [Test]
         public void RestoreWorkTimeTest()
         {
             //given
-            _workTimeRepositoryMock.Setup(m => m.RestoreWorkTime(It.IsAny<WorkTime>(), false));
+            _workTimeRepositoryMock.Setup(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), false));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(new WorkTime());
 
             //when
-            _service.RestoreWorkTime(new WorkTimeModel());
+            _service.RestoreWorkTime(It.IsAny<int>());
 
             //then
-            _workTimeRepositoryMock.Verify(m => m.RestoreWorkTime(It.IsAny<WorkTime>(), false), Times.Once());
+            _workTimeRepositoryMock.Verify(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), false), Times.Once());
         }
 
         [Test]
         public void RestoreWorkTimeNegativeTest()
         {
-            _workTimeRepositoryMock.Setup(m => m.RestoreWorkTime(It.IsAny<WorkTime>(), false));
+            _workTimeRepositoryMock.Setup(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), false));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _service.RestoreWorkTime(new WorkTimeModel()));
+            Assert.Throws<EntityNotFoundException>(() => _service.RestoreWorkTime(It.IsAny<int>()));
         }
     }
 }

@@ -46,5 +46,12 @@ namespace DogSitter.DAL.Repositories
             order.Status = (Status)status;
             _context.SaveChanges();
         }
+
+        public List<Order> GetAllOrdersBySitterId(int id) =>
+                _context.Orders.Where(x => x.Sitter.Id == id).ToList();
+        
+        public List<Order> GetAllOrdersByCustomerId(int id) =>
+                _context.Orders.Where(x => x.Customer.Id == id).ToList();
+
     }
 }

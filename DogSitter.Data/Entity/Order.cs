@@ -23,5 +23,16 @@ namespace DogSitter.DAL.Entity
         public virtual Dog Dog { get; set; }
         public virtual ICollection<Serviсe> Service { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Order order &&
+                   Id == order.Id &&
+                   OrderDate == order.OrderDate &&
+                   Price == order.Price &&
+                   Status == order.Status &&
+                   Mark == order.Mark &&
+                   IsDeleted == order.IsDeleted &&
+                   CommentId == order.CommentId;
+        }
     }
 }

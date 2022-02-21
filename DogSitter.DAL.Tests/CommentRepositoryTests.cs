@@ -90,13 +90,13 @@ namespace DogSitter.DAL.Tests
             var expected = new Comment()
             {
                 Id = comment.Id,
-                Text = "ChangeText",
+                Text = "ChangeqqqText",
                 Date = DateTime.Now,
                 IsDeleted = comment.IsDeleted,
             };
 
             //when
-            _repository.Update(expected);
+            _repository.Update(comment, expected);
             var actual = _context.Comments.First(x => x.Id == comment.Id);
 
             //then
@@ -141,7 +141,7 @@ namespace DogSitter.DAL.Tests
             //when
             var actual = _repository.GetAllComentsBySitterId(id);
             //then
-            Assert.AreEqual(actual, expected);
+            CollectionAssert.AreEqual(actual, expected);
         }
     }
 }

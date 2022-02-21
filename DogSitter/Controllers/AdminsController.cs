@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
+using DogSitter.DAL.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -20,18 +24,32 @@ namespace DogSitter.API.Controllers
         }
 
         //api/admins/42
-        [HttpPut("{id}")]
-        public IActionResult UpdateAdmin(int id, [FromBody] AdminUpdateInputModel admin)
+        [AuthorizeRole(Role.Admin)]
+        [HttpPut]
+        public IActionResult UpdateAdmin([FromBody] AdminUpdateInputModel admin)
         {
-            _service.UpdateAdmin(id, _map.Map<AdminModel>(admin));
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            _service.UpdateAdmin(userId.Value, _map.Map<AdminModel>(admin));
             return NoContent();
         }
 
         //api/admins
         [HttpGet]
+        [Authorize]
         public ActionResult<List<AdminOutputModel>> GetAllAdmins()
         {
-            var admins = _map.Map<List<AdminOutputModel>>(_service.GetAllAdmins());
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            var admins = _map.Map<List<AdminOutputModel>>(_service.GetAllAdminsWithContacts());
             return Ok(admins);
         }
     }

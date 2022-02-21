@@ -23,24 +23,16 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void UpdateService(Serviсe service)
+        public void UpdateService(Serviсe exitingServiсe, Serviсe serviceToUpdate)
         {
-            var trackingService = _context.ChangeTracker.Entries<Serviсe>()
-                .First(a => a.Entity.Id == service.Id).Entity;
-
-            trackingService.Name = service.Name;
-            trackingService.Price = service.Price;
-            trackingService.Description = service.Description;
-            trackingService.DurationHours = service.DurationHours;
+            exitingServiсe.Name = serviceToUpdate.Name;
+            exitingServiсe.Price = serviceToUpdate.Price;
+            exitingServiсe.Description = serviceToUpdate.Description;
+            exitingServiсe.DurationHours = serviceToUpdate.DurationHours;
             _context.SaveChanges();
         }
 
-        public void UpdateService(Serviсe service, bool IsDeleted)
-        {
-            service.IsDeleted = IsDeleted;
-            _context.SaveChanges();
-        }
-        public void RestoreService(Serviсe service, bool IsDeleted)
+        public void UpdateOrDeleteService(Serviсe service, bool IsDeleted)
         {
             service.IsDeleted = IsDeleted;
             _context.SaveChanges();

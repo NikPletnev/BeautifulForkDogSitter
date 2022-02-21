@@ -58,15 +58,15 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Comment {commentModel.Id} was not found");
             }
 
-            _repository.Update(comment);
+            _repository.Update(comment, entity);
         }
 
-        public void DeleteById(CommentModel commentModel)
+        public void DeleteById(int id)
         {
-            var comment = _repository.GetById(commentModel.Id);
+            var comment = _repository.GetById(id);
             if (comment == null)
             {
-                throw new EntityNotFoundException($"Comment {commentModel.Id} was not found");
+                throw new EntityNotFoundException($"Comment {id} was not found");
             }
 
             bool isDelited = true;

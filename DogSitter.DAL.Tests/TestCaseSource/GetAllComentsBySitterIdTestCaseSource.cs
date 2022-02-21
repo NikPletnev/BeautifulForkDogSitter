@@ -12,7 +12,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
         {
             Sitter sitter = new Sitter()
             {
-                Id = 1,
+                Id = 4,
                 FirstName = "Test1",
                 LastName = "Test1",
                 Password = "strong",
@@ -35,6 +35,14 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         Text = "Privet1",
                         Date = new DateTime(1999, 11, 11),
                         IsDeleted = false,
+                        Customer = new Customer()
+                        {
+                            FirstName = "Иван",
+                            LastName = "Иванов",
+                            Id = 1,
+                            Role = Role.Customer,
+                            Password = "123"
+                        }
                     },
                     Sitter = sitter
                 },
@@ -53,6 +61,14 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         Text = "Privet2",
                         Date = new DateTime(1999, 1, 1),
                         IsDeleted = false,
+                        Customer = new Customer()
+                        {
+                            FirstName = "Иван2",
+                            LastName = "Иванов2",
+                            Id = 2,
+                            Role = Role.Customer,
+                            Password = "4321"
+                        }
                     },
                     Sitter = sitter
                 },
@@ -83,27 +99,41 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 }
             };
 
-
-
             List<Comment> comments = new List<Comment>()
             {
                 new Comment()
-                {
-                    Id = 4,
-                    Text = "Privet1",
-                    Date = new DateTime(1999, 11, 11),
-                    IsDeleted = false,
-                },
+                    {
+                        Id = 4,
+                        Text = "Privet1",
+                        Date = new DateTime(1999, 11, 11),
+                        IsDeleted = false,
+                        Customer = new Customer()
+                        {
+                            FirstName = "Иван",
+                            LastName = "Иванов",
+                            Id = 1,
+                            Role = Role.Customer,
+                            Password = "123"
+                        }
+                    },
                 new Comment()
-                {
-                    Id = 5,
-                    Text = "Privet2",
-                    Date = new DateTime(1999, 1, 1),
-                    IsDeleted = false,
-                }
+                    {
+                        Id = 5,
+                        Text = "Privet2",
+                        Date = new DateTime(1999, 1, 1),
+                        IsDeleted = false,
+                        Customer = new Customer()
+                        {
+                            FirstName = "Иван2",
+                            LastName = "Иванов2",
+                            Id = 2,
+                            Role = Role.Customer,
+                            Password = "4321"
+                        }
+                    }
             };
 
-            int id = 1;
+            int id = 4;
 
             yield return new Object[] { orders, id, comments };
         }

@@ -15,7 +15,13 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Description = "Description1",
                     Price = 1000m,
                     DurationHours = 1.0,
-                    IsDeleted = false
+                    IsDeleted = false,
+                    Sitter = new Sitter()
+                {
+                    FirstName = "FirstName1",
+                    LastName = "LastName1",
+                    Password = "Password1"
+                }
                 },
 
                 new Serviсe()
@@ -39,7 +45,12 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     DurationHours = 3.0,
                     IsDeleted = false,
                     Orders = new List<Order>(),
-                    Sitters = new List<Sitter>()
+                    Sitter = new Sitter()
+                    {
+                        FirstName = "FirstName1",
+                        LastName = "LastName1",
+                        Password = "Password1"
+                    }
                 };
     }
 }

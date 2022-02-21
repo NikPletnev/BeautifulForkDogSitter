@@ -1,22 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DogSitter.DAL.Entity
+﻿namespace DogSitter.DAL.Entity
 {
-    public class Customer : IEquatable<Customer>
+    public class Customer : User
     {
-        public int Id { get; set; }
-        [Required]
-        public string Password { get; set; }
-        [Required]
-        public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; }
-        public virtual ICollection<Contact> Contacts { get; set; }
-        public bool IsDeleted { get; set; }
         public virtual ICollection<Dog> Dogs { get; set; }
         public virtual ICollection<Sitter> Sitter { get; set; }
         public virtual Address Address { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -25,8 +15,6 @@ namespace DogSitter.DAL.Entity
 
         public bool Equals(Customer other)
         {
-
-
             return other != null &&
                    Id == other.Id &&
                    Password == other.Password &&

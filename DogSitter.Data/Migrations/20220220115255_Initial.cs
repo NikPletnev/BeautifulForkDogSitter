@@ -27,22 +27,6 @@ namespace DogSitter.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Admins",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -55,22 +39,6 @@ namespace DogSitter.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,17 +81,20 @@ namespace DogSitter.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubwayStations",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubwayStations", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -134,7 +105,7 @@ namespace DogSitter.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Start = table.Column<DateTime>(type: "datetime2", nullable: false),
                     End = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Weekdays = table.Column<int>(type: "int", nullable: false),
+                    Weekday = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
@@ -143,27 +114,94 @@ namespace DogSitter.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AddressCustomer",
+                name: "SubwayStations",
                 columns: table => new
                 {
-                    AddressId = table.Column<int>(type: "int", nullable: false),
-                    CustomersId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AddressCustomer", x => new { x.AddressId, x.CustomersId });
+                    table.PrimaryKey("PK_SubwayStations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AddressCustomer_Addresses_AddressId",
+                        name: "FK_SubwayStations_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Admins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Admins_Users_Id",
+                        column: x => x.Id,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customers_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Customers_Users_Id",
+                        column: x => x.Id,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sitters",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    PassportId = table.Column<int>(type: "int", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: false),
+                    Information = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rating = table.Column<double>(type: "float", nullable: false),
+                    Verified = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    SubwayStationId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sitters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sitters_Passports_PassportId",
+                        column: x => x.PassportId,
+                        principalTable: "Passports",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AddressCustomer_Customers_CustomersId",
-                        column: x => x.CustomersId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Sitters_SubwayStations_SubwayStationId",
+                        column: x => x.SubwayStationId,
+                        principalTable: "SubwayStations",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Sitters_Users_Id",
+                        column: x => x.Id,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -187,62 +225,6 @@ namespace DogSitter.DAL.Migrations
                         name: "FK_Dogs_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sitters",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    PassportId = table.Column<int>(type: "int", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: false),
-                    Information = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sitters", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sitters_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Sitters_Passports_PassportId",
-                        column: x => x.PassportId,
-                        principalTable: "Passports",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AddressSubwayStation",
-                columns: table => new
-                {
-                    AdressId = table.Column<int>(type: "int", nullable: false),
-                    SubwayStationsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AddressSubwayStation", x => new { x.AdressId, x.SubwayStationsId });
-                    table.ForeignKey(
-                        name: "FK_AddressSubwayStation_Addresses_AdressId",
-                        column: x => x.AdressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AddressSubwayStation_SubwayStations_SubwayStationsId",
-                        column: x => x.SubwayStationsId,
-                        principalTable: "SubwayStations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -305,49 +287,6 @@ namespace DogSitter.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Mark = table.Column<int>(type: "int", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    SitterId = table.Column<int>(type: "int", nullable: false),
-                    CommentId = table.Column<int>(type: "int", nullable: true),
-                    DogsId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Comments_CommentId",
-                        column: x => x.CommentId,
-                        principalTable: "Comments",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_Dogs_DogsId",
-                        column: x => x.DogsId,
-                        principalTable: "Dogs",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Sitters_SitterId",
-                        column: x => x.SitterId,
-                        principalTable: "Sitters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ServiсeSitter",
                 columns: table => new
                 {
@@ -396,6 +335,49 @@ namespace DogSitter.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
+                    Mark = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    SitterId = table.Column<int>(type: "int", nullable: false),
+                    CommentId = table.Column<int>(type: "int", nullable: true),
+                    DogId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Comments_CommentId",
+                        column: x => x.CommentId,
+                        principalTable: "Comments",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Dogs_DogId",
+                        column: x => x.DogId,
+                        principalTable: "Dogs",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_Sitters_SitterId",
+                        column: x => x.SitterId,
+                        principalTable: "Sitters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderServiсe",
                 columns: table => new
                 {
@@ -421,99 +403,89 @@ namespace DogSitter.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "SubwayStations",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "AddressId", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Девяткино" },
-                    { 2, "Гражданский проспект" },
-                    { 3, "Академическая" },
-                    { 4, "Политехническая" },
-                    { 5, "Площадь Мужества" },
-                    { 6, "Лесная" },
-                    { 7, "Выборгская" },
-                    { 8, "Площадь Ленина" },
-                    { 9, "Чернышевская" },
-                    { 10, "Площадь Восстания" },
-                    { 11, "Владимирская" },
-                    { 12, "Пушкинская" },
-                    { 13, "Технологический институт(1)" },
-                    { 14, "Балтийская" },
-                    { 15, "Нарвская" },
-                    { 16, "Кировский завод" },
-                    { 17, "Автово" },
-                    { 18, "Ленинский проспект" },
-                    { 19, "Проспект Ветеранов" },
-                    { 20, "Парнас" },
-                    { 21, "Проспект Просвещения" },
-                    { 22, "Озерки" },
-                    { 23, "Удельная" },
-                    { 24, "Пионерская" },
-                    { 25, "Чёрная речка" },
-                    { 26, "Петроградская" },
-                    { 27, "Горьковская" },
-                    { 28, "Невский проспект" },
-                    { 29, "Сенная площадь" },
-                    { 30, "Технологический институт(2)" },
-                    { 31, "Фрунзенская" },
-                    { 32, "Московские ворота" },
-                    { 33, "Электросила" },
-                    { 34, "Парк Победы" },
-                    { 35, "Московская" },
-                    { 36, "Звёздная" },
-                    { 37, "Купчино" },
-                    { 38, "Беговая" },
-                    { 39, "Зенит" },
-                    { 40, "Приморская" },
-                    { 41, "Василеостровская" },
-                    { 42, "Гостиный двор" }
+                    { 1, null, "Девяткино" },
+                    { 2, null, "Гражданский проспект" },
+                    { 3, null, "Академическая" },
+                    { 4, null, "Политехническая" },
+                    { 5, null, "Площадь Мужества" },
+                    { 6, null, "Лесная" },
+                    { 7, null, "Выборгская" },
+                    { 8, null, "Площадь Ленина" },
+                    { 9, null, "Чернышевская" },
+                    { 10, null, "Площадь Восстания" },
+                    { 11, null, "Владимирская" },
+                    { 12, null, "Пушкинская" },
+                    { 13, null, "Технологический институт(1)" },
+                    { 14, null, "Балтийская" },
+                    { 15, null, "Нарвская" },
+                    { 16, null, "Кировский завод" },
+                    { 17, null, "Автово" },
+                    { 18, null, "Ленинский проспект" },
+                    { 19, null, "Проспект Ветеранов" },
+                    { 20, null, "Парнас" },
+                    { 21, null, "Проспект Просвещения" },
+                    { 22, null, "Озерки" },
+                    { 23, null, "Удельная" },
+                    { 24, null, "Пионерская" },
+                    { 25, null, "Чёрная речка" },
+                    { 26, null, "Петроградская" },
+                    { 27, null, "Горьковская" },
+                    { 28, null, "Невский проспект" },
+                    { 29, null, "Сенная площадь" },
+                    { 30, null, "Технологический институт(2)" },
+                    { 31, null, "Фрунзенская" },
+                    { 32, null, "Московские ворота" },
+                    { 33, null, "Электросила" },
+                    { 34, null, "Парк Победы" },
+                    { 35, null, "Московская" },
+                    { 36, null, "Звёздная" },
+                    { 37, null, "Купчино" },
+                    { 38, null, "Беговая" },
+                    { 39, null, "Зенит" },
+                    { 40, null, "Приморская" },
+                    { 41, null, "Василеостровская" },
+                    { 42, null, "Гостиный двор" }
                 });
 
             migrationBuilder.InsertData(
                 table: "SubwayStations",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "AddressId", "Name" },
                 values: new object[,]
                 {
-                    { 43, "Маяковская" },
-                    { 44, "Площадь Александра Невского(1)" },
-                    { 45, "Елизаровская" },
-                    { 46, "Ломоносовская" },
-                    { 47, "Пролетарская" },
-                    { 48, "Обухово" },
-                    { 49, "Рыбацкое" },
-                    { 50, "Спасская" },
-                    { 51, "Достоевская" },
-                    { 52, "Лиговский проспект" },
-                    { 53, "Площадь Александра Невского(2)" },
-                    { 54, "Новочеркасская" },
-                    { 55, "Ладожская" },
-                    { 56, "Проспект Большевиков" },
-                    { 57, "Улица Дыбенко" },
-                    { 58, "Комендантский проспект" },
-                    { 59, "Старая Деревня" },
-                    { 60, "Крестовский остров" },
-                    { 61, "Чкаловская" },
-                    { 62, "Спортивная" },
-                    { 63, "Адмиралтейская" },
-                    { 64, "Садовая" },
-                    { 65, "Звенигородская" },
-                    { 66, "Обводный канал" },
-                    { 67, "Волковская" },
-                    { 68, "Бухарестская" },
-                    { 69, "Международная" },
-                    { 70, "Проспект Славы" },
-                    { 71, "Дунайская" },
-                    { 72, "Шушуары" }
+                    { 43, null, "Маяковская" },
+                    { 44, null, "Площадь Александра Невского(1)" },
+                    { 45, null, "Елизаровская" },
+                    { 46, null, "Ломоносовская" },
+                    { 47, null, "Пролетарская" },
+                    { 48, null, "Обухово" },
+                    { 49, null, "Рыбацкое" },
+                    { 50, null, "Спасская" },
+                    { 51, null, "Достоевская" },
+                    { 52, null, "Лиговский проспект" },
+                    { 53, null, "Площадь Александра Невского(2)" },
+                    { 54, null, "Новочеркасская" },
+                    { 55, null, "Ладожская" },
+                    { 56, null, "Проспект Большевиков" },
+                    { 57, null, "Улица Дыбенко" },
+                    { 58, null, "Комендантский проспект" },
+                    { 59, null, "Старая Деревня" },
+                    { 60, null, "Крестовский остров" },
+                    { 61, null, "Чкаловская" },
+                    { 62, null, "Спортивная" },
+                    { 63, null, "Адмиралтейская" },
+                    { 64, null, "Садовая" },
+                    { 65, null, "Звенигородская" },
+                    { 66, null, "Обводный канал" },
+                    { 67, null, "Волковская" },
+                    { 68, null, "Бухарестская" },
+                    { 69, null, "Международная" },
+                    { 70, null, "Проспект Славы" },
+                    { 71, null, "Дунайская" },
+                    { 72, null, "Шушуары" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AddressCustomer_CustomersId",
-                table: "AddressCustomer",
-                column: "CustomersId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AddressSubwayStation_SubwayStationsId",
-                table: "AddressSubwayStation",
-                column: "SubwayStationsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contacts_AdminId",
@@ -529,6 +501,11 @@ namespace DogSitter.DAL.Migrations
                 name: "IX_Contacts_SitterId",
                 table: "Contacts",
                 column: "SitterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_AddressId",
+                table: "Customers",
+                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerSitter_SitterId",
@@ -553,9 +530,9 @@ namespace DogSitter.DAL.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_DogsId",
+                name: "IX_Orders_DogId",
                 table: "Orders",
-                column: "DogsId");
+                column: "DogId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_SitterId",
@@ -573,30 +550,30 @@ namespace DogSitter.DAL.Migrations
                 column: "SittersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sitters_AddressId",
-                table: "Sitters",
-                column: "AddressId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Sitters_PassportId",
                 table: "Sitters",
                 column: "PassportId",
-                unique: true);
+                unique: true,
+                filter: "[PassportId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sitters_SubwayStationId",
+                table: "Sitters",
+                column: "SubwayStationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SitterWorkTime_WorkTimeId",
                 table: "SitterWorkTime",
                 column: "WorkTimeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubwayStations_AddressId",
+                table: "SubwayStations",
+                column: "AddressId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AddressCustomer");
-
-            migrationBuilder.DropTable(
-                name: "AddressSubwayStation");
-
             migrationBuilder.DropTable(
                 name: "Contacts");
 
@@ -611,9 +588,6 @@ namespace DogSitter.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "SitterWorkTime");
-
-            migrationBuilder.DropTable(
-                name: "SubwayStations");
 
             migrationBuilder.DropTable(
                 name: "Admins");
@@ -640,10 +614,16 @@ namespace DogSitter.DAL.Migrations
                 name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "Addresses");
+                name: "Passports");
 
             migrationBuilder.DropTable(
-                name: "Passports");
+                name: "SubwayStations");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
         }
     }
 }

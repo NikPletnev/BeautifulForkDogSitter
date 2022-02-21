@@ -11,9 +11,7 @@ namespace DogSitter.DAL.Entity
         [Required]
         public ContactType ContactType { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual Customer Customer { get; set; }
-        public virtual Admin Admin { get; set; }
-        public virtual Sitter Sitter { get; set; }
+        public virtual User User { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -27,8 +25,5 @@ namespace DogSitter.DAL.Entity
         {
             return $"{Id} {Value} {ContactType}";
         }
-
-
-
     }
 }

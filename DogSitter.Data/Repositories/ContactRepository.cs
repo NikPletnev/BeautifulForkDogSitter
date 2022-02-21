@@ -28,9 +28,7 @@ namespace DogSitter.DAL.Repositories
         {
             entity.Value = contact.Value;
             entity.ContactType = contact.ContactType;
-            entity.Sitter = contact.Sitter;
-            entity.Admin = contact.Admin;
-            entity.Customer = contact.Customer;
+            entity.User = contact.User;
             _context.SaveChanges();
         }
 
@@ -41,7 +39,7 @@ namespace DogSitter.DAL.Repositories
         }
 
         public Contact GetContactByValue(string value) =>
-            _context.Contacts.Where(c => !c.IsDeleted).Include(c => c.Sitter).Include(c => c.Customer).Include(c => c.Admin).FirstOrDefault(c => c.Value == value);
+            _context.Contacts.Where(c => !c.IsDeleted).Include(c => c.User).FirstOrDefault(c => c.Value == value);
 
         public List<Contact> GetAllContactsByAdminId(int id)
            => _context.Admins.FirstOrDefault(x => x.Id == id).Contacts.Where(c => !c.IsDeleted).ToList();

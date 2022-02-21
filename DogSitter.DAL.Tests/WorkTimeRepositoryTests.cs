@@ -4,7 +4,6 @@ using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace DogSitter.DAL.Tests
@@ -46,7 +45,6 @@ namespace DogSitter.DAL.Tests
 
             //then
             Assert.AreEqual(expected, actual);
-            Assert.That(actual.IsDeleted == false | true);
         }
 
         [Test]
@@ -73,54 +71,40 @@ namespace DogSitter.DAL.Tests
 
             _context.SaveChanges();
 
-            var expected = new WorkTime()
+            var updatedWorkTime = new WorkTime()
             {
                 Id = workTime.Id,
                 Start = DateTime.Now,
                 End = DateTime.Now,
                 Weekday = Weekday.Thursday,
-                Sitter = new List<Sitter>(),
                 IsDeleted = workTime.IsDeleted
             };
 
             //when
-            _workTimeRepository.UpdateWorkTime(expected);
+            _workTimeRepository.UpdateWorkTime(workTime, updatedWorkTime);
 
             var actual = _context.WorkTimes.FirstOrDefault(a => a.Id == workTime.Id);
 
             //then
-            Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.Start, actual.Start);
-            Assert.AreEqual(expected.End, actual.End);
-            Assert.AreEqual(expected.Weekday, actual.Weekday);
-            Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
-            Assert.AreEqual(expected.Sitter, actual.Sitter);
+            Assert.AreEqual(updatedWorkTime.Id, actual.Id);
+            Assert.AreEqual(updatedWorkTime.Start, actual.Start);
+            Assert.AreEqual(updatedWorkTime.End, actual.End);
+            Assert.AreEqual(updatedWorkTime.Weekday, actual.Weekday);
+            Assert.AreEqual(updatedWorkTime.IsDeleted, actual.IsDeleted);
         }
 
-        [Test]
-        public void UpdateIsDeleteWorkTimeTest()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void UpdateOrDeleteWorkTimeTest(bool isDeleted)
         {
             //given
             var workTime = WorkTimeTestCaseSourse.GetWorkTime();
 
             //when
-            _workTimeRepository.UpdateWorkTime(workTime, true);
+            _workTimeRepository.UpdateOrDeleteWorkTime(workTime, isDeleted);
 
             //then
-            Assert.AreEqual(workTime.IsDeleted, true);
-        }
-
-        [Test]
-        public void RestoreWorkTimeTest()
-        {
-            //given
-            var workTime = WorkTimeTestCaseSourse.GetWorkTime();
-
-            //when
-            _workTimeRepository.RestoreWorkTime(workTime, false);
-
-            //then
-            Assert.AreEqual(workTime.IsDeleted, false);
+            Assert.AreEqual(workTime.IsDeleted, isDeleted);
         }
     }
 }

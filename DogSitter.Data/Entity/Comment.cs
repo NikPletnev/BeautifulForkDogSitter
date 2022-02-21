@@ -11,6 +11,7 @@ namespace DogSitter.DAL.Entity
         public DateTime Date { get; set; }
         public bool IsDeleted { get; set; }
         public virtual Order Order { get; set; }
+        public virtual Customer Customer { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -18,7 +19,8 @@ namespace DogSitter.DAL.Entity
                    Id == comment.Id &&
                    Text == comment.Text &&
                    Date == comment.Date &&
-                   IsDeleted == comment.IsDeleted;
+                   IsDeleted == comment.IsDeleted &&
+                   Customer.Id == comment.Customer.Id;
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class PassportInsertInputModel : PassportUpdateInputModel
     {
-        public SitterOutputModel Sitter { get; set; }
+
     }
 }

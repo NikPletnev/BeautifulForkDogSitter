@@ -5,10 +5,11 @@ using DogSitter.DAL.Entity;
 
 namespace DogSitter.BLL.Configs
 {
-    public class CustomMapper : Profile
+    public class DataMapper : Profile
     {
-        public CustomMapper()
+        public DataMapper()
         {
+            CreateMap<Address, AddressModel>().ReverseMap();
             CreateMap<Customer, CustomerModel>().ReverseMap();
             CreateMap<Sitter, SitterModel>().ReverseMap();
             CreateMap<Comment, CommentModel>().ReverseMap();
@@ -22,6 +23,7 @@ namespace DogSitter.BLL.Configs
             CreateMap<Order, OrderModel>().ReverseMap();
             CreateMap<SubwayStation, SubwayStationModel>().ReverseMap();
             CreateMap<Address, AddressModel>().ReverseMap();
+            CreateMap<User, UserModel>().ReverseMap();
         }
 
     }

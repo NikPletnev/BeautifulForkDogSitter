@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -23,13 +24,10 @@ namespace DogSitter.DAL.Repositories
         public List<Comment> GetAll() =>
             _context.Comments.Where(d => !d.IsDeleted).ToList();
 
-        public void Update(Comment comment)
+        public void Update(Comment comment, Comment entity)
         {
-            var entity = _context.ChangeTracker.Entries<Comment>()
-                .First(a => a.Entity.Id == comment.Id).Entity;
-
-            entity.Text = comment.Text;
-            entity.Date = comment.Date;
+            comment.Text = entity.Text;
+            comment.Date = entity.Date;
             _context.SaveChanges();
         }
 
@@ -40,7 +38,7 @@ namespace DogSitter.DAL.Repositories
         }
 
         public List<Comment> GetAllComentsBySitterId(int id) =>
-            _context.Comments.Where(x => x.Order.Sitter.Id == id).ToList();
+            _context.Comments.Where(x => x.Order.Sitter.Id == id).Include(x => x.Customer).ToList();
 
     }
 }
