@@ -83,8 +83,6 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 }
             };
 
-
-
             List<Comment> comments = new List<Comment>()
             {
                 new Comment()

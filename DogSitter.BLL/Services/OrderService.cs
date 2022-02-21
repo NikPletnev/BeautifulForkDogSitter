@@ -10,28 +10,32 @@ namespace DogSitter.BLL.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository _repository;
-        private IMapper _mapper;
+        private readonly IOrderRepository _rep;
+        private IMapper _map;
+        private ISitterRepository _sitterRepository;
+        private ICustomerRepository _customerRepository;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper)
+        public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository, ISitterRepository sitterRepository, IMapper mapper)
         {
-            _repository = orderRepository;
-            _mapper = mapper;
+            _rep = orderRepository;
+            _customerRepository = customerRepository; 
+            _sitterRepository = sitterRepository;
+            _map = mapper;
         }
         public OrderModel GetById(int id)
         {
-            var order = _repository.GetById(id);
+            var order = _rep.GetById(id);
 
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
 
-            return _mapper.Map<OrderModel>(order);
+            return _map.Map<OrderModel>(order);
         }
 
         public List<OrderModel> GetAll() =>
-             _mapper.Map<List<OrderModel>>(_repository.GetAll());
+             _map.Map<List<OrderModel>>(_rep.GetAll());
 
         public void Add(OrderModel orderModel)
         {
@@ -43,7 +47,7 @@ namespace DogSitter.BLL.Services
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
             }
 
-            _repository.Add(_mapper.Map<Order>(orderModel));
+            _rep.Add(_map.Map<Order>(orderModel));
         }
 
         public void Update(OrderModel orderModel)
@@ -53,14 +57,14 @@ namespace DogSitter.BLL.Services
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the order {orderModel.Id}");
             }
-            var order = _repository.GetById(orderModel.Id);
+            var order = _rep.GetById(orderModel.Id);
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
             if (order.Status == Status.Created)
             {
-                _repository.Update(order, _mapper.Map<Order>(orderModel));
+                _rep.Update(order, _map.Map<Order>(orderModel));
             }
             else
             {
@@ -71,32 +75,54 @@ namespace DogSitter.BLL.Services
         public void DeleteById(int id)
         {
             bool IsDelete = true;
-            var order = _repository.GetById(id);
+            var order = _rep.GetById(id);
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.Update(order, IsDelete);
+            _rep.Update(order, IsDelete);
         }
 
         public void Restore(int id)
         {
             bool IsDelete = false;
-            var order = _repository.GetById(id);
+            var order = _rep.GetById(id);
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.Update(order, IsDelete);
+            _rep.Update(order, IsDelete);
         }
         public void EditOrderStatusByOrderId(int id, int status)
         {
-            var order = _repository.GetById(id);
+            var order = _rep.GetById(id);
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.EditOrderStatusByOrderId(order, status);
+            _rep.EditOrderStatusByOrderId(order, status);
         }
+
+        public List<OrderModel> GetAllOrdersBySitterId(int id)
+        {
+            var entity = _sitterRepository.GetById(id);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Sitter {id} was not found");
+            }
+            return _map.Map<List<OrderModel>>(_rep.GetAllOrdersBySitterId(id));
+        }
+
+        public List<OrderModel> GetAllOrdersByCustomerId(int id)
+        {
+            var entity = _customerRepository.GetCustomerById(id);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Customer {id} was not found");
+            }
+            return _map.Map<List<OrderModel>>(_rep.GetAllOrdersByCustomerId(id));
+        }
+
+
     }
 }

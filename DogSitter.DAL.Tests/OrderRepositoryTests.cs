@@ -1,9 +1,11 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
+using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DogSitter.DAL.Tests
@@ -52,6 +54,34 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.AreEqual((Status)status, actual.Status);
 
+        }
+
+        [TestCaseSource(typeof(GetAllOrdersBySitterIdTestCaseSource))]
+        public void GetAllOrdersBySitterIdTest(int id, List<Sitter> sitters, List<Order> expected)
+        {
+            //given
+            _context.Sitters.AddRange(sitters);
+            _context.SaveChanges();
+
+            //when
+            var actual = _rep.GetAllOrdersBySitterId(id);
+
+            //then
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCaseSource(typeof(GetAllOrdersByCustomerIdTestCaseSource))]
+        public void GetAllOrdersByCustomerId(int id, List<Customer> customers, List<Order> expected)
+        {
+            //given
+            _context.Customers.AddRange(customers);
+            _context.SaveChanges();
+
+            //when
+            var actual = _rep.GetAllOrdersByCustomerId(id);
+
+            //then
+            Assert.AreEqual(expected, actual);
         }
     }
 }
