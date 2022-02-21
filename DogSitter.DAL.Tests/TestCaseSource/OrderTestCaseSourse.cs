@@ -18,7 +18,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Id = 1,
                     OrderDate = DateTime.Now,
                     Price = 100,
-                    Status = Status.created,
+                    Status = Status.Created,
                     Mark = 5,
                     Customer = new Customer()
                     {
@@ -36,7 +36,14 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     {
                         Text = " "
                     },
-                    Dogs = new List<Dog>(),
+                    Dog = new Dog()
+                    {
+                        Name = " ",
+                        Age = 2,
+                        Breed = " ",
+                        Weight = 1,
+                        Description = " "
+                    },
                     Service = new List<Serviсe>(),
                     IsDeleted = false
                 },
@@ -45,7 +52,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Id = 2,
                     OrderDate = DateTime.Now,
                     Price = 301,
-                    Status = Status.created,
+                    Status = Status.Created,
                     Mark = 5,
                     Customer = new Customer()
                     {
@@ -63,7 +70,14 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     {
                         Text = " "
                     },
-                    Dogs = new List<Dog>(),
+                    Dog = new Dog()
+                    {
+                        Name = " ",
+                        Age = 2,
+                        Breed = " ",
+                        Weight = 1,
+                        Description = " "
+                    },
                     Service = new List<Serviсe>(),
                     IsDeleted = true
                 }
@@ -74,7 +88,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Id = 3,
                 OrderDate = DateTime.Now,
                 Price = 303,
-                Status = Status.created,
+                Status = Status.Created,
                 Mark = 1,
                 Customer = new Customer()
                 {
@@ -92,7 +106,14 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 {
                     Text = " " 
                 },
-                Dogs = new List<Dog>(),
+                Dog = new Dog()
+                {
+                    Name = " ",
+                    Age = 2,
+                    Breed = " ",
+                    Weight = 1,
+                    Description = " "
+                },
                 Service = new List<Serviсe>(),
                 IsDeleted = false
             };
@@ -103,7 +124,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Id = 3,
                 OrderDate = DateTime.Now,
                 Price = 303,
-                Status = Status.created,
+                Status = Status.Created,
                 Mark = 1,
                 Sitter = new Sitter()
                 {
@@ -123,7 +144,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                  Id = 4,
                  OrderDate = DateTime.Now,
                  Price = 303,
-                 Status = Status.created,
+                 Status = Status.Created,
                  Mark = 1,
                  Sitter = new Sitter()
                  {

@@ -80,7 +80,7 @@ namespace DogSitter.DAL.Tests
                 Id = 3,
                 OrderDate = DateTime.Now,
                 Price = 303,
-                Status = Status.created,
+                Status = Status.Created,
                 Mark = 1,
                 Sitter = new Sitter()
                 {
@@ -106,23 +106,20 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
         }
 
-        [Test]
-        public void UpdateIsDeleteOrderTest()
+        [TestCase(3)]
+        public void UpdateIsDeleteOrderTest(int id)
         {
+            _repository.Update(id, false);
             var order = OrderTestCaseSourse.GetOrder();
-
-            _repository.Update(order, true);
-
             Assert.AreEqual(order.IsDeleted, true);
         }
 
-        [Test]
-        public void RestoreOrderTest()
+        [TestCase(3)]
+        public void RestoreOrderTest(int id)
         {
+
+            _repository.Update(id, false);
             var order = OrderTestCaseSourse.GetOrder();
-
-            _repository.Update(order, false);
-
             Assert.AreEqual(order.IsDeleted, false);
         }
 
@@ -147,7 +144,6 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(order.Mark, actual.Mark);
             Assert.AreEqual(order.Sitter, actual.Sitter);
             Assert.AreEqual(order.IsDeleted, actual.IsDeleted);
-
         }
 
         [TestCaseSource(typeof(GetAllOrdersBySitterIdTestCaseSource))]
@@ -158,7 +154,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             //when
-            var actual = _rep.GetAllOrdersBySitterId(id);
+            var actual = _repository.GetAllOrdersBySitterId(id);
 
             //then
             Assert.AreEqual(expected, actual);
@@ -172,7 +168,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             //when
-            var actual = _rep.GetAllOrdersByCustomerId(id);
+            var actual = _repository.GetAllOrdersByCustomerId(id);
 
             //then
             Assert.AreEqual(expected, actual);

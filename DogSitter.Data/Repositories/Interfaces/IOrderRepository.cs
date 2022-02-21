@@ -10,7 +10,7 @@ namespace DogSitter.DAL.Repositories
         List<Order> GetAllOrdersByCustomerId(int id);
         List<Order> GetAllOrdersBySitterId(int id);
         Order GetById(int id);
-        void Update(Order order, bool IsDeleted);
-        void Update(Order order);
+        void Update(int id, bool isDeleted);
+        void Update(Order entity);
     }
 }
