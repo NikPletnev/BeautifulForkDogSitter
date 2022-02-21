@@ -92,8 +92,10 @@ namespace DogSitter.DAL.Tests
             _context.Customers.AddRange(customers);
             _context.SaveChanges();
             expected.IsDeleted = true;
+            var entity = _context.Customers.FirstOrDefault(z => z.Id == 2);
+
             //when
-            _repository.UpdateCustomer(newCustomer);
+            _repository.UpdateCustomer(newCustomer, entity);
 
             var actual = _context.Customers.FirstOrDefault(z => z.Id == 2);
 
