@@ -60,7 +60,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.Update(order, true);
+            _repository.Update(id, true);
         }
 
         public void Restore(int id)
@@ -70,7 +70,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.Update(_mapper.Map<Order>(order), false);
+            _repository.Update(id, false);
         }
 
         public void Add(OrderModel orderModel)

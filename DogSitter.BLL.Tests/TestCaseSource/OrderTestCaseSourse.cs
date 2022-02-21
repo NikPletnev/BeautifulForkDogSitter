@@ -16,9 +16,34 @@ namespace DogSitter.BLL.Tests.TestCaseSource
            {
                Id = 1,
                OrderDate = new DateTime(2011, 11, 11),
-               Status = Status.created,
+               Status = Status.Created,
                CommentId = 1,
                Price = 100,
+               Customer = new Customer()
+               {
+                   FirstName = "",
+                   LastName = " ",
+                   Password = " "
+               },
+               Sitter = new Sitter()
+               {
+                   FirstName = "",
+                   LastName = " ",
+                   Password = " "
+               },
+               Comment = new Comment()
+               {
+                   Text = " "
+               },
+               Dog = new Dog()
+               {
+                   Name = " ",
+                   Age = 2,
+                   Breed = " ",
+                   Weight = 1,
+                   Description = " "
+               },
+               Service = new List<Serviсe>(),
                IsDeleted = false
            };
 
@@ -30,8 +55,32 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Id = 2,
                     OrderDate = DateTime.Now,
                     Price = 100,
-                    Status = Status.created,
-                    Mark = 1,
+                    Status = Status.Created,
+                    Mark = 1, Customer = new Customer()
+                    {
+                        FirstName = "",
+                        LastName = " ",
+                        Password = " "
+                    },
+                    Sitter = new Sitter()
+                    {
+                        FirstName = "",
+                        LastName = " ",
+                        Password = " "
+                    },
+                    Comment = new Comment()
+                    {
+                        Text = " "
+                    },
+                    Dog = new Dog()
+                    {
+                        Name = " ",
+                        Age = 2,
+                        Breed = " ",
+                        Weight = 1,
+                        Description = " "
+                    },
+                    Service = new List<Serviсe>(),
                     IsDeleted = false
                 },
                  new Order()
@@ -39,8 +88,32 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Id = 3,
                     OrderDate = DateTime.Now,
                     Price = 100,
-                    Status = Status.created,
-                    Mark = 1,
+                    Status = Status.Created,
+                    Mark = 1, Customer = new Customer()
+                    {
+                        FirstName = "",
+                        LastName = " ",
+                        Password = " "
+                    },
+                    Sitter = new Sitter()
+                    {
+                        FirstName = "",
+                        LastName = " ",
+                        Password = " "
+                    },
+                    Comment = new Comment()
+                    {
+                        Text = " "
+                    },
+                    Dog = new Dog()
+                    {
+                        Name = " ",
+                        Age = 2,
+                        Breed = " ",
+                        Weight = 1,
+                        Description = " "
+                    },
+                    Service = new List<Serviсe>(),
                     IsDeleted = true
                 }
             };
@@ -50,7 +123,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Id = 4,
                 OrderDate = DateTime.Now,
                 Price = 100,
-                Status = Status.created,
+                Status = Status.Created,
                 Mark = 1,
                 IsDeleted = false
             };
@@ -59,9 +132,34 @@ namespace DogSitter.BLL.Tests.TestCaseSource
             {
                 Id = 4,
                 OrderDate = DateTime.Now,
-                Status = Status.created,
+                Status = Status.Created,
                 Price = 100,
                 Mark = 1,
+                Customer = new CustomerModel()
+                {
+                    FirstName = "",
+                    LastName = " ",
+                    Password = " "
+                },
+                Sitter = new SitterModel()
+                {
+                    FirstName = "",
+                    LastName = " ",
+                    Password = " "
+                },
+                Comment = new CommentModel()
+                {
+                    Text = " "
+                },
+                Dog = new DogModel()
+                {
+                    Name = " ",
+                    Age = 2,
+                    Breed = " ",
+                    Weight = 1,
+                    Description = " "
+                },
+                Services = new List<ServiceModel>(),
             };
        
     }
