@@ -51,20 +51,6 @@ namespace DogSitter.API.Controllers
             return Ok(сontacts);
         }
 
-        [Authorize]
-        [HttpGet("admin/{id}")]
-        public ActionResult<List<ContactOutputModel>> GetAllContactsByAdminId(int id)
-        {
-            var userId = this.GetUserId();
-            if (userId == null)
-            {
-                return Unauthorized("Invalid token, please try again");
-            }
-
-            var сontacts = _map.Map<List<ContactOutputModel>>(_service.GetAllContactsByAdminId(id));
-            return Ok(сontacts);
-        }
-
         [AuthorizeRole(Role.Admin)]
         [HttpGet("sitter/{id}")]
         public ActionResult<List<ContactOutputModel>> GetAllContactsBySitterId(int id)

@@ -49,7 +49,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            var admins = _map.Map<List<AdminOutputModel>>(_service.GetAllAdmins());
+            var admins = _map.Map<List<AdminOutputModel>>(_service.GetAllAdminsWithContacts());
             return Ok(admins);
         }
     }

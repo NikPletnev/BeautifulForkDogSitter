@@ -75,19 +75,11 @@ namespace DogSitter.BLL.Services
 
         public void DeleteAddressById( int id)
         {
-            //var entity = _repository.GetAddressById(id);
-            //if (entity == null)
-            //{
-            //    throw new EntityNotFoundException("Address not found");
-            //}
-            //if(_userRepository.GetUserById(userId).Role != Role.Admin)
-            //{
-            //    if(entity.Customer.Id != userId)
-            //    {
-            //        throw new Exception();
-            //    }
-            //}
-
+            var entity = _repository.GetAddressById(id);
+            if (entity == null)
+            {
+                throw new EntityNotFoundException("Address not found");
+            }
             _repository.UpdateAddress(id, true);
         }
 

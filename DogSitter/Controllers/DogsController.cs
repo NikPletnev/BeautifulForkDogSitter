@@ -5,6 +5,7 @@ using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -34,7 +35,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.DeleteDog(id);
+            _service.DeleteDog(userId.Value, id);
             return NoContent();
         }
 
@@ -56,7 +57,7 @@ namespace DogSitter.API.Controllers
         //api/dogs/42
         [AuthorizeRole(Role.Customer)]
         [HttpPut("{id}")]
-        public IActionResult UpdateDog(int id, [FromBody] DogUpdateInputModel dog)
+        public IActionResult UpdateDog(int idDog, [FromBody] DogUpdateInputModel dog)
         {
             var userId = this.GetUserId();
             if (userId == null)
@@ -64,7 +65,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.UpdateDog(id, _map.Map<DogModel>(dog));
+            _service.UpdateDog(userId.Value ,idDog, _map.Map<DogModel>(dog));
             return NoContent();
         }
 
@@ -94,6 +95,20 @@ namespace DogSitter.API.Controllers
             }
 
             var dogs = _map.Map<List<DogOutputModel>>(_service.GetAllDogs());
+            return Ok(dogs);
+        }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public ActionResult<List<DogOutputModel>> GetDogsByCustomerId(int id)
+        {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            var dogs = _map.Map<List<DogOutputModel>>(_service.GetDogsByCustomerId(id));
             return Ok(dogs);
         }
     }
