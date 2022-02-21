@@ -45,6 +45,10 @@ namespace DogSitter.API.Configs
             CreateMap<DogModel, DogOutputModel>();
             CreateMap<DogUpdateInputModel, DogModel>();
 
+            CreateMap<ContactModel, CommentForAdminOutputModel>();
+            CreateMap<ContactModel, ContactOutputModel>();
+            CreateMap<CommentInsertInputModel, CommentModel>();
+
 
         }
     }
