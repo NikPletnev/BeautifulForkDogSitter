@@ -22,7 +22,7 @@ namespace DogSitter.BLL.Services
             var workTime = _workTimeRepository.GetWorkTimeById(id);
 
             if (workTime is null)
-                throw new EntityNotFoundException($"{workTime} c Id = {id} не найдено!");
+                throw new EntityNotFoundException($"WorkTime wasn't found");
 
             return _mapper.Map<WorkTimeModel>(workTime);
         }
@@ -36,12 +36,14 @@ namespace DogSitter.BLL.Services
 
         public void UpdateWorkTime(WorkTimeModel workTimeModel)
         {
-            var workTime = _mapper.Map<WorkTime>(workTimeModel);
+            var exitingworkTime = _mapper.Map<WorkTime>(workTimeModel);
 
-            if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
-                throw new EntityNotFoundException($"{workTime} не найдено!");
+            if (_workTimeRepository.GetWorkTimeById(exitingworkTime.Id) is null)
+                throw new EntityNotFoundException($"WorkTime wasn't found!");
 
-            _workTimeRepository.UpdateWorkTime(workTime);
+            var workTimeToUpdate = _mapper.Map<WorkTime>(workTimeModel);
+
+            _workTimeRepository.UpdateWorkTime(exitingworkTime, workTimeToUpdate);
         }
 
         public void DeleteWorkTime(WorkTimeModel workTimeModel)
@@ -49,9 +51,9 @@ namespace DogSitter.BLL.Services
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
 
             if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
-                throw new EntityNotFoundException($"{workTime} не найдено!");
+                throw new EntityNotFoundException($"WorkTime wasn't found!");
 
-            _workTimeRepository.UpdateWorkTime(workTime, true);
+            _workTimeRepository.UpdateOrDeleteWorkTime(workTime, true);
         }
 
         public void RestoreWorkTime(WorkTimeModel workTimeModel)
@@ -59,9 +61,9 @@ namespace DogSitter.BLL.Services
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
 
             if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
-                throw new EntityNotFoundException($"{workTime} не найдено!");
+                throw new EntityNotFoundException($"WorkTime wasn't found!");
 
-            _workTimeRepository.RestoreWorkTime(workTime, false);
+            _workTimeRepository.UpdateOrDeleteWorkTime(workTime, false);
         }
     }
 }

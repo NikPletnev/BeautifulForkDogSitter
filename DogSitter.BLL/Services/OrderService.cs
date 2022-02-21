@@ -68,7 +68,7 @@ namespace DogSitter.BLL.Services
             }
             else
             {
-                throw new Exception();
+                throw new Exception($"Order { orderModel.Id } has been accepted, it cannot be edited");
             }
         }
 

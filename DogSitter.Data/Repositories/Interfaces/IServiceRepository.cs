@@ -8,8 +8,7 @@ namespace DogSitter.DAL.Repositories
         List<Serviсe> GetAllServices();
         List<Serviсe> GetAllServicesBySitterId(int id);
         Serviсe GetServiceById(int id);
-        void UpdateService(Serviсe service, bool IsDeleted);
-        void UpdateService(Serviсe service);
-        void RestoreService(Serviсe service, bool IsDeleted);
+        void UpdateService(Serviсe exitingServiсe, Serviсe serviceToUpdate);
+        void UpdateOrDeleteService(Serviсe service, bool isDeleted);
     }
 }

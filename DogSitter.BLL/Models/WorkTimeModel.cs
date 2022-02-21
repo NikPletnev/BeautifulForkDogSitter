@@ -9,5 +9,14 @@ namespace DogSitter.BLL.Models
         public DateTime End { get; set; }
         public Weekday Weekday { get; set; }
         public List<Sitter> Sitters { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is WorkTimeModel model &&
+                   Id == model.Id &&
+                   Start == model.Start &&
+                   End == model.End &&
+                   Weekday == model.Weekday;
+        }
     }
 }
