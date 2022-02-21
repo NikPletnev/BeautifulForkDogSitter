@@ -47,36 +47,35 @@ namespace DogSitter.BLL.Services
             _subwayStationRepository.AddSubwayStation(subwayStation);
         }
 
-        public void UpdateSubwayStation(SubwayStationModel subwayStationModel)
+        public void UpdateSubwayStation(int id, SubwayStationModel subwayStationModel)
         {
-            var exitingSubwayStation = _mapper.Map<SubwayStation>(subwayStationModel);
+            var subwayStationToUpdate = _mapper.Map<SubwayStation>(subwayStationModel);
 
-            if (_subwayStationRepository.GetSubwayStationById(exitingSubwayStation.Id) is null)
-                throw new EntityNotFoundException($"{exitingSubwayStation} не найдена!");
+            var exitingSubwayStation = _subwayStationRepository.GetSubwayStationById(id);
 
-            var subwayStationToUpdate = _mapper.Map<SubwayStation>(exitingSubwayStation);
+            if (exitingSubwayStation is null)
+                throw new EntityNotFoundException("Subway station wasn't found");
 
             _subwayStationRepository.UpdateSubwayStation(exitingSubwayStation, subwayStationToUpdate);
         }
 
-        public void DeleteSubwayStation(SubwayStationModel subwayStationModel)
+        public void DeleteSubwayStation(int id)
         {
-            var subwayStation = _mapper.Map<SubwayStation>(subwayStationModel);
+            var subwayStationToDelete = _subwayStationRepository.GetSubwayStationById(id);
+            if (subwayStationToDelete is null)
+                throw new EntityNotFoundException("Subway station wasn't found");
 
-            if (_subwayStationRepository.GetSubwayStationById(subwayStation.Id) is null)
-                throw new EntityNotFoundException($"{subwayStation} не найдена!");
-
-            _subwayStationRepository.UpdateOrDeleteSubwayStation(subwayStation, true);
+            _subwayStationRepository.UpdateOrDeleteSubwayStation(subwayStationToDelete, true);
         }
 
-        public void RestoreSubwayStation(SubwayStationModel subwayStationModel)
+        public void RestoreSubwayStation(int id)
         {
-            var subwayStation = _mapper.Map<SubwayStation>(subwayStationModel);
+            var subwayStationToRestore = _subwayStationRepository.GetSubwayStationById(id);
 
-            if (_subwayStationRepository.GetSubwayStationById(subwayStation.Id) is null)
-                throw new EntityNotFoundException($"{subwayStation} не найдена!");
+            if (subwayStationToRestore is null)
+                throw new EntityNotFoundException("Subway station wasn't found");
 
-            _subwayStationRepository.UpdateOrDeleteSubwayStation(subwayStation, false);
+            _subwayStationRepository.UpdateOrDeleteSubwayStation(subwayStationToRestore, false);
         }
     }
 }
