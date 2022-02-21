@@ -15,13 +15,14 @@ namespace DogSitter.API.Controllers
             _authService = authService;
         }
 
-        [HttpPost("loginAdmin")]
-        public ActionResult LoginAdmin([FromBody] AuthInputModel authInputModel)
+        [HttpPost("login")]
+        public ActionResult LoginUser([FromBody] AuthInputModel authInputModel)
         {
-            var token = _authService.GetToken(_authService.GetAdminForLogin(authInputModel.Contact, authInputModel.Password));
+            var token = _authService.GetToken(_authService.GetUserForLogin(authInputModel.Contact,
+                authInputModel.Password));
+
             return Json(token);
         }
-
 
     }
 }

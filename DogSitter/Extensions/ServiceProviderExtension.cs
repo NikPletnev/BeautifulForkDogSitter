@@ -5,6 +5,7 @@ using DogSitter.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace DogSitter.API.Extensions
 {
@@ -18,6 +19,9 @@ namespace DogSitter.API.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ISitterService, SitterService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ISubwayStationService, SubwayStationService>();
+            services.AddScoped<IWorkTimeService, WorkTimeService>();
+            services.AddScoped<IServiceService, ServiceService>();
             services.AddScoped<ICommentService, CommentService>();
         }
 
@@ -28,6 +32,9 @@ namespace DogSitter.API.Extensions
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ISitterRepository, SitterRepository>();
+            services.AddScoped<ISubwayStationRepository, SubwayStationRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IWorkTimeRepository, WorkTimeRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
         }
 
@@ -61,10 +68,50 @@ namespace DogSitter.API.Extensions
         {
             services.AddDbContext<DogSitterContext>(
                 options => options.UseSqlServer(
-                    @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB;
-                    Persist Security Info=True; User ID = student; Password = qwe!23; Pooling = False; 
-                    MultipleActiveResultSets = False; Connect Timeout = 60; Encrypt = False; 
-                    TrustServerCertificate = False"));
+                    //@"Server=(localdb)\mssqllocaldb;Database=DogSitterDB2;Trusted_Connection=True;"));
+
+
+            //Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = DogSitterDB;
+            //                Integrated Security=True;Connect 
+            //                Timeout=30;Encrypt=False;TrustServerCertificate=False;
+            //                ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+
+
+            @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB;
+            Persist Security Info=True; User ID = student; Password = qwe!23; Pooling = False; 
+            MultipleActiveResultSets = False; Connect Timeout = 60; Encrypt = False; 
+            TrustServerCertificate = False"));
+        }
+
+        public static void AddSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAPI", Version = "v1" });
+                opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                             new string[]{}
+                    }
+                });
+            });
         }
     }
 }

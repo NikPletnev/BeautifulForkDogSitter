@@ -26,7 +26,7 @@ namespace DogSitter.BLL.Tests
         {
             _dogRepositoryMock = new Mock<IDogRepository>();
             _customerRepository = new Mock<ICustomerRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _service = new DogService(_mapper, _dogRepositoryMock.Object, _customerRepository.Object);
         }
 
@@ -123,8 +123,7 @@ namespace DogSitter.BLL.Tests
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
-
-        [TestCaseSource(typeof(UpdateAddressTestCaseSource))]
+        [TestCaseSource(typeof(UpdateDogTestCaseSource))]
         public void UpdateDogMustThrowEntityNotFoundException(int id, Dog dogEntity, DogModel dog)
         {
             //given

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using DogSitter.API.Attribute;
 using DogSitter.API.Models;
-using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
+using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -19,40 +20,40 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
+        [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpGet("{id}")]
         public ActionResult<AddressOutputModel> GetAddressById(int id)
         {
             var address = _addressService.GetAddressById(id);
+
             return Ok(_mapper.Map<AddressOutputModel>(address));
         }
 
+        [AuthorizeRole(Role.Admin)]
         [HttpGet]
         public ActionResult<List<AddressOutputModel>> GetAllAddresses()
         {
             var addresses = _addressService.GetAllAddresses();
+
             return Ok(_mapper.Map<AddressOutputModel>(addresses));
         }
 
-        [HttpPost]
-        public ActionResult AddAddress([FromBody] AddressInputModel address)
-        {
-            _addressService.AddAddress(_mapper.Map<AddressModel>(address));
-            return StatusCode(StatusCodes.Status201Created, _mapper.Map<AddressOutputModel>(address));
-        }
-
-        [HttpPut]
-        public ActionResult UpdateAddress([FromBody] AddressInputModel address)
-        {
-            _addressService.UpdateAddress(_mapper.Map<AddressModel>(address));
-            return Ok();
-        }
-
+        [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpDelete("{id}")]
         public ActionResult DeleteAddress(int id)
         {
             _addressService.DeleteAddressById(id);
+
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
+        [AuthorizeRole(Role.Admin, Role.Customer)]
+        [HttpGet("customers/{id}")]
+        public ActionResult GetAddressByCustomerId(int id)
+        {
+            var address = _addressService.GetAddressByCustomerId(id);
+
+            return Ok(_mapper.Map<AddressOutputModel>(address));
+        }
     }
 }

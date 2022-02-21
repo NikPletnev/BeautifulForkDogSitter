@@ -41,7 +41,7 @@ namespace DogSitter.BLL.Tests
             _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
             _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>())).Verifiable();
             //when       
-            _service.Update( model);
+            _service.Update(model);
             //then            
             _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
             _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Once);

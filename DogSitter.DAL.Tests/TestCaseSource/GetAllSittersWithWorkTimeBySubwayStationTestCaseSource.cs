@@ -9,15 +9,15 @@ namespace DogSitter.DAL.Tests.TestCaseSource
     {
         public IEnumerator GetEnumerator()
         {
-             SubwayStation subwayStation = new SubwayStation()
-              {
-                  Id = 73,
-                  Name = "Name1",
-                  Sitters = new List<Sitter>()
+            SubwayStation subwayStation = new SubwayStation()
+            {
+                Id = 73,
+                Name = "Name1",
+                Sitters = new List<Sitter>()
                   {
                     new Sitter()
                     {
-                        Id = 1,
+                        Id = 11,
                         FirstName = "FirstName1",
                         LastName = "LastName1",
                         Password = "Password1",
@@ -25,7 +25,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         {
                             new WorkTime()
                             {
-                                Id = 1,
+                                Id = 11,
                                 Start = DateTime.Now,
                                 End = DateTime.Now,
                                 Weekday = Weekday.Sunday
@@ -40,7 +40,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     },
                     new Sitter()
                     {
-                        Id = 2,
+                        Id = 22,
                         FirstName = "FirstName2",
                         LastName = "LastName2",
                         Password = "Password2",
@@ -48,14 +48,14 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         IsDeleted = false
                     }
                   },
-                  IsDeleted = false
-              };
+                IsDeleted = false
+            };
 
             List<Sitter> sitters = new List<Sitter>()
             {
                     new Sitter()
                     {
-                    Id = 1,
+                    Id = 11,
                     FirstName = "FirstName1",
                     LastName = "LastName1",
                     Password = "Password1",
@@ -79,7 +79,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
 
             new Sitter()
             {
-                Id = 2,
+                Id = 22,
                 FirstName = "FirstName2",
                 LastName = "LastName2",
                 Password = "Password2",
@@ -93,7 +93,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     {
                     new Sitter()
                     {
-                        Id = 1,
+                        Id = 11,
                         FirstName = "FirstName1",
                         LastName = "LastName1",
                         Password = "Password1",
@@ -101,7 +101,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         {
                             new WorkTime()
                             {
-                                Id = 1,
+                                Id = 11,
                                 Start = DateTime.Now,
                                 End = DateTime.Now,
                                 Weekday = Weekday.Sunday
@@ -115,7 +115,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                             {
                                 new Sitter()
                 {
-                    Id = 1,
+                    Id = 11,
                     FirstName = "FirstName1",
                     LastName = "LastName1",
                     Password = "Password1",
@@ -123,7 +123,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     {
                         new WorkTime()
                         {
-                            Id = 1,
+                            Id = 11,
                             Start = DateTime.Now,
                             End = DateTime.Now,
                             Weekday = Weekday.Sunday
@@ -145,7 +145,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
         };
             yield return new object[] { subwayStation, sitters, expected };
         }
-       
+
     }
 }
 

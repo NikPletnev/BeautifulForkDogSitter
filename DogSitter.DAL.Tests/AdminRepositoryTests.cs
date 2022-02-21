@@ -159,21 +159,6 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.AreEqual(expected, actual);
         }
-
-        [TestCaseSource(typeof(AdminLoginTestCaseSource))]
-        public void LoginTest(List<Admin> admins, Contact contact, string pass, Admin expected)
-        {
-            //given
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
-            var foundAdmin = _context.Admins.FirstOrDefault(x => x.Id == 1);
-            contact.Admin = foundAdmin;
-            _context.SaveChanges();
-            //when
-            var actual = _rep.Login(contact, pass);
-            //then
-            Assert.AreEqual(expected, actual);
-        }
     }
 }
 

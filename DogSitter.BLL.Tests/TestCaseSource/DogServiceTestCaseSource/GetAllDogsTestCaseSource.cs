@@ -1,4 +1,5 @@
-﻿using DogSitter.BLL.Models;
+﻿using DogSitter.BLL.Helpers;
+using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using System;
@@ -15,6 +16,17 @@ namespace DogSitter.BLL.Tests.TestCaseSource
     {
         public IEnumerator GetEnumerator()
         {
+            var password = PasswordHash.HashPassword("123456");
+
+            CustomerModel customer = new CustomerModel
+            {
+                FirstName = "Иван",
+                LastName = "Иванов",
+                Password = password,
+                Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.Phone } },
+                IsDeleted = false
+            };
+
             var dogs = new List<Dog>
             {
                 new Dog
@@ -30,7 +42,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     {
                         FirstName = "Иван",
                         LastName = "Иванов",
-                        Password = "123456",
+                        Password = password,
                         Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.Phone } },
                         IsDeleted = false
                     }
@@ -48,7 +60,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     {
                         FirstName = "Иван",
                         LastName = "Иванов",
-                        Password = "123456",
+                        Password = password,
                         Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.Phone } },
                         IsDeleted = false
                     }
@@ -66,14 +78,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Description = "TestDescr",
                     Breed = "TetsBreed",
                     IsDeleted = false,
-                    Customer = new CustomerModel
-                    {
-                        FirstName = "Иван",
-                        LastName = "Иванов",
-                        Password = "123456",
-                        Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.Phone } },
-                        IsDeleted = false
-                    }
+                    Customer = customer
                 },
                 new DogModel
                 {
@@ -83,18 +88,10 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Description = "TestDescr2",
                     Breed = "TetsBreed2",
                     IsDeleted = false,
-                    Customer = new CustomerModel
-                    {
-                        FirstName = "Иван",
-                        LastName = "Иванов",
-                        Password = "123456",
-                        Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.Phone } },
-                        IsDeleted = false
-                    }
+                    Customer = customer
                 }
 
             };
-
 
             yield return new object[] { dogs, expected };
 

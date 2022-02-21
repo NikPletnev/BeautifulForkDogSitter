@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
 using DogSitter.API.Configs;
 using DogSitter.API.Models;
+using DogSitter.API.Attribute;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     [Route("api/[controller]")]
     public class SittersController : Controller
@@ -24,6 +25,7 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
+        //api/sitters       
         [HttpGet("{id}")]
         public ActionResult<SitterOutputModel> GetbyId(int id)
         {

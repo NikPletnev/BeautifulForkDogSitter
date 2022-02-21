@@ -4,7 +4,6 @@ namespace DogSitter.DAL.Repositories
 {
     public class AddressRepository : IAddressRepository
     {
-
         private DogSitterContext _context;
 
         public AddressRepository(DogSitterContext context)

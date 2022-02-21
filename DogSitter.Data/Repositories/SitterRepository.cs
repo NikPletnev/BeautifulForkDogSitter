@@ -53,20 +53,9 @@ namespace DogSitter.DAL.Repositories
                 _context.SaveChanges();
             }
         }
-        public Sitter Login(Contact contact, string pass)
-        {
-            if (contact != null && contact.Sitter != null)
-            {
-                if (contact.Sitter.Password == pass)
-                {
-                    return contact.Sitter;
-                }
-            }
-            return null;
-        }
 
-        public List<Sitter> GetAllSitterByServiceId(int id) =>
-            _context.Services.First(s => s.Id == id).Sitters.Where(s => !s.IsDeleted).ToList();
+        //public List<Sitter> GetAllSitterByServiceId(int id) =>
+        //    _context.Sitters.Where(s => s.Id == id).Sitter.Where(s => !s.IsDeleted).ToList();
 
         public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation) =>
             _context.Sitters.Where(s => s.SubwayStation.Id == subwaystation.Id && !s.IsDeleted)

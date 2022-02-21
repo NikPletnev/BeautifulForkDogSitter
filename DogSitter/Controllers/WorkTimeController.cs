@@ -40,7 +40,7 @@ namespace DogSitter.API.Controllers
 
         //api/workTimes/77
         [HttpPut("{id}")]
-        public IActionResult UpdateWorkTime([FromBody] WorkTimeUpdateInputModel workTime)
+        public IActionResult UpdateWorkTime( [FromBody] WorkTimeUpdateInputModel workTime)
         {
             _workTimeService.UpdateWorkTime(_mapper.Map<WorkTimeModel>(workTime));
 

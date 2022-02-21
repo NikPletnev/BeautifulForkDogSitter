@@ -15,7 +15,12 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Weekday = Weekday.Sunday,
-                    Sitter = new List<Sitter>(),
+                    Sitter = new Sitter()
+                    {
+                        FirstName = "FirstName1",
+                        LastName = "LastName1",
+                        Password = "Password1"
+                    },
                     IsDeleted = false
                 },
 
@@ -25,7 +30,12 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Weekday = Weekday.Saturday,
-                    Sitter = new List<Sitter>(),
+                    Sitter = new Sitter()
+                    {
+                        FirstName = "FirstName2",
+                        LastName = "LastName2",
+                        Password = "Password2",
+                    },
                     IsDeleted = true
                 }
             };
@@ -37,7 +47,12 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Start = DateTime.UtcNow,
                     End = DateTime.UtcNow,
                     Weekday = Weekday.Saturday,
-                    Sitter = new List<Sitter>(),
+                    Sitter = new Sitter()
+                    {
+                        FirstName = "FirstName3",
+                        LastName = "LastName3",
+                        Password = "Password3",
+                    },
                     IsDeleted = false
                 };
     }

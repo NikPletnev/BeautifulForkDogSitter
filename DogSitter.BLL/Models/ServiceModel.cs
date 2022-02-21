@@ -9,5 +9,15 @@
         public double DurationHours { get; set; }
         public List<OrderModel> Orders { get; set; }
         public List<SitterModel> Sitters { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ServiceModel model &&
+                   Id == model.Id &&
+                   Name == model.Name &&
+                   Description == model.Description &&
+                   Price == model.Price &&
+                   DurationHours == model.DurationHours;
+        }
     }
 }

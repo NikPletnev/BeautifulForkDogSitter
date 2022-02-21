@@ -18,9 +18,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                   Description = "Description1",
                   Price = 1000m,
                   DurationHours = 1.0,
-                  Sitters = new List<Sitter>()
-                  {
-                      new Sitter()
+                  Sitter = new Sitter()
                       {
                           Id = 1,
                           FirstName = "FirstName1",
@@ -28,15 +26,6 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                           Password = "Password1",
                           IsDeleted = false
                       },
-                      new Sitter()
-                      {
-                          Id = 2,
-                          FirstName = "FirstName2",
-                          LastName = "LastName2",
-                          Password = "Password2",
-                         IsDeleted = true
-                      },
-                  },
                   IsDeleted = false
               };
 

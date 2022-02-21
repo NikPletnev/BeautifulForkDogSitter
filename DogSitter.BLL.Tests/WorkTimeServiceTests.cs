@@ -22,7 +22,7 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _workTimeRepositoryMock = new Mock<IWorkTimeRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _service = new WorkTimeService(_workTimeRepositoryMock.Object, _mapper);
             _workTimeMocks = new WorkTimeTestMocks();
         }
