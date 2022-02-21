@@ -47,20 +47,20 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        [AuthorizeRole(Role.Customer, Role.Sitter)]
-        [HttpGet("{sitters/id/comments}")]
+        [AuthorizeRole(Role.Customer, Role.Sitter, Role.Admin)]
+        [HttpGet("sitters/{id}")]
         public ActionResult GetAllCommentsBySitter(int id)
         {
-            var comments = _mapper.Map<List<CommentOutputModel>>(_service.GetAllCommentsBySitterId(id));
-            return Ok(comments);
-        }
-
-        [AuthorizeRole(Role.Admin)]
-        [HttpGet("{sitters/id/comments}")]
-        public ActionResult GetAllCommentsBySitterForAdmin(int id)
-        {
-            var comments = _mapper.Map<List<CommentForAdminOutputModel>>(_service.GetAllCommentsBySitterId(id));
-            return Ok(comments);
+            if (User.IsInRole(Role.Admin.ToString()))
+            {
+                var comments = _mapper.Map<List<CommentForAdminOutputModel>>(_service.GetAllCommentsBySitterId(id));
+                return Ok(comments);
+            }
+            else
+            {
+                var comments = _mapper.Map<List<CommentOutputModel>>(_service.GetAllCommentsBySitterId(id));
+                return Ok(comments);
+            }
         }
     }
 }

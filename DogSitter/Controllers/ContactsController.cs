@@ -32,7 +32,7 @@ namespace DogSitter.API.Controllers
         }
 
         [AuthorizeRole(Role.Admin)]
-        [HttpGet]
+        [HttpGet("customer/{id}")]
         public ActionResult<List<ContactOutputModel>> GetAllContactsByCustomerId(int id)
         {
             var сontacts = _map.Map<List<ContactOutputModel>>(_service.GetAllContactsByCustomerId(id));
@@ -41,7 +41,7 @@ namespace DogSitter.API.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("admin/{id}")]
         public ActionResult<List<ContactOutputModel>> GetAllContactsByAdminId(int id)
         {
             var сontacts = _map.Map<List<ContactOutputModel>>(_service.GetAllContactsByAdminId(id));
@@ -50,7 +50,7 @@ namespace DogSitter.API.Controllers
         }
 
         [AuthorizeRole(Role.Admin)]
-        [HttpGet]
+        [HttpGet("sitter/{id}")]
         public ActionResult<List<ContactOutputModel>> GetAllContactsBySitterId(int id)
         {
             var сontacts = _map.Map<List<ContactOutputModel>>(_service.GetAllContactsBySitterId(id));

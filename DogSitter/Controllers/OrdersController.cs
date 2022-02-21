@@ -61,7 +61,7 @@ namespace DogSitter.API.Controllers
         }
 
         [AuthorizeRole(Role.Admin, Role.Customer)]
-        [HttpGet("{customer/id}")]
+        [HttpGet("customer/{id}")]
         public ActionResult GetAllOrdersByCustomerId(int id)
         {
             var orders = _mapper.Map<List<OrderOutputModel>>(_service.GetAllOrdersByCustomerId(id));
@@ -69,7 +69,7 @@ namespace DogSitter.API.Controllers
         }
 
         [AuthorizeRole(Role.Admin, Role.Sitter, Role.Customer)]
-        [HttpGet("{sitter/id}")]
+        [HttpGet("sitter/{id}")]
         public ActionResult GetAllOrdersBySitterId(int id)
         {
             var orders = _mapper.Map<List<OrderOutputModel>>(_service.GetAllOrdersBySitterId(id));
