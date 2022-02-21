@@ -23,13 +23,10 @@ namespace DogSitter.DAL.Repositories
         public List<Comment> GetAll() =>
             _context.Comments.Where(d => !d.IsDeleted).ToList();
 
-        public void Update(Comment comment)
+        public void Update(Comment comment, Comment entity)
         {
-            var entity = _context.ChangeTracker.Entries<Comment>()
-                .First(a => a.Entity.Id == comment.Id).Entity;
-
-            entity.Text = comment.Text;
-            entity.Date = comment.Date;
+            comment.Text = entity.Text;
+            comment.Date = entity.Date;
             _context.SaveChanges();
         }
 

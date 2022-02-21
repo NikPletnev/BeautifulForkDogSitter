@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -33,10 +34,11 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<CustomerModel>>(customers);
         }
 
-        public void AddCustomer(CustomerModel customer)
+        public void AddCustomer(CustomerModel customerModel)
         {
-            var customerModel = _mapper.Map<Customer>(customer);
-            _repository.AddCustomer(customerModel);
+            var customer = _mapper.Map<Customer>(customerModel);
+            customer.Password = PasswordHash.HashPassword(customer.Password);
+            _repository.AddCustomer(customer);
         }
 
         public void UpdateCustomer(CustomerModel customer)

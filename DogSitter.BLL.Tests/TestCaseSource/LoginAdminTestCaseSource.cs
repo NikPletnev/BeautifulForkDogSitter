@@ -1,4 +1,5 @@
-﻿using DogSitter.BLL.Models;
+﻿using DogSitter.BLL.Helpers;
+using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using System.Collections;
@@ -14,25 +15,25 @@ namespace DogSitter.BLL.Tests.TestCaseSource
             {
                 FirstName = "Иван",
                 LastName = "Иванов",
-                Password = "123456",
+                Password = PasswordHash.HashPassword("123456"),
                 Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.Phone } },
                 IsDeleted = false
             };
-            var expected = new AdminModel()
+            var expected = new UserModel()
             {
 
                 FirstName = "Иван",
                 LastName = "Иванов",
-                Password = "123456",
+                Password = PasswordHash.HashPassword("123456"),
                 Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.Phone } },
                 IsDeleted = false
             };
 
-            Contact contact = new Contact() { Id = 1, Value = "12345678", ContactType = ContactType.Phone };
+            Contact contact = new Contact() { Id = 1, Value = "12345678", ContactType = ContactType.Phone, User = (User)admin };
 
             string password = "123456";
 
-            yield return new object[] { admin, expected, contact, password };
+            yield return new object[] { expected, contact, password };
         }
     }
 }

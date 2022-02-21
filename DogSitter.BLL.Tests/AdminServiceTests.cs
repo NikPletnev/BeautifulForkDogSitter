@@ -22,7 +22,7 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _adminRepositoryMock = new Mock<IAdminRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _service = new AdminService(_adminRepositoryMock.Object, _mapper);
         }
 

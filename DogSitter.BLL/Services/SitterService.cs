@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -10,12 +11,12 @@ namespace DogSitter.BLL.Services
     {
         private ISitterRepository _sitterRepository;
         private ISubwayStationRepository _subwayStationRepository;
-
         private IMapper _mapper;
 
-        public SitterService(ISitterRepository sitterRepository, 
-            ISubwayStationRepository subwayStationRepository, IMapper mapper)
+        public SitterService(ISitterRepository sitterRepository, ISubwayStationRepository subwayStationRepository,
+            IMapper mapper)
         {
+            _sitterRepository = sitterRepository;
             _sitterRepository = sitterRepository;
             _subwayStationRepository = subwayStationRepository;
             _mapper = mapper;
@@ -23,17 +24,14 @@ namespace DogSitter.BLL.Services
 
         public SitterModel GetById(int id)
         {
-            try
+            var sitter = _sitterRepository.GetById(id);
+            if (sitter == null)
             {
-                var sitter = _sitterRepository.GetById(id);
-                return _mapper.Map<SitterModel>(sitter);
+                throw new EntityNotFoundException($"Sitter {id} was not found");
             }
-            catch (Exception)
-            {
-
-                throw new Exception("Ситтер не найден");
-            }
+            return _mapper.Map<SitterModel>(sitter);
         }
+
         public List<SitterModel> GetAll()
         {
             var sitters = _sitterRepository.GetAll();
@@ -43,38 +41,28 @@ namespace DogSitter.BLL.Services
         public void Add(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
+            sitter.Password = PasswordHash.HashPassword(sitter.Password);
             _sitterRepository.Add(sitter);
         }
 
         public void Update(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
-            try
+            var entity = _sitterRepository.GetById(sitterModel.Id);
+            if (entity == null)
             {
-                var entity = _sitterRepository.GetById(sitterModel.Id);
-
-            }
-            catch (Exception)
-            {
-
-                throw new Exception("Ситтер не найден");
+                throw new EntityNotFoundException($"Sitter {sitterModel.Id} was not found");
             }
             _sitterRepository.Update(sitter);
         }
 
         public void DeleteById(int id)
         {
-            try
+            var entity = _sitterRepository.GetById(id);
+            if (entity == null)
             {
-                var entity = _sitterRepository.GetById(id);
-
+                throw new EntityNotFoundException($"Sitter {id} was not found");
             }
-            catch (Exception)
-            {
-
-                throw new Exception("Ситтер не найден");
-            }
-
             bool delete = true;
             _sitterRepository.Update(id, delete);
             _sitterRepository.EditProfileStateBySitterId(id, false);
@@ -82,18 +70,12 @@ namespace DogSitter.BLL.Services
 
         public void Restore(int id)
         {
-            try
+            var entity = _sitterRepository.GetById(id);
+            if (entity == null)
             {
-                var entity = _sitterRepository.GetById(id);
-
+                throw new EntityNotFoundException($"Sitter {id} was not found");
             }
-            catch (Exception)
-            {
-
-                throw new Exception("Ситтер не найден");
-            }
-            bool Delete = false;
-            _sitterRepository.Update(id, Delete);
+            _sitterRepository.Update(id, false);
         }
 
         public void ConfirmProfileSitterById(int id)
@@ -118,6 +100,16 @@ namespace DogSitter.BLL.Services
             }
             _sitterRepository.EditProfileStateBySitterId(id, false);
         }
+
+        //public List<SitterModel> GetAllSitterByServiceId(int id)
+        //{
+        //    var service = _serviceRepository.GetServiceById(id);
+
+        //    if (service is null)
+        //        throw new EntityNotFoundException($"Service {id} was not found");
+
+        //    return _mapper.Map<List<SitterModel>>(_sitterRepository.GetAllSitterByServiceId(id));
+        //}
 
         public List<SitterModel> GetAllSittersWithWorkTimeBySubwayStation(SubwayStationModel subwayStationModel)
         {

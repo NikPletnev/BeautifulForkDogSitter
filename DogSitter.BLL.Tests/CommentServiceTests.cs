@@ -25,7 +25,7 @@ namespace DogSitter.BLL.Tests
         {
             _commentRepositoryMock = new Mock<ICommentRepository>();
             _sitterRepositoryMock = new Mock<ISitterRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<CustomMapper>()));
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _comment = new CommentService(_commentRepositoryMock.Object, _mapper, _sitterRepositoryMock.Object);
             _commentMocks = new CommentTestCaseSourse();
         }
@@ -89,14 +89,14 @@ namespace DogSitter.BLL.Tests
         public void UpdateCommentTest()
         {
             //given
-            _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>()));
+            _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>(), It.IsAny<Comment>()));
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(new Comment());
 
             //when
             _comment.Update(new CommentModel());
 
             //then
-            _commentRepositoryMock.Verify(m => m.Update(It.IsAny<Comment>()), Times.Once());
+            _commentRepositoryMock.Verify(m => m.Update(It.IsAny<Comment>(), It.IsAny<Comment>()), Times.Once());
             _commentRepositoryMock.Verify(m => m.Update(
                 new Comment(), true), Times.Never());
         }
@@ -104,7 +104,7 @@ namespace DogSitter.BLL.Tests
         [Test]
         public void UpdateCommentNegativeTest()
         {
-            _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>()));
+            _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>(), It.IsAny<Comment>()));
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Comment)null);
 
             Assert.Throws<EntityNotFoundException>(() => _comment.Update(new CommentModel()));
@@ -118,10 +118,10 @@ namespace DogSitter.BLL.Tests
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(new Comment());
 
             //when
-            _comment.DeleteById(new CommentModel());
+            _comment.DeleteById(1);
 
             //then
-            _commentRepositoryMock.Verify(m => m.Update(It.IsAny<Comment>()), Times.Never());
+            _commentRepositoryMock.Verify(m => m.Update(It.IsAny<Comment>(), It.IsAny<Comment>()), Times.Never());
             _commentRepositoryMock.Verify(m => m.Update(
                 It.IsAny<Comment>(), It.IsAny<bool>()), Times.Once());
         }
@@ -132,7 +132,7 @@ namespace DogSitter.BLL.Tests
             _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>(), It.IsAny<bool>()));
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Comment)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(new CommentModel()));
+            Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(0));
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace DogSitter.BLL.Tests
             _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>(), It.IsAny<bool>()));
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Comment)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(new CommentModel()));
+            Assert.Throws<EntityNotFoundException>(() => _comment.DeleteById(0));
         }
 
         [TestCaseSource(typeof(GetAllComentsBySitterIdTestCaseSource))]

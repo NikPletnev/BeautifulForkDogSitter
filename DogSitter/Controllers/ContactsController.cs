@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using DogSitter.API.Attribute;
 using DogSitter.API.Models;
 using DogSitter.BLL.Services;
+using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -18,35 +20,13 @@ namespace DogSitter.API.Controllers
             _map = CustomMapper;
         }
 
-        //api/contacts/42
-        [HttpDelete("{id}")]
-        public IActionResult DeleteContact(int id)
-        {
-            _service.DeleteContact(id);
-            return NoContent();
-        }
-
-        //api/contacts/42
-        [HttpPatch("{id}")]
-        public IActionResult RestoreContact(int id)
-        {
-            _service.RestoreContact(id);
-            return NoContent();
-        }
-
-        //api/contacts/42
-        [HttpGet("{id}")]
-        public ActionResult<ContactOutputModel> GetContactById(int id)
-        {
-            var сontact = _map.Map<ContactOutputModel>(_service.GetContactById(id));
-            return Ok(сontact);
-        }
-
         //api/contacts
+        [AuthorizeRole(Role.Admin)]
         [HttpGet]
         public ActionResult<List<ContactOutputModel>> GetAllContacts()
         {
             var сontacts = _map.Map<List<ContactOutputModel>>(_service.GetAllContacts());
+
             return Ok(сontacts);
         }
     }

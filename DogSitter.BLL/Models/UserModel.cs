@@ -1,4 +1,6 @@
-﻿namespace DogSitter.BLL.Models
+﻿using DogSitter.DAL.Enums;
+
+namespace DogSitter.BLL.Models
 {
     public class UserModel
     {
@@ -8,6 +10,7 @@
         public string LastName { get; set; }
         public List<ContactModel> Contacts { get; set; }
         public bool IsDeleted { get; set; }
+        public Role Role { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -30,6 +33,5 @@
                    FirstName == model.FirstName &&
                    LastName == model.LastName;
         }
-
     }
 }
