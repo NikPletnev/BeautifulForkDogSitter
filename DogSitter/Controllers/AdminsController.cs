@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
@@ -24,11 +25,16 @@ namespace DogSitter.API.Controllers
 
         //api/admins/42
         [AuthorizeRole(Role.Admin)]
-        [HttpPut("{id}")]
-        public IActionResult UpdateAdmin(int id, [FromBody] AdminUpdateInputModel admin)
+        [HttpPut]
+        public IActionResult UpdateAdmin([FromBody] AdminUpdateInputModel admin)
         {
-            _service.UpdateAdmin(id, _map.Map<AdminModel>(admin));
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            _service.UpdateAdmin(userId.Value, _map.Map<AdminModel>(admin));
             return NoContent();
         }
 
@@ -37,8 +43,13 @@ namespace DogSitter.API.Controllers
         [Authorize]
         public ActionResult<List<AdminOutputModel>> GetAllAdmins()
         {
-            var admins = _map.Map<List<AdminOutputModel>>(_service.GetAllAdmins());
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            var admins = _map.Map<List<AdminOutputModel>>(_service.GetAllAdmins());
             return Ok(admins);
         }
     }
