@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -37,7 +38,7 @@ namespace DogSitter.DAL.Repositories
         }
 
         public List<Comment> GetAllComentsBySitterId(int id) =>
-            _context.Comments.Where(x => x.Order.Sitter.Id == id).ToList();
+            _context.Comments.Where(x => x.Order.Sitter.Id == id).Include(x => x.Customer).ToList();
 
     }
 }

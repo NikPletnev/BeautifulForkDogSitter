@@ -141,7 +141,7 @@ namespace DogSitter.DAL.Tests
             //when
             var actual = _repository.GetAllComentsBySitterId(id);
             //then
-            Assert.AreEqual(actual, expected);
+            CollectionAssert.AreEqual(actual, expected);
         }
     }
 }
