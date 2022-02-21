@@ -20,34 +20,18 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteWorkTime(int id)
+        public void UpdateWorkTime(WorkTime exitingWorkTime, WorkTime worktimeToUpdate)
         {
-            var workTime = GetWorkTimeById(id);
-            _context.WorkTimes.Remove(workTime);
+            exitingWorkTime.Start = worktimeToUpdate.Start;
+            exitingWorkTime.End = worktimeToUpdate.End;
+            exitingWorkTime.Weekday = worktimeToUpdate.Weekday;
             _context.SaveChanges();
         }
 
-        public void UpdateWorkTime(WorkTime workTime)
-        {
-            var trackingWorkTime = _context.ChangeTracker.Entries<WorkTime>()
-                .First(a => a.Entity.Id == workTime.Id).Entity;
-
-            trackingWorkTime.Start = workTime.Start;
-            trackingWorkTime.End = workTime.End;
-            trackingWorkTime.Weekday = workTime.Weekday;
-            _context.SaveChanges();
-        }
-
-        public void UpdateWorkTime(WorkTime workTime, bool IsDeleted)
+        public void UpdateOrDeleteWorkTime(WorkTime workTime, bool IsDeleted)
         {
             workTime.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
-        public void RestoreWorkTime(WorkTime workTime, bool IsDeleted)
-        {
-            workTime.IsDeleted = IsDeleted;
-            _context.SaveChanges();
-        }
-
     }
 }

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using DogSitter.BLL.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using DogSitter.API.Models;
+using DogSitter.API.Attribute;
+using DogSitter.DAL.Enums;
+using System.Collections.Generic;
 
 namespace DogSitter.API.Controllers
 {
@@ -23,6 +26,7 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
+        [AuthorizeRole(Role.Admin)]
         [HttpDelete("{id}")]
         public ActionResult DeleteOrder(int id)
         {
@@ -30,6 +34,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
+        [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpPut("{id}")]
         public ActionResult UpdateOrder([FromRoute] int id, [FromBody] OrderUpdateInputModel order)
         {
@@ -37,6 +42,7 @@ namespace DogSitter.API.Controllers
             return Ok();
         }
 
+        [AuthorizeRole(Role.Customer)]
         [HttpPost]
         public ActionResult AddOrder([FromBody] OrderInsertInputModel order)
         {
@@ -45,7 +51,7 @@ namespace DogSitter.API.Controllers
         }
 
         //api/orders/42
-        [Authorize]
+        [AuthorizeRole(Role.Admin, Role.Customer, Role.Sitter)]
         [HttpPatch("{id}")]
         public IActionResult EditOrderStatusByOrderId(int id, [FromBody] OrderStatusUpdateInputModel order)
         {
@@ -53,5 +59,21 @@ namespace DogSitter.API.Controllers
 
             return NoContent();
         }
+
+        [AuthorizeRole(Role.Admin, Role.Customer)]
+        [HttpGet("customer/{id}")]
+        public ActionResult GetAllOrdersByCustomerId(int id)
+        {
+            var orders = _mapper.Map<List<OrderOutputModel>>(_service.GetAllOrdersByCustomerId(id));
+            return Ok(orders);
+        }
+
+        [AuthorizeRole(Role.Admin, Role.Sitter, Role.Customer)]
+        [HttpGet("sitter/{id}")]
+        public ActionResult GetAllOrdersBySitterId(int id)
+        {
+            var orders = _mapper.Map<List<OrderOutputModel>>(_service.GetAllOrdersBySitterId(id));
+            return Ok(orders);
+        }        
     }
 }
