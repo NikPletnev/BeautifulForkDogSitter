@@ -30,11 +30,11 @@ namespace DogSitter.BLL.Services
         {
             if (orderModel.OrderDate == DateTime.MinValue ||
                 orderModel.Price == 0 ||
-                orderModel.Status == 0 ||
-                orderModel.Mark == null)
+                orderModel.Status == 0)
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
             }
+            orderModel.Price = GetOrderTotalSum(orderModel);
             orderModel.Customer = _map.Map<CustomerModel>(_customerRepository.GetCustomerById(userId));
             _rep.Add(_map.Map<Order>(orderModel));
         }
@@ -129,6 +129,11 @@ namespace DogSitter.BLL.Services
             SitterNewRating /= orders.Count;
             sitter.Rating = SitterNewRating;
             _sitterRepository.ChangeRating(sitter);
+        }
+
+        private decimal GetOrderTotalSum(OrderModel orderModel)
+        {
+            return orderModel.Services.Select(s => s.Price).Sum();
         }
     }
 }
