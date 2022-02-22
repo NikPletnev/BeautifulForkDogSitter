@@ -93,5 +93,13 @@ namespace DogSitter.API.Controllers
             var orders = _mapper.Map<List<OrderOutputModel>>(_service.GetAllOrdersBySitterId(userId.Value, id));
             return Ok(orders);
         }
+        [AuthorizeRole(Role.Customer)]
+        [HttpPost("{id}")]
+        public ActionResult AddCommentAndMarkAboutOrder(int id, OrderUpdateCommentAndMarkModel order )
+        {
+            var orderModel = _mapper.Map<OrderModel>(order);
+            _service.AddCommentAndMarkAboutOrder(id, orderModel);
+            return Ok();
+        }
     }
 }

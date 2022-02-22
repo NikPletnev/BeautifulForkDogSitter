@@ -12,5 +12,7 @@ namespace DogSitter.DAL.Repositories
         Sitter GetById(int id);
         void Update(int id, bool isDeleted);
         void Update(Sitter sitter);
+        void ChangeRating(Sitter sitter);
+        List<Order> GetAllSitterOrders(Sitter sitter);
     }
 }

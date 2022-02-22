@@ -110,6 +110,25 @@ namespace DogSitter.BLL.Services
             return _map.Map<List<OrderModel>>(_rep.GetAllOrdersByCustomerId(id));
         }
 
-
+        public void AddCommentAndMarkAboutOrder(int id, OrderModel order)
+        {
+            var entity = _rep.GetById(id);
+            var sitter = _sitterRepository.GetById(entity.Sitter.Id);
+            
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Order was not found");
+            }
+            _rep.LeaveCommentAndRateOrder(entity, _map.Map<Order>(order));
+            var orders = _sitterRepository.GetAllSitterOrders(sitter);
+            int SitterNewRating = 0;
+            foreach (var item in orders)
+            {
+                SitterNewRating += item.Mark.Value;
+            }
+            SitterNewRating /= orders.Count;
+            sitter.Rating = SitterNewRating;
+            _sitterRepository.ChangeRating(sitter);
+        }
     }
 }

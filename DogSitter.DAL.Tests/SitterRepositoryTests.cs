@@ -143,20 +143,6 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(actual, verify);
         }
 
-        //[TestCaseSource(typeof(GetAllSittersByServiceIdTestCaseSource))]
-        //public void GetAllSittersByServiceIdTest(int id, Serviсe service, List<Sitter> expected)
-        //{
-        //    //given
-        //    _context.Services.AddRange(service);
-        //    _context.SaveChanges();
-
-        //    //when
-        //    var actual = _repository.GetAllSitterByServiceId(id);
-
-        //    //then
-        //    Assert.AreEqual(expected, actual);
-        //}
-
         [TestCaseSource(typeof(GetAllSittersWithWorkTimeBySubwayStationTestCaseSource))]
         public void GetAllSittersWithWorkTimeBySubwayStationTest(SubwayStation subwayStation,
             List<Sitter> sitters, List<Sitter> expected)
@@ -171,6 +157,46 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.AreEqual(expected, actual);
             Assert.That(expected[0].WorkTime.Count == actual[0].WorkTime.Count);
+        }
+
+        [TestCaseSource(typeof(ChangeRatingTestCaseSource))]
+        public void ChangeRatingTestMustChangeRating(Sitter sitterDb, Sitter sitter)
+        {
+            //given
+
+            _context.Sitters.Add(sitterDb);
+            _context.SaveChanges();
+
+            //when
+
+            _repository.ChangeRating(sitter);
+            var actual  = _context.Sitters.FirstOrDefault(x => x.Id == 10);
+            var expected = sitter;
+
+            //then
+
+            Assert.AreEqual(expected, actual);
+
+        }
+
+        [TestCaseSource(typeof(GetAllSittersOrdersTestCaseSource))]
+        public void GetAllSittersOrdersTest(List<Order> orders, List<Order> expected, Sitter sitter) 
+        {
+            //given
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+
+            _context.Orders.AddRange(orders);
+            _context.Sitters.Add(sitter);
+            _context.SaveChanges();
+
+            //when
+
+            var actual = _repository.GetAllSitterOrders(sitter);
+
+            //then
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }
