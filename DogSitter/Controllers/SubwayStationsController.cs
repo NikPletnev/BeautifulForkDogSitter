@@ -34,10 +34,10 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            var subwayStation = _mapper.Map<SubwayStationOutputModel>(_subwayStationService
+            var subwayStations = _mapper.Map<List<SubwayStationOutputModel>>(_subwayStationService
                 .GetAllSubwayStationsWhereSitterExist());
 
-            return Ok(subwayStation);
+            return Ok(subwayStations);
         }
 
         //api/subwayStations

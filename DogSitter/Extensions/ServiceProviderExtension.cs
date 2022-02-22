@@ -76,8 +76,6 @@ namespace DogSitter.API.Extensions
         {
             services.AddDbContext<DogSitterContext>(
                 options => options.UseSqlServer(
-            //@"Server=(localdb)\mssqllocaldb;Database=DogSitterDB2;Trusted_Connection=True;"));
-
             @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB;
             Persist Security Info=True; User ID = student; Password = qwe!23; Pooling = False; 
             MultipleActiveResultSets = False; Connect Timeout = 60; Encrypt = False; 
