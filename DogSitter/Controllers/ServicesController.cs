@@ -86,7 +86,7 @@ namespace DogSitter.API.Controllers
         }
 
         [AuthorizeRole(Role.Admin, Role.Sitter)]
-        [HttpDelete("{id}")]
+        [HttpPatch("{id}")]
         public IActionResult RestoreService(int id)
         {
             var userId = this.GetUserId();
