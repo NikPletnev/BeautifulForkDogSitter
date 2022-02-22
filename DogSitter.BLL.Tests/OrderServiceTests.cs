@@ -107,22 +107,22 @@ namespace DogSitter.BLL.Tests
             Assert.Throws<EntityNotFoundException>(() => _service.Update(expected));
         }
 
-        [TestCase(1)]
-        public void DeleteOrderTest(int id)
+        [Test]
+        public void DeleteOrderTest()
         {
-            _orderRepositoryMock.Setup(m => m.Update(It.IsAny<Order>()));
+            _orderRepositoryMock.Setup(m => m.Update(It.IsAny<Order>(), It.IsAny<Order>()));
             _orderRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(new Order());
 
-            _service.DeleteById(id);
+            _service.DeleteById(1);
 
-            _orderRepositoryMock.Verify(m => m.Update(It.IsAny<Order>()), Times.Never());
-            _orderRepositoryMock.Verify(m => m.Update(id, It.IsAny<bool>()));
+            _orderRepositoryMock.Verify(m => m.Update(It.IsAny<Order>(), It.IsAny<Order>()), Times.Never());
+            _orderRepositoryMock.Verify(m => m.Update(It.IsAny<Order>(), It.IsAny<bool>()));
         }
 
         [TestCase(1)]
         public void DeleteOrderNegativeTest(int id)
         {
-            _orderRepositoryMock.Setup(m => m.Update(id, It.IsAny<bool>()));
+            _orderRepositoryMock.Setup(m => m.Update(It.IsAny<Order>(), It.IsAny<bool>()));
             _orderRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Order)null);
 
             Assert.Throws<EntityNotFoundException>(() => _service.DeleteById(id));
@@ -131,19 +131,19 @@ namespace DogSitter.BLL.Tests
         [TestCase(1)]
         public void RestoreOrderTest(int id)
         {
-            _orderRepositoryMock.Setup(m => m.Update(id, true));
+            _orderRepositoryMock.Setup(m => m.Update(It.IsAny<Order>(), true));
             _orderRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(new Order());
 
             _service.Restore(id);
 
             //then
-            _orderRepositoryMock.Verify(m => m.Update(id, false), Times.Once());
+            _orderRepositoryMock.Verify(m => m.Update(It.IsAny<Order>(), false), Times.Once());
         }
 
         [TestCase(1)]
         public void RestoreOrderNegativeTest(int id)
         {
-            _orderRepositoryMock.Setup(m => m.Update(id, It.IsAny<bool>()));
+            _orderRepositoryMock.Setup(m => m.Update(It.IsAny<Order>(), It.IsAny<bool>()));
             _orderRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Order)null);
 
             Assert.Throws<EntityNotFoundException>(() => _service.DeleteById(id));

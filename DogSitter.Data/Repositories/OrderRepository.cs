@@ -24,9 +24,8 @@ namespace DogSitter.DAL.Repositories
         public List<Order> GetAll() =>
             _context.Orders.Where(d => !d.IsDeleted).ToList();
 
-        public void Update(Order entity)
+        public void Update(Order entity, Order order)
         {
-            var order = GetById(entity.Id);
             entity.OrderDate = order.OrderDate;
             entity.Price = order.Price;
             entity.Status = order.Status;
@@ -36,10 +35,9 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void Update(int id, bool isDeleted)
+        public void Update(Order order, bool isDeleted)
         {
-            var order = GetById(id);
-            order.IsDeleted = isDeleted;
+             order.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
 

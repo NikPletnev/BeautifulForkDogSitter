@@ -94,7 +94,7 @@ namespace DogSitter.DAL.Tests
                 },
                 IsDeleted = false
             };
-            _repository.Update(expected);
+            _repository.Update(expected, order);
             var actual = _context.Orders.First(x => x.Id == order.Id);
 
             Assert.AreEqual(expected.Id, actual.Id);
@@ -106,21 +106,28 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
         }
 
-        [TestCase(3)]
-        public void UpdateIsDeleteOrderTest(int id)
+        [Test]
+        public void UpdateIsDeleteOrderTest()
         {
-            _repository.Update(id, false);
             var order = OrderTestCaseSourse.GetOrder();
-            Assert.AreEqual(order.IsDeleted, true);
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            _repository.Update(order, true);
+            var actual = OrderTestCaseSourse.GetOrder();
+            Assert.AreEqual(actual.IsDeleted, true);
         }
 
         [TestCase(3)]
         public void RestoreOrderTest(int id)
         {
-
-            _repository.Update(id, false);
             var order = OrderTestCaseSourse.GetOrder();
-            Assert.AreEqual(order.IsDeleted, false);
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            _repository.Update(order, false);
+            var actual = OrderTestCaseSourse.GetOrder();
+            Assert.AreEqual(actual.IsDeleted, false);
         }
 
         [TestCase(3, 2)]
