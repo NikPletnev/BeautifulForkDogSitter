@@ -191,5 +191,18 @@ namespace DogSitter.BLL.Tests
             _sitterRepMock.Verify(x => x.ChangeRating(It.IsAny<Sitter>()), Times.Once);
         }
 
+        [TestCaseSource(typeof(AddOrderTestCaseSource))]
+        public void AddOrderTest(OrderModel orderModel, Customer customer, int id, OrderModel expected)
+        {
+            //given
+            _orderRepositoryMock.Setup(x => x.Add(It.IsAny<Order>()));
+            _customerRepMock.Setup(x => x.GetCustomerById(id)).Returns(customer);
+
+            //when
+            _service.Add(id, orderModel);
+
+            //then
+            _orderRepositoryMock.Verify(x => x.Add(It.IsAny<Order>()), Times.Once);
+        }
     }
 }
