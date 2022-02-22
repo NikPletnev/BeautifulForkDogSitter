@@ -65,7 +65,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.UpdateDog(userId.Value ,idDog, _map.Map<DogModel>(dog));
+            _service.UpdateDog(userId.Value, idDog, _map.Map<DogModel>(dog));
             return NoContent();
         }
 

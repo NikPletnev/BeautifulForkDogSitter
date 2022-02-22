@@ -16,11 +16,11 @@ namespace DogSitter.BLL.Services
         private ICustomerRepository _customerRepository;
         private IUserRepository _userRepository;
 
-        public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository, 
+        public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository,
             ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository)
         {
             _rep = orderRepository;
-            _customerRepository = customerRepository; 
+            _customerRepository = customerRepository;
             _sitterRepository = sitterRepository;
             _map = mapper;
             _userRepository = userRepository;
@@ -52,7 +52,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
             var user = _userRepository.GetUserById(userId);
-            if((user.Role == Role.Customer && orderModel.Customer.Id != userId))
+            if ((user.Role == Role.Customer && orderModel.Customer.Id != userId))
             {
                 throw new AccessException("Not enough rights");
             }
@@ -89,7 +89,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
-            if(_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
             {
                 throw new AccessException("Not enough rights");
             }

@@ -19,13 +19,13 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                   Price = 1000m,
                   DurationHours = 1.0,
                   Sitter = new Sitter()
-                      {
-                          Id = 1,
-                          FirstName = "FirstName1",
-                          LastName = "LastName1",
-                          Password = "Password1",
-                          IsDeleted = false
-                      },
+                  {
+                      Id = 1,
+                      FirstName = "FirstName1",
+                      LastName = "LastName1",
+                      Password = "Password1",
+                      IsDeleted = false
+                  },
                   IsDeleted = false
               };
 

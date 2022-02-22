@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DogSitter.API.Models
+﻿namespace DogSitter.API.Models
 {
     public class AddressOutputModel
     {

@@ -133,7 +133,7 @@ namespace DogSitter.BLL.Tests
 
             _service.Restore(2);
 
-            _sitterRepositoryMock.Verify(x => x.Update(It.IsAny<int>(), false),Times.Once());
+            _sitterRepositoryMock.Verify(x => x.Update(It.IsAny<int>(), false), Times.Once());
         }
 
         [Test]
@@ -210,7 +210,7 @@ namespace DogSitter.BLL.Tests
             _sitterRepositoryMock.Verify(x => x.GetById(id), Times.Once);
         }
 
-        [TestCaseSource(typeof(GetAllSittersByServiceIdTestCaseSource))] 
+        [TestCaseSource(typeof(GetAllSittersByServiceIdTestCaseSource))]
         public void GetAllSittersByServiceIdTest(int id, Serviсe service, List<Sitter> sitters)
         {
             ////given

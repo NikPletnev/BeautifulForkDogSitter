@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
-using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 
@@ -14,7 +13,7 @@ namespace DogSitter.BLL.Services
         private IMapper _mapper;
         private readonly IUserRepository _userRepository;
 
-        public AddressService(IMapper mapper, IAddressRepository addressRepository, 
+        public AddressService(IMapper mapper, IAddressRepository addressRepository,
             ICustomerRepository customerRepository, IUserRepository userRepository)
         {
             _repository = addressRepository;
@@ -37,7 +36,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException("Address not found");
             }
             var user = _userRepository.GetUserById(userId);
-            if(user.Role != Role.Admin && entity.Customer.Id != userId)
+            if (user.Role != Role.Admin && entity.Customer.Id != userId)
             {
                 throw new AccessException("Not enough rights");
             }

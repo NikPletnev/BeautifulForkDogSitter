@@ -123,7 +123,7 @@ namespace DogSitter.BLL.Tests
         [Test]
         public void DeleteWorkTimeNegativeTest()
         {
-            
+
             _workTimeRepositoryMock.Setup(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), true));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
 

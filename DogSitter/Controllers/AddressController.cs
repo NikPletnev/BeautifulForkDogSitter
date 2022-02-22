@@ -4,7 +4,6 @@ using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
-using DogSitter.DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -14,7 +13,7 @@ namespace DogSitter.API.Controllers
     public class AddressController : Controller
     {
         private readonly IAddressService _addressService;
-        private readonly IMapper _mapper;       
+        private readonly IMapper _mapper;
 
         public AddressController(IMapper mapper, IAddressService addressService)
         {
@@ -60,7 +59,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _addressService.RestoreAddress( id);
+            _addressService.RestoreAddress(id);
             return StatusCode(StatusCodes.Status204NoContent);
         }
     }

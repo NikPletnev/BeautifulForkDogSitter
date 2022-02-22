@@ -28,7 +28,7 @@ namespace DogSitter.BLL.Tests
             _userRepMock = new Mock<IUserRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
             _service = new AddressService(_mapper, _addressRepositoryMock.Object, _customerRepMock.Object, _userRepMock.Object);
-        }      
+        }
 
         [TestCaseSource(typeof(GetAllAddressTestCaseSource))]
         public void GetAllAddressTestMustReturnAllAddresess(List<Address> addresses, List<AddressModel> expected)

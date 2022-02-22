@@ -1,5 +1,4 @@
-﻿using DogSitter.BLL.Models;
-using DogSitter.DAL.Entity;
+﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using System.Collections.Generic;
 
@@ -57,7 +56,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Description = "Description3",
                     Price = 3000m,
                     DurationHours = 3.0,
-                    IsDeleted = false, 
+                    IsDeleted = false,
                     Sitter = new Sitter()
                     {
                         Id = 1,

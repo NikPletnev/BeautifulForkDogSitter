@@ -31,7 +31,7 @@ namespace DogSitter.BLL.Services
             var exitingworkTime = _workTimeRepository.GetWorkTimeById(id);
             if (exitingworkTime is null)
                 throw new EntityNotFoundException($"WorkTime wasn't found!");
-            if(exitingworkTime.Sitter.Id != userId)
+            if (exitingworkTime.Sitter.Id != userId)
             {
                 throw new AccessException("Not enough rights");
             }
@@ -46,7 +46,7 @@ namespace DogSitter.BLL.Services
             var workTime = _workTimeRepository.GetWorkTimeById(id);
             if (workTime is null)
                 throw new EntityNotFoundException($"WorkTime wasn't found!");
-            if(workTime.Sitter.Id != userId)
+            if (workTime.Sitter.Id != userId)
             {
                 throw new AccessException("Not enough rights");
             }

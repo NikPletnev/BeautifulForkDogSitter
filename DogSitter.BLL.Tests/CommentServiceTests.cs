@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
-using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
@@ -44,7 +43,7 @@ namespace DogSitter.BLL.Tests
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected.Count, actual.Count);
             _commentRepositoryMock.Verify(m => m.GetAll(), Times.Once);
-        }      
+        }
 
         [Test]
         public void DeleteCommentTest()

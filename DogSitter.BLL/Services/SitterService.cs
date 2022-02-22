@@ -50,7 +50,7 @@ namespace DogSitter.BLL.Services
 
         public void Update(int id, SitterModel sitterModel)
         {
-            if(id != sitterModel.Id)
+            if (id != sitterModel.Id)
             {
                 throw new AccessException("Not enough rights");
             }
@@ -70,7 +70,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
-            if(_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
             {
                 throw new AccessException("Not enough rights");
             }

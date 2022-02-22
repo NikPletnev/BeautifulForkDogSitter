@@ -1,21 +1,16 @@
-﻿using DogSitter.BLL.Helpers;
-using DogSitter.BLL.Models;
+﻿using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
-    public class GetAllCustomersTestCaseSource: IEnumerable
+    public class GetAllCustomersTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            
+
 
             CustomerModel customer = new CustomerModel
             {
@@ -187,7 +182,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
 
             };
 
-            yield return new object[] { customers, returnedCustomers,expected };
+            yield return new object[] { customers, returnedCustomers, expected };
 
         }
     }

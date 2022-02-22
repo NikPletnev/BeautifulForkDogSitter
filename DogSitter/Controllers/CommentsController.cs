@@ -2,9 +2,7 @@
 using DogSitter.API.Attribute;
 using DogSitter.API.Extensions;
 using DogSitter.API.Models;
-using DogSitter.API.Models.InputModels;
 using DogSitter.API.Models.OutputModels;
-using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;

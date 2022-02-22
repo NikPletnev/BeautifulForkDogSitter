@@ -26,7 +26,7 @@ namespace DogSitter.BLL.Tests
             _customerRepositoryMock = new Mock<ICustomerRepository>();
             _userRepositoryMock = new Mock<IUserRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new CustomerService( _customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object);
+            _service = new CustomerService(_customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object);
         }
 
 
@@ -86,7 +86,7 @@ namespace DogSitter.BLL.Tests
         [TestCaseSource(typeof(UpdateCustomerTestCaseSource))]
         public void UpdateCustomerMustUpdateCustomer(CustomerModel customerToUpdate, Customer customer)
         {
-            
+
             _customerRepositoryMock.Setup(x => x.GetCustomerById(customer.Id)).Returns(customer);
             //when
             _service.UpdateCustomer(customer.Id, customerToUpdate);
@@ -128,7 +128,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetCustomerByIdTestCaseSource))]
-        public void DeleteCustomerTestMustDeleteCustomer( Customer customer, CustomerModel expected, int id)
+        public void DeleteCustomerTestMustDeleteCustomer(Customer customer, CustomerModel expected, int id)
         {
             //gicen
             _customerRepositoryMock.Setup(x => x.UpdateCustomer(id, true));
@@ -142,7 +142,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetCustomerByIdTestCaseSource))]
-        public void DeleteustomerTestMustThrowEntityNotFoundExeption( Customer customer, CustomerModel expected, int id)
+        public void DeleteustomerTestMustThrowEntityNotFoundExeption(Customer customer, CustomerModel expected, int id)
         {
             //gicen
             Customer nullDog = null;
@@ -158,7 +158,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetCustomerByIdTestCaseSource))]
-        public void RestoreDogTestMustDeleteDog( Customer customer, CustomerModel expected, int id)
+        public void RestoreDogTestMustDeleteDog(Customer customer, CustomerModel expected, int id)
         {
             //gicen
             _customerRepositoryMock.Setup(x => x.UpdateCustomer(id, false));
@@ -171,10 +171,10 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetCustomerByIdTestCaseSource))]
-        public void RestoreAddressTestMustThrowEntityNotFoundExeption( Customer dog, CustomerModel expected, int id)
+        public void RestoreAddressTestMustThrowEntityNotFoundExeption(Customer dog, CustomerModel expected, int id)
         {
             //gicen
-            Customer nullCustomer= null;
+            Customer nullCustomer = null;
             _customerRepositoryMock.Setup(x => x.UpdateCustomer(id, false));
             _customerRepositoryMock.Setup(x => x.GetCustomerById(id)).Returns(nullCustomer);
             var expectedMessage = $"Customer was not found";

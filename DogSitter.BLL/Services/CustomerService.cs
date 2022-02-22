@@ -79,7 +79,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException("Customer was not found");
 
             }
-            if(_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
             {
                 throw new AccessException("Not enough rights");
             }

@@ -1,20 +1,16 @@
 ﻿using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
 {
-    public class GetDogForTestExeptionTestCaseSource: IEnumerable
+    public class GetDogForTestExeptionTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            var dogWithNoName =  new DogModel
+            var dogWithNoName = new DogModel
             {
                 Name = "",
                 Age = 1,

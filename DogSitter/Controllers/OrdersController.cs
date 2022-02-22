@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
+using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services.Interface;
-using Microsoft.AspNetCore.Mvc;
-using DogSitter.API.Attribute;
 using DogSitter.DAL.Enums;
-using DogSitter.API.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
 {
@@ -92,6 +92,6 @@ namespace DogSitter.API.Controllers
 
             var orders = _mapper.Map<List<OrderOutputModel>>(_service.GetAllOrdersBySitterId(userId.Value, id));
             return Ok(orders);
-        }        
+        }
     }
 }

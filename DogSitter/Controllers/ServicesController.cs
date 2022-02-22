@@ -95,7 +95,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.RestoreService( id);
+            _serviceService.RestoreService(id);
 
             return NoContent();
         }

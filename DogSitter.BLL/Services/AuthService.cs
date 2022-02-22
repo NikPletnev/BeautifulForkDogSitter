@@ -42,7 +42,7 @@ namespace DogSitter.BLL.Services
         public UserModel GetUserForLogin(string contact, string pass)
         {
             Contact foundContact = _contactRepository.GetContactByValue(contact);
-            if (foundContact == null || foundContact.User == null || 
+            if (foundContact == null || foundContact.User == null ||
                 !PasswordHash.ValidatePassword(pass, foundContact.User.Password))
             {
                 throw new EntityNotFoundException("Invalid username or password entered");

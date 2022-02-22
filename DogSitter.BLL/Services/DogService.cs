@@ -19,7 +19,7 @@ namespace DogSitter.BLL.Services
             _rep = dogRepository;
             _customerRepository = customerRepository;
             _mapper = mapper;
-            _userRepository = userRepository; 
+            _userRepository = userRepository;
         }
 
         public void UpdateDog(int userId, int id, DogModel dogModel)

@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
-using DogSitter.API.Configs;
-using DogSitter.API.Models;
 using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
+using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
-using DogSitter.DAL.Entity;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using DogSitter.API.Extensions;
 
 namespace DogSitter.API.Controllers
 {
@@ -58,9 +55,9 @@ namespace DogSitter.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddSitter ([FromBody] SitterInsertInputModel sittetModel)
+        public ActionResult AddSitter([FromBody] SitterInsertInputModel sittetModel)
         {
-            var sitter = _mapper.Map<SitterModel>( sittetModel);
+            var sitter = _mapper.Map<SitterModel>(sittetModel);
             _service.Add(sitter);
             return StatusCode(StatusCodes.Status201Created, sitter);
         }

@@ -14,7 +14,7 @@ namespace DogSitter.BLL.Services
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ServiceService(IServiceRepository serviceRepository, 
+        public ServiceService(IServiceRepository serviceRepository,
             ISitterRepository sitterRepository, IUserRepository userRepository, IMapper mapper)
         {
             _serviceRepository = serviceRepository;
