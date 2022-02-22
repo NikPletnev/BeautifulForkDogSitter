@@ -1,16 +1,12 @@
 ﻿using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
 {
-    public class GetDogByIdTestCaseSource: IEnumerable
+    public class GetDogByIdTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
@@ -25,12 +21,24 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
                 IsDeleted = false,
                 Customer = new Customer
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",
                     Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.Phone } },
                     IsDeleted = false
                 }
+            };
+
+            User customer = new Customer
+            {
+                Id = 1,
+                FirstName = "Иван",
+                LastName = "Иванов",
+                Password = "123456",
+                Contacts = new List<Contact>() { new Contact { Value = "12345678", ContactType = ContactType.Phone } },
+                IsDeleted = false,
+                Dogs = new List<Dog>() { dog }
             };
 
             var expected = new DogModel
@@ -44,6 +52,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
                 IsDeleted = false,
                 Customer = new CustomerModel
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",
@@ -53,7 +62,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
             };
 
             int id = 1;
-            yield return new object[] { id, dog, expected };
+            yield return new object[] { id, dog, expected, customer };
 
         }
     }

@@ -3,6 +3,7 @@ using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
@@ -12,14 +13,16 @@ namespace DogSitter.BLL.Services
         private ISitterRepository _sitterRepository;
         private ISubwayStationRepository _subwayStationRepository;
         private IMapper _mapper;
+        private IUserRepository _userRepository;
 
         public SitterService(ISitterRepository sitterRepository, ISubwayStationRepository subwayStationRepository,
-            IMapper mapper)
+            IMapper mapper, IUserRepository userRepository)
         {
             _sitterRepository = sitterRepository;
             _sitterRepository = sitterRepository;
             _subwayStationRepository = subwayStationRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         public SitterModel GetById(int id)
@@ -45,8 +48,12 @@ namespace DogSitter.BLL.Services
             _sitterRepository.Add(sitter);
         }
 
-        public void Update(SitterModel sitterModel)
+        public void Update(int id, SitterModel sitterModel)
         {
+            if (id != sitterModel.Id)
+            {
+                throw new AccessException("Not enough rights");
+            }
             var sitter = _mapper.Map<Sitter>(sitterModel);
             var entity = _sitterRepository.GetById(sitterModel.Id);
             if (entity == null)
@@ -56,13 +63,18 @@ namespace DogSitter.BLL.Services
             _sitterRepository.Update(sitter);
         }
 
-        public void DeleteById(int id)
+        public void DeleteById(int userId, int id)
         {
             var entity = _sitterRepository.GetById(id);
             if (entity == null)
             {
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
+            {
+                throw new AccessException("Not enough rights");
+            }
+
             bool delete = true;
             _sitterRepository.Update(id, delete);
             _sitterRepository.EditProfileStateBySitterId(id, false);

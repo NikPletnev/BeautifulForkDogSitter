@@ -54,11 +54,20 @@ namespace DogSitter.DAL.Repositories
             }
         }
 
-        //public List<Sitter> GetAllSitterByServiceId(int id) =>
-        //    _context.Sitters.Where(s => s.Id == id).Sitter.Where(s => !s.IsDeleted).ToList();
-
         public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation) =>
             _context.Sitters.Where(s => s.SubwayStation.Id == subwaystation.Id && !s.IsDeleted)
             .Include(s => s.WorkTime).ToList();
+
+        public void ChangeRating(Sitter sitter)
+        {
+            var entity = GetById(sitter.Id);
+            entity.Rating = sitter.Rating;
+            _context.SaveChanges();
+        }
+
+        public List<Order> GetAllSitterOrders(Sitter sitter)
+        {
+            return _context.Orders.Where(d => d.Sitter.Id == sitter.Id && !d.IsDeleted && d.Status == Enums.Status.Completed ).ToList();
+        }
     }
 }

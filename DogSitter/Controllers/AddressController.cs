@@ -4,7 +4,6 @@ using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
-using DogSitter.DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -15,26 +14,11 @@ namespace DogSitter.API.Controllers
     {
         private readonly IAddressService _addressService;
         private readonly IMapper _mapper;
-        
 
         public AddressController(IMapper mapper, IAddressService addressService)
         {
             _addressService = addressService;
             _mapper = mapper;
-        }
-
-        [AuthorizeRole(Role.Admin, Role.Customer)]
-        [HttpGet("{id}")]
-        public ActionResult<AddressOutputModel> GetAddressById(int id)
-        {
-            var userId = this.GetUserId();
-            if (userId == null)
-            {
-                return Unauthorized("Invalid token, please try again");
-            }
-
-            var address = _addressService.GetAddressById(id);
-            return Ok(_mapper.Map<AddressOutputModel>(address));
         }
 
         [AuthorizeRole(Role.Admin)]
@@ -61,13 +45,13 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _addressService.DeleteAddressById(id);
+            _addressService.DeleteAddressById(userId.Value, id);
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        [AuthorizeRole(Role.Admin, Role.Customer)]
-        [HttpGet("customers/{id}")]
-        public ActionResult GetAddressByCustomerId(int id)
+        [AuthorizeRole(Role.Admin)]
+        [HttpPatch]
+        public ActionResult RestoreAddress(int id)
         {
             var userId = this.GetUserId();
             if (userId == null)
@@ -75,8 +59,8 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            var address = _addressService.GetAddressByCustomerId(id);
-            return Ok(_mapper.Map<AddressOutputModel>(address));
+            _addressService.RestoreAddress(id);
+            return StatusCode(StatusCodes.Status204NoContent);
         }
     }
 }

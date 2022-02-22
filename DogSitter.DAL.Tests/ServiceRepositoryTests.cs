@@ -123,7 +123,7 @@ namespace DogSitter.DAL.Tests
         {
             //given
             var service = ServiceTestMock.GetService();
-             
+
             //when
             _serviceRepository.UpdateOrDeleteService(service, isDeleted);
 

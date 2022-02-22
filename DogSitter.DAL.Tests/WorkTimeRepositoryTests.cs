@@ -27,7 +27,7 @@ namespace DogSitter.DAL.Tests
 
             _workTimeRepository = new WorkTimeRepository(_context);
 
-            var workTimes = WorkTimeTestCaseSourse.GetWorkTimes();
+            var workTimes = WorkTimeMock.GetWorkTimes();
             _context.WorkTimes.AddRange(workTimes);
 
             _context.SaveChanges();
@@ -51,7 +51,7 @@ namespace DogSitter.DAL.Tests
         public void AddWorkTimeTest()
         {
             //given
-            var expected = WorkTimeTestCaseSourse.GetWorkTime();
+            var expected = WorkTimeMock.GetWorkTime();
 
             //when
             _workTimeRepository.AddWorkTime(expected);
@@ -66,7 +66,7 @@ namespace DogSitter.DAL.Tests
         public void UpdateWorkTimeTest()
         {
             //given
-            var workTime = WorkTimeTestCaseSourse.GetWorkTime();
+            var workTime = WorkTimeMock.GetWorkTime();
             _context.WorkTimes.Add(workTime);
 
             _context.SaveChanges();
@@ -98,7 +98,7 @@ namespace DogSitter.DAL.Tests
         public void UpdateOrDeleteWorkTimeTest(bool isDeleted)
         {
             //given
-            var workTime = WorkTimeTestCaseSourse.GetWorkTime();
+            var workTime = WorkTimeMock.GetWorkTime();
 
             //when
             _workTimeRepository.UpdateOrDeleteWorkTime(workTime, isDeleted);

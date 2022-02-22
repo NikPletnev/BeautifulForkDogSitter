@@ -1,16 +1,12 @@
 ﻿using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
-    internal class GetCustomerForTestExeptionTestCaseSource: IEnumerable
+    internal class GetCustomerForTestExeptionTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
@@ -54,7 +50,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Password = "admin",
                 IsDeleted = false
             };
-            
+
             var customerWithNoContact = new CustomerModel
             {
                 Id = 1,

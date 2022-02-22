@@ -3,9 +3,6 @@ using DogSitter.DAL.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
@@ -43,7 +40,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
 
                 }
             };
-               
+
 
             int id = 1;
 
@@ -68,7 +65,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 }
             };
 
-          
+
             yield return new object[] { id, customer, orders };
         }
     }

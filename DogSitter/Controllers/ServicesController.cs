@@ -40,7 +40,7 @@ namespace DogSitter.API.Controllers
             return Ok(services);
         }
 
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [AuthorizeRole(Role.Sitter)]
         [HttpPost]
         public ActionResult<ServiceOutputModel> AddService([FromBody] ServiceInsertInputModel service)
         {
@@ -50,7 +50,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.AddService(_mapper.Map<ServiceModel>(service));
+            _serviceService.AddService(userId.Value, _mapper.Map<ServiceModel>(service));
 
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<ServiceOutputModel>(service));
         }
@@ -65,7 +65,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.UpdateService(id, _mapper.Map<ServiceModel>(service));
+            _serviceService.UpdateService(userId.Value, id, _mapper.Map<ServiceModel>(service));
 
             return NoContent();
         }
@@ -80,12 +80,12 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.DeleteService(id);
+            _serviceService.DeleteService(userId.Value, id);
 
             return NoContent();
         }
 
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [AuthorizeRole(Role.Admin)]
         [HttpPatch("{id}")]
         public IActionResult RestoreService(int id)
         {
@@ -101,7 +101,7 @@ namespace DogSitter.API.Controllers
         }
 
         //api/Services
-        [AuthorizeRole(Role.Admin, Role.Customer)]
+        [AuthorizeRole(Role.Admin, Role.Customer, Role.Sitter)]
         [HttpGet("sitters/{id}")]
         public ActionResult<List<ServiceOutputModel>> GetAllServicesBySitterId(int id)
         {
@@ -111,11 +111,11 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            var services = _mapper.Map<List<ServiceOutputModel>>(_serviceService.GetAllServicesBySitterId(id));
+            var services = _mapper.Map<List<ServiceOutputModel>>(
+                _serviceService.GetAllServicesBySitterId(userId.Value, id));
 
             return Ok(services);
         }
-
 
     }
 }

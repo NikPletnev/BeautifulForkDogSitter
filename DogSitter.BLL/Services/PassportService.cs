@@ -40,30 +40,7 @@ namespace DogSitter.BLL.Services
             _rep.UpdatePassport(entity, passport);
         }
 
-        public void AddPassport(PassportModel passportModel)
-        {
-            if (passportModel.FirstName == String.Empty ||
-                passportModel.LastName == String.Empty ||
-                passportModel.Seria == String.Empty ||
-                passportModel.Number == String.Empty ||
-                passportModel.Division == String.Empty ||
-                passportModel.DivisionCode == String.Empty)
-            {
-                throw new ServiceNotEnoughDataExeption($"There is not enough data to add new passport");
-            }
 
-            _rep.AddPassport(_map.Map<Passport>(passportModel));
-        }
-
-        public PassportModel GetPassportById(int id)
-        {
-            var passport = _rep.GetPassportById(id);
-            if (passport == null)
-            {
-                throw new EntityNotFoundException($"Passport {id} was not found");
-            }
-            return _map.Map<PassportModel>(passport);
-        }
 
     }
 }

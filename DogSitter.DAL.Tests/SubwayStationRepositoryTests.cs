@@ -1,8 +1,7 @@
-﻿  using DogSitter.DAL.Entity;
+﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
