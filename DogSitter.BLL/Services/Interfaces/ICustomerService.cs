@@ -9,6 +9,6 @@ namespace DogSitter.BLL.Services
         List<CustomerModel> GetAllCustomers();
         CustomerModel GetCustomerById(int id);
         void RestoreCustomer(int id);
-        void UpdateCustomer(CustomerModel customer);
+        void UpdateCustomer(int id, CustomerModel customer);
     }
 }

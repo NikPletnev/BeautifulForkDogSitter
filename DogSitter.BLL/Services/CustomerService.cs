@@ -49,7 +49,7 @@ namespace DogSitter.BLL.Services
             _repository.AddCustomer(customer);
         }
 
-        public void UpdateCustomer(CustomerModel customer)
+        public void UpdateCustomer(int id, CustomerModel customer)
         {
             if (customer.FirstName == String.Empty ||
                 customer.LastName == String.Empty ||
@@ -59,7 +59,7 @@ namespace DogSitter.BLL.Services
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to update customer");
             }
             var customerModel = _mapper.Map<Customer>(customer);
-            var entity = _repository.GetCustomerById(customer.Id);
+            var entity = _repository.GetCustomerById(id);
             if (entity == null)
             {
                 throw new EntityNotFoundException("Customer was not found");

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
@@ -25,8 +26,13 @@ namespace DogSitter.API.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdatePassport(int id, [FromBody] PassportUpdateInputModel passport)
         {
-            _service.UpdatePassport(id, _map.Map<PassportModel>(passport));
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            _service.UpdatePassport(id, _map.Map<PassportModel>(passport));
             return NoContent();
         }
 
@@ -34,8 +40,13 @@ namespace DogSitter.API.Controllers
         [HttpPost]
         public ActionResult<PassportOutputModel> AddPassport([FromBody] PassportInsertInputModel passport)
         {
-            _service.AddPassport(_map.Map<PassportModel>(passport));
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            _service.AddPassport(_map.Map<PassportModel>(passport));
             return StatusCode(StatusCodes.Status201Created);
         }
 
@@ -43,9 +54,13 @@ namespace DogSitter.API.Controllers
         [HttpGet("{id}")]
         public ActionResult<PassportOutputModel> GetPassportById(int id)
         {
-            //if passport exist
-            var passport = _map.Map<PassportOutputModel>(_service.GetPassportById(id));
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            var passport = _map.Map<PassportOutputModel>(_service.GetPassportById(id));
             return Ok(passport);
         }
     }

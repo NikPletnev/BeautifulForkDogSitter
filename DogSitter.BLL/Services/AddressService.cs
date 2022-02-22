@@ -2,6 +2,7 @@
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
@@ -11,11 +12,13 @@ namespace DogSitter.BLL.Services
         private IAddressRepository _repository;
         private ICustomerRepository _customerRepository;
         private IMapper _mapper;
+        private readonly IUserRepository _userRepository;
 
         public AddressService(IMapper mapper, IAddressRepository addressRepository, ICustomerRepository customerRepository)
         {
             _repository = addressRepository;
             _customerRepository = customerRepository;
+
             _mapper = mapper;
         }
 
@@ -70,7 +73,7 @@ namespace DogSitter.BLL.Services
             _repository.UpdateAddress(addressModel);
         }
 
-        public void DeleteAddressById(int id)
+        public void DeleteAddressById( int id)
         {
             var entity = _repository.GetAddressById(id);
             if (entity == null)

@@ -45,7 +45,7 @@ namespace DogSitter.BLL.Services
             if (foundContact == null || foundContact.User == null || 
                 !PasswordHash.ValidatePassword(pass, foundContact.User.Password))
             {
-                throw new EntityNotFoundException("данные");
+                throw new EntityNotFoundException("Invalid username or password entered");
             }
             UserModel user = _map.Map<UserModel>(foundContact.User);
             return user;

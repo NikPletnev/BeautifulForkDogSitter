@@ -24,8 +24,8 @@ namespace DogSitter.BLL.Services
         {
             var service = _serviceRepository.GetServiceById(id);
 
-            if (service == null)
-                throw new EntityNotFoundException($"{service} c Id = {id} не найден!");
+            if (service is null)
+                throw new EntityNotFoundException($"Service wasn't found");
 
             return _mapper.Map<ServiceModel>(service);
         }
@@ -44,34 +44,36 @@ namespace DogSitter.BLL.Services
             _serviceRepository.AddService(service);
         }
 
-        public void UpdateService(ServiceModel serviceModel)
+        public void UpdateService(int id, ServiceModel serviceModel)
         {
-            var service = _mapper.Map<Serviсe>(serviceModel);
+            var serviceToUpdate = _mapper.Map<Serviсe>(serviceModel);
 
-            if (_serviceRepository.GetServiceById(service.Id) == null)
-                throw new EntityNotFoundException($"{service} не найден!");
+            var exitingService = _serviceRepository.GetServiceById(id);
 
-            _serviceRepository.UpdateService(service);
+            if (exitingService is null)
+                throw new EntityNotFoundException("Service wasn't found");
+
+            _serviceRepository.UpdateService(exitingService, serviceToUpdate);
         }
 
-        public void DeleteService(ServiceModel serviceModel)
+        public void DeleteService(int id)
         {
-            var service = _mapper.Map<Serviсe>(serviceModel);
+            var serviceToDelete = _serviceRepository.GetServiceById(id);
 
-            if (_serviceRepository.GetServiceById(service.Id) == null)
-                throw new EntityNotFoundException($"{service} не найден!");
+            if (serviceToDelete is null)
+                throw new EntityNotFoundException("Subway station wasn't found");
 
-            _serviceRepository.UpdateService(service, true);
+            _serviceRepository.UpdateOrDeleteService(serviceToDelete, true);
         }
 
-        public void RestoreService(ServiceModel serviceModel)
+        public void RestoreService(int id)
         {
-            var service = _mapper.Map<Serviсe>(serviceModel);
+            var serviceToRestore = _serviceRepository.GetServiceById(id);
 
-            if (_serviceRepository.GetServiceById(service.Id) == null)
-                throw new EntityNotFoundException($"{service} не найден!");
+            if (serviceToRestore is null)
+                throw new EntityNotFoundException("Subway station wasn't found");
 
-            _serviceRepository.RestoreService(service, false);
+            _serviceRepository.UpdateOrDeleteService(serviceToRestore, true);
         }
 
         public List<ServiceModel> GetAllServicesBySitterId(int id)
@@ -79,7 +81,7 @@ namespace DogSitter.BLL.Services
             var sitter = _sitterRepository.GetById(id);
 
             if (sitter is null)
-                throw new EntityNotFoundException($"Sitter {id} was not found");
+                throw new EntityNotFoundException($"Sitter wasn't found");
 
             return _mapper.Map<List<ServiceModel>>(_serviceRepository.GetAllServicesBySitterId(id));
         }
