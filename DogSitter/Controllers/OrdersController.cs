@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
@@ -23,20 +25,6 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
-        [AuthorizeRole(Role.Admin)]
-        [HttpDelete("{id}")]
-        public ActionResult DeleteOrder(int id)
-        {
-            var userId = this.GetUserId();
-            if (userId == null)
-            {
-                return Unauthorized("Invalid token, please try again");
-            }
-
-            _service.DeleteById(id);
-            return NoContent();
-        }
-
         [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpPut("{id}")]
         public ActionResult UpdateOrder([FromRoute] int id, [FromBody] OrderUpdateInputModel order)
@@ -47,7 +35,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.Update(_mapper.Map<OrderModel>(order));
+            _service.Update(userId.Value, _mapper.Map<OrderModel>(order));
             return Ok();
         }
 
@@ -61,7 +49,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.Add(_mapper.Map<OrderModel>(order));
+            _service.Add(userId.Value, _mapper.Map<OrderModel>(order));
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<OrderOutputModel>(order));
         }
 
@@ -76,7 +64,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.EditOrderStatusByOrderId(id, order.OrderNewStatus);
+            _service.EditOrderStatusByOrderId(userId.Value, id, order.OrderNewStatus);
             return NoContent();
         }
 

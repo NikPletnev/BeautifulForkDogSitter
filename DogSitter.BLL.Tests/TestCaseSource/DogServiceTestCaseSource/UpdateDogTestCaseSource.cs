@@ -1,16 +1,12 @@
 ﻿using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
 {
-    public  class UpdateDogTestCaseSource: IEnumerable
+    public class UpdateDogTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
@@ -25,6 +21,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
                 IsDeleted = false,
                 Customer = new Customer
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",
@@ -44,6 +41,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
                 IsDeleted = false,
                 Customer = new CustomerModel
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",

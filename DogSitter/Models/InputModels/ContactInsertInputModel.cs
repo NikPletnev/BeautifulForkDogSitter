@@ -7,7 +7,7 @@ namespace DogSitter.API.Models
         [Required]
         public string Value { get; set; }
         [Required]
-        [Range (1,2)]
+        [Range(1, 2)]
         public int ContactType { get; set; }
     }
 }

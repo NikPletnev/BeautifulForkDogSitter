@@ -180,5 +180,23 @@ namespace DogSitter.DAL.Tests
             //then
             Assert.AreEqual(expected, actual);
         }
+
+        [TestCaseSource(typeof(LeaveCommentAndRateOrderTestCaseSource))]
+        public void LeaveCommentAndRateOrderTest(Order order, Order ratedOrder)
+        {
+            //given
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+            var expected = ratedOrder;
+
+            //when
+            _rep.LeaveCommentAndRateOrder(order, ratedOrder);
+            var actual = _context.Orders.FirstOrDefault(z => z.Id == 1);
+
+            //then
+
+            Assert.AreEqual(expected.Comment , actual.Comment);
+            Assert.AreEqual(expected.Mark, actual.Mark);
+        }
     }
 }

@@ -12,31 +12,36 @@ namespace DogSitter.BLL.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository _repository;
-        private readonly IMapper _mapper;
-        public OrderService(IOrderRepository repository, IMapper mapper)
+        private readonly IOrderRepository _rep;
+        private IMapper _map;
+        private ISitterRepository _sitterRepository;
+        private ICustomerRepository _customerRepository;
+        private IUserRepository _userRepository;
+
+        public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository,
+            ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository)
         {
-            _repository = repository;
-            _mapper = mapper;
+            _rep = orderRepository;
+            _customerRepository = customerRepository;
+            _sitterRepository = sitterRepository;
+            _map = mapper;
+            _userRepository = userRepository;
         }
 
-        public OrderModel GetById(int id)
+        public void Add(int userId, OrderModel orderModel)
         {
-            var order = _repository.GetById(id);
-
-            if (order == null)
+            if (orderModel.OrderDate == DateTime.MinValue ||
+                orderModel.Price == 0 ||
+                orderModel.Status == 0)
             {
-                throw new EntityNotFoundException($"Order {id} was not found");
+                throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
             }
-
-            return _mapper.Map<OrderModel>(order);
+            orderModel.Price = GetOrderTotalSum(orderModel);
+            orderModel.Customer = _map.Map<CustomerModel>(_customerRepository.GetCustomerById(userId));
+            _rep.Add(_map.Map<Order>(orderModel));
         }
 
-        public List<OrderModel> GetAll() =>
-             _mapper.Map<List<OrderModel>>(_repository.GetAll());
-
-
-        public void Update(OrderModel orderModel)
+        public void Update(int userId, OrderModel orderModel)
         {
             if (orderModel.Price == 0 ||
                 orderModel.Status == 0 ||
@@ -50,31 +55,38 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
-
-            _repository.Update(order, _mapper.Map<Order>(orderModel));
+            var user = _userRepository.GetUserById(userId);
+            if ((user.Role == Role.Customer && orderModel.Customer.Id != userId))
+            {
+                throw new AccessException("Not enough rights");
+            }
+            if (order.Status == Status.Created)
+            {
+                _rep.Update(order, _map.Map<Order>(orderModel));
+            }
+            else
+            {
+                throw new Exception($"Order { orderModel.Id } has been accepted, it cannot be edited");
+            }
         }
 
-        public void DeleteById(int id)
+        public void EditOrderStatusByOrderId(int userId, int id, int status)
         {
-            var order = _repository.GetById(id);
+            var order = _rep.GetById(id);
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.Update(order, true);
-        }
-
-        public void Restore(int id)
-        {
-            var order = _repository.GetById(id);
-            if (order == null)
+            var user = _userRepository.GetUserById(userId);
+            if ((user.Role == Role.Customer && (Status)status != Status.CancelledByCustomer) ||
+                (user.Role == Role.Sitter && (Status)status == Status.CanceledByAdmin))
             {
-                throw new EntityNotFoundException($"Order {id} was not found");
+                throw new AccessException("Not enough rights");
             }
-            _repository.Update(order, false);
+            _rep.EditOrderStatusByOrderId(order, status);
         }
 
-        public void Add(OrderModel orderModel)
+        public List<OrderModel> GetAllOrdersBySitterId(int userId, int id)
         {
             if (orderModel.OrderDate == DateTime.MinValue ||
                 orderModel.Price == 0 ||
@@ -83,18 +95,51 @@ namespace DogSitter.BLL.Services
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
             }
-
-            _repository.Add(_mapper.Map<Order>(orderModel));
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
+            {
+                throw new AccessException("Not enough rights");
+            }
+            return _map.Map<List<OrderModel>>(_rep.GetAllOrdersBySitterId(id));
         }
 
-        public void EditOrderStatusByOrderId(int id, int status)
+        public List<OrderModel> GetAllOrdersByCustomerId(int userId, int id)
         {
             var order = _repository.GetById(id);
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _repository.EditOrderStatusByOrderId(order, status);
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
+            {
+                throw new AccessException("Not enough rights");
+            }
+            return _map.Map<List<OrderModel>>(_rep.GetAllOrdersByCustomerId(id));
+        }
+
+        public void AddCommentAndMarkAboutOrder(int id, OrderModel order)
+        {
+            var entity = _rep.GetById(id);
+            var sitter = _sitterRepository.GetById(entity.Sitter.Id);
+            
+            if (entity == null)
+            {
+                throw new EntityNotFoundException($"Order was not found");
+            }
+            _rep.LeaveCommentAndRateOrder(entity, _map.Map<Order>(order));
+            var orders = _sitterRepository.GetAllSitterOrders(sitter);
+            int SitterNewRating = 0;
+            foreach (var item in orders)
+            {
+                SitterNewRating += item.Mark.Value;
+            }
+            SitterNewRating /= orders.Count;
+            sitter.Rating = SitterNewRating;
+            _sitterRepository.ChangeRating(sitter);
+        }
+
+        private decimal GetOrderTotalSum(OrderModel orderModel)
+        {
+            return orderModel.Services.Select(s => s.Price).Sum();
         }
     }
 }

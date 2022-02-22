@@ -1,15 +1,10 @@
 ﻿using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
 {
-    public  class GetAddressForTestExeptionTestCaseSource: IEnumerable
+    public class GetAddressForTestExeptionTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {

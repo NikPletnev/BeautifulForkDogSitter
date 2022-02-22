@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
-    public static class WorkTimeTestCaseSourse
+    public static class WorkTimeMock
     {
         public static List<WorkTime> GetWorkTimes() =>
             new List<WorkTime>()

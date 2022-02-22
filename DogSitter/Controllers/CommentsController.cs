@@ -2,9 +2,7 @@
 using DogSitter.API.Attribute;
 using DogSitter.API.Extensions;
 using DogSitter.API.Models;
-using DogSitter.API.Models.InputModels;
 using DogSitter.API.Models.OutputModels;
-using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -36,20 +34,6 @@ namespace DogSitter.API.Controllers
 
             var comments = _service.GetAll();
             return Ok(_mapper.Map<CommentOutputModel>(comments));
-        }
-
-        [AuthorizeRole(Role.Customer)]
-        [HttpPost]
-        public ActionResult AddComment([FromBody] CommentInsertInputModel comment)
-        {
-            var userId = this.GetUserId();
-            if (userId == null)
-            {
-                return Unauthorized("Invalid token, please try again");
-            }
-
-            _service.Add(_mapper.Map<CommentModel>(comment));
-            return StatusCode(StatusCodes.Status201Created, _mapper.Map<CommentOutputModel>(comment));
         }
 
         [AuthorizeRole(Role.Admin)]

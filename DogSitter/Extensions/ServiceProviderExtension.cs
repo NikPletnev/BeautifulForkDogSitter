@@ -1,5 +1,6 @@
 ﻿using DogSitter.BLL.Configs;
 using DogSitter.BLL.Services;
+using DogSitter.BLL.Services.Interface;
 using DogSitter.DAL;
 using DogSitter.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,29 +14,36 @@ namespace DogSitter.API.Extensions
     {
         public static void RegisterDogSitterServices(this IServiceCollection services)
         {
+            services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IAdminService, AdminService>();
-            services.AddScoped<IPassportService, PassportService>();
-            services.AddScoped<IContactService, ContactService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<ISitterService, SitterService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IContactService, ContactService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IDogService, DogService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IPassportService, PassportService>();
+            services.AddScoped<IServiceService, ServiceService>();
+            services.AddScoped<ISitterService, SitterService>();
             services.AddScoped<ISubwayStationService, SubwayStationService>();
             services.AddScoped<IWorkTimeService, WorkTimeService>();
-            services.AddScoped<IServiceService, ServiceService>();
-            services.AddScoped<ICommentService, CommentService>();
         }
 
         public static void RegisterDogSitterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
-            services.AddScoped<IPassportRepository, PassportRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IDogRepository, DogRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IPassportRepository, PassportRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<ISitterRepository, SitterRepository>();
             services.AddScoped<ISubwayStationRepository, SubwayStationRepository>();
-            services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IWorkTimeRepository, WorkTimeRepository>();
-            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         public static void AddCustomAuth(this IServiceCollection services)
@@ -68,14 +76,7 @@ namespace DogSitter.API.Extensions
         {
             services.AddDbContext<DogSitterContext>(
                 options => options.UseSqlServer(
-                    //@"Server=(localdb)\mssqllocaldb;Database=DogSitterDB2;Trusted_Connection=True;"));
-
-
-            //Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = DogSitterDB;
-            //                Integrated Security=True;Connect 
-            //                Timeout=30;Encrypt=False;TrustServerCertificate=False;
-            //                ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
-
+            //@"Server=(localdb)\mssqllocaldb;Database=DogSitterDB2;Trusted_Connection=True;"));
 
             @"Data Source = 80.78.240.16; Initial Catalog = DogSitterDB;
             Persist Security Info=True; User ID = student; Password = qwe!23; Pooling = False; 

@@ -24,7 +24,7 @@ namespace DogSitter.DAL.Repositories
         }
 
         public void UpdateCustomer(Customer customer, Customer entity)
-        {   
+        {
             entity.FirstName = customer.FirstName;
             entity.LastName = customer.LastName;
             entity.Contacts = customer.Contacts;
