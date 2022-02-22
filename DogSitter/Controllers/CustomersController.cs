@@ -56,7 +56,7 @@ namespace DogSitter.Controllers
         public ActionResult RegisterCustomer([FromBody] CustomerInputModel customer)
         {
             _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
-            return StatusCode(StatusCodes.Status201Created, _mapper.Map<CustomerOutputModel>(customer));
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [AuthorizeRole(Role.Customer)]
