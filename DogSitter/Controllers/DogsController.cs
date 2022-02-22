@@ -80,7 +80,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.AddDog(_map.Map<DogModel>(dog));
+            _service.AddDog(userId.Value, _map.Map<DogModel>(dog));
             return StatusCode(StatusCodes.Status201Created, _map.Map<DogOutputModel>(dog));
         }
 

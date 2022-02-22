@@ -24,6 +24,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
                 IsDeleted = false,
                 Customer = new CustomerModel
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",
@@ -42,6 +43,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
                 IsDeleted = false,
                 Customer = new CustomerModel
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",
@@ -60,6 +62,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
                 IsDeleted = false,
                 Customer = new CustomerModel
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",
@@ -78,6 +81,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
                 IsDeleted = false,
                 Customer = new CustomerModel
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",
@@ -97,6 +101,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogServiceTestCaseSource
                 IsDeleted = false,
                 Customer = new Customer
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",

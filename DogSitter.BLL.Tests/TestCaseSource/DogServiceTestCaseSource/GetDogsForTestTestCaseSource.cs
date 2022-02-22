@@ -24,6 +24,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource.DogService
                 IsDeleted = false,
                 Customer = new CustomerModel
                 {
+                    Id = 1,
                     FirstName = "Иван",
                     LastName = "Иванов",
                     Password = "123456",
