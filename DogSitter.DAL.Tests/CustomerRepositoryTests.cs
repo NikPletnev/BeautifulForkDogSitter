@@ -3,6 +3,8 @@ using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DogSitter.DAL.Tests
 {
