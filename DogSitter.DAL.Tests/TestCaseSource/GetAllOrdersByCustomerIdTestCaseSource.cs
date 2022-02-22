@@ -14,7 +14,7 @@ namespace DogSitter.DAL.Tests
             {
                 new Customer()
                 {
-                    Id = 1,
+                    Id = 112,
                     FirstName = "Test1",
                     LastName = "Test1",
                     Password = "strong" ,
@@ -23,26 +23,26 @@ namespace DogSitter.DAL.Tests
                     {
                          new Order()
                          {
-                            Id = 1,
+                            Id = 111,
                             OrderDate = new DateTime(2011, 11, 11),
                             Status = Status.Created,
                             Price = 100,
-                            IsDeleted = false
+                            IsDeleted = false,
                          },
 
                          new Order()
                          {
-                            Id = 2,
+                            Id = 222,
                             OrderDate = new DateTime(2011, 11, 11),
                             Status = Status.Created,
                             Price = 100,
-                            IsDeleted = false
+                            IsDeleted = false,
                          }
                     },
                 },
                 new Customer()
                 {
-                    Id = 2,
+                    Id = 222,
                     FirstName = "Test2",
                     LastName = "Иванов2",
                     Password = "2strong",
@@ -51,7 +51,7 @@ namespace DogSitter.DAL.Tests
                     {
                         new Order()
                         {
-                            Id = 3,
+                            Id = 333,
                             OrderDate = new DateTime(2011, 1, 1),
                             Status = Status.CanceledByAdmin,
                             Price = 100,
@@ -61,7 +61,7 @@ namespace DogSitter.DAL.Tests
                 },
                 new Customer()
                 {
-                    Id = 3,
+                    Id = 333,
                     FirstName = "Test3",
                     LastName = "Иванов2",
                     Password = "veryStrong",
@@ -70,36 +70,36 @@ namespace DogSitter.DAL.Tests
                 }
             };
 
-            int id1 = 1;
+            int id1 = 112;
 
             List<Order> orders1 = new List<Order>()
             {
                 new Order()
                 {
-                    Id = 1,
-                    OrderDate = new DateTime(2011, 11, 11),
-                    Status = Status.Created,
-                    Price = 100,
-                    IsDeleted = false
+                   Id = 222,
+                   OrderDate = new DateTime(2011, 11, 11),
+                   Status = Status.Created,
+                   Price = 100,
+                   IsDeleted = false
                 },
 
                 new Order()
                 {
-                     Id = 2,
-                     OrderDate = new DateTime(2011, 11, 11),
-                     Status = Status.Created,
-                     Price = 100,
-                     IsDeleted = false
-                }
+                   Id = 111,
+                   OrderDate = new DateTime(2011, 11, 11),
+                   Status = Status.Created,
+                   Price = 100,
+                   IsDeleted = false
+                }   
             };
 
-            int id2 = 2;
+            int id2 = 222;
 
             List<Order> orders2 = new List<Order>()
             {
                 new Order()
                 {
-                    Id = 3,
+                    Id = 333,
                     OrderDate = new DateTime(2011, 1, 1),
                     Status = Status.CanceledByAdmin,
                     Price = 100,
@@ -107,7 +107,7 @@ namespace DogSitter.DAL.Tests
                 }
             };
 
-            int id3 = 3;
+            int id3 = 333;
 
             List<Order> orders3 = new List<Order>() { };
 

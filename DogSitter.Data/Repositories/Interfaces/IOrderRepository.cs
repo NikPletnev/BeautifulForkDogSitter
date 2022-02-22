@@ -12,6 +12,5 @@ namespace DogSitter.DAL.Repositories
         Order GetById(int id);
         void LeaveCommentAndRateOrder(Order order, Order ratedOrder);
         void Update(Order entity, Order order);
-        void Update(Order order, bool IsDeleted);
     }
 }

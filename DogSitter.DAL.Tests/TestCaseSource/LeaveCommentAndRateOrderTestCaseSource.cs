@@ -15,18 +15,18 @@ namespace DogSitter.DAL.Tests.TestCaseSource
         {
             var order = new Order()
             {
-                Id = 1,
+                Id = 22,
                 OrderDate = new DateTime(2011, 11, 11),
                 Price = 100,
                 Status = Status.Created,
                 Mark = 5,
-                Comment = new Comment() { Id = 1, Text = "All right", Date = new DateTime(2000,11,11), IsDeleted = false },
+                Comment = new Comment() { Id = 23, Text = "All right", Date = new DateTime(2000,11,11), IsDeleted = false },
                 IsDeleted = false
             };
 
             var dbOrder = new Order()
             {
-                Id = 1,
+                Id = 22,
                 OrderDate = new DateTime(2011, 11, 11),
                 Price = 100,
                 Status = Status.Created,

@@ -71,7 +71,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void RestoreServiceNegativeTest()
+        public void RestoreOrderNegativeTest()
         {
             _commentRepositoryMock.Setup(m => m.Update(It.IsAny<Comment>(), It.IsAny<bool>()));
             _commentRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Comment)null);

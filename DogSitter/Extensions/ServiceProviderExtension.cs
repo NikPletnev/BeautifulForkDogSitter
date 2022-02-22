@@ -1,6 +1,6 @@
 ﻿using DogSitter.BLL.Configs;
 using DogSitter.BLL.Services;
-using DogSitter.BLL.Services.Interface;
+using DogSitter.BLL.Services.Interfaces;
 using DogSitter.DAL;
 using DogSitter.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

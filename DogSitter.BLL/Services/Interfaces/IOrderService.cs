@@ -1,6 +1,6 @@
 ﻿using DogSitter.BLL.Models;
 
-namespace DogSitter.BLL.Services.Interface
+namespace DogSitter.BLL.Services.Interfaces
 {
     public interface IOrderService
     {

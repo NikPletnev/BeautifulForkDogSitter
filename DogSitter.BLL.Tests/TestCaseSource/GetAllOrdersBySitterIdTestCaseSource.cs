@@ -18,6 +18,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 LastName = "Test1",
                 Password = "strong",
                 IsDeleted = false,
+                Role = Role.Sitter,
                 Orders = new List<Order>()
                 {
                     new Order()

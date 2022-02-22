@@ -35,9 +35,9 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void Update(Order order, bool IsDeleted)
+        public void Update(Order order, bool isDeleted)
         {
-            order.IsDeleted = IsDeleted;
+             order.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
 

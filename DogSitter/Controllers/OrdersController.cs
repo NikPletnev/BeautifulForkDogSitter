@@ -4,9 +4,11 @@ using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
-using DogSitter.BLL.Services.Interface;
-using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
+using DogSitter.API.Attribute;
+using DogSitter.DAL.Enums;
+using DogSitter.API.Extensions;
+using DogSitter.BLL.Services.Interfaces;
 
 namespace DogSitter.API.Controllers
 {
@@ -66,40 +68,5 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        [AuthorizeRole(Role.Admin, Role.Customer)]
-        [HttpGet("customer/{id}")]
-        public ActionResult GetAllOrdersByCustomerId(int id)
-        {
-            var userId = this.GetUserId();
-            if (userId == null)
-            {
-                return Unauthorized("Invalid token, please try again");
-            }
-
-            var orders = _mapper.Map<List<OrderOutputModel>>(_service.GetAllOrdersByCustomerId(userId.Value, id));
-            return Ok(orders);
-        }
-
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
-        [HttpGet("sitter/{id}")]
-        public ActionResult GetAllOrdersBySitterId(int id)
-        {
-            var userId = this.GetUserId();
-            if (userId == null)
-            {
-                return Unauthorized("Invalid token, please try again");
-            }
-
-            var orders = _mapper.Map<List<OrderOutputModel>>(_service.GetAllOrdersBySitterId(userId.Value, id));
-            return Ok(orders);
-        }
-        [AuthorizeRole(Role.Customer)]
-        [HttpPost("{id}")]
-        public ActionResult AddCommentAndMarkAboutOrder(int id, OrderUpdateCommentAndMarkModel order )
-        {
-            var orderModel = _mapper.Map<OrderModel>(order);
-            _service.AddCommentAndMarkAboutOrder(id, orderModel);
-            return Ok();
-        }
     }
 }
