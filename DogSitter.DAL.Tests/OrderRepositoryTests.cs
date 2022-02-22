@@ -114,8 +114,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             _repository.Update(order, true);
-            var actual = OrderTestCaseSourse.GetOrder();
-            Assert.AreEqual(actual.IsDeleted, true);
+            Assert.AreEqual(order.IsDeleted, true);
         }
 
         [TestCase(3)]
@@ -130,8 +129,8 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(actual.IsDeleted, false);
         }
 
-        [TestCase(3, 2)]
-        public void EditOrderStatusByOrderId(int id, int status)
+        [TestCase(2)]
+        public void EditOrderStatusByOrderId(int status)
         {
             //given
             var order = OrderTestCaseSourse.GetEditOrderStatus();
@@ -141,16 +140,10 @@ namespace DogSitter.DAL.Tests
 
             //when
             _repository.EditOrderStatusByOrderId(order, status);
-            var actual = _context.Orders.FirstOrDefault(x => x.Id == id);
+            var actual = _context.Orders.FirstOrDefault(x => x.Id == order.Id);
 
             //then
-            Assert.AreEqual((Status)status, actual.Status);
-            Assert.AreEqual(order.Id, actual.Id);
-            Assert.AreEqual(order.OrderDate, actual.OrderDate);
-            Assert.AreEqual(order.Price, actual.Price);
-            Assert.AreEqual(order.Mark, actual.Mark);
-            Assert.AreEqual(order.Sitter, actual.Sitter);
-            Assert.AreEqual(order.IsDeleted, actual.IsDeleted);
+            Assert.AreEqual(actual, order);
         }
 
         [TestCaseSource(typeof(GetAllOrdersBySitterIdTestCaseSource))]
@@ -190,12 +183,12 @@ namespace DogSitter.DAL.Tests
             var expected = ratedOrder;
 
             //when
-            _rep.LeaveCommentAndRateOrder(order, ratedOrder);
-            var actual = _context.Orders.FirstOrDefault(z => z.Id == 1);
+            _repository.LeaveCommentAndRateOrder(order, ratedOrder);
+            var actual = _context.Orders.FirstOrDefault(z => z.Id == order.Id);
 
             //then
 
-            Assert.AreEqual(expected.Comment , actual.Comment);
+            Assert.AreEqual(expected.Comment, actual.Comment);
             Assert.AreEqual(expected.Mark, actual.Mark);
         }
     }

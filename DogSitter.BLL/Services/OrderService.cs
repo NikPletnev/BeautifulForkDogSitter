@@ -43,18 +43,12 @@ namespace DogSitter.BLL.Services
 
         public void Update(int userId, OrderModel orderModel)
         {
-            if (orderModel.Price == 0 ||
-                orderModel.Status == 0 ||
-                orderModel.Mark == null ||
-                orderModel.Sitter == null)
-            {
-                throw new ServiceNotEnoughDataExeption($"There is not enough data to edit the order {orderModel.Id}");
-            }
-            var order = _repository.GetById(orderModel.Id);
+            var order = _rep.GetById(orderModel.Id);
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
+
             var user = _userRepository.GetUserById(userId);
             if ((user.Role == Role.Customer && orderModel.Customer.Id != userId))
             {
@@ -88,12 +82,10 @@ namespace DogSitter.BLL.Services
 
         public List<OrderModel> GetAllOrdersBySitterId(int userId, int id)
         {
-            if (orderModel.OrderDate == DateTime.MinValue ||
-                orderModel.Price == 0 ||
-                orderModel.Status == 0 ||
-                orderModel.Mark == null)
+            var sitter = _userRepository.GetUserById(id);
+            if (sitter == null || sitter.Role != Role.Sitter)
             {
-                throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
+                throw new EntityNotFoundException($"Customer {id} was not found");
             }
             if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
             {
@@ -104,11 +96,12 @@ namespace DogSitter.BLL.Services
 
         public List<OrderModel> GetAllOrdersByCustomerId(int userId, int id)
         {
-            var order = _repository.GetById(id);
-            if (order == null)
+            var customer = _userRepository.GetUserById(id);
+            if (customer == null || customer.Role != Role.Customer)
             {
-                throw new EntityNotFoundException($"Order {id} was not found");
+                throw new EntityNotFoundException($"Customer {id} was not found");
             }
+            
             if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
             {
                 throw new AccessException("Not enough rights");

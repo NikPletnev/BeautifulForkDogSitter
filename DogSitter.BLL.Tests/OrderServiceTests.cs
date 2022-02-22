@@ -11,9 +11,6 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Tests
 {
@@ -22,142 +19,93 @@ namespace DogSitter.BLL.Tests
         private Mock<IOrderRepository> _orderRepositoryMock;
         private Mock<ICustomerRepository> _customerRepMock;
         private Mock<ISitterRepository> _sitterRepMock;
+        private Mock<IUserRepository> _userRepMock;
         private IMapper _mapper;
-        private  OrderService _service;
-        private OrderTestCaseSourse _orderMock;
+        private OrderService _service;
 
-        public OrderServiceTests()
-        {
-            _orderRepositoryMock = new Mock<IOrderRepository>();
-            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-        }
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
-            _service = new OrderService(_orderRepositoryMock.Object, _mapper);
-            _orderMock = new OrderTestCaseSourse();
+            _orderRepositoryMock = new Mock<IOrderRepository>();
+            _customerRepMock = new Mock<ICustomerRepository>();
+            _sitterRepMock = new Mock<ISitterRepository>();
+            _userRepMock = new Mock<IUserRepository>();
+
+            _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
+            _service = new OrderService(_orderRepositoryMock.Object, _customerRepMock.Object, _sitterRepMock.Object, _mapper, _userRepMock.Object);
         }
 
-        [Test]
-        public void GetAllOrders_ShouldReturnOrders()
+        [TestCaseSource(typeof(UpdateOrderTestCaseSource))]
+        public void UpdateOrderTest(int id, Order entity, OrderModel model)
         {
-            var expected = _orderMock.GetOrders();
-            _orderRepositoryMock.Setup(x => x.GetAll()).Returns(expected);
-
-            var actual = _service.GetAll();
-
-
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.Count, actual.Count);
-            _orderRepositoryMock.Verify(m => m.GetAll(), Times.Once);
+            //given
+            _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
+            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>())).Verifiable();
+            _userRepMock.Setup(x => x.GetUserById(entity.Customer.Id)).Returns(entity.Customer);
+            //when       
+            _service.Update(entity.Customer.Id, model);
+            //then            
+            _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
+            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Once);
         }
 
-        [Test]
-        public void GetOrderByIdTest()
+        [TestCaseSource(typeof(UpdateOrderTestCaseSource))]
+        public void UpdateOrderTest_WhenOrderNotFound_ShouldThrowEntityNotFoundExeption(int id, Order entity, OrderModel model)
         {
-            var expected = _orderMock.GetOrder();
-            _orderRepositoryMock.Setup(m => m.GetById(expected.Id)).Returns(expected);
+            //given
+            _orderRepositoryMock.Setup(x => x.GetById(id));
+            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>()));
+            _userRepMock.Setup(x => x.GetUserById(entity.Customer.Id)).Returns(entity.Customer);
+            //when       
 
-            var actual = _service.GetById(4);
-
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(actual.Id, expected.Id);
-            Assert.AreEqual(actual.OrderDate, expected.OrderDate);
-            Assert.AreEqual(actual.Price, expected.Price);
-            Assert.AreEqual(actual.Mark, expected.Mark);
-            _orderRepositoryMock.Verify(m => m.GetById(expected.Id));
+            //then            
+            Assert.Throws<EntityNotFoundException>(() => _service.Update(entity.Customer.Id, model));
+            _orderRepositoryMock.Verify(x => x.GetById(id));
+            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
         }
 
-        [Test]
-        public void GetOrderByIdNegativeTest()
+        [TestCaseSource(typeof(UpdateOrderWhenOrderHasBeenAcceptedTestCaseSource))]
+        public void UpdateOrderTest_WhenOrderHasBeenAccepted_ShouldThrowExeption(int id, Order entity, OrderModel model)
         {
-            _orderRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Order)null);
+            //given
+            _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
+            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>()));
+            _userRepMock.Setup(x => x.GetUserById(entity.Customer.Id)).Returns(entity.Customer);
+            //when       
 
-            Assert.Throws<EntityNotFoundException>(() => _service.GetById(0));
-        }
-
-        [Test]
-        public void AddOrderTest()
-        {
-            _orderRepositoryMock.Setup(m => m.Add(It.IsAny<Order>()));
-            var orderModel = _orderMock.GetOrderModel();
-
-            _service.Add(orderModel);
-
-            _orderRepositoryMock.Verify(m => m.Add(It.IsAny<Order>()), Times.Once);
-        }
-
-        [Test]
-        public void UpdateOrderTest()
-        {
-            var expected = _orderMock.GetOrderModel();
-            _orderRepositoryMock.Setup(x => x.GetById(expected.Id)).Returns(It.IsAny<Order>());
-
-            Assert.Throws<EntityNotFoundException>(() => _service.Update(expected));
-        }
-
-        [Test]
-        public void UpdateOrderNegativeTest()
-        {
-            var expected = _orderMock.GetOrderModel();
-            expected.Id = 0;
-            _orderRepositoryMock.Setup(x => x.GetById(expected.Id)).Returns(It.IsAny<Order>());
-
-            Assert.Throws<EntityNotFoundException>(() => _service.Update(expected));
-        }
-
-        [Test]
-        public void DeleteOrderTest()
-        {
-            _orderRepositoryMock.Setup(m => m.Update(It.IsAny<Order>(), It.IsAny<Order>()));
-            _orderRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(new Order());
-
-            _service.DeleteById(1);
-
-            _orderRepositoryMock.Verify(m => m.Update(It.IsAny<Order>(), It.IsAny<Order>()), Times.Never());
-            _orderRepositoryMock.Verify(m => m.Update(It.IsAny<Order>(), It.IsAny<bool>()));
-        }
-
-        [TestCase(1)]
-        public void DeleteOrderNegativeTest(int id)
-        {
-            _orderRepositoryMock.Setup(m => m.Update(It.IsAny<Order>(), It.IsAny<bool>()));
-            _orderRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Order)null);
-
-            Assert.Throws<EntityNotFoundException>(() => _service.DeleteById(id));
-        }
-
-        [TestCase(1)]
-        public void RestoreOrderTest(int id)
-        {
-            _orderRepositoryMock.Setup(m => m.Update(It.IsAny<Order>(), true));
-            _orderRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(new Order());
-
-            _service.Restore(id);
-
-            //then
-            _orderRepositoryMock.Verify(m => m.Update(It.IsAny<Order>(), false), Times.Once());
-        }
-
-        [TestCase(1)]
-        public void RestoreOrderNegativeTest(int id)
-        {
-            _orderRepositoryMock.Setup(m => m.Update(It.IsAny<Order>(), It.IsAny<bool>()));
-            _orderRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Order)null);
-
-            Assert.Throws<EntityNotFoundException>(() => _service.DeleteById(id));
+            //then            
+            Assert.Throws<Exception>(() => _service.Update(entity.Customer.Id, model));
+            _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
+            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
         }
 
         [TestCase(1, 2)]
         public void EditOrderStatusByOrderIdTest(int id, int status)
         {
             //given
-            var order = _orderMock.EditOrderStatusByOrderId();
+            var order = new Order()
+            {
+                Id = 1,
+                OrderDate = new DateTime(2011, 11, 11),
+                Status = Status.Created,
+                CommentId = 1,
+                Price = 100,
+                IsDeleted = false,
+                Customer = new Customer()
+                {
+                    Id = 1,
+                    FirstName = "qqq",
+                    LastName = "www",
+                    Password = "1234"
+                }
+
+            };
             _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(order);
             _orderRepositoryMock.Setup(x => x.EditOrderStatusByOrderId(order, status));
+            _userRepMock.Setup(x => x.GetUserById(order.Customer.Id)).Returns(order.Customer);
             //when
-            _service.EditOrderStatusByOrderId(id, status);
+            _service.EditOrderStatusByOrderId(order.Customer.Id, id, status);
             //then
             _orderRepositoryMock.Verify(x => x.GetById(id));
             _orderRepositoryMock.Verify(x => x.EditOrderStatusByOrderId(order, status), Times.Once);
@@ -171,7 +119,89 @@ namespace DogSitter.BLL.Tests
             _orderRepositoryMock.Setup(x => x.GetById(id));
             //when
             //then
-            Assert.Throws<EntityNotFoundException>(() => _service.EditOrderStatusByOrderId(id, status));
+            Assert.Throws<EntityNotFoundException>(() => _service.EditOrderStatusByOrderId(It.IsAny<int>(), id, status));
+        }
+
+        [TestCaseSource(typeof(GetAllOrdersBySitterIdTestCaseSource))]
+        public void GetAllOrdersBySitterId(int id, Sitter sitter, List<Order> orders)
+        {
+            //given
+            _userRepMock.Setup(x => x.GetUserById(id)).Returns(sitter);
+            _orderRepositoryMock.Setup(x => x.GetAllOrdersBySitterId(id)).Returns(orders);
+            _userRepMock.Setup(x => x.GetUserById(id)).Returns(sitter);
+            //when
+            var actual = _service.GetAllOrdersBySitterId(sitter.Id, id);
+            //then
+            _userRepMock.Verify(x => x.GetUserById(id));
+            _orderRepositoryMock.Verify(x => x.GetAllOrdersBySitterId(id), Times.Once);
+        }
+
+        [TestCase(1)]
+        public void GetAllOrdersBySitterId_WhenSitterNotFound_ShouldThrowEntityNotFoundException(int id)
+        {
+            //given
+            _userRepMock.Setup(x => x.GetUserById(id)).Returns((Sitter)null);
+            //when
+            //then
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAllOrdersBySitterId(It.IsAny<int>(), id));
+            _userRepMock.Verify(x => x.GetUserById(id));
+            _orderRepositoryMock.Verify(x => x.GetAllOrdersBySitterId(id), Times.Never);
+        }
+
+        [TestCaseSource(typeof(GetAllOrdersByCustomerIdTestCaseSource))]
+        public void GetAllOrdersByCustomerId(int id, Customer customer, List<Order> orders)
+        {
+            //given
+            _orderRepositoryMock.Setup(x => x.GetAllOrdersByCustomerId(id)).Returns(orders);
+            _userRepMock.Setup(x => x.GetUserById(customer.Id)).Returns(customer);
+            //when
+            var actual = _service.GetAllOrdersByCustomerId(customer.Id, id);
+            //then
+            _userRepMock.Verify(x => x.GetUserById(id));
+            _orderRepositoryMock.Verify(x => x.GetAllOrdersByCustomerId(id), Times.Once);
+        }
+
+        [TestCase(1)]
+        public void GetAllOrdersByCustomerId_WhenCustomerNotFound_ShouldThrowEntityNotFoundException(int id)
+        {
+            //given
+            _userRepMock.Setup(x => x.GetUserById(id));
+            _orderRepositoryMock.Setup(x => x.GetAllOrdersByCustomerId(id));
+            //when
+            //then
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAllOrdersByCustomerId(It.IsAny<int>(), id));
+            _userRepMock.Verify(x => x.GetUserById(id));
+            _orderRepositoryMock.Verify(x => x.GetAllOrdersByCustomerId(id), Times.Never);
+        }
+
+        [TestCaseSource(typeof(AddCommentAndMarkAboutOrderTestCaseSource))]
+        public void AddCommentAndMarkAboutOrderTest(Order order, int idOrder, int idSitter, Sitter sitter, List<Order> orders, OrderModel orderModel)
+        {
+            //given
+            _orderRepositoryMock.Setup(x => x.GetById(idOrder)).Returns(order);
+            _sitterRepMock.Setup(x => x.GetById(idSitter)).Returns(sitter);
+            _sitterRepMock.Setup(x => x.GetAllSitterOrders(sitter)).Returns(orders);
+
+            //when
+            _service.AddCommentAndMarkAboutOrder(idOrder, orderModel);
+
+            //then
+            _orderRepositoryMock.Verify(x => x.LeaveCommentAndRateOrder(It.IsAny<Order>(), It.IsAny<Order>()), Times.Once);
+            _sitterRepMock.Verify(x => x.ChangeRating(It.IsAny<Sitter>()), Times.Once);
+        }
+
+        [TestCaseSource(typeof(AddOrderTestCaseSource))]
+        public void AddOrderTest(OrderModel orderModel, Customer customer, int id, OrderModel expected)
+        {
+            //given
+            _orderRepositoryMock.Setup(x => x.Add(It.IsAny<Order>()));
+            _customerRepMock.Setup(x => x.GetCustomerById(id)).Returns(customer);
+
+            //when
+            _service.Add(id, orderModel);
+
+            //then
+            _orderRepositoryMock.Verify(x => x.Add(It.IsAny<Order>()), Times.Once);
         }
     }
 }
