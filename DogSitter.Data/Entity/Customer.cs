@@ -6,7 +6,6 @@
         public virtual ICollection<Sitter> Sitter { get; set; }
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
-        public int AddressId { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 
