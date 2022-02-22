@@ -5,6 +5,7 @@ using DogSitter.API.Models;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -40,7 +41,7 @@ namespace DogSitter.API.Controllers
         }
 
         //api/subwayStations
-        [AuthorizeRole(Role.Admin, Role.Customer)]
+        [Authorize]
         [HttpGet]
         public ActionResult<List<SubwayStationOutputModel>> GetAllSubwayStations()
         {

@@ -85,7 +85,7 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [AuthorizeRole(Role.Admin)]
         [HttpDelete("{id}")]
         public IActionResult RestoreService(int id)
         {
@@ -95,13 +95,13 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.RestoreService(userId.Value, id);
+            _serviceService.RestoreService( id);
 
             return NoContent();
         }
 
         //api/Services
-        [AuthorizeRole(Role.Admin, Role.Customer)]
+        [AuthorizeRole(Role.Admin, Role.Customer, Role.Sitter)]
         [HttpGet("sitters/{id}")]
         public ActionResult<List<ServiceOutputModel>> GetAllServicesBySitterId(int id)
         {

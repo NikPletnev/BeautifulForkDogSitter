@@ -8,12 +8,14 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
+using System;
 
 namespace DogSitter.BLL.Tests
 {
     public class WorkTimeServiceTests
     {
         private Mock<IWorkTimeRepository> _workTimeRepositoryMock;
+        private Mock<IUserRepository> _userRepositoryMock;
         private IMapper _mapper;
         private WorkTimeService _service;
         private WorkTimeTestMocks _workTimeMocks;
@@ -22,46 +24,37 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _workTimeRepositoryMock = new Mock<IWorkTimeRepository>();
+            _userRepositoryMock = new Mock<IUserRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new WorkTimeService(_workTimeRepositoryMock.Object, _mapper);
+            _service = new WorkTimeService(_workTimeRepositoryMock.Object, _mapper, _userRepositoryMock.Object);
             _workTimeMocks = new WorkTimeTestMocks();
-        }
-
-        [Test]
-        public void GetWorkTimeByIdTest()
-        {
-            //given 
-            var expected = _workTimeMocks.GetMockWorkTime();
-            _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(expected.Id)).Returns(expected);
-
-            //when 
-            var actual = _service.GetWorkTimeById(3);
-
-            //then
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(actual.Id, expected.Id);
-            Assert.AreEqual(expected.Start, actual.Start);
-            Assert.AreEqual(expected.End, actual.End);
-            Assert.AreEqual(expected.Weekday, actual.Weekday);
-            _workTimeRepositoryMock.Verify(m => m.GetWorkTimeById(expected.Id), Times.Once);
-        }
-
-        [Test]
-        public void GetWorkTimeByIdNegativeTest()
-        {
-            _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
-
-            Assert.Throws<EntityNotFoundException>(() => _service.GetWorkTimeById(0));
         }
 
         [Test]
         public void AddWorkTimeTest()
         {
             //given
-            _workTimeRepositoryMock.Setup(m => m.AddWorkTime(It.IsAny<WorkTime>()));
+            var work = _workTimeMocks.GetMockWorkTime();
+            WorkTimeModel workTime = new WorkTimeModel()
+            {
+                Id = 1,
+                End = new DateTime(),
+                Start = new DateTime(),
+                Weekday = Weekday.Sunday,
+                Sitter = new SitterModel()
+                {
+                    Id = 1,
+                    FirstName = "FirstName1",
+                    LastName = "LastName1",
+                    Password = "Password1",
+                    IsDeleted = false
+                }
+            };
+            _workTimeRepositoryMock.Setup(m => m.AddWorkTime(work));
+            _userRepositoryMock.Setup(x => x.GetUserById(work.Sitter.Id)).Returns(work.Sitter);
 
             //when 
-            _service.AddWorkTime(It.IsAny<WorkTimeModel>());
+            _service.AddWorkTime(workTime.Sitter.Id, workTime);
 
             //then
             _workTimeRepositoryMock.Verify(m => m.AddWorkTime(It.IsAny<WorkTime>()), Times.Once);
@@ -71,11 +64,28 @@ namespace DogSitter.BLL.Tests
         public void UpdateWorkTimeTest()
         {
             //given
+            var work = _workTimeMocks.GetMockWorkTime();
+            WorkTimeModel workTime = new WorkTimeModel()
+            {
+                Id = 1,
+                End = new DateTime(),
+                Start = new DateTime(),
+                Weekday = Weekday.Sunday,
+                Sitter = new SitterModel()
+                {
+                    Id = 1,
+                    FirstName = "FirstName1",
+                    LastName = "LastName1",
+                    Password = "Password1",
+                    IsDeleted = false
+                }
+            };
             _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), It.IsAny<WorkTime>()));
-            _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(new WorkTime());
+            _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(work);
+            _userRepositoryMock.Setup(x => x.GetUserById(work.Sitter.Id)).Returns(work.Sitter);
 
             //when
-            _service.UpdateWorkTime(It.IsAny<int>(), new WorkTimeModel());
+            _service.UpdateWorkTime(workTime.Sitter.Id, workTime.Id, workTime);
 
             //then
             _workTimeRepositoryMock.Verify(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), It.IsAny<WorkTime>()), Times.Once());
@@ -89,18 +99,20 @@ namespace DogSitter.BLL.Tests
             _workTimeRepositoryMock.Setup(m => m.UpdateWorkTime(It.IsAny<WorkTime>(), It.IsAny<WorkTime>()));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _service.UpdateWorkTime(It.IsAny<int>(), new WorkTimeModel()));
+            Assert.Throws<EntityNotFoundException>(() => _service.UpdateWorkTime(It.IsAny<int>(), It.IsAny<int>(), new WorkTimeModel()));
         }
 
         [Test]
         public void DeleteWorkTimeTest()
         {
             //given
+            var work = _workTimeMocks.GetMockWorkTime();
             _workTimeRepositoryMock.Setup(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), true));
-            _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(new WorkTime());
+            _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns(work);
+            _userRepositoryMock.Setup(x => x.GetUserById(work.Sitter.Id)).Returns(work.Sitter);
 
             //when
-            _service.DeleteWorkTime(It.IsAny<int>());
+            _service.DeleteWorkTime(work.Sitter.Id, It.IsAny<int>());
 
             //then
             _workTimeRepositoryMock.Verify(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), true), Times.Once());
@@ -111,10 +123,11 @@ namespace DogSitter.BLL.Tests
         [Test]
         public void DeleteWorkTimeNegativeTest()
         {
+            
             _workTimeRepositoryMock.Setup(m => m.UpdateOrDeleteWorkTime(It.IsAny<WorkTime>(), true));
             _workTimeRepositoryMock.Setup(m => m.GetWorkTimeById(It.IsAny<int>())).Returns((WorkTime)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _service.DeleteWorkTime(It.IsAny<int>()));
+            Assert.Throws<EntityNotFoundException>(() => _service.DeleteWorkTime(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [Test]

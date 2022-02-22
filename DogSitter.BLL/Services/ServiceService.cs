@@ -60,13 +60,13 @@ namespace DogSitter.BLL.Services
 
             var exitingService = _serviceRepository.GetServiceById(id);
 
-            if (serviceToUpdate.Sitter.Id != userId)
+            if (exitingService is null)
+                throw new EntityNotFoundException("Service wasn't found");
+
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && exitingService.Sitter.Id != userId)
             {
                 throw new AccessException("Not enough rights");
             }
-
-            if (exitingService is null)
-                throw new EntityNotFoundException("Service wasn't found");
 
             _serviceRepository.UpdateService(exitingService, serviceToUpdate);
         }
@@ -75,27 +75,22 @@ namespace DogSitter.BLL.Services
         {
             var serviceToDelete = _serviceRepository.GetServiceById(id);
 
-            if (serviceToDelete.Sitter.Id != userId)
-            {
-                throw new AccessException("Not enough rights");
-            }
-
             if (serviceToDelete is null)
             {
                 throw new EntityNotFoundException("Subway station wasn't found");
             }
 
-            _serviceRepository.UpdateOrDeleteService(serviceToDelete, true);
-        }
-
-        public void RestoreService(int userId, int id)
-        {
-            var serviceToRestore = _serviceRepository.GetServiceById(id);
-
-            if (serviceToRestore.Sitter.Id != userId)
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && serviceToDelete.Sitter.Id != userId)
             {
                 throw new AccessException("Not enough rights");
             }
+
+            _serviceRepository.UpdateOrDeleteService(serviceToDelete, true);
+        }
+
+        public void RestoreService(int id)
+        {
+            var serviceToRestore = _serviceRepository.GetServiceById(id);
 
             if (serviceToRestore is null)
             {
@@ -108,15 +103,15 @@ namespace DogSitter.BLL.Services
         public List<ServiceModel> GetAllServicesBySitterId(int userId, int id)
         {
             var sitter = _sitterRepository.GetById(id);
-
-            if (sitter.Id != userId)
-            {
-                throw new AccessException("Not enough rights");
-            }
-
+            var user = _userRepository.GetUserById(userId);
             if (sitter is null)
             {
                 throw new EntityNotFoundException($"Sitter wasn't found");
+            }
+
+            if (user.Role == Role.Sitter && sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
             }
 
             return _mapper.Map<List<ServiceModel>>(_serviceRepository.GetAllServicesBySitterId(id));

@@ -15,7 +15,15 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Weekday = Weekday.Sunday,
-                    Sitter = new Sitter(),
+                    Sitter = new Sitter()
+                    {
+                        Id = 1,
+                        FirstName = "FirstName1",
+                        LastName = "LastName1",
+                        Password = "Password1",
+                        Contacts = new List<Contact>(),
+                        IsDeleted = false
+                    },
                     IsDeleted = false
                 },
 
@@ -25,7 +33,15 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Weekday = Weekday.Saturday,
-                    Sitter = new Sitter(),
+                    Sitter = new Sitter()
+                    {
+                        Id = 1,
+                        FirstName = "FirstName1",
+                        LastName = "LastName1",
+                        Password = "Password1",
+                        Contacts = new List<Contact>(),
+                        IsDeleted = false
+                    },
                     IsDeleted = true
                 }
             };
@@ -37,7 +53,15 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Start = DateTime.Now,
                     End = DateTime.Now,
                     Weekday = Weekday.Saturday,
-                    Sitter = new Sitter(),
+                    Sitter = new Sitter()
+                    {
+                        Id = 1,
+                        FirstName = "FirstName1",
+                        LastName = "LastName1",
+                        Password = "Password1",
+                        Contacts = new List<Contact>(),
+                        IsDeleted = false
+                    },
                     IsDeleted = false
                 };
     }
