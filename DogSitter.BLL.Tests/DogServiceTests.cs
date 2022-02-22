@@ -55,6 +55,17 @@ namespace DogSitter.BLL.Tests
     //        _dogRepositoryMock.Verify(x => x.GetAllDogsByCustomerId(id), Times.Never);
     //    }
 
+    //    [TestCase(22)]
+    //    public void GetDogsByCustomerIdTest_WhenCustomerNotFound_ShouldThrowEntityNotFoundException(int id)
+    //    {
+    //        //given
+    //        _customerRepository.Setup(x => x.GetCustomerById(id)).Verifiable();
+    //        //when
+    //        //then
+    //        Assert.Throws<EntityNotFoundException>(() => _service.GetDogsByCustomerId(id));
+    //        _customerRepository.Verify(x => x.GetCustomerById(id), Times.Once);
+    //        _dogRepositoryMock.Verify(x => x.GetAllDogsByCustomerId(id), Times.Never);
+    //    }
 
     //    [TestCaseSource(typeof(GetAllDogsTestCaseSource))]
     //    public void GetAllDogsTestMustReturnAllDogs(List<Dog> dogs, List<DogModel> expected)

@@ -17,6 +17,7 @@ namespace DogSitter.BLL.Tests
         private Mock<ISitterRepository> _sitterRepositoryMock;
         private Mock<IServiceRepository> _serviceRepositoryMock;
         private Mock<ISubwayStationRepository> _subwayStationRepositoryMock;
+        private Mock<IUserRepository> _userRepMock;
         private SitterService _service;
         private IMapper _mapper;
         private SitterTestCaseSourse _sitterTestCase;
@@ -27,13 +28,14 @@ namespace DogSitter.BLL.Tests
             _sitterRepositoryMock = new Mock<ISitterRepository>();
             _serviceRepositoryMock = new Mock<IServiceRepository>();
             _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
+            _userRepMock = new Mock<IUserRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object, _mapper);
+            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object, _mapper, _userRepMock.Object);
             _sitterTestCase = new SitterTestCaseSourse();
         }
 
         [Test]
-        public void GEtAllSitters_ShouldReturnSitters()
+        public void GetAllSitters_ShouldReturnSitters()
         {
             var expected = SitterTestCaseSourse.GetMockSitters();
             _sitterRepositoryMock.Setup(x => x.GetAll()).Returns(expected);
@@ -63,7 +65,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void GetSItterByIDNegativeTest()
+        public void GetSItterByIdNegativeTest()
         {
             _sitterRepositoryMock.Setup(x => x.GetById(It.IsAny<int>())).Returns((Sitter)null);
 
@@ -87,7 +89,7 @@ namespace DogSitter.BLL.Tests
             _sitterRepositoryMock.Setup(x => x.Update(It.IsAny<Sitter>()));
             _sitterRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(new Sitter());
 
-            _service.Update(new SitterModel());
+            _service.Update(It.IsAny<int>(), new SitterModel());
 
             _sitterRepositoryMock.Verify(x => x.Update(It.IsAny<Sitter>()), Times.Once());
             _sitterRepositoryMock.Verify(x => x.Update(1, true), Times.Never());
@@ -99,7 +101,7 @@ namespace DogSitter.BLL.Tests
             _sitterRepositoryMock.Setup(x => x.Update(It.IsAny<Sitter>()));
             _sitterRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Sitter)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _service.Update(new SitterModel()));
+            Assert.Throws<EntityNotFoundException>(() => _service.Update(It.IsAny<int>(), new SitterModel()));
         }
 
         [Test]
@@ -107,8 +109,9 @@ namespace DogSitter.BLL.Tests
         {
             _sitterRepositoryMock.Setup(x => x.Update(It.IsAny<int>(), It.IsAny<bool>()));
             _sitterRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns(new Sitter());
+            _userRepMock.Setup(x => x.GetUserById(It.IsAny<int>())).Returns(new User());
 
-            _service.DeleteById(0);
+            _service.DeleteById(It.IsAny<int>(), 0);
 
             _sitterRepositoryMock.Verify(x => x.Update(It.IsAny<int>(), It.IsAny<bool>()), Times.Once());
         }
@@ -119,7 +122,7 @@ namespace DogSitter.BLL.Tests
             _sitterRepositoryMock.Setup(x => x.Update(It.IsAny<int>(), It.IsAny<bool>()));
             _sitterRepositoryMock.Setup(m => m.GetById(It.IsAny<int>())).Returns((Sitter)null);
 
-            Assert.Throws<EntityNotFoundException>(() => _service.DeleteById(0));
+            Assert.Throws<EntityNotFoundException>(() => _service.DeleteById(It.IsAny<int>(), 0));
         }
 
         [Test]
