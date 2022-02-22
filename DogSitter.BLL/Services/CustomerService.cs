@@ -3,6 +3,7 @@ using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
@@ -11,11 +12,13 @@ namespace DogSitter.BLL.Services
     {
         private ICustomerRepository _repository;
         private IMapper _mapper;
+        private IUserRepository _userRepository;
 
-        public CustomerService(ICustomerRepository repository, IMapper mapper)
+        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         public CustomerModel GetCustomerById(int id)
@@ -68,7 +71,7 @@ namespace DogSitter.BLL.Services
             _repository.UpdateCustomer(customerModel, entity);
         }
 
-        public void DeleteCustomerById(int id)
+        public void DeleteCustomerById(int userId, int id)
         {
             var entity = _repository.GetCustomerById(id);
             if (entity == null)
@@ -76,6 +79,11 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException("Customer was not found");
 
             }
+            if(_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
+            {
+                throw new AccessException("Not enough rights");
+            }
+
             bool Delete = true;
             _repository.UpdateCustomer(id, Delete);
         }

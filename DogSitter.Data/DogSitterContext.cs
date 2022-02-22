@@ -39,8 +39,8 @@ namespace DogSitter.DAL
             #region Default 
 
             modelBuilder.Entity<Sitter>()
-        .Property(w => w.Role)
-        .HasDefaultValue(Role.Sitter);
+            .Property(w => w.Role)
+            .HasDefaultValue(Role.Sitter);
 
             modelBuilder.Entity<Customer>()
             .Property(w => w.Role)

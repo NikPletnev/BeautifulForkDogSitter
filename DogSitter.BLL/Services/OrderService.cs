@@ -14,30 +14,19 @@ namespace DogSitter.BLL.Services
         private IMapper _map;
         private ISitterRepository _sitterRepository;
         private ICustomerRepository _customerRepository;
+        private IUserRepository _userRepository;
 
-        public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository, ISitterRepository sitterRepository, IMapper mapper)
+        public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository, 
+            ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository)
         {
             _rep = orderRepository;
             _customerRepository = customerRepository; 
             _sitterRepository = sitterRepository;
             _map = mapper;
-        }
-        public OrderModel GetById(int id)
-        {
-            var order = _rep.GetById(id);
-
-            if (order == null)
-            {
-                throw new EntityNotFoundException($"Order {id} was not found");
-            }
-
-            return _map.Map<OrderModel>(order);
+            _userRepository = userRepository;
         }
 
-        public List<OrderModel> GetAll() =>
-             _map.Map<List<OrderModel>>(_rep.GetAll());
-
-        public void Add(OrderModel orderModel)
+        public void Add(int userId, OrderModel orderModel)
         {
             if (orderModel.OrderDate == DateTime.MinValue ||
                 orderModel.Price == 0 ||
@@ -46,11 +35,11 @@ namespace DogSitter.BLL.Services
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
             }
-
+            orderModel.Customer = _map.Map<CustomerModel>(_customerRepository.GetCustomerById(userId));
             _rep.Add(_map.Map<Order>(orderModel));
         }
 
-        public void Update(OrderModel orderModel)
+        public void Update(int userId, OrderModel orderModel)
         {
             if (orderModel.Price == 0 ||
                 orderModel.Status == 0)
@@ -62,6 +51,11 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
+            var user = _userRepository.GetUserById(userId);
+            if((user.Role == Role.Customer && orderModel.Customer.Id != userId))
+            {
+                throw new AccessException("Not enough rights");
+            }
             if (order.Status == Status.Created)
             {
                 _rep.Update(order, _map.Map<Order>(orderModel));
@@ -72,53 +66,46 @@ namespace DogSitter.BLL.Services
             }
         }
 
-        public void DeleteById(int id)
+        public void EditOrderStatusByOrderId(int userId, int id, int status)
         {
-            bool IsDelete = true;
             var order = _rep.GetById(id);
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {id} was not found");
             }
-            _rep.Update(order, IsDelete);
-        }
-
-        public void Restore(int id)
-        {
-            bool IsDelete = false;
-            var order = _rep.GetById(id);
-            if (order == null)
+            var user = _userRepository.GetUserById(userId);
+            if ((user.Role == Role.Customer && (Status)status != Status.CancelledByCustomer) ||
+                (user.Role == Role.Sitter && (Status)status == Status.CanceledByAdmin))
             {
-                throw new EntityNotFoundException($"Order {id} was not found");
-            }
-            _rep.Update(order, IsDelete);
-        }
-        public void EditOrderStatusByOrderId(int id, int status)
-        {
-            var order = _rep.GetById(id);
-            if (order == null)
-            {
-                throw new EntityNotFoundException($"Order {id} was not found");
+                throw new AccessException("Not enough rights");
             }
             _rep.EditOrderStatusByOrderId(order, status);
         }
 
-        public List<OrderModel> GetAllOrdersBySitterId(int id)
+        public List<OrderModel> GetAllOrdersBySitterId(int userId, int id)
         {
             var entity = _sitterRepository.GetById(id);
             if (entity == null)
             {
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
+            if(_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
+            {
+                throw new AccessException("Not enough rights");
+            }
             return _map.Map<List<OrderModel>>(_rep.GetAllOrdersBySitterId(id));
         }
 
-        public List<OrderModel> GetAllOrdersByCustomerId(int id)
+        public List<OrderModel> GetAllOrdersByCustomerId(int userId, int id)
         {
             var entity = _customerRepository.GetCustomerById(id);
             if (entity == null)
             {
                 throw new EntityNotFoundException($"Customer {id} was not found");
+            }
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
+            {
+                throw new AccessException("Not enough rights");
             }
             return _map.Map<List<OrderModel>>(_rep.GetAllOrdersByCustomerId(id));
         }

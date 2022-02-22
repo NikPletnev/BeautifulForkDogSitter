@@ -4,14 +4,10 @@ namespace DogSitter.BLL.Services.Interface
 {
     public interface IOrderService
     {
-        void Add(OrderModel orderModel);
-        void DeleteById(int id);
-        void EditOrderStatusByOrderId(int id, int status);
-        List<OrderModel> GetAll();
-        List<OrderModel> GetAllOrdersByCustomerId(int id);
-        List<OrderModel> GetAllOrdersBySitterId(int id);
-        OrderModel GetById(int id);
-        void Restore(int id);
-        void Update(OrderModel orderModel);
+        void Add(int userId, OrderModel orderModel);
+        void EditOrderStatusByOrderId(int userId, int id, int status);
+        List<OrderModel> GetAllOrdersByCustomerId(int userId, int id);
+        List<OrderModel> GetAllOrdersBySitterId(int userId, int id);
+        void Update(int userId, OrderModel orderModel);
     }
 }

@@ -22,6 +22,13 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 House = 1,
                 Apartament = 1,
                 IsDeleted = false,
+                Customer = new Customer()
+                {
+                    Id = 1,
+                    FirstName = "qqq",
+                    LastName = "www",
+                    Password = "1234"
+                }
             };
 
             var expected = new AddressModel

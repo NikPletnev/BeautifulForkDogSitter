@@ -23,7 +23,7 @@ namespace DogSitter.Controllers
             _service = customerService;
         }
 
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [AuthorizeRole(Role.Admin)]
         [HttpGet("{id}")]
         public ActionResult<CustomerOutputModel> GetCustomerById(int id)
         {
@@ -60,8 +60,8 @@ namespace DogSitter.Controllers
         }
 
         [AuthorizeRole(Role.Customer)]
-        [HttpPut("{id}")]
-        public ActionResult UpdateCustomer(int id, [FromBody] CustomerInputModel customer)
+        [HttpPut]
+        public ActionResult UpdateCustomer([FromBody] CustomerInputModel customer)
         {
             var userId = this.GetUserId();
             if (userId == null)
@@ -69,7 +69,7 @@ namespace DogSitter.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.UpdateCustomer(id, _mapper.Map<CustomerModel>(customer));
+            _service.UpdateCustomer(userId.Value, _mapper.Map<CustomerModel>(customer));
             return Ok();
         }
 
@@ -83,7 +83,21 @@ namespace DogSitter.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.DeleteCustomerById(id);
+            _service.DeleteCustomerById(userId.Value, id);
+            return NoContent();
+        }
+
+        [AuthorizeRole(Role.Admin)]
+        [HttpDelete("{id}")]
+        public ActionResult RestoreCustomer(int id)
+        {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            _service.RestoreCustomer(id);
             return NoContent();
         }
     }

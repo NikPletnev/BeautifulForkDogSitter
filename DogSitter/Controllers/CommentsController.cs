@@ -38,20 +38,6 @@ namespace DogSitter.API.Controllers
             return Ok(_mapper.Map<CommentOutputModel>(comments));
         }
 
-        [AuthorizeRole(Role.Customer)]
-        [HttpPost]
-        public ActionResult AddComment([FromBody] CommentInsertInputModel comment)
-        {
-            var userId = this.GetUserId();
-            if (userId == null)
-            {
-                return Unauthorized("Invalid token, please try again");
-            }
-
-            _service.Add(_mapper.Map<CommentModel>(comment));
-            return StatusCode(StatusCodes.Status201Created, _mapper.Map<CommentOutputModel>(comment));
-        }
-
         [AuthorizeRole(Role.Admin)]
         [HttpDelete("{id}")]
         public ActionResult DeleteComment(int id)

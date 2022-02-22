@@ -19,7 +19,14 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Status = Status.Created,
                 CommentId = 1,
                 Price = 100,
-                IsDeleted = false
+                IsDeleted = false,
+                Customer = new Customer()
+                {
+                    Id = 1,
+                    FirstName = "qqq",
+                    LastName = "www",
+                    Password = "12324"
+                }
             };
 
             OrderModel model = new OrderModel()
@@ -28,7 +35,14 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 OrderDate = new DateTime(2011, 11, 11),
                 Status = Status.Created,
                 Price = 100,
-                IsDeleted = false
+                IsDeleted = false,
+                Customer = new CustomerModel()
+                {
+                    Id = 1,
+                    FirstName = "qqq",
+                    LastName = "www",
+                    Password = "12324"
+                }
             };
 
             yield return new object[] { id, order, model };

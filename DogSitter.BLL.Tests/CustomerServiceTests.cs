@@ -16,6 +16,7 @@ namespace DogSitter.BLL.Tests
     public class CustomerServiceTests
     {
         private Mock<ICustomerRepository> _customerRepositoryMock;
+        private Mock<IUserRepository> _userRepositoryMock;
         private IMapper _mapper;
         private CustomerService _service;
 
@@ -23,8 +24,9 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _customerRepositoryMock = new Mock<ICustomerRepository>();
+            _userRepositoryMock = new Mock<IUserRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new CustomerService( _customerRepositoryMock.Object, _mapper);
+            _service = new CustomerService( _customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object);
         }
 
 
@@ -131,8 +133,9 @@ namespace DogSitter.BLL.Tests
             //gicen
             _customerRepositoryMock.Setup(x => x.UpdateCustomer(id, true));
             _customerRepositoryMock.Setup(x => x.GetCustomerById(id)).Returns(customer);
+            _userRepositoryMock.Setup(x => x.GetUserById(customer.Id)).Returns(customer);
             //when
-            _service.DeleteCustomerById(id);
+            _service.DeleteCustomerById(customer.Id, id);
             //then
             _customerRepositoryMock.Verify(x => x.UpdateCustomer(id, true), Times.Once);
             _customerRepositoryMock.Verify(x => x.GetCustomerById(id), Times.Once);
@@ -150,7 +153,7 @@ namespace DogSitter.BLL.Tests
 
             //then
             EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.DeleteCustomerById(id));
+            _service.DeleteCustomerById(customer.Id, id));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
