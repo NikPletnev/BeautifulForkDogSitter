@@ -32,7 +32,7 @@ namespace DogSitter.API.Controllers
             }
 
             var addresses = _addressService.GetAllAddresses();
-            return Ok(_mapper.Map<AddressOutputModel>(addresses));
+            return Ok(_mapper.Map<List<AddressOutputModel>>(addresses));
         }
 
         [AuthorizeRole(Role.Admin, Role.Customer)]

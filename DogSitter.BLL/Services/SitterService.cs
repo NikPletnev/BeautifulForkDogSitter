@@ -44,6 +44,7 @@ namespace DogSitter.BLL.Services
         public void Add(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
+            sitter.Role = Role.Sitter;
             sitter.Password = PasswordHash.HashPassword(sitter.Password);
             _sitterRepository.Add(sitter);
         }

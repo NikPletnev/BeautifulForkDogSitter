@@ -48,6 +48,7 @@ namespace DogSitter.BLL.Services
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to add new customer");
             }
             var customer = _mapper.Map<Customer>(customerModel);
+            customer.Role = Role.Customer;
             customer.Password = PasswordHash.HashPassword(customer.Password);
             _repository.AddCustomer(customer);
         }

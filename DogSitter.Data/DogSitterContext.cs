@@ -40,15 +40,15 @@ namespace DogSitter.DAL
 
             modelBuilder.Entity<Sitter>()
             .Property(w => w.Role)
-            .HasDefaultValue(Role.Sitter);
+            .HasDefaultValue((Role)3);
 
             modelBuilder.Entity<Customer>()
             .Property(w => w.Role)
-            .HasDefaultValue(Role.Customer);
+            .HasDefaultValue((Role)2);
 
             modelBuilder.Entity<Admin>()
             .Property(w => w.Role)
-            .HasDefaultValue(Role.Admin);
+            .HasDefaultValue((Role)1);
 
             modelBuilder.Entity<Sitter>()
             .Property(w => w.Verified)
