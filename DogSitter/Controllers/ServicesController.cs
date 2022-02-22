@@ -40,7 +40,7 @@ namespace DogSitter.API.Controllers
             return Ok(services);
         }
 
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [AuthorizeRole(Role.Sitter)]
         [HttpPost]
         public ActionResult<ServiceOutputModel> AddService([FromBody] ServiceInsertInputModel service)
         {
@@ -86,7 +86,7 @@ namespace DogSitter.API.Controllers
         }
 
         [AuthorizeRole(Role.Admin)]
-        [HttpDelete("{id}")]
+        [HttpPatch("{id}")]
         public IActionResult RestoreService(int id)
         {
             var userId = this.GetUserId();

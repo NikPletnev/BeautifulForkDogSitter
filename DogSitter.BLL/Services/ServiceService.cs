@@ -45,12 +45,7 @@ namespace DogSitter.BLL.Services
             var service = _mapper.Map<Serviсe>(serviceModel);
 
             var user = _userRepository.GetUserById(userId);
-
-            if (user.Role != Role.Admin)
-            {
-                service.Sitter = (Sitter)user;
-            }
-
+            service.Sitter = (Sitter)user;
             _serviceRepository.AddService(service);
         }
 
