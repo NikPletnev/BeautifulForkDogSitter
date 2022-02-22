@@ -10,57 +10,55 @@ namespace DogSitter.BLL.Services
     {
         private readonly IWorkTimeRepository _workTimeRepository;
         private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
 
-        public WorkTimeService(IWorkTimeRepository workTimeRepository, IMapper mapper)
+        public WorkTimeService(IWorkTimeRepository workTimeRepository, IMapper mapper, IUserRepository userRepository)
         {
             _workTimeRepository = workTimeRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
-        public WorkTimeModel GetWorkTimeById(int id)
+        public void AddWorkTime(int userId, WorkTimeModel workTimeModel)
         {
-            var workTime = _workTimeRepository.GetWorkTimeById(id);
-
-            if (workTime is null)
-                throw new EntityNotFoundException($"WorkTime wasn't found");
-
-            return _mapper.Map<WorkTimeModel>(workTime);
-        }
-
-        public void AddWorkTime(WorkTimeModel workTimeModel)
-        {
+            workTimeModel.Sitter = _mapper.Map<SitterModel>(_userRepository.GetUserById(userId));
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
-
             _workTimeRepository.AddWorkTime(workTime);
         }
 
-        public void UpdateWorkTime(WorkTimeModel workTimeModel)
+        public void UpdateWorkTime(int userId, int id, WorkTimeModel workTimeModel)
         {
-            var exitingworkTime = _mapper.Map<WorkTime>(workTimeModel);
-
-            if (_workTimeRepository.GetWorkTimeById(exitingworkTime.Id) is null)
+            var exitingworkTime = _workTimeRepository.GetWorkTimeById(id);
+            if (exitingworkTime is null)
                 throw new EntityNotFoundException($"WorkTime wasn't found!");
-
+            if (exitingworkTime.Sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
+            }
             var workTimeToUpdate = _mapper.Map<WorkTime>(workTimeModel);
+
 
             _workTimeRepository.UpdateWorkTime(exitingworkTime, workTimeToUpdate);
         }
 
-        public void DeleteWorkTime(WorkTimeModel workTimeModel)
+        public void DeleteWorkTime(int userId, int id)
         {
-            var workTime = _mapper.Map<WorkTime>(workTimeModel);
-
-            if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
+            var workTime = _workTimeRepository.GetWorkTimeById(id);
+            if (workTime is null)
                 throw new EntityNotFoundException($"WorkTime wasn't found!");
+            if (workTime.Sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
+            }
 
             _workTimeRepository.UpdateOrDeleteWorkTime(workTime, true);
         }
 
-        public void RestoreWorkTime(WorkTimeModel workTimeModel)
+        public void RestoreWorkTime(int id)
         {
-            var workTime = _mapper.Map<WorkTime>(workTimeModel);
+            var workTime = _workTimeRepository.GetWorkTimeById(id);
 
-            if (_workTimeRepository.GetWorkTimeById(workTime.Id) is null)
+            if (workTime is null)
                 throw new EntityNotFoundException($"WorkTime wasn't found!");
 
             _workTimeRepository.UpdateOrDeleteWorkTime(workTime, false);

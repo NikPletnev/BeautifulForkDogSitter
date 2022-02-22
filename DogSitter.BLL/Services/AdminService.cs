@@ -38,73 +38,9 @@ namespace DogSitter.BLL.Services
             _rep.UpdateAdmin(entity, admin);
         }
 
-        public void DeleteAdmin(int id)
-        {
-            var admin = _rep.GetAdminById(id);
-            if (admin == null)
-            {
-                throw new EntityNotFoundException($"Admin {id} was not found");
-            }
-
-            _rep.UpdateAdmin(admin, true);
-        }
-
-        public void RestoreAdmin(int id)
-        {
-            var admin = _rep.GetAdminById(id);
-            if (admin == null)
-            {
-                throw new EntityNotFoundException($"Admin {id} was not found");
-            }
-
-            _rep.UpdateAdmin(admin, false);
-        }
-
-        public void AddAdmin(AdminModel adminModel)
-        {
-            if (adminModel.FirstName == String.Empty ||
-                adminModel.LastName == String.Empty ||
-                adminModel.Password == String.Empty ||
-                adminModel.Contacts.Count == 0)
-            {
-                throw new ServiceNotEnoughDataExeption($"There is not enough data to create new admin");
-            }
-
-            _rep.AddAdmin(_map.Map<Admin>(adminModel));
-        }
-
-        public AdminModel GetAdminById(int id)
-        {
-            var admin = _rep.GetAdminById(id);
-
-            if (admin == null)
-            {
-                throw new EntityNotFoundException($"Admin {id} was not found");
-            }
-
-            return _map.Map<AdminModel>(admin);
-        }
-
-        public List<AdminModel> GetAllAdmins()
-        {
-            return _map.Map<List<AdminModel>>(_rep.GetAllAdmins());
-        }
-
         public List<AdminModel> GetAllAdminsWithContacts()
         {
             return _map.Map<List<AdminModel>>(_rep.GetAllAdminWithContacts());
-        }
-
-        public AdminModel GetAdminWithContacts(int id)
-        {
-            var admin = _rep.GetAdminByIdWithContacts(id);
-
-            if (admin == null)
-            {
-                throw new EntityNotFoundException($"Admin {id} was not found");
-            }
-
-            return _map.Map<AdminModel>(admin);
         }
     }
 }

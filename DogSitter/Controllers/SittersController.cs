@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
-using DogSitter.API.Configs;
-using DogSitter.API.Models;
 using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
+using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
-using DogSitter.DAL.Entity;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
@@ -25,51 +23,129 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
-        //api/sitters       
+        //api/sitters
+        [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpGet("{id}")]
-        public ActionResult<SitterOutputModel> GetbyId(int id)
+        public ActionResult<SitterOutputModel> GetSitterById(int id)
         {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
             var sitter = _service.GetById(id);
             var sitterModel = _mapper.Map<SitterOutputModel>(sitter);
             return Ok(sitterModel);
         }
 
         [HttpGet]
-        public ActionResult<List<SitterOutputModel>> GetAll(int id)
+        [AuthorizeRole(Role.Admin, Role.Customer)]
+        public ActionResult<List<SitterOutputModel>> GetAllSitters()
         {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
             var sitters = _service.GetAll();
             var sittersModel = _mapper.Map<SitterOutputModel>(sitters);
             return Ok(sittersModel);
         }
 
         [HttpPost]
-        public ActionResult Add ([FromBody] SitterInsertInputModel sittetModel)
+        public ActionResult AddSitter([FromBody] SitterInsertInputModel sittetModel)
         {
-            var sitter = _mapper.Map<SitterModel>( sittetModel);
+            var sitter = _mapper.Map<SitterModel>(sittetModel);
             _service.Add(sitter);
             return StatusCode(StatusCodes.Status201Created, sitter);
         }
 
         [HttpPut("{id}")]
-        public ActionResult Update([FromRoute] int id, [FromBody] SitterUpdateInputModel sitterModel)
+        [AuthorizeRole(Role.Sitter)]
+        public ActionResult UpdateSitter([FromBody] SitterUpdateInputModel sitterModel)
         {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
             var sitter = _mapper.Map<SitterModel>(sitterModel);
-            _service.Update(sitter);
+            _service.Update(userId.Value, sitter);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        public ActionResult DeleteSitter(int id)
         {
-            _service.DeleteById(id);
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            _service.DeleteById(userId.Value, id);
             return NoContent();
         }
 
         [HttpPatch("{id}")]
-        public ActionResult Restore(int id)
+        [AuthorizeRole(Role.Admin)]
+        public ActionResult RestoreSitter(int id)
         {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
             _service.Restore(id);
             return Ok();
+        }
+
+        [HttpPatch("confirm/{id}")]
+        [AuthorizeRole(Role.Admin)]
+        public ActionResult ConfirmProfileSitterById(int id)
+        {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            _service.ConfirmProfileSitterById(id);
+            return Ok();
+        }
+
+        [HttpPatch("block/{id}")]
+        [AuthorizeRole(Role.Admin)]
+        public ActionResult BlockProfileSitterById(int id)
+        {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            _service.BlockProfileSitterById(id);
+            return Ok();
+        }
+
+        [HttpGet("subwaystation/{id}")]
+        [AuthorizeRole(Role.Admin, Role.Customer)]
+        public ActionResult<List<SitterOutputModel>> GetAllSittersWithWorkTimeBySubwayStation([FromBody] SubwayStationInputModel subwayStation)
+        {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            var sitters = _service.GetAllSittersWithWorkTimeBySubwayStation(_mapper.Map<SubwayStationModel>(subwayStation));
+            var sittersModel = _mapper.Map<SitterOutputModel>(sitters);
+            return Ok(sittersModel);
         }
     }
 }

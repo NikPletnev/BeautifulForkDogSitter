@@ -3,9 +3,6 @@ using DogSitter.DAL.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
@@ -53,7 +50,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Orders= new List<Order>()
                     {
                         new Order()
-                        { 
+                        {
                             Id = 3,
                             OrderDate = new DateTime(2011, 1, 1),
                             Status = Status.CanceledBySitter,

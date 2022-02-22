@@ -1,6 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
@@ -29,14 +28,14 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                   IsDeleted = false
               };
 
-               Sitter expected = new Sitter()
-               {
-                   Id = 1,
-                   FirstName = "FirstName1",
-                   LastName = "LastName1",
-                   Password = "Password1",
-                   IsDeleted = false                  
-               };
+            Sitter expected = new Sitter()
+            {
+                Id = 1,
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                Password = "Password1",
+                IsDeleted = false
+            };
 
             yield return new object[] { id, service, expected };
         }

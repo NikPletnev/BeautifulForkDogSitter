@@ -17,7 +17,7 @@ namespace DogSitter.DAL.Entity
         public int Apartament { get; set; }
         public bool IsDeleted { get; set; }
         public virtual ICollection<SubwayStation> SubwayStations { get; set; }
-        public virtual ICollection<Customer> Customers { get; set; }
+        public virtual Customer Customer { get; set; }
 
         private bool Equals(Address other)
         {

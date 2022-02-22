@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.API.Attribute;
+using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
@@ -20,21 +21,17 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
-        [AuthorizeRole(Role.Admin, Role.Customer)]
-        [HttpGet("{id}")]
-        public ActionResult<AddressOutputModel> GetAddressById(int id)
-        {
-            var address = _addressService.GetAddressById(id);
-
-            return Ok(_mapper.Map<AddressOutputModel>(address));
-        }
-
         [AuthorizeRole(Role.Admin)]
         [HttpGet]
         public ActionResult<List<AddressOutputModel>> GetAllAddresses()
         {
-            var addresses = _addressService.GetAllAddresses();
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            var addresses = _addressService.GetAllAddresses();
             return Ok(_mapper.Map<AddressOutputModel>(addresses));
         }
 
@@ -42,18 +39,28 @@ namespace DogSitter.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeleteAddress(int id)
         {
-            _addressService.DeleteAddressById(id);
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
+            _addressService.DeleteAddressById(userId.Value, id);
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        [AuthorizeRole(Role.Admin, Role.Customer)]
-        [HttpGet("customers/{id}")]
-        public ActionResult GetAddressByCustomerId(int id)
+        [AuthorizeRole(Role.Admin)]
+        [HttpPatch]
+        public ActionResult RestoreAddress(int id)
         {
-            var address = _addressService.GetAddressByCustomerId(id);
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
 
-            return Ok(_mapper.Map<AddressOutputModel>(address));
+            _addressService.RestoreAddress(id);
+            return StatusCode(StatusCodes.Status204NoContent);
         }
     }
 }

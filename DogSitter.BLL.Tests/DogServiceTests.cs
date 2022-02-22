@@ -16,18 +16,20 @@ namespace DogSitter.BLL.Tests
 {
     public class DogServiceTests
     {
-        private  Mock<IDogRepository> _dogRepositoryMock;
-        private  Mock<ICustomerRepository> _customerRepository;
-        private  IMapper _mapper;
-        private  DogService _service;
+        private Mock<IDogRepository> _dogRepositoryMock;
+        private Mock<ICustomerRepository> _customerRepository;
+        private Mock<IUserRepository> _userRepository;
+        private IMapper _mapper;
+        private DogService _service;
 
         [SetUp]
         public void Setup()
         {
             _dogRepositoryMock = new Mock<IDogRepository>();
             _customerRepository = new Mock<ICustomerRepository>();
+            _userRepository = new Mock<IUserRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new DogService(_mapper, _dogRepositoryMock.Object, _customerRepository.Object);
+            _service = new DogService(_mapper, _dogRepositoryMock.Object, _customerRepository.Object, _userRepository.Object);
         }
 
         [TestCaseSource(typeof(GetDogsByCustomerIdTestCaseSource))]
@@ -55,7 +57,6 @@ namespace DogSitter.BLL.Tests
             _dogRepositoryMock.Verify(x => x.GetAllDogsByCustomerId(id), Times.Never);
         }
 
-
         [TestCaseSource(typeof(GetAllDogsTestCaseSource))]
         public void GetAllDogsTestMustReturnAllDogs(List<Dog> dogs, List<DogModel> expected)
         {
@@ -71,12 +72,12 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetDogsForTestTestCaseSource))]
-        public void AddDogMustAddDog(DogModel dogs)
+        public void AddDogMustAddDog(DogModel dog)
         {
             //given
             _dogRepositoryMock.Setup(x => x.AddDog(It.IsAny<Dog>()));
             //when
-            _service.AddDog(dogs);
+            _service.AddDog(dog.Customer.Id, dog);
             //then
             _dogRepositoryMock.Verify(x => x.AddDog(It.IsAny<Dog>()), Times.Once);
         }
@@ -91,7 +92,7 @@ namespace DogSitter.BLL.Tests
 
             //then
             ServiceNotEnoughDataExeption ex = Assert.Throws<ServiceNotEnoughDataExeption>(() =>
-           _service.AddDog(dogs));
+           _service.AddDog(dogEntity.Customer.Id, dogs));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
@@ -100,8 +101,9 @@ namespace DogSitter.BLL.Tests
         {
             _dogRepositoryMock.Setup(y => y.UpdateDog(dog));
             _dogRepositoryMock.Setup(x => x.GetDogById(dog.Id)).Returns(dog);
+
             //when
-            _service.UpdateDog(id, dogToUpdate);
+            _service.UpdateDog(dog.Customer.Id, id, dogToUpdate);
             //then
             _dogRepositoryMock.Verify(y => y.UpdateDog(dog), Times.Once);
             _dogRepositoryMock.Verify(x => x.GetDogById(dog.Id));
@@ -119,7 +121,7 @@ namespace DogSitter.BLL.Tests
 
             //then
             ServiceNotEnoughDataExeption ex = Assert.Throws<ServiceNotEnoughDataExeption>(() =>
-            _service.UpdateDog(id, dog));
+            _service.UpdateDog(dog.Customer.Id, id, dog));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
@@ -135,26 +137,27 @@ namespace DogSitter.BLL.Tests
 
             //then
             EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.UpdateDog(id, dog));
+            _service.UpdateDog(dog.Customer.Id, id, dog));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
         [TestCaseSource(typeof(GetDogByIdTestCaseSource))]
-        public void DeleteDogTestMustDeleteDog(int id, Dog dog, DogModel expected)
+        public void DeleteDogTestMustDeleteDog(int id, Dog dog, DogModel expected, User customer)
         {
-            //gicen
+            //given
             _dogRepositoryMock.Setup(x => x.UpdateDog(id, true));
             _dogRepositoryMock.Setup(x => x.GetDogById(id)).Returns(dog);
+            _userRepository.Setup(x => x.GetUserById(dog.Customer.Id)).Returns(customer);
             //when
-            _service.DeleteDog(id);
+            _service.DeleteDog(dog.Customer.Id, id);
             //then
             _dogRepositoryMock.Verify(x => x.UpdateDog(id, true), Times.Once);
             _dogRepositoryMock.Verify(x => x.GetDogById(id), Times.Once);
         }
 
         [TestCaseSource(typeof(GetDogByIdTestCaseSource))]
-        public void DeleteDogTestMustThrowEntityNotFoundExeption(int id, Dog dog, DogModel expected)
+        public void DeleteDogTestMustThrowEntityNotFoundExeption(int id, Dog dog, DogModel expected, User user)
         {
-            //gicen
+            //given
             Dog nullDog = null;
             _dogRepositoryMock.Setup(x => x.UpdateDog(id, true));
             _dogRepositoryMock.Setup(x => x.GetDogById(id)).Returns(nullDog);
@@ -163,14 +166,14 @@ namespace DogSitter.BLL.Tests
 
             //then
             EntityNotFoundException ex = Assert.Throws<EntityNotFoundException>(() =>
-            _service.DeleteDog(id));
+            _service.DeleteDog(dog.Customer.Id, id));
             Assert.That(ex.Message, Is.EqualTo(expectedMessage));
         }
 
         [TestCaseSource(typeof(GetDogByIdTestCaseSource))]
-        public void RestoreDogTestMustDeleteDog(int id, Dog dog, DogModel expected)
+        public void RestoreDogTestMustDeleteDog(int id, Dog dog, DogModel expected, User user)
         {
-            //gicen
+            //given
             _dogRepositoryMock.Setup(x => x.UpdateDog(id, false));
             _dogRepositoryMock.Setup(x => x.GetDogById(id)).Returns(dog);
             //when
@@ -181,9 +184,9 @@ namespace DogSitter.BLL.Tests
         }
 
         [TestCaseSource(typeof(GetDogByIdTestCaseSource))]
-        public void RestoreAddressTestMustThrowEntityNotFoundExeption(int id, Dog dog, DogModel expected)
+        public void RestoreAddressTestMustThrowEntityNotFoundExeption(int id, Dog dog, DogModel expected, User user)
         {
-            //gicen
+            //given
             Dog nullDog = null;
             _dogRepositoryMock.Setup(x => x.UpdateDog(id, false));
             _dogRepositoryMock.Setup(x => x.GetDogById(id)).Returns(nullDog);

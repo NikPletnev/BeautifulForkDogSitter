@@ -8,7 +8,7 @@ namespace DogSitter.BLL.Models
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public Weekday Weekday { get; set; }
-        public List<Sitter> Sitters { get; set; }
+        public SitterModel Sitter { get; set; }
 
         public override bool Equals(object obj)
         {

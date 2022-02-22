@@ -4,10 +4,9 @@ namespace DogSitter.BLL.Services
 {
     public interface IWorkTimeService
     {
-        void AddWorkTime(WorkTimeModel workTimeModel);
-        void DeleteWorkTime(WorkTimeModel workTimeModel);
-        WorkTimeModel GetWorkTimeById(int id);
-        void UpdateWorkTime(WorkTimeModel workTimeModel);
-        void RestoreWorkTime(WorkTimeModel workTimeModel);
+        void AddWorkTime(int userId, WorkTimeModel workTimeModel);
+        void DeleteWorkTime(int userId, int id);
+        void UpdateWorkTime(int userId, int id, WorkTimeModel workTimeModel);
+        void RestoreWorkTime(int id);
     }
 }

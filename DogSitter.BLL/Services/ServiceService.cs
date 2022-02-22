@@ -2,6 +2,7 @@
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
@@ -10,13 +11,15 @@ namespace DogSitter.BLL.Services
     {
         private readonly IServiceRepository _serviceRepository;
         private readonly ISitterRepository _sitterRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ServiceService(IServiceRepository serviceRepository, 
-            ISitterRepository sitterRepository, IMapper mapper)
+        public ServiceService(IServiceRepository serviceRepository,
+            ISitterRepository sitterRepository, IUserRepository userRepository, IMapper mapper)
         {
             _serviceRepository = serviceRepository;
             _sitterRepository = sitterRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -37,51 +40,74 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<ServiceModel>>(services);
         }
 
-        public void AddService(ServiceModel serviceModel)
+        public void AddService(int userId, ServiceModel serviceModel)
         {
             var service = _mapper.Map<Serviсe>(serviceModel);
 
+            var user = _userRepository.GetUserById(userId);
+            service.Sitter = (Sitter)user;
             _serviceRepository.AddService(service);
         }
 
-        public void UpdateService(ServiceModel serviceModel)
+        public void UpdateService(int userId, int id, ServiceModel serviceModel)
         {
-            var exitingService = _mapper.Map<Serviсe>(serviceModel);
+            var serviceToUpdate = _mapper.Map<Serviсe>(serviceModel);
 
-            if (_serviceRepository.GetServiceById(exitingService.Id) is null)
-                throw new EntityNotFoundException($"Service {exitingService.Name} wasn't found");
+            var exitingService = _serviceRepository.GetServiceById(id);
 
-            var serviceToUpdate = _mapper.Map<Serviсe>(exitingService);
+            if (exitingService is null)
+                throw new EntityNotFoundException("Service wasn't found");
+
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && exitingService.Sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
+            }
 
             _serviceRepository.UpdateService(exitingService, serviceToUpdate);
         }
 
-        public void DeleteService(ServiceModel serviceModel)
+        public void DeleteService(int userId, int id)
         {
-            var service = _mapper.Map<Serviсe>(serviceModel);
+            var serviceToDelete = _serviceRepository.GetServiceById(id);
 
-            if (_serviceRepository.GetServiceById(service.Id) is null)
-                throw new EntityNotFoundException($" Service {service.Name} wasn't found");
+            if (serviceToDelete is null)
+            {
+                throw new EntityNotFoundException("Subway station wasn't found");
+            }
 
-            _serviceRepository.UpdateOrDeleteService(service, true);
+            if (_userRepository.GetUserById(userId).Role != Role.Admin && serviceToDelete.Sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
+            }
+
+            _serviceRepository.UpdateOrDeleteService(serviceToDelete, true);
         }
 
-        public void RestoreService(ServiceModel serviceModel)
+        public void RestoreService(int id)
         {
-            var service = _mapper.Map<Serviсe>(serviceModel);
+            var serviceToRestore = _serviceRepository.GetServiceById(id);
 
-            if (_serviceRepository.GetServiceById(service.Id) is null)
-                throw new EntityNotFoundException($"Service {service.Name} wasn't found");
+            if (serviceToRestore is null)
+            {
+                throw new EntityNotFoundException("Subway station wasn't found");
+            }
 
-            _serviceRepository.UpdateOrDeleteService(service, false);
+            _serviceRepository.UpdateOrDeleteService(serviceToRestore, true);
         }
 
-        public List<ServiceModel> GetAllServicesBySitterId(int id)
+        public List<ServiceModel> GetAllServicesBySitterId(int userId, int id)
         {
             var sitter = _sitterRepository.GetById(id);
-
+            var user = _userRepository.GetUserById(userId);
             if (sitter is null)
+            {
                 throw new EntityNotFoundException($"Sitter wasn't found");
+            }
+
+            if (user.Role == Role.Sitter && sitter.Id != userId)
+            {
+                throw new AccessException("Not enough rights");
+            }
 
             return _mapper.Map<List<ServiceModel>>(_serviceRepository.GetAllServicesBySitterId(id));
         }
