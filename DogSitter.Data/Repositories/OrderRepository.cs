@@ -52,6 +52,14 @@ namespace DogSitter.DAL.Repositories
         
         public List<Order> GetAllOrdersByCustomerId(int id) =>
                 _context.Orders.Where(x => x.Customer.Id == id).ToList();
+        public void LeaveCommentAndRateOrder(Order order, Order ratedOrder)
+        {
+            _context.Comments.Add(ratedOrder.Comment);
+            order.Mark = ratedOrder.Mark;
+            order.Comment = ratedOrder.Comment;
+            _context.SaveChanges();
+        }
+
 
     }
 }

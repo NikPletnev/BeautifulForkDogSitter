@@ -5,6 +5,7 @@ namespace DogSitter.BLL.Services.Interface
     public interface IOrderService
     {
         void Add(OrderModel orderModel);
+        void AddCommentAndMarkAboutOrder(int id, OrderModel order);
         void DeleteById(int id);
         void EditOrderStatusByOrderId(int id, int status);
         List<OrderModel> GetAll();

@@ -159,6 +159,21 @@ namespace DogSitter.BLL.Tests
             _orderRepositoryMock.Verify(x => x.GetAllOrdersByCustomerId(id), Times.Never);
         }
 
+        [TestCaseSource(typeof(AddCommentAndMarkAboutOrderTestCaseSource))]
+        public void AddCommentAndMarkAboutOrderTest(Order order, int idOrder, int idSitter, Sitter sitter, List<Order> orders, OrderModel orderModel)
+        {
+            //given
+            _orderRepositoryMock.Setup(x => x.GetById(idOrder)).Returns(order);
+            _sitterRepMock.Setup(x => x.GetById(idSitter)).Returns(sitter);
+            _sitterRepMock.Setup(x => x.GetAllSitterOrders(sitter)).Returns(orders);
+
+            //when
+            _service.AddCommentAndMarkAboutOrder(idOrder, orderModel);
+
+            //then
+            _orderRepositoryMock.Verify(x => x.LeaveCommentAndRateOrder(It.IsAny<Order>(), It.IsAny<Order>()), Times.Once);
+            _sitterRepMock.Verify(x => x.ChangeRating(It.IsAny<Sitter>()), Times.Once);
+        }
 
     }
 }
