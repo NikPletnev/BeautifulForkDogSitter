@@ -1,5 +1,6 @@
 ﻿using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
+using DogSitter.DAL.Enums;
 using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
@@ -16,7 +17,16 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Description = "Description1",
                     Price = 1000m,
                     DurationHours = 1.0,
-                    IsDeleted = false
+                    IsDeleted = false,
+                    Sitter =new Sitter()
+                    {
+                        Id = 1,
+                        Role = Role.Sitter,
+                        FirstName = "FirstName1",
+                        LastName = "LastName1",
+                        Password = "Password1",
+                        IsDeleted = false
+                    }
                 },
 
                 new Serviсe()
@@ -26,7 +36,16 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Description = "Description2",
                     Price = 2000m,
                     DurationHours = 2.0,
-                    IsDeleted = true
+                    IsDeleted = true,
+                    Sitter = new Sitter()
+                    {
+                        Id = 1,
+                        Role = Role.Sitter,
+                        FirstName = "FirstName1",
+                        LastName = "LastName1",
+                        Password = "Password1",
+                        IsDeleted = false
+                    }
                 }
             };
 
@@ -38,7 +57,17 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Description = "Description3",
                     Price = 3000m,
                     DurationHours = 3.0,
-                    IsDeleted = false
+                    IsDeleted = false, 
+                    Sitter = new Sitter()
+                    {
+                        Id = 1,
+                        Role = Role.Sitter,
+                        FirstName = "FirstName1",
+                        LastName = "LastName1",
+                        Password = "Password1",
+                        IsDeleted = false
+                    }
+
                 };
     }
 }

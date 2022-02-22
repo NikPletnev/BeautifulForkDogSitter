@@ -32,7 +32,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _workTimeService.AddWorkTime(_mapper.Map<WorkTimeModel>(workTime));
+            _workTimeService.AddWorkTime(userId.Value, _mapper.Map<WorkTimeModel>(workTime));
 
             return StatusCode(StatusCodes.Status201Created, _mapper.Map<WorkTimeOutputModel>(workTime));
         }
@@ -48,7 +48,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _workTimeService.UpdateWorkTime(id, _mapper.Map<WorkTimeModel>(workTime));
+            _workTimeService.UpdateWorkTime(userId.Value, id, _mapper.Map<WorkTimeModel>(workTime));
 
             return NoContent();
         }
@@ -64,7 +64,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _workTimeService.DeleteWorkTime(id);
+            _workTimeService.DeleteWorkTime(userId.Value, id);
 
             return NoContent();
         }
