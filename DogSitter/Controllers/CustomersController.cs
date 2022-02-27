@@ -49,7 +49,7 @@ namespace DogSitter.Controllers
             }
 
             var customer = _service.GetAllCustomers();
-            return Ok(_mapper.Map<CustomerOutputModel>(customer));
+            return Ok(_mapper.Map<List<CustomerOutputModel>>(customer));
         }
 
         [HttpPost]
