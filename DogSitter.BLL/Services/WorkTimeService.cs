@@ -63,5 +63,11 @@ namespace DogSitter.BLL.Services
 
             _workTimeRepository.UpdateOrDeleteWorkTime(workTime, false);
         }
+
+        public List<WorkTimeModel> GetWorkTimeBySitterId( int id)
+        {
+            var workTimeList = _workTimeRepository.GetWorkTimeById(id);
+            return _mapper.Map<List<WorkTimeModel>>(workTimeList);
+        }
     }
 }

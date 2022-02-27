@@ -14,3 +14,5 @@ namespace DogSitter.API.Models.InputModels
         public int Mark { get; set; }
     }
 }
+
+

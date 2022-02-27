@@ -33,5 +33,17 @@ namespace DogSitter.DAL.Repositories
             workTime.IsDeleted = IsDeleted;
             _context.SaveChanges();
         }
+
+        public List<WorkTime> GetWorkTimeBySitterId(int id)
+        {
+            var result = _context.WorkTimes.Where(w => w.Sitter.Id == id).ToList();
+            return result;
+        }
+        
+        public void ChangeWorkTimeStatus(WorkTime workTime, bool isBusy)
+        {
+            workTime.IsBusy = isBusy;
+            _context.SaveChanges();
+        }
     }
 }

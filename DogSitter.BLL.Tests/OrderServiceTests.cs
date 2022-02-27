@@ -20,6 +20,7 @@ namespace DogSitter.BLL.Tests
         private Mock<ICustomerRepository> _customerRepMock;
         private Mock<ISitterRepository> _sitterRepMock;
         private Mock<IUserRepository> _userRepMock;
+        private Mock<IWorkTimeRepository> _workTimeRepositoryMock;
         private IMapper _mapper;
         private OrderService _service;
 
@@ -31,9 +32,10 @@ namespace DogSitter.BLL.Tests
             _customerRepMock = new Mock<ICustomerRepository>();
             _sitterRepMock = new Mock<ISitterRepository>();
             _userRepMock = new Mock<IUserRepository>();
+            _workTimeRepositoryMock = new Mock<IWorkTimeRepository>();
 
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new OrderService(_orderRepositoryMock.Object, _customerRepMock.Object, _sitterRepMock.Object, _mapper, _userRepMock.Object);
+            _service = new OrderService(_orderRepositoryMock.Object, _customerRepMock.Object, _sitterRepMock.Object, _mapper, _userRepMock.Object, _workTimeRepositoryMock.Object);
         }
 
         [TestCaseSource(typeof(UpdateOrderTestCaseSource))]

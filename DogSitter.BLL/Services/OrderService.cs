@@ -17,9 +17,10 @@ namespace DogSitter.BLL.Services
         private ISitterRepository _sitterRepository;
         private ICustomerRepository _customerRepository;
         private IUserRepository _userRepository;
+        private IWorkTimeRepository _workTimeRepository;
 
         public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository,
-            ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository)
+            ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository, IWorkTimeRepository workTimeRepository)
         {
             _rep = orderRepository;
             _customerRepository = customerRepository;
@@ -32,10 +33,21 @@ namespace DogSitter.BLL.Services
         {
             if (orderModel.OrderDate == DateTime.MinValue ||
                 orderModel.Price == 0 ||
-                orderModel.Status == 0)
+                orderModel.Status == 0 ||
+                orderModel.SitterWorkTime == null)
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
             }
+
+            var workTime = _workTimeRepository.GetWorkTimeById(orderModel.SitterWorkTime.Id);
+
+            if(workTime == null)
+            {
+                throw new WorkTimeBusyException("This worktime is busy");
+            }
+
+            _workTimeRepository.ChangeWorkTimeStatus(workTime, true);
+
             orderModel.Price = GetOrderTotalSum(orderModel);
             orderModel.Customer = _map.Map<CustomerModel>(_customerRepository.GetCustomerById(userId));
             _rep.Add(_map.Map<Order>(orderModel));
@@ -48,6 +60,18 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
+
+            var orderOldWorkTime = _workTimeRepository.GetWorkTimeById(order.SitterWorkTime.Id);
+            _workTimeRepository.ChangeWorkTimeStatus(orderOldWorkTime, false);
+
+            var workTime = _workTimeRepository.GetWorkTimeById(orderModel.SitterWorkTime.Id);
+
+            if (workTime == null)
+            {
+                throw new WorkTimeBusyException("This worktime is busy");
+            }
+
+            _workTimeRepository.ChangeWorkTimeStatus(workTime, true);
 
             var user = _userRepository.GetUserById(userId);
             if ((user.Role == Role.Customer && orderModel.Customer.Id != userId))

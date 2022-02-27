@@ -32,6 +32,7 @@ namespace DogSitter.DAL.Repositories
             entity.Mark = order.Mark;
             entity.Sitter = order.Sitter;
             entity.Comment = order.Comment;
+            entity.SitterWorkTime = order.SitterWorkTime;
             _context.SaveChanges();
         }
 
