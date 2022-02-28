@@ -14,11 +14,13 @@ namespace DogSitter.BLL.Services
     public class AuthService : IAuthService
     {
         private readonly IContactRepository _contactRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _map;
 
-        public AuthService(IContactRepository contactRepository, IMapper mapper)
+        public AuthService(IContactRepository contactRepository, IUserRepository userRepository, IMapper mapper)
         {
             _contactRepository = contactRepository;
+            _userRepository = userRepository;
             _map = mapper;
         }
 
@@ -49,6 +51,19 @@ namespace DogSitter.BLL.Services
             }
             UserModel user = _map.Map<UserModel>(foundContact.User);
             return user;
+        }
+
+        public void ChangeUserPassword(int id, string newPassword)
+        {
+            var user = _userRepository.GetUserById(id);
+
+            if (user is null)
+            {
+                throw new EntityNotFoundException("User wasn't found");
+            }
+
+            string hashPassword = PasswordHash.HashPassword(newPassword);
+            _userRepository.ChangeUserPassword(hashPassword, user);
         }
     }
 }

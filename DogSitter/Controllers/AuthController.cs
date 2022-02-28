@@ -1,6 +1,9 @@
-﻿using DogSitter.API.Models.InputModels;
+﻿using DogSitter.API.Models;
+using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace DogSitter.API.Controllers
 {
@@ -22,6 +25,20 @@ namespace DogSitter.API.Controllers
                 authInputModel.Password));
 
             return Json(token);
+        }
+
+        [HttpPut("{id}/password")]
+        [Description("Change password by user Id")]
+        [Authorize]
+        [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        //[ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
+        //[ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
+        public ActionResult ChangeUserPasswordByUserId(int id, [FromBody] ChangePasswordInputModel password)
+        {
+            _authService.ChangeUserPassword(id, password.NewPassword);
+
+            return Ok();
         }
 
     }
