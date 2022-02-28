@@ -145,7 +145,7 @@ namespace DogSitter.API.Controllers
             var services = _mapper.Map<List<ServiceOutputModel>>(
                 _serviceService.GetAllServicesBySitterId(userId.Value, id));
 
-            return Ok(services);
+            return services;
         }
     }
 }

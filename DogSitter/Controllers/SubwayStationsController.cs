@@ -7,6 +7,7 @@ using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace DogSitter.API.Controllers
 {
@@ -24,12 +25,16 @@ namespace DogSitter.API.Controllers
         }
 
         //api/subwayStations
+        [HttpGet("by-sitters")]
+        [Description("Get subway station where sitter exist")]
         [AuthorizeRole(Role.Admin, Role.Customer)]
-        [HttpGet("sitters/subwaystation")]
+        [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         public ActionResult<List<SubwayStationOutputModel>> GetAllSubwayStationsWhereSitterExist()
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -37,48 +42,62 @@ namespace DogSitter.API.Controllers
             var subwayStations = _mapper.Map<List<SubwayStationOutputModel>>(_subwayStationService
                 .GetAllSubwayStationsWhereSitterExist());
 
-            return Ok(subwayStations);
+            return subwayStations;
         }
 
         //api/subwayStations
-        [Authorize]
         [HttpGet]
+        [Authorize]
+        [Description("Get all subway stations")]
+        [ProducesResponseType(typeof(List<ServiceOutputModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         public ActionResult<List<SubwayStationOutputModel>> GetAllSubwayStations()
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
 
             var subwayStations = _mapper.Map<List<SubwayStationOutputModel>>(_subwayStationService.GetAllSubwayStations());
 
-            return Ok(subwayStations);
+            return subwayStations;
         }
 
         //api/subwayStation/77
-        [AuthorizeRole(Role.Admin)]
         [HttpPost]
-        public IActionResult AddSubwayStation([FromBody] SubwayStationInputModel subwayStation)
+        [Description("Add subway station")]
+        [AuthorizeRole(Role.Admin)]
+        [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
+        public ActionResult<SubwayStationOutputModel> AddSubwayStation([FromBody] SubwayStationInputModel subwayStation)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
 
             _subwayStationService.AddSubwayStation(_mapper.Map<SubwayStationModel>(subwayStation));
 
-            return StatusCode(StatusCodes.Status201Created, _mapper.Map<SubwayStationOutputModel>(subwayStation));
+            return _mapper.Map<SubwayStationOutputModel>(subwayStation);
         }
 
         //api/subwayStation/77
-        [AuthorizeRole(Role.Admin)]
         [HttpPut("{id}")]
+        [Description("Update subway station")]
+        [AuthorizeRole(Role.Admin)]
+        [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
         public IActionResult UpdateSubwayStation(int id, [FromBody] SubwayStationInputModel subwayStation)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -89,12 +108,16 @@ namespace DogSitter.API.Controllers
         }
 
         //api/subwayStation/77
-        [AuthorizeRole(Role.Admin)]
         [HttpDelete("{id}")]
+        [Description("Delete subway station")]
+        [AuthorizeRole(Role.Admin)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         public IActionResult DeleteSubwayStation(int id)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -105,12 +128,16 @@ namespace DogSitter.API.Controllers
         }
 
         //api/subwayStation/77
-        [AuthorizeRole(Role.Admin)]
         [HttpPatch("{id}")]
+        [Description("Restore subway station")]
+        [AuthorizeRole(Role.Admin)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         public IActionResult RestoreSubwayStation(int id)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
