@@ -40,6 +40,5 @@ namespace DogSitter.API.Controllers
 
             return Ok();
         }
-
     }
 }

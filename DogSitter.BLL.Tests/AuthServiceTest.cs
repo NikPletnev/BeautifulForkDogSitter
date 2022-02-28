@@ -10,17 +10,16 @@ using DogSitter.DAL.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace DogSitter.BLL.Tests
 {
     public class AuthServiceTests
     {
-        private Mock<ICustomerRepository> _customerRepositoryMock;
-        private Mock<ISitterRepository> _sitterRepositoryMock;
         private Mock<IContactRepository> _contactRepositoryMock;
+        private Mock<IUserRepository> _userRepositoryMock;
         private IMapper _map;
-        private Mock<IAdminRepository> _adminRepositoryMock;
         private AuthService _service;
 
 
@@ -28,8 +27,9 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _contactRepositoryMock = new Mock<IContactRepository>();
+            _userRepositoryMock = new Mock<IUserRepository>();
             _map = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new AuthService(_contactRepositoryMock.Object, _map);
+            _service = new AuthService(_contactRepositoryMock.Object, _userRepositoryMock.Object, _map);
         }
 
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
@@ -124,6 +124,29 @@ namespace DogSitter.BLL.Tests
                 IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                 ValidateIssuerSigningKey = true,
             };
+        }
+
+        [TestCaseSource(typeof(ChangePasswordTestCaseSource))]
+        public void ChangeUserPasswordTest(User user, string password,  int id)
+        {
+            //given
+            _userRepositoryMock.Setup(m => m.GetUserById(id)).Returns(user);
+
+            //when
+            _userRepositoryMock.Setup(m => m.ChangeUserPassword(password, user));
+
+            //then
+            _userRepositoryMock.Verify(m => m.ChangeUserPassword(password, user), Times.Once);
+        }
+
+        [Test]
+        public void ChangeUserPasswordNegativeTest()
+        {
+            _userRepositoryMock.Setup(m => m.ChangeUserPassword(It.IsAny<string>(), It.IsAny<User>()));
+            _userRepositoryMock.Setup(m => m.GetUserById(It.IsAny<int>())).Returns((User)null);
+
+            Assert.Throws<EntityNotFoundException>(() =>
+            _service.ChangeUserPassword(It.IsAny<int>(), It.IsAny<string>()));
         }
     }
 }
