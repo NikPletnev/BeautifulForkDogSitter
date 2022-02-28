@@ -85,7 +85,7 @@ namespace DogSitter.API.Controllers
         }
 
         //api/workTime/77
-        [HttpDelete("{id}")]
+        [HttpPatch("{id}")]
         [Description("Restore work time")]
         [AuthorizeRole(Role.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
