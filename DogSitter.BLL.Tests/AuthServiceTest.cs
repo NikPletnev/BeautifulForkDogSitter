@@ -161,7 +161,7 @@ namespace DogSitter.BLL.Tests
             User user = new User()
             {
                 Id = 1,
-                Password = "12345",
+                Password = PasswordHash.HashPassword("54321"),
                 FirstName = "FirstName1",
                 LastName = "LastName1",
                 IsDeleted = false
