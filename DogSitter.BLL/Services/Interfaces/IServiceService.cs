@@ -4,7 +4,7 @@ namespace DogSitter.BLL.Services
 {
     public interface IServiceService
     {
-        void AddService(int userId, ServiceModel serviceModel);
+        int AddService(int userId, ServiceModel serviceModel);
         List<ServiceModel> GetAllServices();
         List<ServiceModel> GetAllServicesBySitterId(int userId, int id);
         ServiceModel GetServiceById(int id);

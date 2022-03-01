@@ -24,6 +24,7 @@ namespace DogSitter.DAL.Repositories
         {
             _context.SubwayStations.Add(subwayStation);
             _context.SaveChanges();
+
             return subwayStation.Id;
         }
 
