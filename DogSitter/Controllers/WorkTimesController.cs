@@ -32,9 +32,9 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _workTimeService.AddWorkTime(userId.Value, _mapper.Map<WorkTimeModel>(workTime));
+            var workTimeId = _workTimeService.AddWorkTime(userId.Value, _mapper.Map<WorkTimeModel>(workTime));
 
-            return StatusCode(StatusCodes.Status201Created, _mapper.Map<WorkTimeOutputModel>(workTime));
+            return StatusCode(StatusCodes.Status201Created, workTimeId);
         }
 
         //api/workTim/77
