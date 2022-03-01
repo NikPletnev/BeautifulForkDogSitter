@@ -126,17 +126,27 @@ namespace DogSitter.BLL.Tests
             };
         }
 
-        [TestCaseSource(typeof(ChangePasswordTestCaseSource))]
-        public void ChangeUserPasswordTest(User user, string password,  int id)
+        [Test]
+        public void ChangeUserPasswordTest()
         {
             //given
-            _userRepositoryMock.Setup(m => m.GetUserById(id)).Returns(user);
+            var password = "111111";
+            User user = new User()
+            {
+                Id = 1,
+                Password = "12345",
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                IsDeleted = false
+            };
+            _userRepositoryMock.Setup(m => m.ChangeUserPassword(password, user));
+            _userRepositoryMock.Setup(m => m.GetUserById(user.Id)).Returns(user);
 
             //when
-            _userRepositoryMock.Setup(m => m.ChangeUserPassword(password, user));
+            _service.ChangeUserPassword(user.Id, password);
 
             //then
-            _userRepositoryMock.Verify(m => m.ChangeUserPassword(password, user), Times.Once);
+            _userRepositoryMock.Verify(m => m.ChangeUserPassword(It.IsAny<string>(), user), Times.Once);
         }
 
         [Test]
