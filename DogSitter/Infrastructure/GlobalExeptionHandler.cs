@@ -1,5 +1,6 @@
 ﻿using DogSitter.BLL.Exeptions;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text.Json;
 
 namespace DogSitter.API.Infrastructure
@@ -18,7 +19,7 @@ namespace DogSitter.API.Infrastructure
             try
             {
                 await _next(context);
-            }          
+            }
             catch (AccessException ex)
             {
                 await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
@@ -26,6 +27,10 @@ namespace DogSitter.API.Infrastructure
             catch (EntityNotFoundException ex)
             {
                 await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
+            }
+            catch (CryptographicException ex)
+            {
+                await HandleExceptionAsync(context, HttpStatusCode.BadRequest, ex.Message);
             }
             catch (Microsoft.Data.SqlClient.SqlException)
             {

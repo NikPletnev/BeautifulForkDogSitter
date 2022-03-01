@@ -102,7 +102,6 @@ namespace DogSitter.BLL.Tests
             _customerRepositoryMock.Setup(x => x.UpdateCustomer(customerEntity, customerEntity));
             _customerRepositoryMock.Setup(x => x.GetCustomerById(customerEntity.Id)).Returns(customerEntity);
             var expectedMessage = "There is not enough data to update customer";
-            int id = 1;
             //when
 
             //then

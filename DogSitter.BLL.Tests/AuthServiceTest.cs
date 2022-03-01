@@ -16,13 +16,9 @@ namespace DogSitter.BLL.Tests
 {
     public class AuthServiceTests
     {
-        private Mock<ICustomerRepository> _customerRepositoryMock;
-        private Mock<ISitterRepository> _sitterRepositoryMock;
         private Mock<IContactRepository> _contactRepositoryMock;
         private IMapper _map;
-        private Mock<IAdminRepository> _adminRepositoryMock;
         private AuthService _service;
-
 
         [SetUp]
         public void Setup()

@@ -32,6 +32,13 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
+            sitter.Passport.FirstName = Crypter.Decrypt(sitter.Passport.FirstName);
+            sitter.Passport.LastName = Crypter.Decrypt(sitter.Passport.LastName);
+            sitter.Passport.Seria = Crypter.Decrypt(sitter.Passport.Seria);
+            sitter.Passport.Number = Crypter.Decrypt(sitter.Passport.Number);
+            sitter.Passport.Division = Crypter.Decrypt(sitter.Passport.Division);
+            sitter.Passport.DivisionCode = Crypter.Decrypt(sitter.Passport.DivisionCode);
+            sitter.Passport.Registration = Crypter.Decrypt(sitter.Passport.Registration);
             return _mapper.Map<SitterModel>(sitter);
         }
 
@@ -46,6 +53,13 @@ namespace DogSitter.BLL.Services
             var sitter = _mapper.Map<Sitter>(sitterModel);
             sitter.Role = Role.Sitter;
             sitter.Password = PasswordHash.HashPassword(sitter.Password);
+            sitter.Passport.FirstName = Crypter.Encrypt(sitter.Passport.FirstName);
+            sitter.Passport.LastName = Crypter.Encrypt(sitter.Passport.LastName);
+            sitter.Passport.Seria = Crypter.Encrypt(sitter.Passport.Seria);
+            sitter.Passport.Number = Crypter.Encrypt(sitter.Passport.Number);
+            sitter.Passport.Division = Crypter.Encrypt(sitter.Passport.Division);
+            sitter.Passport.DivisionCode = Crypter.Encrypt(sitter.Passport.DivisionCode);
+            sitter.Passport.Registration = Crypter.Encrypt(sitter.Passport.Registration);
             _sitterRepository.Add(sitter);
         }
 

@@ -4,11 +4,9 @@ using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
-using Microsoft.AspNetCore.Mvc;
-using DogSitter.API.Attribute;
-using DogSitter.DAL.Enums;
-using DogSitter.API.Extensions;
 using DogSitter.BLL.Services.Interfaces;
+using DogSitter.DAL.Enums;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DogSitter.API.Controllers
 {
