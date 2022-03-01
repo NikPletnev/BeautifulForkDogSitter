@@ -50,14 +50,14 @@ namespace DogSitter.BLL.Tests
                     IsDeleted = false
                 }
             };
-            _workTimeRepositoryMock.Setup(m => m.AddWorkTime(work));
+            _workTimeRepositoryMock.Setup(m => m.AddWorkTime(work, work.Sitter));
             _userRepositoryMock.Setup(x => x.GetUserById(work.Sitter.Id)).Returns(work.Sitter);
 
             //when 
             _service.AddWorkTime(workTime.Sitter.Id, workTime);
 
             //then
-            _workTimeRepositoryMock.Verify(m => m.AddWorkTime(It.IsAny<WorkTime>()), Times.Once);
+            _workTimeRepositoryMock.Verify(m => m.AddWorkTime(It.IsAny<WorkTime>(), It.IsAny<Sitter>()), Times.Once);
         }
 
         [Test]

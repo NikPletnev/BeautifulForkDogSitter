@@ -52,9 +52,10 @@ namespace DogSitter.DAL.Tests
         {
             //given
             var expected = WorkTimeMock.GetWorkTime();
+            var sitter = new Sitter();
 
             //when
-            _workTimeRepository.AddWorkTime(expected);
+            _workTimeRepository.AddWorkTime(expected, sitter);
 
             var actual = _context.WorkTimes.FirstOrDefault(a => a.Id == expected.Id);
 

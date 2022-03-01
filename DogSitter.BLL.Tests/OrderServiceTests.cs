@@ -196,14 +196,14 @@ namespace DogSitter.BLL.Tests
         public void AddOrderTest(OrderModel orderModel, Customer customer, int id, OrderModel expected)
         {
             //given
-            _orderRepositoryMock.Setup(x => x.Add(It.IsAny<Order>()));
+            _orderRepositoryMock.Setup(x => x.Add(It.IsAny<Order>(), customer));
             _customerRepMock.Setup(x => x.GetCustomerById(id)).Returns(customer);
 
             //when
             _service.Add(id, orderModel);
 
             //then
-            _orderRepositoryMock.Verify(x => x.Add(It.IsAny<Order>()), Times.Once);
+            _orderRepositoryMock.Verify(x => x.Add(It.IsAny<Order>(), customer), Times.Once);
         }
     }
 }

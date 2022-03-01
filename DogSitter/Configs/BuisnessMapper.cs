@@ -58,6 +58,7 @@ namespace DogSitter.API.Configs
 
             CreateMap<OrderModel, OrderOutputModel>();
             CreateMap<OrderInsertInputModel, OrderModel>();
+            CreateMap<OrderInsertInputModel, OrderOutputModel>();
 
         }
     }

@@ -39,8 +39,9 @@ namespace DogSitter.DAL.Tests
         public void AddOrderTest()
         {
             var expected = OrderTestCaseSourse.GetOrder();
+            var cust = new Customer();
 
-            _repository.Add(expected);
+            _repository.Add(expected, cust);
             var actual = _context.Orders.FirstOrDefault(x => x.Id == expected.Id);
 
             Assert.AreEqual(expected, actual);

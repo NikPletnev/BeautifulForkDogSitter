@@ -1,5 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -12,8 +13,14 @@ namespace DogSitter.DAL.Repositories
             _context = context;
         }
 
-        public void Add(Order order)
+        public void Add(Order order, Customer customer)
         {
+            order.Customer = customer;
+            if (customer.Orders == null)
+            {
+                customer.Orders = new List<Order>();
+            }
+            customer.Orders.Add(order);
             _context.Orders.Add(order);
             _context.SaveChanges();
         }

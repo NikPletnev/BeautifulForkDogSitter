@@ -21,7 +21,6 @@ namespace DogSitter.BLL.Services
 
         public void AddWorkTime(int userId, WorkTimeModel workTimeModel)
         {
-            //workTimeModel.Sitter = _mapper.Map<SitterModel>(_userRepository.GetUserById(userId));
             var sitter = (Sitter)_userRepository.GetUserById(userId);
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
             _workTimeRepository.AddWorkTime(workTime, sitter);

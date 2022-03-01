@@ -33,24 +33,14 @@ namespace DogSitter.BLL.Services
         {
             if (orderModel.OrderDate == DateTime.MinValue ||
                 orderModel.Price == 0 ||
-                orderModel.Status == 0 ||
-                orderModel.SitterWorkTime == null)
+                orderModel.Status == 0)
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
             }
 
-            var workTime = _workTimeRepository.GetWorkTimeById(orderModel.SitterWorkTime.Id);
-
-            if(workTime == null)
-            {
-                throw new WorkTimeBusyException("This worktime is busy");
-            }
-
-            _workTimeRepository.ChangeWorkTimeStatus(workTime, true);
-
             orderModel.Price = GetOrderTotalSum(orderModel);
-            orderModel.Customer = _map.Map<CustomerModel>(_customerRepository.GetCustomerById(userId));
-            _rep.Add(_map.Map<Order>(orderModel));
+            var customer = (Customer)_userRepository.GetUserById(userId);
+            _rep.Add(_map.Map<Order>(orderModel), customer);
         }
 
         public void Update(int userId, OrderModel orderModel)
@@ -156,6 +146,10 @@ namespace DogSitter.BLL.Services
 
         private decimal GetOrderTotalSum(OrderModel orderModel)
         {
+            if(orderModel.Services == null)
+            {
+                return 0;
+            }
             return orderModel.Services.Select(s => s.Price).Sum();
         }
     }
