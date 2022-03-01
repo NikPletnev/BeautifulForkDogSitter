@@ -29,7 +29,7 @@ namespace DogSitter.API.Controllers
         public ActionResult<List<SubwayStationOutputModel>> GetAllSubwayStationsWhereSitterExist()
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -46,7 +46,7 @@ namespace DogSitter.API.Controllers
         public ActionResult<List<SubwayStationOutputModel>> GetAllSubwayStations()
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -59,26 +59,26 @@ namespace DogSitter.API.Controllers
         //api/subwayStation/77
         [AuthorizeRole(Role.Admin)]
         [HttpPost]
-        public IActionResult AddSubwayStation([FromBody] SubwayStationInputModel subwayStation)
+        public ActionResult AddSubwayStation([FromBody] SubwayStationInputModel subwayStation)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _subwayStationService.AddSubwayStation(_mapper.Map<SubwayStationModel>(subwayStation));
+            var subwayStationId = _subwayStationService.AddSubwayStation(_mapper.Map<SubwayStationModel>(subwayStation));
 
-            return StatusCode(StatusCodes.Status201Created, _mapper.Map<SubwayStationOutputModel>(subwayStation));
+            return StatusCode(StatusCodes.Status201Created, subwayStationId);
         }
 
         //api/subwayStation/77
         [AuthorizeRole(Role.Admin)]
         [HttpPut("{id}")]
-        public IActionResult UpdateSubwayStation(int id, [FromBody] SubwayStationInputModel subwayStation)
+        public ActionResult UpdateSubwayStation(int id, [FromBody] SubwayStationInputModel subwayStation)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -91,10 +91,10 @@ namespace DogSitter.API.Controllers
         //api/subwayStation/77
         [AuthorizeRole(Role.Admin)]
         [HttpDelete("{id}")]
-        public IActionResult DeleteSubwayStation(int id)
+        public ActionResult DeleteSubwayStation(int id)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -107,10 +107,10 @@ namespace DogSitter.API.Controllers
         //api/subwayStation/77
         [AuthorizeRole(Role.Admin)]
         [HttpPatch("{id}")]
-        public IActionResult RestoreSubwayStation(int id)
+        public ActionResult RestoreSubwayStation(int id)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
