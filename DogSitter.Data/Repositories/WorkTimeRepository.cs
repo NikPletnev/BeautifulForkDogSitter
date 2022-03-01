@@ -14,8 +14,14 @@ namespace DogSitter.DAL.Repositories
         public WorkTime GetWorkTimeById(int id) =>
                      _context.WorkTimes.FirstOrDefault(w => w.Id == id);
 
-        public void AddWorkTime(WorkTime workTime)
+        public void AddWorkTime(WorkTime workTime, Sitter sitter)
         {
+            workTime.Sitter = sitter;
+            if(sitter.WorkTime == null)
+            {
+                sitter.WorkTime = new List<WorkTime>();
+            }
+            sitter.WorkTime.Add(workTime);
             _context.WorkTimes.Add(workTime);
             _context.SaveChanges();
         }

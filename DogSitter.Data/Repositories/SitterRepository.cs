@@ -16,7 +16,7 @@ namespace DogSitter.DAL.Repositories
             _context.Sitters.FirstOrDefault(x => x.Id == id);
 
         public List<Sitter> GetAll() =>
-            _context.Sitters.Where(d => !d.IsDeleted).ToList();
+            _context.Sitters.Where(d => !d.IsDeleted).Include(w => w.WorkTime).ToList();
 
         public void Add(Sitter sitter)
         {

@@ -210,6 +210,9 @@ namespace DogSitter.DAL.Migrations
                     b.Property<int>("SitterId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SitterWorkTimeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -226,6 +229,8 @@ namespace DogSitter.DAL.Migrations
                     b.HasIndex("DogId");
 
                     b.HasIndex("SitterId");
+
+                    b.HasIndex("SitterWorkTimeId");
 
                     b.ToTable("Orders");
                 });
@@ -825,6 +830,9 @@ namespace DogSitter.DAL.Migrations
                     b.Property<DateTime>("End")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsBusy")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -981,6 +989,10 @@ namespace DogSitter.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DogSitter.DAL.Entity.WorkTime", "SitterWorkTime")
+                        .WithMany()
+                        .HasForeignKey("SitterWorkTimeId");
+
                     b.Navigation("Comment");
 
                     b.Navigation("Customer");
@@ -988,6 +1000,8 @@ namespace DogSitter.DAL.Migrations
                     b.Navigation("Dog");
 
                     b.Navigation("Sitter");
+
+                    b.Navigation("SitterWorkTime");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Serviсe", b =>

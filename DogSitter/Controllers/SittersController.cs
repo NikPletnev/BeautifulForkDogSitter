@@ -50,7 +50,7 @@ namespace DogSitter.API.Controllers
             }
 
             var sitters = _service.GetAll();
-            var sittersModel = _mapper.Map<SitterOutputModel>(sitters);
+            var sittersModel = _mapper.Map<List<SitterOutputModel>>(sitters);
             return Ok(sittersModel);
         }
 
