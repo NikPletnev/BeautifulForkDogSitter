@@ -6,6 +6,7 @@ using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -53,13 +54,18 @@ namespace DogSitter.BLL.Services
             return user;
         }
 
-        public void ChangeUserPassword(int id, string newPassword)
+        public void ChangeUserPassword(int id, string newPassword, string oldPassword)
         {
             var user = _userRepository.GetUserById(id);
 
             if (user is null)
             {
                 throw new EntityNotFoundException("User wasn't found");
+            }
+
+            if (oldPassword != user.Password)
+            {
+                throw new PasswordException("Passwords don't match");
             }
 
             string hashPassword = PasswordHash.HashPassword(newPassword);

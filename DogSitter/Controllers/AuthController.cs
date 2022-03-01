@@ -1,4 +1,5 @@
-﻿using DogSitter.API.Models;
+﻿using DogSitter.API.Extensions;
+using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +36,13 @@ namespace DogSitter.API.Controllers
         //[ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult ChangeUserPasswordByUserId(int id, [FromBody] ChangePasswordInputModel password)
         {
-            _authService.ChangeUserPassword(id, password.NewPassword);
+            var userId = this.GetUserId();
+            if (userId is null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+
+            _authService.ChangeUserPassword(id, password.NewPassword, password.OldPassword);
 
             return Ok();
         }
