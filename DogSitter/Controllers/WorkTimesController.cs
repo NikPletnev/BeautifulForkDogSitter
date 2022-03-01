@@ -24,7 +24,7 @@ namespace DogSitter.API.Controllers
         }
 
         [HttpPost]
-        
+        [Description("Add work time")]
         [AuthorizeRole(Role.Sitter)]
         [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
@@ -45,7 +45,7 @@ namespace DogSitter.API.Controllers
 
         //api/workTim/77
         [HttpPut("{id}")]
-        [Description("Add work time")]
+        [Description("Update work time")]
         [AuthorizeRole(Role.Sitter)]
         [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
