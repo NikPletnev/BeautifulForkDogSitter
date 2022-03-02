@@ -27,11 +27,11 @@ namespace DogSitter.API.Controllers
         [HttpPost]
         [SwaggerOperation(Summary = "Add work time")]
         [AuthorizeRole(Role.Sitter)]
-        [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(201, "Created", typeof(ServiceOutputModel))]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public ActionResult<WorkTimeOutputModel> AddWorkTime([FromBody] WorkTimeInsertInputModel workTime)
         {
             var userId = this.GetUserId();
@@ -49,11 +49,12 @@ namespace DogSitter.API.Controllers
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update work time")]
         [AuthorizeRole(Role.Sitter)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public ActionResult UpdateWorkTime(int id, [FromBody] WorkTimeUpdateInputModel workTime)
         {
             var userId = this.GetUserId();
@@ -71,10 +72,11 @@ namespace DogSitter.API.Controllers
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete work time")]
         [AuthorizeRole(Role.Sitter)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult DeleteWorkTime(int id)
         {
             var userId = this.GetUserId();
@@ -92,10 +94,11 @@ namespace DogSitter.API.Controllers
         [HttpPatch("{id}")]
         [SwaggerOperation(Summary = "Restore work time")]
         [AuthorizeRole(Role.Admin)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult RestoreWorkTime(int id)
         {
             var userId = this.GetUserId();
