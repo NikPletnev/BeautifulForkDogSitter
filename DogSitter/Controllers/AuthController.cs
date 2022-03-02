@@ -28,13 +28,13 @@ namespace DogSitter.API.Controllers
             return Json(token);
         }
 
-        [HttpPut("{id}/password")]
+        [HttpPut("change-password")]
         [Description("Change password by user Id")]
         [Authorize]
         //[ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         //[ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult ChangeUserPasswordByUserId(int id, [FromBody] ChangePasswordInputModel password)
+        public ActionResult ChangeUserPasswordByUserId([FromBody] ChangePasswordInputModel password)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -42,7 +42,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _authService.ChangeUserPassword(id, password.NewPassword, password.OldPassword);
+            _authService.ChangeUserPassword(userId.Value, password.NewPassword, password.OldPassword);
 
             return Ok();
         }

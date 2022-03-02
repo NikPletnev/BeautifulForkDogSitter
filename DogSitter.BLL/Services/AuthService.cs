@@ -63,7 +63,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException("User wasn't found");
             }
 
-            if (oldPassword != user.Password)
+            if (!PasswordHash.ValidatePassword(oldPassword, user.Password))
             {
                 throw new PasswordException("Passwords don't match");
             }

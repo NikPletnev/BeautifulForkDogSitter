@@ -132,12 +132,12 @@ namespace DogSitter.BLL.Tests
         {
             //given
             var newPassword = "111111";
-            var oldPassword = PasswordHash.HashPassword("12345");
+            var oldPassword = "12345";
 
             User user = new User()
             {
                 Id = 1,
-                Password = oldPassword,
+                Password = PasswordHash.HashPassword(oldPassword),
                 FirstName = "FirstName1",
                 LastName = "LastName1",
                 IsDeleted = false
@@ -153,10 +153,10 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void ChangeUserPasswordNegativeTest_ShouldThrowPasswordExeption()
+        public void ChangeUserPasswordTest_WhenPasswordDonotMatch_ShouldThrowPasswordExeption()
         {
             var newPassword = "111111";
-            var oldPassword = PasswordHash.HashPassword("12345");
+            var oldPassword = "12345";
 
             User user = new User()
             {
@@ -174,7 +174,7 @@ namespace DogSitter.BLL.Tests
         }
 
         [Test]
-        public void ChangeUserPasswordNegativeTest_ShouldThrowEntityNotFoundException()
+        public void ChangeUserPasswordTest_WhenUserWasNotFound_ShouldThrowEntityNotFoundException()
         {
             _userRepositoryMock.Setup(m => m.ChangeUserPassword(It.IsAny<string>(), It.IsAny<User>()));
             _userRepositoryMock.Setup(m => m.GetUserById(It.IsAny<int>())).Returns((User)null);
