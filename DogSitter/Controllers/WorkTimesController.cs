@@ -6,6 +6,7 @@ using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
 
 namespace DogSitter.API.Controllers
@@ -24,12 +25,13 @@ namespace DogSitter.API.Controllers
         }
 
         [HttpPost]
-        [Description("Add work time")]
+        [SwaggerOperation(Summary = "Add work time")]
         [AuthorizeRole(Role.Sitter)]
         [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult<WorkTimeOutputModel> AddWorkTime([FromBody] WorkTimeInsertInputModel workTime)
         {
             var userId = this.GetUserId();
@@ -45,12 +47,13 @@ namespace DogSitter.API.Controllers
 
         //api/workTim/77
         [HttpPut("{id}")]
-        [Description("Update work time")]
+        [SwaggerOperation(Summary = "Update work time")]
         [AuthorizeRole(Role.Sitter)]
-        [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult UpdateWorkTime(int id, [FromBody] WorkTimeUpdateInputModel workTime)
         {
             var userId = this.GetUserId();
@@ -66,11 +69,12 @@ namespace DogSitter.API.Controllers
 
         //api/workTime/77
         [HttpDelete("{id}")]
-        [Description("Delete work time")]
+        [SwaggerOperation(Summary = "Delete work time")]
         [AuthorizeRole(Role.Sitter)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult DeleteWorkTime(int id)
         {
             var userId = this.GetUserId();
@@ -86,12 +90,13 @@ namespace DogSitter.API.Controllers
 
         //api/workTime/77
         [HttpPatch("{id}")]
-        [Description("Restore work time")]
+        [SwaggerOperation(Summary = "Restore work time")]
         [AuthorizeRole(Role.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
-        public IActionResult RestoreWorkTime(int id)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult RestoreWorkTime(int id)
         {
             var userId = this.GetUserId();
             if (userId is null)
