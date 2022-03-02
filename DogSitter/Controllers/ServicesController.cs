@@ -6,6 +6,7 @@ using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace DogSitter.API.Controllers
 {
@@ -24,24 +25,37 @@ namespace DogSitter.API.Controllers
 
         //api/Services/77
         [HttpGet("{id}")]
+        [Description("Get service by id")]
+        [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         public ActionResult<ServiceOutputModel> GetServiceById(int id)
         {
             var service = _mapper.Map<ServiceOutputModel>(_serviceService.GetServiceById(id));
 
-            return Ok(service);
+            return service;
         }
 
         //api/Services
         [HttpGet]
+        [Description("Get all services")]
+        [ProducesResponseType(typeof(List<ServiceOutputModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         public ActionResult<List<ServiceOutputModel>> GetAllServices()
         {
             var services = _mapper.Map<List<ServiceOutputModel>>(_serviceService.GetAllServices());
 
-            return Ok(services);
+            return services;
         }
-
-        [AuthorizeRole(Role.Sitter)]
+        
         [HttpPost]
+        [Description("Add service")]
+        [AuthorizeRole(Role.Sitter)]
+        [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<ServiceOutputModel> AddService([FromBody] ServiceInsertInputModel service)
         {
             var userId = this.GetUserId();
@@ -52,11 +66,16 @@ namespace DogSitter.API.Controllers
 
             _serviceService.AddService(userId.Value, _mapper.Map<ServiceModel>(service));
 
-            return StatusCode(StatusCodes.Status201Created, _mapper.Map<ServiceOutputModel>(service));
+            return _mapper.Map<ServiceOutputModel>(service);
         }
-
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        
         [HttpPut("{id}")]
+        [Description("Update service")]
+        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
         public IActionResult UpdateService(int id, [FromBody] ServiceUpdateInputModel service)
         {
             var userId = this.GetUserId();
@@ -69,9 +88,13 @@ namespace DogSitter.API.Controllers
 
             return NoContent();
         }
-
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        
         [HttpDelete("{id}")]
+        [Description("Delete service")]
+        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         public IActionResult DeleteService(int id)
         {
             var userId = this.GetUserId();
@@ -84,9 +107,13 @@ namespace DogSitter.API.Controllers
 
             return NoContent();
         }
-
-        [AuthorizeRole(Role.Admin)]
+        
         [HttpPatch("{id}")]
+        [Description("Restore service")]
+        [AuthorizeRole(Role.Admin)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         public IActionResult RestoreService(int id)
         {
             var userId = this.GetUserId();
@@ -101,8 +128,12 @@ namespace DogSitter.API.Controllers
         }
 
         //api/Services
+        [HttpGet("by-sitter/{id}")]
+        [Description("Get services by sitter id")]
         [AuthorizeRole(Role.Admin, Role.Customer, Role.Sitter)]
-        [HttpGet("sitters/{id}")]
+        [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         public ActionResult<List<ServiceOutputModel>> GetAllServicesBySitterId(int id)
         {
             var userId = this.GetUserId();
@@ -114,8 +145,7 @@ namespace DogSitter.API.Controllers
             var services = _mapper.Map<List<ServiceOutputModel>>(
                 _serviceService.GetAllServicesBySitterId(userId.Value, id));
 
-            return Ok(services);
+            return services;
         }
-
     }
 }
