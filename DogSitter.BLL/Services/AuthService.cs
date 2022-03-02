@@ -50,6 +50,11 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException("Invalid username or password entered");
             }
+            if (foundContact.User.IsDeleted)
+            {
+                throw new EntityNotFoundException("User not found or deleted");
+            }
+
             UserModel user = _map.Map<UserModel>(foundContact.User);
             return user;
         }
