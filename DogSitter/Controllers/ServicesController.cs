@@ -79,7 +79,7 @@ namespace DogSitter.API.Controllers
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
-        public IActionResult UpdateService(int id, [FromBody] ServiceUpdateInputModel service)
+        public ActionResult UpdateService(int id, [FromBody] ServiceUpdateInputModel service)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -99,7 +99,7 @@ namespace DogSitter.API.Controllers
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult DeleteService(int id)
+        public ActionResult DeleteService(int id)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -119,7 +119,7 @@ namespace DogSitter.API.Controllers
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult RestoreService(int id)
+        public ActionResult RestoreService(int id)
         {
             var userId = this.GetUserId();
             if (userId is null)

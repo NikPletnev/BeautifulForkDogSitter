@@ -54,7 +54,7 @@ namespace DogSitter.API.Controllers
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult UpdateWorkTime(int id, [FromBody] WorkTimeUpdateInputModel workTime)
+        public ActionResult UpdateWorkTime(int id, [FromBody] WorkTimeUpdateInputModel workTime)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -75,7 +75,7 @@ namespace DogSitter.API.Controllers
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult DeleteWorkTime(int id)
+        public ActionResult DeleteWorkTime(int id)
         {
             var userId = this.GetUserId();
             if (userId is null)

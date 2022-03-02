@@ -25,7 +25,7 @@ namespace DogSitter.API.Controllers
         }
 
         //api/subwayStations
-        [HttpGet("by-sitters-exist")]
+        [HttpGet("where-sitters-exist")]
         [SwaggerOperation(Summary = "Get subway station where sitter exist")]
         [AuthorizeRole(Role.Admin, Role.Customer)]
         [ProducesResponseType(typeof(ServiceOutputModel), StatusCodes.Status200OK)]
@@ -98,7 +98,7 @@ namespace DogSitter.API.Controllers
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationExceptionResponse), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult UpdateSubwayStation(int id, [FromBody] SubwayStationInputModel subwayStation)
+        public ActionResult UpdateSubwayStation(int id, [FromBody] SubwayStationInputModel subwayStation)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -119,7 +119,7 @@ namespace DogSitter.API.Controllers
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult DeleteSubwayStation(int id)
+        public ActionResult DeleteSubwayStation(int id)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -140,7 +140,7 @@ namespace DogSitter.API.Controllers
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult RestoreSubwayStation(int id)
+        public ActionResult RestoreSubwayStation(int id)
         {
             var userId = this.GetUserId();
             if (userId is null)
