@@ -35,8 +35,16 @@ namespace DogSitter.API.Controllers
             }
 
             var sitter = _service.GetById(id);
-            var sitterModel = _mapper.Map<SitterOutputModel>(sitter);
-            return Ok(sitterModel);
+            if(User.IsInRole("Admin"))
+            {
+                var sitterModel = _mapper.Map<SitterForAdminOutputModel>(sitter);
+                return Ok(sitterModel);
+            }
+            else
+            {
+                var sitterModel = _mapper.Map<SitterOutputModel>(sitter);
+                return Ok(sitterModel);
+            }
         }
 
         [HttpGet]

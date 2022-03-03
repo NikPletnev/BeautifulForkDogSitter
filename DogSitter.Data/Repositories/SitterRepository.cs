@@ -13,7 +13,7 @@ namespace DogSitter.DAL.Repositories
         }
 
         public Sitter GetById(int id) =>
-            _context.Sitters.FirstOrDefault(x => x.Id == id);
+            _context.Sitters.Include(x => x.Passport).FirstOrDefault(x => x.Id == id);
 
         public List<Sitter> GetAll() =>
             _context.Sitters.Where(d => !d.IsDeleted).ToList();
