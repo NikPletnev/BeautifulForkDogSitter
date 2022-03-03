@@ -14,13 +14,6 @@ namespace DogSitter.DAL.Repositories
         public Passport GetPassportById(int id) =>
                          _context.Passports.FirstOrDefault(x => x.Id == id);
 
-
-        public void AddPassport(Passport passport)
-        {
-            _context.Passports.Add(passport);
-            _context.SaveChanges();
-        }
-
         public void UpdatePassport(Passport entity, Passport passport)
         {
             entity.FirstName = passport.FirstName;
