@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using DogSitter.BLL.Services.Interfaces;
 
@@ -35,6 +33,11 @@ namespace DogSitter.BLL.Services
                 orderModel.Status == 0)
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
+            }
+            var sitter = _sitterRepository.GetById(orderModel.Sitter.Id);
+            if (!sitter.Verified)
+            {
+                throw new Exception("Sitter profile not confirmed");
             }
             orderModel.Price = GetOrderTotalSum(orderModel);
             orderModel.Customer = _map.Map<CustomerModel>(_customerRepository.GetCustomerById(userId));

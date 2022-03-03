@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace DogSitter.API.Attribute
 {
-    public class TimeFormat: ValidationAttribute
+    public class TimeFormat : ValidationAttribute
     {
         public override bool IsValid(object value)
         {

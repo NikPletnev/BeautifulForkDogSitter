@@ -18,7 +18,7 @@ namespace DogSitter.API.Infrastructure
             try
             {
                 await _next(context);
-            }          
+            }
             catch (AccessException ex)
             {
                 await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
