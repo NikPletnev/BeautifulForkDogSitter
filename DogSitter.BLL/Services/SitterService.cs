@@ -134,5 +134,17 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<SitterModel>>(_sitterRepository
                 .GetAllSittersWithWorkTimeBySubwayStation(subwayStation));
         }
+
+        public List<SitterModel> GetAllSittersWithServices()
+        {
+            var sitters = _sitterRepository.GetAllSitterWithService();
+
+            if (sitters == null)
+            {
+                throw new EntityNotFoundException($"Sitters was not found");
+            }
+
+            return _mapper.Map<List<SitterModel>>(sitters);
+        }
     }
 }

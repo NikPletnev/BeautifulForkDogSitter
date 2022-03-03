@@ -147,5 +147,13 @@ namespace DogSitter.API.Controllers
             var sittersModel = _mapper.Map<SitterOutputModel>(sitters);
             return Ok(sittersModel);
         }
+
+        [HttpGet]
+        public ActionResult<List<SitterOutputModel>> GetAllSittersWithServices()
+        {
+            var sitters = _service.GetAllSittersWithServices();
+            var sittersModel = _mapper.Map<List<SitterOutputModel>>(sitters);
+            return Ok(sittersModel);
+        }
     }
 }

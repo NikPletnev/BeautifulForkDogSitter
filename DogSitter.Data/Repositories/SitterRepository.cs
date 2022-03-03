@@ -69,5 +69,8 @@ namespace DogSitter.DAL.Repositories
         {
             return _context.Orders.Where(d => d.Sitter.Id == sitter.Id && !d.IsDeleted && d.Status == Enums.Status.Completed ).ToList();
         }
+
+        public List<Sitter> GetAllSitterWithService() =>
+           _context.Sitters.Where(s => !s.IsDeleted).Include(s => s.Services.Where(c => !c.IsDeleted)).ToList();
     }
 }
