@@ -7,6 +7,7 @@ using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.API.Controllers
 {
@@ -24,12 +25,18 @@ namespace DogSitter.API.Controllers
         }
 
         //api/subwayStations
+        [HttpGet("where-sitters-exist")]
+        [SwaggerOperation(Summary = "Get subway station where sitter exist")]
         [AuthorizeRole(Role.Admin, Role.Customer)]
-        [HttpGet("sitters/subwaystation")]
+        [SwaggerResponse(200, "OK", typeof(ServiceOutputModel))]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult<List<SubwayStationOutputModel>> GetAllSubwayStationsWhereSitterExist()
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -37,48 +44,67 @@ namespace DogSitter.API.Controllers
             var subwayStations = _mapper.Map<List<SubwayStationOutputModel>>(_subwayStationService
                 .GetAllSubwayStationsWhereSitterExist());
 
-            return Ok(subwayStations);
+            return subwayStations;
         }
 
         //api/subwayStations
-        [Authorize]
         [HttpGet]
+        [Authorize]
+        [SwaggerOperation(Summary = "Get all subway stations")]
+        [SwaggerResponse(200, "OK", typeof(ServiceOutputModel))]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult<List<SubwayStationOutputModel>> GetAllSubwayStations()
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
 
             var subwayStations = _mapper.Map<List<SubwayStationOutputModel>>(_subwayStationService.GetAllSubwayStations());
 
-            return Ok(subwayStations);
+            return subwayStations;
         }
 
         //api/subwayStation/77
-        [AuthorizeRole(Role.Admin)]
         [HttpPost]
-        public IActionResult AddSubwayStation([FromBody] SubwayStationInputModel subwayStation)
+        [SwaggerOperation(Summary = "Add subway station")]
+        [AuthorizeRole(Role.Admin)]
+        [SwaggerResponse(201, "Created", typeof(ServiceOutputModel))]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
+        public ActionResult<SubwayStationOutputModel> AddSubwayStation([FromBody] SubwayStationInputModel subwayStation)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
 
             _subwayStationService.AddSubwayStation(_mapper.Map<SubwayStationModel>(subwayStation));
 
-            return StatusCode(StatusCodes.Status201Created, _mapper.Map<SubwayStationOutputModel>(subwayStation));
+            return _mapper.Map<SubwayStationOutputModel>(subwayStation);
         }
 
         //api/subwayStation/77
-        [AuthorizeRole(Role.Admin)]
         [HttpPut("{id}")]
-        public IActionResult UpdateSubwayStation(int id, [FromBody] SubwayStationInputModel subwayStation)
+        [SwaggerOperation(Summary = "Update subway station")]
+        [AuthorizeRole(Role.Admin)]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
+        public ActionResult UpdateSubwayStation(int id, [FromBody] SubwayStationInputModel subwayStation)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -89,12 +115,18 @@ namespace DogSitter.API.Controllers
         }
 
         //api/subwayStation/77
-        [AuthorizeRole(Role.Admin)]
         [HttpDelete("{id}")]
-        public IActionResult DeleteSubwayStation(int id)
+        [SwaggerOperation(Summary = "Delete subway station")]
+        [AuthorizeRole(Role.Admin)]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        public ActionResult DeleteSubwayStation(int id)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
@@ -105,12 +137,18 @@ namespace DogSitter.API.Controllers
         }
 
         //api/subwayStation/77
-        [AuthorizeRole(Role.Admin)]
         [HttpPatch("{id}")]
-        public IActionResult RestoreSubwayStation(int id)
+        [SwaggerOperation(Summary = "Restore subway station")]
+        [AuthorizeRole(Role.Admin)]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        public ActionResult RestoreSubwayStation(int id)
         {
             var userId = this.GetUserId();
-            if (userId == null)
+            if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }

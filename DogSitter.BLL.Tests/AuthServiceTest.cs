@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
@@ -10,6 +11,7 @@ using DogSitter.DAL.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace DogSitter.BLL.Tests
@@ -17,6 +19,7 @@ namespace DogSitter.BLL.Tests
     public class AuthServiceTests
     {
         private Mock<IContactRepository> _contactRepositoryMock;
+        private Mock<IUserRepository> _userRepositoryMock;
         private IMapper _map;
         private AuthService _service;
 
@@ -24,8 +27,9 @@ namespace DogSitter.BLL.Tests
         public void Setup()
         {
             _contactRepositoryMock = new Mock<IContactRepository>();
+            _userRepositoryMock = new Mock<IUserRepository>();
             _map = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new AuthService(_contactRepositoryMock.Object, _map);
+            _service = new AuthService(_contactRepositoryMock.Object, _userRepositoryMock.Object, _map);
         }
 
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
@@ -120,6 +124,62 @@ namespace DogSitter.BLL.Tests
                 IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                 ValidateIssuerSigningKey = true,
             };
+        }
+
+        [Test]
+        public void ChangeUserPasswordTest()
+        {
+            //given
+            var newPassword = "111111";
+            var oldPassword = "12345";
+
+            User user = new User()
+            {
+                Id = 1,
+                Password = PasswordHash.HashPassword(oldPassword),
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                IsDeleted = false
+            };
+            _userRepositoryMock.Setup(m => m.ChangeUserPassword(newPassword, user));
+            _userRepositoryMock.Setup(m => m.GetUserById(user.Id)).Returns(user);
+
+            //when
+            _service.ChangeUserPassword(user.Id, newPassword, oldPassword);
+
+            //then
+            _userRepositoryMock.Verify(m => m.ChangeUserPassword(It.IsAny<string>(), user), Times.Once);
+        }
+
+        [Test]
+        public void ChangeUserPasswordTest_WhenPasswordDonotMatch_ShouldThrowPasswordExeption()
+        {
+            var newPassword = "111111";
+            var oldPassword = "12345";
+
+            User user = new User()
+            {
+                Id = 1,
+                Password = PasswordHash.HashPassword("54321"),
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                IsDeleted = false
+            };
+            _userRepositoryMock.Setup(m => m.ChangeUserPassword(newPassword, user));
+            _userRepositoryMock.Setup(m => m.GetUserById(user.Id)).Returns(user);
+
+            Assert.Throws<PasswordException>(() => 
+            _service.ChangeUserPassword(user.Id, newPassword, oldPassword));
+        }
+
+        [Test]
+        public void ChangeUserPasswordTest_WhenUserWasNotFound_ShouldThrowEntityNotFoundException()
+        {
+            _userRepositoryMock.Setup(m => m.ChangeUserPassword(It.IsAny<string>(), It.IsAny<User>()));
+            _userRepositoryMock.Setup(m => m.GetUserById(It.IsAny<int>())).Returns((User)null);
+
+            Assert.Throws<EntityNotFoundException>(() =>
+            _service.ChangeUserPassword(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()));
         }
     }
 }
