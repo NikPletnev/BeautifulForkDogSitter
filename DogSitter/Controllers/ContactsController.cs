@@ -5,6 +5,7 @@ using DogSitter.API.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.API.Controllers
 {
@@ -24,6 +25,11 @@ namespace DogSitter.API.Controllers
         //api/contacts
         [AuthorizeRole(Role.Admin)]
         [HttpGet]
+        [SwaggerOperation(Summary = "Get all contacts")]
+        [SwaggerResponse(200, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<List<ContactOutputModel>> GetAllContacts()
         {
             var userId = this.GetUserId();
@@ -38,6 +44,11 @@ namespace DogSitter.API.Controllers
 
         [AuthorizeRole(Role.Admin)]
         [HttpGet("customer/{id}")]
+        [SwaggerOperation(Summary = "Get all contacts by customerId")]
+        [SwaggerResponse(200, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<List<ContactOutputModel>> GetAllContactsByCustomerId(int id)
         {
             var userId = this.GetUserId();
@@ -52,6 +63,11 @@ namespace DogSitter.API.Controllers
 
         [AuthorizeRole(Role.Admin)]
         [HttpGet("sitter/{id}")]
+        [SwaggerOperation(Summary = "Get all contacts by sitterId")]
+        [SwaggerResponse(200, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<List<ContactOutputModel>> GetAllContactsBySitterId(int id)
         {
             var userId = this.GetUserId();
