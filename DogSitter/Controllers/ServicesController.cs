@@ -6,6 +6,7 @@ using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.API.Controllers
 {
@@ -24,24 +25,38 @@ namespace DogSitter.API.Controllers
 
         //api/Services/77
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get service by id")]
+        [SwaggerResponse(200, "OK", typeof(ServiceOutputModel))]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "Not Found", typeof(ExceptionResponse))]
         public ActionResult<ServiceOutputModel> GetServiceById(int id)
         {
             var service = _mapper.Map<ServiceOutputModel>(_serviceService.GetServiceById(id));
 
-            return Ok(service);
+            return service;
         }
 
         //api/Services
         [HttpGet]
+        [SwaggerOperation(Summary = "Get all services")]
+        [SwaggerResponse(200, "OK", typeof(ServiceOutputModel))]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "Not Found", typeof(ExceptionResponse))]
         public ActionResult<List<ServiceOutputModel>> GetAllServices()
         {
             var services = _mapper.Map<List<ServiceOutputModel>>(_serviceService.GetAllServices());
 
-            return Ok(services);
+            return services;
         }
 
-        [AuthorizeRole(Role.Sitter)]
         [HttpPost]
+        [SwaggerOperation(Summary = "Add service")]
+        [AuthorizeRole(Role.Sitter)]
+        [SwaggerResponse(201, "Created", typeof(ServiceOutputModel))]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public ActionResult<ServiceOutputModel> AddService([FromBody] ServiceInsertInputModel service)
         {
             var userId = this.GetUserId();
@@ -55,9 +70,16 @@ namespace DogSitter.API.Controllers
             return StatusCode(StatusCodes.Status201Created, serviceId);
         }
 
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
         [HttpPut("{id}")]
-        public IActionResult UpdateService(int id, [FromBody] ServiceUpdateInputModel service)
+        [SwaggerOperation(Summary = "Update service")]
+        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
+        public ActionResult UpdateService(int id, [FromBody] ServiceUpdateInputModel service)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -70,9 +92,15 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        [AuthorizeRole(Role.Admin, Role.Sitter)]
         [HttpDelete("{id}")]
-        public IActionResult DeleteService(int id)
+        [SwaggerOperation(Summary = "Delete service")]
+        [AuthorizeRole(Role.Admin, Role.Sitter)]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        public ActionResult DeleteService(int id)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -85,9 +113,15 @@ namespace DogSitter.API.Controllers
             return NoContent();
         }
 
-        [AuthorizeRole(Role.Admin)]
         [HttpPatch("{id}")]
-        public IActionResult RestoreService(int id)
+        [SwaggerOperation(Summary = "Restore service")]
+        [AuthorizeRole(Role.Admin)]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        public ActionResult RestoreService(int id)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -101,8 +135,14 @@ namespace DogSitter.API.Controllers
         }
 
         //api/Services
+        [HttpGet("by-sitter/{id}")]
+        [SwaggerOperation(Summary = "Get services by sitter id")]
         [AuthorizeRole(Role.Admin, Role.Customer, Role.Sitter)]
-        [HttpGet("sitters/{id}")]
+        [SwaggerResponse(200, "OK")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult<List<ServiceOutputModel>> GetAllServicesBySitterId(int id)
         {
             var userId = this.GetUserId();
@@ -114,8 +154,7 @@ namespace DogSitter.API.Controllers
             var services = _mapper.Map<List<ServiceOutputModel>>(
                 _serviceService.GetAllServicesBySitterId(userId.Value, id));
 
-            return Ok(services);
+            return services;
         }
-
     }
 }
