@@ -19,11 +19,11 @@ namespace DogSitter.BLL.Services
             _userRepository = userRepository;
         }
 
-        public void AddWorkTime(int userId, WorkTimeModel workTimeModel)
+        public int AddWorkTime(int userId, WorkTimeModel workTimeModel)
         {
             workTimeModel.Sitter = _mapper.Map<SitterModel>(_userRepository.GetUserById(userId));
             var workTime = _mapper.Map<WorkTime>(workTimeModel);
-            _workTimeRepository.AddWorkTime(workTime);
+            return _workTimeRepository.AddWorkTime(workTime);
         }
 
         public void UpdateWorkTime(int userId, int id, WorkTimeModel workTimeModel)

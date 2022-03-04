@@ -65,9 +65,9 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _serviceService.AddService(userId.Value, _mapper.Map<ServiceModel>(service));
+            var serviceId = _serviceService.AddService(userId.Value, _mapper.Map<ServiceModel>(service));
 
-            return _mapper.Map<ServiceOutputModel>(service);
+            return StatusCode(StatusCodes.Status201Created, serviceId);
         }
 
         [HttpPut("{id}")]
