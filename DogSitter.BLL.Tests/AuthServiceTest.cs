@@ -23,7 +23,6 @@ namespace DogSitter.BLL.Tests
         private IMapper _map;
         private AuthService _service;
 
-
         [SetUp]
         public void Setup()
         {

@@ -89,7 +89,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Contacts = new List<ContactModel>() { new ContactModel { Value = "12345678", ContactType = ContactType.Phone } },
                     IsDeleted = false
                 }
-        };
+            };
 
             yield return new object[] { orderModel, customer, id, expected };
         }

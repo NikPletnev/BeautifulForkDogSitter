@@ -14,5 +14,6 @@ namespace DogSitter.BLL.Services
         SitterModel GetById(int id);
         void Restore(int id);
         void Update(int id, SitterModel sitterModel);
+        List<SitterModel> GetAllSittersWithServices();
     }
 }

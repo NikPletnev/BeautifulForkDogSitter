@@ -14,5 +14,6 @@ namespace DogSitter.DAL.Repositories
         void Update(Sitter sitter);
         void ChangeRating(Sitter sitter);
         List<Order> GetAllSitterOrders(Sitter sitter);
+        List<Sitter> GetAllSitterWithService();
     }
 }
