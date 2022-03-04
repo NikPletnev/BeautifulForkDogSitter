@@ -157,7 +157,7 @@ namespace DogSitter.API.Controllers
             return Ok(sittersModel);
         }
 
-        [HttpGet]
+        [HttpGet("with-services")]
         public ActionResult<List<SitterOutputModel>> GetAllSittersWithServices()
         {
             var sitters = _service.GetAllSittersWithServices();
