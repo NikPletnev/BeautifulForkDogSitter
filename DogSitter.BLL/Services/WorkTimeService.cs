@@ -69,5 +69,15 @@ namespace DogSitter.BLL.Services
             var workTimeList = _workTimeRepository.GetWorkTimeById(id);
             return _mapper.Map<List<WorkTimeModel>>(workTimeList);
         }
+
+        public WorkTimeModel GetWorkTimeById(int id)
+        {
+            var workTime = _workTimeRepository.GetWorkTimeById(id);
+            if(workTime is null)
+            {
+                throw new EntityNotFoundException($"WorkTime wasn't found!");
+            }
+            return _mapper.Map<WorkTimeModel>(workTime);
+        }
     }
 }

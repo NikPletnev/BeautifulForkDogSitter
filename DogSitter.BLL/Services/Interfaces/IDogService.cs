@@ -10,5 +10,6 @@ namespace DogSitter.BLL.Services
         void RestoreDog(int id);
         void UpdateDog(int userId, int id, DogModel dogModel);
         List<DogModel> GetDogsByCustomerId(int id);
+        DogModel GetDogById(int id);
     }
 }

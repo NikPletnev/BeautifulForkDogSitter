@@ -26,7 +26,9 @@ namespace DogSitter.DAL.Repositories
         }
 
         public Order GetById(int id) =>
-             _context.Orders.FirstOrDefault(x => x.Id == id);
+             _context.Orders.Where(x => x.Id == id)
+            .Include(w => w.Customer)
+            .FirstOrDefault();
 
         public List<Order> GetAll() =>
             _context.Orders.Where(d => !d.IsDeleted).ToList();

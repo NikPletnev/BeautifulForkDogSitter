@@ -95,6 +95,11 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<DogModel>>(_rep.GetAllDogs());
         }
 
+        public DogModel GetDogById(int id)
+        {
+            return _mapper.Map<DogModel>(_rep.GetDogById(id));
+        }
+
         public List<DogModel> GetDogsByCustomerId(int id)
         {
             var customer = _customerRepository.GetCustomerById(id);

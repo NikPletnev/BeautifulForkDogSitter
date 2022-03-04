@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -12,10 +13,16 @@ namespace DogSitter.DAL.Repositories
         }
 
         public Customer GetCustomerById(int id) =>
-             _context.Customers.FirstOrDefault(x => x.Id == id);
+             _context.Customers.Where(x => x.Id == id)
+            .Include(w => w.Orders)
+            .Include(w => w.Dogs)
+            .Include(w => w.Sitter)
+            .Include(w => w.Contacts)
+            .Include(w => w.Comments)
+            .FirstOrDefault();
 
         public List<Customer> GetAllCustomers() =>
-            _context.Customers.Where(d => !d.IsDeleted).ToList();
+            _context.Customers.Where(d => !d.IsDeleted).Include(w => w.Orders).ToList();
 
         public void AddCustomer(Customer customer)
         {

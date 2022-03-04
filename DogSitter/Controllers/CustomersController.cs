@@ -23,7 +23,7 @@ namespace DogSitter.Controllers
             _service = customerService;
         }
 
-        [AuthorizeRole(Role.Admin)]
+        [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpGet("{id}")]
         public ActionResult<CustomerOutputModel> GetCustomerById(int id)
         {

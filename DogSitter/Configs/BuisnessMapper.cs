@@ -29,6 +29,7 @@ namespace DogSitter.API.Configs
             CreateMap<ServiceInsertInputModel, ServiceModel>();
             CreateMap<ServiceUpdateInputModel, ServiceModel>();
             CreateMap<ServiceModel, ServiceOutputModel>();
+            CreateMap<ServiceInsertInputModel, ServiceOutputModel>();
 
             CreateMap<SitterInsertInputModel, SitterModel>();
             CreateMap<SitterModel, SitterOutputModel>();
@@ -46,6 +47,9 @@ namespace DogSitter.API.Configs
 
             CreateMap<OrderModel, OrderOutputModel>();
             CreateMap<OrderUpdateCommentAndMarkModel, OrderModel>();
+            CreateMap<OrderInsertInputModel, OrderModel>()
+                .ForMember(m => m.)
+            CreateMap<OrderInsertInputModel, OrderOutputModel>();
 
 
             CreateMap<ContactModel, CommentForAdminOutputModel>();
@@ -55,10 +59,6 @@ namespace DogSitter.API.Configs
             CreateMap<WorkTimeModel, WorkTimeOutputModel>();
             CreateMap<WorkTimeInsertInputModel, WorkTimeOutputModel>();
             CreateMap<WorkTimeInsertInputModel, WorkTimeModel>();
-
-            CreateMap<OrderModel, OrderOutputModel>();
-            CreateMap<OrderInsertInputModel, OrderModel>();
-            CreateMap<OrderInsertInputModel, OrderOutputModel>();
 
         }
     }

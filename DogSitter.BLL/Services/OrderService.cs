@@ -27,12 +27,12 @@ namespace DogSitter.BLL.Services
             _sitterRepository = sitterRepository;
             _map = mapper;
             _userRepository = userRepository;
+            _workTimeRepository = workTimeRepository;
         }
 
         public void Add(int userId, OrderModel orderModel)
         {
             if (orderModel.OrderDate == DateTime.MinValue ||
-                orderModel.Price == 0 ||
                 orderModel.Status == 0)
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
@@ -51,8 +51,11 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
 
+            if(order.Sitter != null)
+            {
             var orderOldWorkTime = _workTimeRepository.GetWorkTimeById(order.SitterWorkTime.Id);
             _workTimeRepository.ChangeWorkTimeStatus(orderOldWorkTime, false);
+            }
 
             var workTime = _workTimeRepository.GetWorkTimeById(orderModel.SitterWorkTime.Id);
 
@@ -151,6 +154,16 @@ namespace DogSitter.BLL.Services
                 return 0;
             }
             return orderModel.Services.Select(s => s.Price).Sum();
+        }
+
+        public OrderModel GetOrderById(int id)
+        {
+            var order = _rep.GetById(id);
+            if(order == null)
+            {
+                throw new EntityNotFoundException("Order not found");
+            }
+            return _map.Map<OrderModel>(order);
         }
     }
 }

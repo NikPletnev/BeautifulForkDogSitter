@@ -8,11 +8,10 @@ namespace DogSitter.API.Models
 
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
-        public decimal Price { get; set; }
-        public SitterInsertInputModel Sitter { get; set; }
-        public WorkTimeInsertInputModel SitterWorkTime { get; set; }
-        public DogInsertInputModel Dog { get; set; }
-        public List<ServiceInsertInputModel> Services { get; set; }
+        public int SitterId { get; set; }
+        public int SitterWorkTimeId { get; set; }
+        public int DogId { get; set; }
+        public List<int> ServicesId { get; set; }
     }
 }
 

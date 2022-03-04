@@ -13,7 +13,12 @@ namespace DogSitter.DAL.Repositories
         }
 
         public Sitter GetById(int id) =>
-            _context.Sitters.FirstOrDefault(x => x.Id == id);
+            _context.Sitters.Where(x => x.Id == id)
+            .Include(w => w.Customers)
+            .Include(w => w.Orders)
+            .Include(w => w.Services)
+            .Include(w => w.WorkTime)
+            .FirstOrDefault();
 
         public List<Sitter> GetAll() =>
             _context.Sitters.Where(d => !d.IsDeleted).Include(w => w.WorkTime).ToList();
