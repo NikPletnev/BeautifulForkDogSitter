@@ -14,7 +14,6 @@ namespace DogSitter.DAL.Tests
     {
         private DogSitterContext _context;
         private SitterRepository _repository;
-        private SitterTestCaseSourse _sitterTestCaseSourse;
 
         [SetUp]
         public void Setup()
@@ -33,8 +32,6 @@ namespace DogSitter.DAL.Tests
             _context.Sitters.AddRange(sitters);
 
             _context.SaveChanges();
-
-            _repository = new SitterRepository(_context);
         }
 
         [Test]
@@ -170,7 +167,7 @@ namespace DogSitter.DAL.Tests
             //when
 
             _repository.ChangeRating(sitter);
-            var actual  = _context.Sitters.FirstOrDefault(x => x.Id == 10);
+            var actual = _context.Sitters.FirstOrDefault(x => x.Id == 10);
             var expected = sitter;
 
             //then
@@ -180,7 +177,7 @@ namespace DogSitter.DAL.Tests
         }
 
         [TestCaseSource(typeof(GetAllSittersOrdersTestCaseSource))]
-        public void GetAllSittersOrdersTest(List<Order> orders, List<Order> expected, Sitter sitter) 
+        public void GetAllSittersOrdersTest(List<Order> orders, List<Order> expected, Sitter sitter)
         {
             //given
             _context.Database.EnsureDeleted();

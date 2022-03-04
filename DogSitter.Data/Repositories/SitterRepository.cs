@@ -13,7 +13,7 @@ namespace DogSitter.DAL.Repositories
         }
 
         public Sitter GetById(int id) =>
-            _context.Sitters.FirstOrDefault(x => x.Id == id);
+            _context.Sitters.Include(x => x.Passport).FirstOrDefault(x => x.Id == id);
 
         public List<Sitter> GetAll() =>
             _context.Sitters.Where(d => !d.IsDeleted).ToList();
@@ -67,7 +67,7 @@ namespace DogSitter.DAL.Repositories
 
         public List<Order> GetAllSitterOrders(Sitter sitter)
         {
-            return _context.Orders.Where(d => d.Sitter.Id == sitter.Id && !d.IsDeleted && d.Status == Enums.Status.Completed ).ToList();
+            return _context.Orders.Where(d => d.Sitter.Id == sitter.Id && !d.IsDeleted && d.Status == Enums.Status.Completed).ToList();
         }
     }
 }

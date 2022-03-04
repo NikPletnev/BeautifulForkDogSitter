@@ -4,17 +4,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DogSitter.DAL.Tests.TestCaseSource
+namespace DogSitter.DAL.Tests
 {
-    public class GetAllOrdersBySitterIdTestCaseSource : IEnumerable
+    public class GetAllOrdersByCustomerIdTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            List<Sitter> sitters = new List<Sitter>()
+            List<Customer> customers = new List<Customer>()
             {
-                new Sitter()
+                new Customer()
                 {
-                    Id = 111,
+                    Id = 112,
                     FirstName = "Test1",
                     LastName = "Test1",
                     Password = "strong" ,
@@ -27,7 +27,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                             OrderDate = new DateTime(2011, 11, 11),
                             Status = Status.Created,
                             Price = 100,
-                            IsDeleted = false
+                            IsDeleted = false,
                          },
 
                          new Order()
@@ -36,11 +36,11 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                             OrderDate = new DateTime(2011, 11, 11),
                             Status = Status.Created,
                             Price = 100,
-                            IsDeleted = false
+                            IsDeleted = false,
                          }
                     },
                 },
-                new Sitter()
+                new Customer()
                 {
                     Id = 222,
                     FirstName = "Test2",
@@ -53,13 +53,13 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         {
                             Id = 333,
                             OrderDate = new DateTime(2011, 1, 1),
-                            Status = Status.CanceledBySitter,
+                            Status = Status.CanceledByAdmin,
                             Price = 100,
                             IsDeleted = false
                         }
                     }
                 },
-                new Sitter()
+                new Customer()
                 {
                     Id = 333,
                     FirstName = "Test3",
@@ -70,27 +70,27 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 }
             };
 
-            int id1 = 111;
+            int id1 = 112;
 
             List<Order> orders1 = new List<Order>()
             {
                 new Order()
                 {
-                     Id = 222,
-                     OrderDate = new DateTime(2011, 11, 11),
-                     Status = Status.Created,
-                     Price = 100,
-                     IsDeleted = false
+                   Id = 222,
+                   OrderDate = new DateTime(2011, 11, 11),
+                   Status = Status.Created,
+                   Price = 100,
+                   IsDeleted = false
                 },
 
                 new Order()
                 {
-                    Id = 111,
-                    OrderDate = new DateTime(2011, 11, 11),
-                    Status = Status.Created,
-                    Price = 100,
-                    IsDeleted = false
-                }               
+                   Id = 111,
+                   OrderDate = new DateTime(2011, 11, 11),
+                   Status = Status.Created,
+                   Price = 100,
+                   IsDeleted = false
+                }
             };
 
             int id2 = 222;
@@ -101,20 +101,20 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 {
                     Id = 333,
                     OrderDate = new DateTime(2011, 1, 1),
-                    Status = Status.CanceledBySitter,
+                    Status = Status.CanceledByAdmin,
                     Price = 100,
                     IsDeleted = false
                 }
             };
 
-            int id3 = 3;
+            int id3 = 333;
 
             List<Order> orders3 = new List<Order>() { };
 
 
-            yield return new object[] { id1, sitters, orders1 };
-            yield return new object[] { id2, sitters, orders2 };
-            yield return new object[] { id3, sitters, orders3 };
+            yield return new object[] { id1, customers, orders1 };
+            yield return new object[] { id2, customers, orders2 };
+            yield return new object[] { id3, customers, orders3 };
 
 
         }
