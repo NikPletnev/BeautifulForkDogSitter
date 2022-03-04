@@ -261,6 +261,28 @@ namespace DogSitter.BLL.Tests
             Assert.Throws<EntityNotFoundException>(() =>
             _service.GetAllSittersWithWorkTimeBySubwayStation(new SubwayStationModel()));
         }
+
+        [TestCaseSource(typeof(GetAllSittersWithServicesTestCaseSourse))]
+        public void GetAllSittersWithServicesTest_ShouldReturnSittersWithServices(List<Sitter> sitters)
+        {
+            var expected = sitters;
+            _sitterRepositoryMock.Setup(x => x.GetAllSitterWithService()).Returns(expected);
+
+            var actual = _service.GetAllSittersWithServices();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Count, actual.Count);
+            _sitterRepositoryMock.Verify(m => m.GetAllSitterWithService(), Times.Once);
+        }
+
+        [Test]
+        public void GetAllSittersWithServicesTest_ShouldReturnException()
+        {
+            _sitterRepositoryMock.Setup(x => x.GetAllSitterWithService()).Returns((List<Sitter>)null);
+
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAllSittersWithServices());
+            _sitterRepositoryMock.Verify(m => m.GetAllSitterWithService(), Times.Once);
+        }
     };
 }
 
