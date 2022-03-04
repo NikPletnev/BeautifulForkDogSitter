@@ -4,7 +4,7 @@ namespace DogSitter.DAL.Repositories
 {
     public interface ISitterRepository
     {
-        void Add(Sitter sitter);
+        int Add(Sitter sitter);
         void EditProfileStateBySitterId(int id, bool verify);
         List<Sitter> GetAll();
         //List<Sitter> GetAllSitterByServiceId(int id);

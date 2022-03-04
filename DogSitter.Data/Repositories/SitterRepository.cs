@@ -18,10 +18,11 @@ namespace DogSitter.DAL.Repositories
         public List<Sitter> GetAll() =>
             _context.Sitters.Where(d => !d.IsDeleted).ToList();
 
-        public void Add(Sitter sitter)
+        public int Add(Sitter sitter)
         {
-            _context.Sitters.Add(sitter);
+            var entity =  _context.Sitters.Add(sitter);
             _context.SaveChanges();
+            return entity.Entity.Id;
         }
 
         public void Update(Sitter sitter)

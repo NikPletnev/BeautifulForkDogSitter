@@ -4,7 +4,7 @@ namespace DogSitter.DAL.Repositories
 {
     public interface ICommentRepository
     {
-        void Add(Comment comment);
+        int Add(Comment comment);
         List<Comment> GetAll();
         List<Comment> GetAllComentsBySitterId(int id);
         Comment GetById(int id);

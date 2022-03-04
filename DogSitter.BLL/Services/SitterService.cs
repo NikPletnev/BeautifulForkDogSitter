@@ -41,12 +41,13 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<SitterModel>>(sitters);
         }
 
-        public void Add(SitterModel sitterModel)
+        public int Add(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
             sitter.Role = Role.Sitter;
             sitter.Password = PasswordHash.HashPassword(sitter.Password);
-            _sitterRepository.Add(sitter);
+            var id = _sitterRepository.Add(sitter);
+            return id;
         }
 
         public void Update(int id, SitterModel sitterModel)

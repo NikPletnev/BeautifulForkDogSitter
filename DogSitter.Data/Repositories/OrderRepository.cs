@@ -12,10 +12,11 @@ namespace DogSitter.DAL.Repositories
             _context = context;
         }
 
-        public void Add(Order order)
+        public int Add(Order order)
         {
-            _context.Orders.Add(order);
+            var entity = _context.Orders.Add(order);
             _context.SaveChanges();
+            return entity.Entity.Id;
         }
 
         public Order GetById(int id) =>
