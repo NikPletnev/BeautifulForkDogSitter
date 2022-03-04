@@ -60,7 +60,6 @@ namespace DogSitter.BLL.Services
             sitter.Passport.Division = Crypter.Encrypt(sitter.Passport.Division);
             sitter.Passport.DivisionCode = Crypter.Encrypt(sitter.Passport.DivisionCode);
             sitter.Passport.Registration = Crypter.Encrypt(sitter.Passport.Registration);
-            _sitterRepository.Add(sitter);
             var id = _sitterRepository.Add(sitter);
             return id;
         }

@@ -67,8 +67,7 @@ namespace DogSitter.API.Controllers
         {
             var sitter = _mapper.Map<SitterModel>(sittetModel);
             var id = _service.Add(sitter);
-            var sitterOutputModel = _mapper.Map<SitterOutputModel>(sitter);
-            return StatusCode(StatusCodes.Status201Created, sitterOutputModel);
+            return StatusCode(StatusCodes.Status201Created, id);
         }
 
         [HttpPut("{id}")]

@@ -46,11 +46,8 @@ namespace DogSitter.API.Controllers
             {
                 return Unauthorized("Invalid token, please try again");
             }
-
             var id = _service.Add(userId.Value, _mapper.Map<OrderModel>(order));
-            var orderModel = _mapper.Map<OrderOutputModel>(order);
-            orderModel.Id = id;
-            return StatusCode(StatusCodes.Status201Created, orderModel);
+            return StatusCode(StatusCodes.Status201Created, id);
         }
 
         //api/orders/42
