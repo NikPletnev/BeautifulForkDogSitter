@@ -5,17 +5,17 @@ namespace DogSitter.API.Models
     public class PassportUpdateInputModel
     {
         [Required]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
+        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
         public string FirstName { get; set; }
         [Required]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
+        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
         public string LastName { get; set; }
         [Required]
         [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateOfBirth { get; set; }
         [Required]
-        [RegularExpression(@"^([1-9]\d*)?\d$")]
+        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
         public string Seria { get; set; }
         [Required]
         [RegularExpression(@"^([1-9]\d*)?\d$")]
@@ -25,7 +25,7 @@ namespace DogSitter.API.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime IssueDate { get; set; }
         [Required]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
+        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
         public string Division { get; set; }
         [Required]
         [RegularExpression(@"^([1-9]\d*)?\d$")]
