@@ -7,6 +7,7 @@ using DogSitter.BLL.Models;
 using DogSitter.BLL.Services.Interfaces;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.API.Controllers
 {
@@ -23,8 +24,15 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
-        [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpPut("{id}")]
+        [AuthorizeRole(Role.Admin, Role.Customer)]
+        [SwaggerOperation(Summary = "Update order")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public ActionResult UpdateOrder([FromRoute] int id, [FromBody] OrderUpdateInputModel order)
         {
             var userId = this.GetUserId();
@@ -37,8 +45,15 @@ namespace DogSitter.API.Controllers
             return Ok();
         }
 
-        [AuthorizeRole(Role.Customer)]
         [HttpPost]
+        [AuthorizeRole(Role.Customer)]
+        [SwaggerOperation(Summary = "Add order")]
+        [SwaggerResponse(201, "Created")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public ActionResult AddOrder([FromBody] OrderInsertInputModel order)
         {
             var userId = this.GetUserId();
@@ -51,8 +66,14 @@ namespace DogSitter.API.Controllers
         }
 
         //api/orders/42
-        [AuthorizeRole(Role.Admin, Role.Customer, Role.Sitter)]
         [HttpPatch("{id}")]
+        [AuthorizeRole(Role.Admin, Role.Customer, Role.Sitter)]
+        [SwaggerOperation(Summary = "edit order")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public IActionResult EditOrderStatusByOrderId(int id, [FromBody] OrderStatusUpdateInputModel order)
         {
             var userId = this.GetUserId();
