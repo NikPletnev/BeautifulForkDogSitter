@@ -5,11 +5,13 @@ namespace DogSitter.API.Models
     public class ServiceInsertInputModel
     {
         [Required(ErrorMessage = "Укажите название")]
+        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
         [StringLength(50, MinimumLength = 5)]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Укажите описание")]
-        [StringLength(1000, MinimumLength = 50)]
+        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [StringLength(1000, MinimumLength = 0)]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Укажите цену")]

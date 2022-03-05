@@ -6,7 +6,10 @@ namespace DogSitter.API.Models.InputModels
     {
         [Required]
         public string Contact { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Введите пароль")]
+        [DataType(DataType.Password)]
+        [StringLength(100, MinimumLength = 4)]
         public string Password { get; set; }
     }
 }

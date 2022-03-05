@@ -7,11 +7,13 @@ namespace DogSitter.API.Models
     public class WorkTimeInsertInputModel
     {
         [Required(ErrorMessage = "Укажите время начала работы")]
-        [TimeFormat(ErrorMessage = "Укажите время в формате'ЧЧ:ММ'")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{HH:MM}")]
         public DateTime Start { get; set; }
 
         [Required(ErrorMessage = "Укажите время окончания работы")]
-        [TimeFormat(ErrorMessage = "Укажите время в формате'ЧЧ:ММ'")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{HH:MM}")]
         public DateTime End { get; set; }
 
         [Display(Name = "День недели")]
