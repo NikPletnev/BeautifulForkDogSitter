@@ -15,7 +15,7 @@ namespace DogSitter.API.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateOfBirth { get; set; }
         [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [RegularExpression(@"^([1-9]\d*)?\d$")]
         public string Seria { get; set; }
         [Required]
         [RegularExpression(@"^([1-9]\d*)?\d$")]

@@ -25,22 +25,20 @@ namespace DogSitter.DAL.Repositories
             return entity.Entity.Id;
         }
 
-        public void Update(Sitter sitter)
+        public void Update(Sitter exitingSitter, Sitter sitterToUpdate)
         {
-            var entity = GetById(sitter.Id);
-            entity.Passport = sitter.Passport;
-            entity.FirstName = sitter.FirstName;
-            entity.LastName = sitter.LastName;
-            entity.Contacts = sitter.Contacts;
-            entity.SubwayStation = sitter.SubwayStation;
-            entity.Information = sitter.Information;
-            entity.Services = sitter.Services;
+            exitingSitter.Passport = sitterToUpdate.Passport;
+            exitingSitter.FirstName = sitterToUpdate.FirstName;
+            exitingSitter.LastName = sitterToUpdate.LastName;
+            exitingSitter.Contacts = sitterToUpdate.Contacts;
+            exitingSitter.SubwayStation = sitterToUpdate.SubwayStation;
+            exitingSitter.Information = sitterToUpdate.Information;
+            exitingSitter.Services = sitterToUpdate.Services;
             _context.SaveChanges();
         }
 
-        public void Update(int id, bool isDeleted)
+        public void UpdateOrDelete(Sitter sitter, bool isDeleted)
         {
-            Sitter sitter = GetById(id);
             sitter.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
