@@ -28,6 +28,9 @@ namespace DogSitter.DAL.Repositories
         public Order GetById(int id) =>
              _context.Orders.Where(x => x.Id == id)
             .Include(w => w.Customer)
+            .Include(w => w.Service) 
+            .Include(w => w.Sitter)
+            .Include(w => w.SitterWorkTime)
             .FirstOrDefault();
 
         public List<Order> GetAll() =>

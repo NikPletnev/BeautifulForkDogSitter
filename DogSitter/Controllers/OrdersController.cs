@@ -45,20 +45,6 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            //var newDog = _dogService.GetDogById(order.DogId);
-            //var newSitter = _sitterService.GetById(order.SitterId);
-            //var newServiceList = new List<ServiceModel>();
-            //foreach(var item in order.ServicesId)
-            //{
-            //    newServiceList.Add(_serviceService.GetServiceById(item));
-            //}
-            //var newWorkTime = _workTimeService.GetWorkTimeById(order.SitterWorkTimeId);
-            //var newOrder = _service.GetOrderById(id);
-            //newOrder.Dog = newDog;
-            //newOrder.Sitter = newSitter;
-            //newOrder.Services = newServiceList;
-            //newOrder.SitterWorkTime = newWorkTime;
-
             _service.Update(userId.Value, _mapper.Map<OrderModel>(order));
             return Ok();
         }
@@ -101,13 +87,13 @@ namespace DogSitter.API.Controllers
             {
                 return Unauthorized("Invalid token, please try again");
             }
-            var userOrder = _service.GetAllOrdersByCustomerId(userId.Value, id).First(w => w.Id == id);
+            var userOrder = _service.GetOrderById(id);
             if(userOrder == null)
             {
                 return Unauthorized("Invalid token, acsess denied");
             }
 
-            _service.AddCommentAndMarkAboutOrder(userId.Value, _mapper.Map<OrderModel>(order));
+            _service.AddCommentAndMarkAboutOrder(id, _mapper.Map<OrderModel>(order));
             return Ok();
         }
 

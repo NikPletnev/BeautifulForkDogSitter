@@ -93,6 +93,7 @@ namespace DogSitter.BLL.Services
                 }
 
                 _workTimeRepository.ChangeWorkTimeStatus(workTime, true);
+                order.SitterWorkTime = workTime;
 
             }
             if (order.Status == Status.Created)
@@ -137,16 +138,12 @@ namespace DogSitter.BLL.Services
 
         public List<OrderModel> GetAllOrdersByCustomerId(int userId, int id)
         {
-            var customer = _userRepository.GetUserById(id);
+            var customer = _userRepository.GetUserById(userId);
             if (customer == null || customer.Role != Role.Customer)
             {
                 throw new EntityNotFoundException($"Customer {id} was not found");
             }
             
-            if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
-            {
-                throw new AccessException("Not enough rights");
-            }
             return _map.Map<List<OrderModel>>(_rep.GetAllOrdersByCustomerId(id));
         }
 
@@ -166,7 +163,10 @@ namespace DogSitter.BLL.Services
             {
                 SitterNewRating += item.Mark.Value;
             }
-            SitterNewRating /= orders.Count;
+            if (orders.Count > 0)
+            {
+                SitterNewRating /= orders.Count;
+            }
             sitter.Rating = SitterNewRating;
             _sitterRepository.ChangeRating(sitter);
         }
