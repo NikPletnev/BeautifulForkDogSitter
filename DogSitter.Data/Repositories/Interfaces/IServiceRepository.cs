@@ -4,7 +4,7 @@ namespace DogSitter.DAL.Repositories
 {
     public interface IServiceRepository
     {
-        void AddService(Serviсe service);
+        int AddService(Serviсe service);
         List<Serviсe> GetAllServices();
         List<Serviсe> GetAllServicesBySitterId(int id);
         Serviсe GetServiceById(int id);

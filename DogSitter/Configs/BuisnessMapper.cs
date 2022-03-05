@@ -32,14 +32,13 @@ namespace DogSitter.API.Configs
 
             CreateMap<SitterInsertInputModel, SitterModel>();
             CreateMap<SitterModel, SitterOutputModel>();
+            CreateMap<SitterModel, SitterForAdminOutputModel>();
 
             CreateMap<CustomerModel, CustomerOutputModel>();
-            CreateMap<CustomerInputModel, CustomerModel>();            
+            CreateMap<CustomerInputModel, CustomerModel>();
 
             CreateMap<SubwayStationModel, SubwayStationOutputModel>();
             CreateMap<SubwayStationInputModel, SubwayStationModel>();
-            //CreateMap<SubwayStationOutputModel, SubwayStationModel>();
-
 
             CreateMap<DogModel, DogOutputModel>();
             CreateMap<DogUpdateInputModel, DogModel>();
@@ -50,8 +49,8 @@ namespace DogSitter.API.Configs
             CreateMap<WorkTimeModel, WorkTimeOutputModel>();
             CreateMap<WorkTimeUpdateInputModel, WorkTimeModel>();
 
-            CreateMap<ContactModel, CommentForAdminOutputModel>();
-            CreateMap<ContactModel, ContactOutputModel>();
+            CreateMap<CommentModel, CommentForAdminOutputModel>();
+            CreateMap<CommentModel, ContactOutputModel>();
             CreateMap<CommentInsertInputModel, CommentModel>();
         }
     }

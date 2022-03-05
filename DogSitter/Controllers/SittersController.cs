@@ -35,8 +35,16 @@ namespace DogSitter.API.Controllers
             }
 
             var sitter = _service.GetById(id);
-            var sitterModel = _mapper.Map<SitterOutputModel>(sitter);
-            return Ok(sitterModel);
+            if(User.IsInRole("Admin"))
+            {
+                var sitterModel = _mapper.Map<SitterForAdminOutputModel>(sitter);
+                return Ok(sitterModel);
+            }
+            else
+            {
+                var sitterModel = _mapper.Map<SitterOutputModel>(sitter);
+                return Ok(sitterModel);
+            }
         }
 
         [HttpGet]
@@ -145,6 +153,14 @@ namespace DogSitter.API.Controllers
 
             var sitters = _service.GetAllSittersWithWorkTimeBySubwayStation(_mapper.Map<SubwayStationModel>(subwayStation));
             var sittersModel = _mapper.Map<SitterOutputModel>(sitters);
+            return Ok(sittersModel);
+        }
+
+        [HttpGet]
+        public ActionResult<List<SitterOutputModel>> GetAllSittersWithServices()
+        {
+            var sitters = _service.GetAllSittersWithServices();
+            var sittersModel = _mapper.Map<List<SitterOutputModel>>(sitters);
             return Ok(sittersModel);
         }
     }

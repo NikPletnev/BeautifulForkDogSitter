@@ -86,9 +86,9 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _subwayStationService.AddSubwayStation(_mapper.Map<SubwayStationModel>(subwayStation));
+            var subwayStationId = _subwayStationService.AddSubwayStation(_mapper.Map<SubwayStationModel>(subwayStation));
 
-            return _mapper.Map<SubwayStationOutputModel>(subwayStation);
+            return StatusCode(StatusCodes.Status201Created, subwayStationId);
         }
 
         //api/subwayStation/77
