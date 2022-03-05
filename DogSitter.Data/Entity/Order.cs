@@ -16,8 +16,8 @@ namespace DogSitter.DAL.Entity
         public bool IsDeleted { get; set; }
         [Required]
         public virtual Customer Customer { get; set; }
-        [Required]
         public virtual Sitter Sitter { get; set; }
+        public virtual WorkTime SitterWorkTime { get; set; }
         public int? CommentId { get; set; }
         public virtual Comment Comment { get; set; }
         public virtual Dog Dog { get; set; }

@@ -10,5 +10,6 @@ namespace DogSitter.BLL.Services.Interfaces
         List<OrderModel> GetAllOrdersBySitterId(int userId, int id);
         void Update(int userId, OrderModel orderModel);
         void AddCommentAndMarkAboutOrder(int id, OrderModel order);
+        OrderModel GetOrderById(int id);
     }
 }

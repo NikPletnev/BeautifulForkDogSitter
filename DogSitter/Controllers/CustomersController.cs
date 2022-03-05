@@ -24,7 +24,7 @@ namespace DogSitter.Controllers
             _service = customerService;
         }
 
-        [AuthorizeRole(Role.Admin)]
+        [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Get customer by id")]
         [SwaggerResponse(201, "Ok")]

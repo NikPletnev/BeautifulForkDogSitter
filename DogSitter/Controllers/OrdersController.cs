@@ -4,6 +4,7 @@ using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
+using DogSitter.BLL.Services;
 using DogSitter.BLL.Services.Interfaces;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -17,14 +18,23 @@ namespace DogSitter.API.Controllers
     {
         private IOrderService _service;
         private IMapper _mapper;
+        private IDogService _dogService;
+        private ISitterService _sitterService;
+        private IServiceService _serviceService;
+        private IWorkTimeService _workTimeService;
 
-        public OrdersController(IMapper mapper, IOrderService orderService)
+        public OrdersController(IMapper mapper, IOrderService orderService, IDogService dogService,
+            ISitterService sitterService, IServiceService serviceService, IWorkTimeService workTimeService)
         {
             _service = orderService;
             _mapper = mapper;
+            _dogService = dogService;
+            _sitterService = sitterService;
+            _serviceService = serviceService;
+            _workTimeService = workTimeService;
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [AuthorizeRole(Role.Admin, Role.Customer)]
         [SwaggerOperation(Summary = "Update order")]
         [SwaggerResponse(204, "NoContent")]
@@ -33,7 +43,7 @@ namespace DogSitter.API.Controllers
         [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
-        public ActionResult UpdateOrder([FromRoute] int id, [FromBody] OrderUpdateInputModel order)
+        public ActionResult UpdateOrder([FromBody] OrderUpdateInputModel order)
         {
             var userId = this.GetUserId();
             if (userId == null)
@@ -84,6 +94,25 @@ namespace DogSitter.API.Controllers
 
             _service.EditOrderStatusByOrderId(userId.Value, id, order.OrderNewStatus);
             return NoContent();
+        }
+
+        [AuthorizeRole(Role.Customer)]
+        [HttpPatch("leave-comment/{id}")]
+        public IActionResult LeaveCommnetAndMark(int id, [FromBody] OrderUpdateCommentAndMarkModel order)
+        {
+            var userId = this.GetUserId();
+            if (userId == null)
+            {
+                return Unauthorized("Invalid token, please try again");
+            }
+            var userOrder = _service.GetOrderById(id);
+            if (userOrder == null)
+            {
+                return Unauthorized("Invalid token, acsess denied");
+            }
+
+            _service.AddCommentAndMarkAboutOrder(id, _mapper.Map<OrderModel>(order));
+            return Ok();
         }
 
     }

@@ -36,15 +36,15 @@ namespace DogSitter.BLL.Tests
             //given
             var workTime = _workTimeMocks.GetMockWorkTime();
 
-            _workTimeRepositoryMock.Setup(m => m.AddWorkTime(workTime)).Returns(expected);
+            _workTimeRepositoryMock.Setup(m => m.AddWorkTime(workTime, It.IsAny<Sitter>()));
             _userRepositoryMock.Setup(x => x.GetUserById(workTime.Sitter.Id)).Returns(workTime.Sitter);
 
             //when 
-            var actual = _service.AddWorkTime(workTime.Sitter.Id, _mapper.Map<WorkTimeModel>(workTime));
+            _service.AddWorkTime(workTime.Sitter.Id, _mapper.Map<WorkTimeModel>(workTime));
 
             //then
-            _workTimeRepositoryMock.Verify(m => m.AddWorkTime(It.IsAny<WorkTime>()), Times.Once);
-            Assert.AreEqual(actual, expected);
+            _workTimeRepositoryMock.Verify(m => m.AddWorkTime(It.IsAny<WorkTime>(), It.IsAny<Sitter>()),Times.Once);
+            
         }
 
         [Test]

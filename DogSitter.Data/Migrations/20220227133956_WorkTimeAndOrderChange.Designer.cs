@@ -4,6 +4,7 @@ using DogSitter.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogSitter.DAL.Migrations
 {
     [DbContext(typeof(DogSitterContext))]
-    partial class DogSitterContextModelSnapshot : ModelSnapshot
+    [Migration("20220227133956_WorkTimeAndOrderChange")]
+    partial class WorkTimeAndOrderChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,7 +209,7 @@ namespace DogSitter.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("SitterId")
+                    b.Property<int>("SitterId")
                         .HasColumnType("int");
 
                     b.Property<int?>("SitterWorkTimeId")
@@ -831,9 +833,7 @@ namespace DogSitter.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsBusy")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -987,7 +987,9 @@ namespace DogSitter.DAL.Migrations
 
                     b.HasOne("DogSitter.DAL.Entity.Sitter", "Sitter")
                         .WithMany("Orders")
-                        .HasForeignKey("SitterId");
+                        .HasForeignKey("SitterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DogSitter.DAL.Entity.WorkTime", "SitterWorkTime")
                         .WithMany()

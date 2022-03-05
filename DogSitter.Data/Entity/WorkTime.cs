@@ -11,6 +11,7 @@ namespace DogSitter.DAL.Entity
         public DateTime End { get; set; }
         [Required]
         public Weekday Weekday { get; set; }
+        public bool IsBusy { get; set; }
         public bool IsDeleted { get; set; }
         public virtual Sitter Sitter { get; set; }
 

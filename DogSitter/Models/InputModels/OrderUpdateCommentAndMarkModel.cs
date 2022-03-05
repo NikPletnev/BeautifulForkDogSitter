@@ -6,6 +6,6 @@ namespace DogSitter.API.Models.InputModels
     {
         [Range(0,5, ErrorMessage = "Недопустимая оценка")]
         public int Mark { get; set; }
-        public CommentInsertInputModel comment { get; set; }
+        public CommentInsertInputModel Comment { get; set; }
     }
 }

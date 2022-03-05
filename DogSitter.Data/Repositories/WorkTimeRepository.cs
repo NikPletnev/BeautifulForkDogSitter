@@ -14,12 +14,17 @@ namespace DogSitter.DAL.Repositories
         public WorkTime GetWorkTimeById(int id) =>
                      _context.WorkTimes.FirstOrDefault(w => w.Id == id);
 
-        public int AddWorkTime(WorkTime workTime)
+        public int AddWorkTime(WorkTime workTime, Sitter sitter)
         {
-            _context.WorkTimes.Add(workTime);
+            workTime.Sitter = sitter;
+            if(sitter.WorkTime == null)
+            {
+                sitter.WorkTime = new List<WorkTime>();
+            }
+            sitter.WorkTime.Add(workTime);
+            var workTimeId = _context.WorkTimes.Add(workTime);
             _context.SaveChanges();
-
-            return workTime.Id;
+            return workTimeId.Entity.Id;
         }
 
         public void UpdateWorkTime(WorkTime exitingWorkTime, WorkTime worktimeToUpdate)
@@ -33,6 +38,18 @@ namespace DogSitter.DAL.Repositories
         public void UpdateOrDeleteWorkTime(WorkTime workTime, bool IsDeleted)
         {
             workTime.IsDeleted = IsDeleted;
+            _context.SaveChanges();
+        }
+
+        public List<WorkTime> GetWorkTimeBySitterId(int id)
+        {
+            var result = _context.WorkTimes.Where(w => w.Sitter.Id == id).ToList();
+            return result;
+        }
+        
+        public void ChangeWorkTimeStatus(WorkTime workTime, bool isBusy)
+        {
+            workTime.IsBusy = isBusy;
             _context.SaveChanges();
         }
     }
