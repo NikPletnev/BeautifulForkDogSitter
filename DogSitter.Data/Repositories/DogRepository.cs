@@ -17,10 +17,11 @@ namespace DogSitter.DAL.Repositories
         public Dog GetDogById(int id) =>
                      _context.Dogs.FirstOrDefault(x => x.Id == id);
 
-        public void AddDog(Dog dog)
+        public int AddDog(Dog dog)
         {
             _context.Dogs.Add(dog);
             _context.SaveChanges();
+            return dog.Id;
         }
 
         public void UpdateDog(Dog dog)
