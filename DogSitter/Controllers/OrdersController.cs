@@ -4,14 +4,10 @@ using DogSitter.API.Extensions;
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
+using DogSitter.BLL.Services;
 using DogSitter.BLL.Services.Interfaces;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
-using DogSitter.API.Attribute;
-using DogSitter.DAL.Enums;
-using DogSitter.API.Extensions;
-using DogSitter.BLL.Services.Interfaces;
-using DogSitter.BLL.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.API.Controllers
@@ -105,12 +101,12 @@ namespace DogSitter.API.Controllers
         public IActionResult LeaveCommnetAndMark(int id, [FromBody] OrderUpdateCommentAndMarkModel order)
         {
             var userId = this.GetUserId();
-            if(userId == null)
+            if (userId == null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
             var userOrder = _service.GetOrderById(id);
-            if(userOrder == null)
+            if (userOrder == null)
             {
                 return Unauthorized("Invalid token, acsess denied");
             }
