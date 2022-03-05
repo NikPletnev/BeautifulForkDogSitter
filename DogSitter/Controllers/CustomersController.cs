@@ -55,8 +55,8 @@ namespace DogSitter.Controllers
         [HttpPost]
         public ActionResult RegisterCustomer([FromBody] CustomerInputModel customer)
         {
-            _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
-            return StatusCode(StatusCodes.Status201Created);
+           var id = _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
+            return StatusCode(StatusCodes.Status201Created, id);
         }
 
         [AuthorizeRole(Role.Customer)]

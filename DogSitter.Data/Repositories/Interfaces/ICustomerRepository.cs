@@ -4,7 +4,7 @@ namespace DogSitter.DAL.Repositories
 {
     public interface ICustomerRepository
     {
-        void AddCustomer(Customer customer);
+        int AddCustomer(Customer customer);
         void DeleteCustomerById(int id);
         List<Customer> GetAllCustomers();
         Customer GetCustomerById(int id);

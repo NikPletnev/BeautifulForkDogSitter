@@ -4,7 +4,7 @@ namespace DogSitter.BLL.Services
 {
     public interface ICustomerService
     {
-        void AddCustomer(CustomerModel customer);
+        int AddCustomer(CustomerModel customer);
         void DeleteCustomerById(int userId, int id);
         List<CustomerModel> GetAllCustomers();
         CustomerModel GetCustomerById(int id);
