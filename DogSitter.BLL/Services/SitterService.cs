@@ -70,13 +70,13 @@ namespace DogSitter.BLL.Services
             {
                 throw new AccessException("Not enough rights");
             }
-            var sitter = _mapper.Map<Sitter>(sitterModel);
-            var entity = _sitterRepository.GetById(sitterModel.Id);
-            if (entity == null)
+            var sitterToUpdate = _mapper.Map<Sitter>(sitterModel);
+            var exitingSitter = _sitterRepository.GetById(sitterModel.Id);
+            if (exitingSitter is null)
             {
                 throw new EntityNotFoundException($"Sitter {sitterModel.Id} was not found");
             }
-            _sitterRepository.Update(sitter);
+            _sitterRepository.Update(exitingSitter, sitterToUpdate);
         }
 
         public void DeleteById(int userId, int id)
@@ -91,8 +91,7 @@ namespace DogSitter.BLL.Services
                 throw new AccessException("Not enough rights");
             }
 
-            bool delete = true;
-            _sitterRepository.Update(id, delete);
+            _sitterRepository.UpdateOrDelete(entity, true);
             _sitterRepository.EditProfileStateBySitterId(id, false);
         }
 
@@ -103,7 +102,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
-            _sitterRepository.Update(id, false);
+            _sitterRepository.UpdateOrDelete(entity, false);
         }
 
         public void ConfirmProfileSitterById(int id)
