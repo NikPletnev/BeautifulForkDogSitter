@@ -1,7 +1,5 @@
 ﻿using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
-
-namespace DogSitter.API.Models
 ﻿using DogSitter.DAL.Enums;
 using System.ComponentModel.DataAnnotations;
 
