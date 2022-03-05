@@ -4,8 +4,8 @@ namespace DogSitter.API.Models
 {
     public class SubwayStationInputModel
     {
-        public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Укажите станцию метро")]
+        [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
     }
 }

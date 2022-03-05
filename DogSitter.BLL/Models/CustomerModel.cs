@@ -4,9 +4,10 @@
     {
         public List<DogModel> Dogs { get; set; }
         public List<SitterModel> Sitter { get; set; }
+        public int AddressId { get; set; }
         public AddressModel Address { get; set; }
         public List<OrderModel> Orders { get; set; }
-
+        public List<CommentModel> Comments { get; set; }
         public override bool Equals(object obj)
         {
             if (Contacts != null && ((CustomerModel)obj).Contacts != null)

@@ -207,7 +207,10 @@ namespace DogSitter.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("SitterId")
+                    b.Property<int?>("SitterId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SitterWorkTimeId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -226,6 +229,8 @@ namespace DogSitter.DAL.Migrations
                     b.HasIndex("DogId");
 
                     b.HasIndex("SitterId");
+
+                    b.HasIndex("SitterWorkTimeId");
 
                     b.ToTable("Orders");
                 });
@@ -825,6 +830,11 @@ namespace DogSitter.DAL.Migrations
                     b.Property<DateTime>("End")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsBusy")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -977,9 +987,11 @@ namespace DogSitter.DAL.Migrations
 
                     b.HasOne("DogSitter.DAL.Entity.Sitter", "Sitter")
                         .WithMany("Orders")
-                        .HasForeignKey("SitterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SitterId");
+
+                    b.HasOne("DogSitter.DAL.Entity.WorkTime", "SitterWorkTime")
+                        .WithMany()
+                        .HasForeignKey("SitterWorkTimeId");
 
                     b.Navigation("Comment");
 
@@ -988,6 +1000,8 @@ namespace DogSitter.DAL.Migrations
                     b.Navigation("Dog");
 
                     b.Navigation("Sitter");
+
+                    b.Navigation("SitterWorkTime");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Serviсe", b =>

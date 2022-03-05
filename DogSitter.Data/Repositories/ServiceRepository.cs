@@ -17,10 +17,12 @@ namespace DogSitter.DAL.Repositories
         public Serviсe GetServiceById(int id) =>
             _context.Services.FirstOrDefault(s => s.Id == id);
 
-        public void AddService(Serviсe service)
+        public int AddService(Serviсe service)
         {
             _context.Services.Add(service);
             _context.SaveChanges();
+
+            return service.Id;
         }
 
         public void UpdateService(Serviсe exitingServiсe, Serviсe serviceToUpdate)
@@ -40,5 +42,7 @@ namespace DogSitter.DAL.Repositories
 
         public List<Serviсe> GetAllServicesBySitterId(int id) =>
             _context.Sitters.First(s => s.Id == id).Services.Where(s => !s.IsDeleted).ToList();
+
+
     }
 }

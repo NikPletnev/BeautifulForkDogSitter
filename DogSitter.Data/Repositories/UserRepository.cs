@@ -13,5 +13,11 @@ namespace DogSitter.DAL.Repositories
 
         public User GetUserById(int id) =>
              _context.Users.FirstOrDefault(x => x.Id == id);
+
+        public void ChangeUserPassword(string password, User user)
+        {
+            user.Password = password;
+            _context.SaveChanges();
+        }
     }
 }

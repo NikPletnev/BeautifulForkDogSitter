@@ -1,15 +1,11 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
-    public class ChangeRatingTestCaseSource: IEnumerable
+    public class ChangeRatingTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {

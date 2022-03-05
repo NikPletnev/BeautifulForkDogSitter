@@ -7,6 +7,7 @@ using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.API.Controllers
 {
@@ -26,6 +27,13 @@ namespace DogSitter.API.Controllers
         //api/admins/42
         [AuthorizeRole(Role.Admin)]
         [HttpPut]
+        [SwaggerOperation(Summary = "Update admin")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public IActionResult UpdateAdmin([FromBody] AdminUpdateInputModel admin)
         {
             var userId = this.GetUserId();
@@ -41,6 +49,11 @@ namespace DogSitter.API.Controllers
         //api/admins
         [HttpGet]
         [Authorize]
+        [SwaggerOperation(Summary = "Get all admins")]
+        [SwaggerResponse(200, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<List<AdminOutputModel>> GetAllAdmins()
         {
             var userId = this.GetUserId();

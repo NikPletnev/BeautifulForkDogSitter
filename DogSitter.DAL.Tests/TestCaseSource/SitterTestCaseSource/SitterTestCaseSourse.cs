@@ -61,7 +61,6 @@ namespace DogSitter.DAL.Tests.TestCaseSource
         public static Sitter GetSitter() =>
             new Sitter()
             {
-                Id = 3,
                 FirstName = "Хьюго",
                 LastName = "Флюгер",
                 Password = "flug123",

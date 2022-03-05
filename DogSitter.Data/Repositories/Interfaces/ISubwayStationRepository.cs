@@ -4,7 +4,7 @@ namespace DogSitter.DAL.Repositories
 {
     public interface ISubwayStationRepository
     {
-        void AddSubwayStation(SubwayStation subwayStation);
+        int AddSubwayStation(SubwayStation subwayStation);
         List<SubwayStation> GetAllSubwayStations();
         List<SubwayStation> GetAllSubwayStationsWhereSitterExist();
         SubwayStation GetSubwayStationById(int id);

@@ -2,6 +2,7 @@
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
+using System.Linq.Expressions;
 
 namespace DogSitter.API.Configs
 {
@@ -13,9 +14,6 @@ namespace DogSitter.API.Configs
             CreateMap<AdminInsertInputModel, AdminModel>();
             CreateMap<AdminUpdateInputModel, AdminModel>();
             CreateMap<AdminModel, AdminOutputModel>().ReverseMap();
-
-            CreateMap<ContactModel, ContactOutputModel>();
-            CreateMap<ContactInsertInputModel, ContactModel>();
 
             CreateMap<ContactModel, ContactOutputModel>()
             .ForMember(dest => dest.ContactType, act => act.MapFrom(src => src.ContactType));
@@ -32,12 +30,14 @@ namespace DogSitter.API.Configs
             CreateMap<ServiceInsertInputModel, ServiceModel>();
             CreateMap<ServiceUpdateInputModel, ServiceModel>();
             CreateMap<ServiceModel, ServiceOutputModel>();
+            CreateMap<ServiceInsertInputModel, ServiceOutputModel>();
 
             CreateMap<SitterInsertInputModel, SitterModel>();
             CreateMap<SitterModel, SitterOutputModel>();
+            CreateMap<SitterModel, SitterForAdminOutputModel>();
 
             CreateMap<CustomerModel, CustomerOutputModel>();
-            CreateMap<CustomerInputModel, CustomerModel>();            
+            CreateMap<CustomerInputModel, CustomerModel>();
 
             CreateMap<SubwayStationModel, SubwayStationOutputModel>();
             CreateMap<SubwayStationInputModel, SubwayStationModel>();
@@ -47,12 +47,27 @@ namespace DogSitter.API.Configs
 
             CreateMap<OrderModel, OrderOutputModel>();
             CreateMap<OrderUpdateCommentAndMarkModel, OrderModel>();
+            CreateMap<int, ServiceModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src));
+            CreateMap<OrderUpdateInputModel, OrderModel>()
+                .ForMember(m => m.Dog, opt => opt.MapFrom(o => new DogModel { Id = o.DogId }))
+                .ForMember(m => m.Sitter, opt => opt.MapFrom(o => new SitterModel { Id = o.SitterId }))
+                .ForMember(m => m.Services, opt => opt.MapFrom(o => o.ServicesId ))
+                .ForMember(m => m.SitterWorkTime, opt => opt.MapFrom(o => new WorkTimeModel { Id = o.SitterWorkTimeId}));
+                              
+            CreateMap<OrderInsertInputModel, OrderOutputModel>();
+            CreateMap<OrderInsertInputModel, OrderModel>();
 
+            CreateMap<WorkTimeModel, WorkTimeOutputModel>();
+            CreateMap<WorkTimeUpdateInputModel, WorkTimeModel>();
 
-            CreateMap<ContactModel, CommentForAdminOutputModel>();
-            CreateMap<ContactModel, ContactOutputModel>();
+            CreateMap<CommentModel, CommentForAdminOutputModel>();
+            CreateMap<CommentModel, ContactOutputModel>();
             CreateMap<CommentInsertInputModel, CommentModel>();
 
+            CreateMap<WorkTimeModel, WorkTimeOutputModel>();
+            CreateMap<WorkTimeInsertInputModel, WorkTimeOutputModel>();
+            CreateMap<WorkTimeInsertInputModel, WorkTimeModel>();
 
         }
     }

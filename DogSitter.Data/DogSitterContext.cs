@@ -106,6 +106,11 @@ namespace DogSitter.DAL
             .Property(w => w.IsDeleted)
             .HasDefaultValue(0);
 
+            modelBuilder.Entity<WorkTime>()
+            .Property(w => w.IsBusy)
+            .HasDefaultValue(0);
+
+
             #endregion
 
             #region Subway Stations

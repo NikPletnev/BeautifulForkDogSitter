@@ -40,13 +40,14 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<ServiceModel>>(services);
         }
 
-        public void AddService(int userId, ServiceModel serviceModel)
+        public int AddService(int userId, ServiceModel serviceModel)
         {
             var service = _mapper.Map<Serviсe>(serviceModel);
 
             var user = _userRepository.GetUserById(userId);
             service.Sitter = (Sitter)user;
-            _serviceRepository.AddService(service);
+
+            return _serviceRepository.AddService(service);
         }
 
         public void UpdateService(int userId, int id, ServiceModel serviceModel)

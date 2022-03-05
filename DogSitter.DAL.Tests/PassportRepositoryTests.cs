@@ -57,49 +57,6 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void AddPassportTest()
-        {
-            //given
-            var passport =
-             new Passport()
-             {
-                 FirstName = "Денис",
-                 LastName = "Денискин",
-                 DateOfBirth = new DateTime(1999, 2, 3),
-                 Seria = "3456",
-                 Number = "876543",
-                 IssueDate = new DateTime(1976, 5, 23),
-                 Division = "МВД",
-                 DivisionCode = "345-555",
-                 Registration = "г. Казань, ул. Академика Павлова, д. 10, кв. 90",
-             };
-
-            var expected =
-             new Passport()
-             {
-                 Id = 1,
-                 FirstName = "Денис",
-                 LastName = "Денискин",
-                 DateOfBirth = new DateTime(1999, 2, 3),
-                 Seria = "3456",
-                 Number = "876543",
-                 IssueDate = new DateTime(1976, 5, 23),
-                 Division = "МВД",
-                 DivisionCode = "345-555",
-                 Registration = "г. Казань, ул. Академика Павлова, д. 10, кв. 90",
-                 IsDeleted = false
-             };
-
-            //when
-            _rep.AddPassport(passport);
-            var actual = _context.Passports.FirstOrDefault(z => z.Id == 1);
-
-            //then
-            Assert.AreEqual(expected, actual);
-
-        }
-
         [TestCaseSource(typeof(PassportTestCaseSource))]
         public void UpdatePassportTest(List<Passport> passports)
         {

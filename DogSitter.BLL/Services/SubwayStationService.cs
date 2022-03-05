@@ -22,7 +22,7 @@ namespace DogSitter.BLL.Services
             var subwayStation = _subwayStationRepository.GetSubwayStationById(id);
 
             if (subwayStation is null)
-                throw new EntityNotFoundException($"{subwayStation} c Id = {id} не найдена!");
+                throw new EntityNotFoundException($"Subway station wasn't found");
 
             return _mapper.Map<SubwayStationModel>(subwayStation);
         }
@@ -40,11 +40,11 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<SubwayStationModel>>(subwayStationsWithExitingSitter);
         }
 
-        public void AddSubwayStation(SubwayStationModel subwayStationModel)
+        public int AddSubwayStation(SubwayStationModel subwayStationModel)
         {
             var subwayStation = _mapper.Map<SubwayStation>(subwayStationModel);
 
-            _subwayStationRepository.AddSubwayStation(subwayStation);
+            return _subwayStationRepository.AddSubwayStation(subwayStation);
         }
 
         public void UpdateSubwayStation(int id, SubwayStationModel subwayStationModel)

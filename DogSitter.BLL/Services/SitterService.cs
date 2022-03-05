@@ -32,6 +32,13 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
+            sitter.Passport.FirstName = Crypter.Decrypt(sitter.Passport.FirstName);
+            sitter.Passport.LastName = Crypter.Decrypt(sitter.Passport.LastName);
+            sitter.Passport.Seria = Crypter.Decrypt(sitter.Passport.Seria);
+            sitter.Passport.Number = Crypter.Decrypt(sitter.Passport.Number);
+            sitter.Passport.Division = Crypter.Decrypt(sitter.Passport.Division);
+            sitter.Passport.DivisionCode = Crypter.Decrypt(sitter.Passport.DivisionCode);
+            sitter.Passport.Registration = Crypter.Decrypt(sitter.Passport.Registration);
             return _mapper.Map<SitterModel>(sitter);
         }
 
@@ -41,12 +48,20 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<SitterModel>>(sitters);
         }
 
-        public void Add(SitterModel sitterModel)
+        public int Add(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
             sitter.Role = Role.Sitter;
             sitter.Password = PasswordHash.HashPassword(sitter.Password);
-            _sitterRepository.Add(sitter);
+            sitter.Passport.FirstName = Crypter.Encrypt(sitter.Passport.FirstName);
+            sitter.Passport.LastName = Crypter.Encrypt(sitter.Passport.LastName);
+            sitter.Passport.Seria = Crypter.Encrypt(sitter.Passport.Seria);
+            sitter.Passport.Number = Crypter.Encrypt(sitter.Passport.Number);
+            sitter.Passport.Division = Crypter.Encrypt(sitter.Passport.Division);
+            sitter.Passport.DivisionCode = Crypter.Encrypt(sitter.Passport.DivisionCode);
+            sitter.Passport.Registration = Crypter.Encrypt(sitter.Passport.Registration);
+            var id = _sitterRepository.Add(sitter);
+            return id;
         }
 
         public void Update(int id, SitterModel sitterModel)
@@ -55,13 +70,13 @@ namespace DogSitter.BLL.Services
             {
                 throw new AccessException("Not enough rights");
             }
-            var sitter = _mapper.Map<Sitter>(sitterModel);
-            var entity = _sitterRepository.GetById(sitterModel.Id);
-            if (entity == null)
+            var sitterToUpdate = _mapper.Map<Sitter>(sitterModel);
+            var exitingSitter = _sitterRepository.GetById(sitterModel.Id);
+            if (exitingSitter is null)
             {
                 throw new EntityNotFoundException($"Sitter {sitterModel.Id} was not found");
             }
-            _sitterRepository.Update(sitter);
+            _sitterRepository.Update(exitingSitter, sitterToUpdate);
         }
 
         public void DeleteById(int userId, int id)
@@ -76,8 +91,7 @@ namespace DogSitter.BLL.Services
                 throw new AccessException("Not enough rights");
             }
 
-            bool delete = true;
-            _sitterRepository.Update(id, delete);
+            _sitterRepository.UpdateOrDelete(entity, true);
             _sitterRepository.EditProfileStateBySitterId(id, false);
         }
 
@@ -88,7 +102,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
-            _sitterRepository.Update(id, false);
+            _sitterRepository.UpdateOrDelete(entity, false);
         }
 
         public void ConfirmProfileSitterById(int id)
@@ -133,6 +147,18 @@ namespace DogSitter.BLL.Services
 
             return _mapper.Map<List<SitterModel>>(_sitterRepository
                 .GetAllSittersWithWorkTimeBySubwayStation(subwayStation));
+        }
+
+        public List<SitterModel> GetAllSittersWithServices()
+        {
+            var sitters = _sitterRepository.GetAllSitterWithService();
+
+            if (sitters == null)
+            {
+                throw new EntityNotFoundException($"Sitters was not found");
+            }
+
+            return _mapper.Map<List<SitterModel>>(sitters);
         }
     }
 }

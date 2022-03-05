@@ -1,5 +1,6 @@
 ﻿using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -12,32 +13,38 @@ namespace DogSitter.DAL.Repositories
             _context = context;
         }
 
-        public void Add(Order order)
+        public int Add(Order order, Customer customer)
         {
-            _context.Orders.Add(order);
+            order.Customer = customer;
+            if (customer.Orders == null)
+            {
+                customer.Orders = new List<Order>();
+            }
+            customer.Orders.Add(order);
+            var orderId = _context.Orders.Add(order);
             _context.SaveChanges();
+            return orderId.Entity.Id;
         }
 
         public Order GetById(int id) =>
-             _context.Orders.FirstOrDefault(x => x.Id == id);
+             _context.Orders.Where(x => x.Id == id)
+            .Include(w => w.Customer)
+            .Include(w => w.Service) 
+            .Include(w => w.Sitter)
+            .Include(w => w.SitterWorkTime)
+            .FirstOrDefault();
 
         public List<Order> GetAll() =>
             _context.Orders.Where(d => !d.IsDeleted).ToList();
 
-        public void Update(Order entity, Order order)
+        public void Update(Order entity)
         {
-            entity.OrderDate = order.OrderDate;
-            entity.Price = order.Price;
-            entity.Status = order.Status;
-            entity.Mark = order.Mark;
-            entity.Sitter = order.Sitter;
-            entity.Comment = order.Comment;
             _context.SaveChanges();
         }
 
         public void Update(Order order, bool isDeleted)
         {
-             order.IsDeleted = isDeleted;
+            order.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
 
