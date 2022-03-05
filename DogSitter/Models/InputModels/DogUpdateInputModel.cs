@@ -10,6 +10,7 @@ namespace DogSitter.API.Models
         [Required]
         [Range(0, 30, ErrorMessage = "Недопустимый возраст")]
         public int Age { get; set; }
+
         [Required]
         [Range(0, 100, ErrorMessage = "Недопустимый вес")]
         public double Weight { get; set; }
