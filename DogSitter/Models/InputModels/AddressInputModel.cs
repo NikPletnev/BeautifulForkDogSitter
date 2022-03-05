@@ -12,9 +12,11 @@ namespace DogSitter.API.Models
         [Required]
         public string Street { get; set; }
         [Required]
+        [RegularExpression(@"^([1-9]\d*)?\d$")]
         public int House { get; set; }
         public int Apartament { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Укажите станцию метро")]
+        [StringLength(50, MinimumLength = 3)]
         public List<SubwayStationInputModel> SubwayStations { get; set; }
     }
 }

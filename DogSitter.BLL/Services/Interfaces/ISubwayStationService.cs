@@ -4,7 +4,7 @@ namespace DogSitter.BLL.Services
 {
     public interface ISubwayStationService
     {
-        void AddSubwayStation(SubwayStationModel subwayStationModel);
+        int AddSubwayStation(SubwayStationModel subwayStationModel);
         void DeleteSubwayStation(int id);
         List<SubwayStationModel> GetAllSubwayStations();
         List<SubwayStationModel> GetAllSubwayStationsWhereSitterExist();

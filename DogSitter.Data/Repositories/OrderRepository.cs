@@ -23,6 +23,7 @@ namespace DogSitter.DAL.Repositories
             customer.Orders.Add(order);
             _context.Orders.Add(order);
             _context.SaveChanges();
+            return entity.Entity.Id;
         }
 
         public Order GetById(int id) =>
@@ -43,7 +44,7 @@ namespace DogSitter.DAL.Repositories
 
         public void Update(Order order, bool isDeleted)
         {
-             order.IsDeleted = isDeleted;
+            order.IsDeleted = isDeleted;
             _context.SaveChanges();
         }
 

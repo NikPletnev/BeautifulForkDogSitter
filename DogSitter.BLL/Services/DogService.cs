@@ -77,7 +77,7 @@ namespace DogSitter.BLL.Services
             _rep.UpdateDog(id, false);
         }
 
-        public void AddDog(int userId, DogModel dogModel)
+        public int AddDog(int userId, DogModel dogModel)
         {
             if (dogModel.Name == String.Empty ||
                 dogModel.Age <= 0 ||
@@ -87,7 +87,7 @@ namespace DogSitter.BLL.Services
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new dog");
             }
             dogModel.Customer = _mapper.Map<CustomerModel>(_userRepository.GetUserById(userId));
-            _rep.AddDog(_mapper.Map<Dog>(dogModel));
+            return _rep.AddDog(_mapper.Map<Dog>(dogModel));
         }
 
         public List<DogModel> GetAllDogs()

@@ -38,7 +38,7 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<CustomerModel>>(customers);
         }
 
-        public void AddCustomer(CustomerModel customerModel)
+        public int AddCustomer(CustomerModel customerModel)
         {
             if (customerModel.FirstName == String.Empty ||
                 customerModel.LastName == String.Empty ||
@@ -50,7 +50,8 @@ namespace DogSitter.BLL.Services
             var customer = _mapper.Map<Customer>(customerModel);
             customer.Role = Role.Customer;
             customer.Password = PasswordHash.HashPassword(customer.Password);
-            _repository.AddCustomer(customer);
+            var id = _repository.AddCustomer(customer);
+            return id;
         }
 
         public void UpdateCustomer(int id, CustomerModel customer)

@@ -24,10 +24,11 @@ namespace DogSitter.DAL.Repositories
         public List<Customer> GetAllCustomers() =>
             _context.Customers.Where(d => !d.IsDeleted).Include(w => w.Orders).ToList();
 
-        public void AddCustomer(Customer customer)
+        public int AddCustomer(Customer customer)
         {
-            _context.Customers.Add(customer);
+            var entity = _context.Customers.Add(customer);
             _context.SaveChanges();
+            return entity.Entity.Id;
         }
 
         public void UpdateCustomer(Customer customer, Customer entity)

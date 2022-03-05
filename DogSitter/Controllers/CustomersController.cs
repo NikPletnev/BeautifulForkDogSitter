@@ -6,6 +6,7 @@ using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.Controllers
 {
@@ -25,6 +26,11 @@ namespace DogSitter.Controllers
 
         [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get customer by id")]
+        [SwaggerResponse(201, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<CustomerOutputModel> GetCustomerById(int id)
         {
             var userId = this.GetUserId();
@@ -40,6 +46,11 @@ namespace DogSitter.Controllers
 
         [AuthorizeRole(Role.Admin)]
         [HttpGet]
+        [SwaggerOperation(Summary = "Get all customer")]
+        [SwaggerResponse(201, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<List<CustomerOutputModel>> GetAllCustomers()
         {
             var userId = this.GetUserId();
@@ -53,14 +64,28 @@ namespace DogSitter.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Add customer")]
+        [SwaggerResponse(201, "Created")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public ActionResult RegisterCustomer([FromBody] CustomerInputModel customer)
         {
-            _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
-            return StatusCode(StatusCodes.Status201Created);
+           var id = _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
+            return StatusCode(StatusCodes.Status201Created, id);
         }
 
         [AuthorizeRole(Role.Customer)]
         [HttpPut]
+        [SwaggerOperation(Summary = "Update customer")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public ActionResult UpdateCustomer([FromBody] CustomerInputModel customer)
         {
             var userId = this.GetUserId();
@@ -75,6 +100,12 @@ namespace DogSitter.Controllers
 
         [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Delete customer")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult DeleteCustomer(int id)
         {
             var userId = this.GetUserId();
@@ -89,6 +120,12 @@ namespace DogSitter.Controllers
 
         [AuthorizeRole(Role.Admin)]
         [HttpPatch("{id}")]
+        [SwaggerOperation(Summary = "Restore customer")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult RestoreCustomer(int id)
         {
             var userId = this.GetUserId();

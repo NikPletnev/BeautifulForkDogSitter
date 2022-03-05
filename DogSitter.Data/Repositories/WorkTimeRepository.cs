@@ -24,6 +24,8 @@ namespace DogSitter.DAL.Repositories
             sitter.WorkTime.Add(workTime);
             _context.WorkTimes.Add(workTime);
             _context.SaveChanges();
+
+            return workTime.Id;
         }
 
         public void UpdateWorkTime(WorkTime exitingWorkTime, WorkTime worktimeToUpdate)

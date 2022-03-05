@@ -92,6 +92,7 @@ namespace DogSitter.API.Extensions
             services.AddSwaggerGen(opt =>
             {
                 opt.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAPI", Version = "v1" });
+                opt.EnableAnnotations();
                 opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -117,6 +118,8 @@ namespace DogSitter.API.Extensions
                 });
             });
         }
+
+
     }
 }
 

@@ -7,6 +7,7 @@ using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.API.Controllers
 {
@@ -27,6 +28,12 @@ namespace DogSitter.API.Controllers
         //api/dogs/42
         [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Delete dog")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public IActionResult DeleteDog(int id)
         {
             var userId = this.GetUserId();
@@ -42,6 +49,12 @@ namespace DogSitter.API.Controllers
         //api/dogs/42
         [AuthorizeRole(Role.Admin)]
         [HttpPatch("{id}")]
+        [SwaggerOperation(Summary = "Restore dog")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public IActionResult RestoreDog(int id)
         {
             var userId = this.GetUserId();
@@ -57,6 +70,13 @@ namespace DogSitter.API.Controllers
         //api/dogs/42
         [AuthorizeRole(Role.Customer)]
         [HttpPut("{id}")]
+        [SwaggerOperation(Summary = "Update dog")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public IActionResult UpdateDog(int idDog, [FromBody] DogUpdateInputModel dog)
         {
             var userId = this.GetUserId();
@@ -72,6 +92,13 @@ namespace DogSitter.API.Controllers
         //api/dogs
         [AuthorizeRole(Role.Customer)]
         [HttpPost]
+        [SwaggerOperation(Summary = "Add dog")]
+        [SwaggerResponse(201, "Created")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
+        [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public ActionResult<DogOutputModel> AddDog([FromBody] DogInsertInputModel dog)
         {
             var userId = this.GetUserId();
@@ -80,12 +107,17 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.AddDog(userId.Value, _map.Map<DogModel>(dog));
-            return StatusCode(StatusCodes.Status201Created, _map.Map<DogOutputModel>(dog));
+            int id = _service.AddDog(userId.Value, _map.Map<DogModel>(dog));
+            return StatusCode(StatusCodes.Status201Created, id);
         }
 
         [AuthorizeRole(Role.Admin)]
         [HttpGet]
+        [SwaggerOperation(Summary = "Get all dog")]
+        [SwaggerResponse(201, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<List<DogOutputModel>> GetAllDogs()
         {
             var userId = this.GetUserId();
@@ -100,6 +132,11 @@ namespace DogSitter.API.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get dogs by customerId")]
+        [SwaggerResponse(201, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<List<DogOutputModel>> GetDogsByCustomerId(int id)
         {
             var userId = this.GetUserId();

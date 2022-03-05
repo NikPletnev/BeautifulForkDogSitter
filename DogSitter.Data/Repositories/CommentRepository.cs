@@ -12,10 +12,11 @@ namespace DogSitter.DAL.Repositories
             _context = context;
         }
 
-        public void Add(Comment comment)
+        public int Add(Comment comment)
         {
-            _context.Comments.Add(comment);
+            var entity = _context.Comments.Add(comment);
             _context.SaveChanges();
+            return entity.Entity.Id;
         }
 
         public Comment GetById(int id) =>

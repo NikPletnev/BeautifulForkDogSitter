@@ -30,34 +30,21 @@ namespace DogSitter.BLL.Tests
             _workTimeMocks = new WorkTimeTestMocks();
         }
 
-        [Test]
-        public void AddWorkTimeTest()
+        [TestCase(77)]
+        public void AddWorkTimeTest(int expected)
         {
             //given
-            var work = _workTimeMocks.GetMockWorkTime();
-            WorkTimeModel workTime = new WorkTimeModel()
-            {
-                Id = 1,
-                End = new DateTime(),
-                Start = new DateTime(),
-                Weekday = Weekday.Sunday,
-                Sitter = new SitterModel()
-                {
-                    Id = 1,
-                    FirstName = "FirstName1",
-                    LastName = "LastName1",
-                    Password = "Password1",
-                    IsDeleted = false
-                }
-            };
-            _workTimeRepositoryMock.Setup(m => m.AddWorkTime(work, work.Sitter));
-            _userRepositoryMock.Setup(x => x.GetUserById(work.Sitter.Id)).Returns(work.Sitter);
+            var workTime = _workTimeMocks.GetMockWorkTime();
+
+            _workTimeRepositoryMock.Setup(m => m.AddWorkTime(workTime)).Returns(expected);
+            _userRepositoryMock.Setup(x => x.GetUserById(workTime.Sitter.Id)).Returns(workTime.Sitter);
 
             //when 
-            _service.AddWorkTime(workTime.Sitter.Id, workTime);
+            var actual = _service.AddWorkTime(workTime.Sitter.Id, _mapper.Map<WorkTimeModel>(workTime));
 
             //then
-            _workTimeRepositoryMock.Verify(m => m.AddWorkTime(It.IsAny<WorkTime>(), It.IsAny<Sitter>()), Times.Once);
+            _workTimeRepositoryMock.Verify(m => m.AddWorkTime(It.IsAny<WorkTime>()), Times.Once);
+            Assert.AreEqual(actual, expected);
         }
 
         [Test]

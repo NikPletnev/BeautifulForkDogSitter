@@ -5,13 +5,18 @@ namespace DogSitter.API.Models
     public class DogUpdateInputModel
     {
         [Required]
+        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
         public string Name { get; set; }
-        [Required]        
+        [Required]
+        [Range(0, 30, ErrorMessage = "Недопустимый возраст")]
         public int Age { get; set; }
         [Required]
+        [Range(0, 100, ErrorMessage = "Недопустимый вес")]
         public double Weight { get; set; }
+        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
         public string Description { get; set; }
         [Required]
+        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
         public string Breed { get; set; }
     }
 }

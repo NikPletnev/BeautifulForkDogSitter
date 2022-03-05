@@ -78,20 +78,21 @@ namespace DogSitter.BLL.Tests
             Assert.Throws<EntityNotFoundException>(() => _service.GetServiceById(0));
         }
 
-        [Test]
-        public void AddServiceTest()
+        [TestCase(77)]
+        public void AddServiceTest(int expected)
         {
             //given
             var service = _serviceMocks.GetMockService();
 
-            _serviceRepositoryMock.Setup(m => m.AddService(service));
+            _serviceRepositoryMock.Setup(m => m.AddService(service)).Returns(expected);
             _userRepositoryMock.Setup(x => x.GetUserById(service.Sitter.Id)).Returns(service.Sitter);
 
             //when 
-            _service.AddService(service.Sitter.Id, _mapper.Map<ServiceModel>(service));
+            var actual = _service.AddService(service.Sitter.Id, _mapper.Map<ServiceModel>(service));
 
             //then
             _serviceRepositoryMock.Verify(m => m.AddService(It.IsAny<Serviсe>()), Times.Once);
+            Assert.AreEqual(actual, expected);
         }
 
         [Test]

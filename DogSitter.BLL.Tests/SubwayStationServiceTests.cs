@@ -84,17 +84,18 @@ namespace DogSitter.BLL.Tests
             Assert.Throws<EntityNotFoundException>(() => _subwayStationService.GetSubwayStationById(0));
         }
 
-        [Test]
-        public void AddSubwayStationTest()
+        [TestCase(77)]
+        public void AddSubwayStationTest(int expected)
         {
             //given
-            _subwayStationRepositoryMock.Setup(m => m.AddSubwayStation(It.IsAny<SubwayStation>()));
+            _subwayStationRepositoryMock.Setup(m => m.AddSubwayStation(It.IsAny<SubwayStation>())).Returns(expected);
 
             //when 
-            _subwayStationService.AddSubwayStation(It.IsAny<SubwayStationModel>());
+            var actual = _subwayStationService.AddSubwayStation(It.IsAny<SubwayStationModel>());
 
             //then
             _subwayStationRepositoryMock.Verify(m => m.AddSubwayStation(It.IsAny<SubwayStation>()), Times.Once);
+            Assert.AreEqual(actual, expected);
         }
 
         [Test]
