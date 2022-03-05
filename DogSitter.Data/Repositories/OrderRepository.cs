@@ -33,15 +33,8 @@ namespace DogSitter.DAL.Repositories
         public List<Order> GetAll() =>
             _context.Orders.Where(d => !d.IsDeleted).ToList();
 
-        public void Update(Order entity, Order order)
+        public void Update(Order entity)
         {
-            entity.OrderDate = order.OrderDate;
-            entity.Price = order.Price;
-            entity.Status = order.Status;
-            entity.Mark = order.Mark;
-            entity.Sitter = order.Sitter;
-            entity.Comment = order.Comment;
-            entity.SitterWorkTime = order.SitterWorkTime;
             _context.SaveChanges();
         }
 

@@ -18,9 +18,11 @@ namespace DogSitter.BLL.Services
         private ICustomerRepository _customerRepository;
         private IUserRepository _userRepository;
         private IWorkTimeRepository _workTimeRepository;
+        private IDogRepository _dogRepository;
+        private IServiceRepository _serviceRepository;
 
         public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository,
-            ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository, IWorkTimeRepository workTimeRepository)
+            ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository, IWorkTimeRepository workTimeRepository, IDogRepository dogRepository, IServiceRepository serviceRepository)
         {
             _rep = orderRepository;
             _customerRepository = customerRepository;
@@ -28,6 +30,8 @@ namespace DogSitter.BLL.Services
             _map = mapper;
             _userRepository = userRepository;
             _workTimeRepository = workTimeRepository;
+            _dogRepository = dogRepository;
+            _serviceRepository = serviceRepository;
         }
 
         public void Add(int userId, OrderModel orderModel)
@@ -45,35 +49,55 @@ namespace DogSitter.BLL.Services
 
         public void Update(int userId, OrderModel orderModel)
         {
+            var user = _userRepository.GetUserById(userId);
+            if (user.Role != Role.Customer)
+            {
+                throw new AccessException("Not enough rights");
+            }
+
             var order = _rep.GetById(orderModel.Id);
             if (order == null)
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
 
-            if(order.Sitter != null)
+            order.OrderDate = orderModel.OrderDate;
+            order.Sitter = _sitterRepository.GetById(orderModel.Sitter.Id);
+            order.Dog = _dogRepository.GetDogById(orderModel.Dog.Id);
+            if (order.Service != null)
             {
-            var orderOldWorkTime = _workTimeRepository.GetWorkTimeById(order.SitterWorkTime.Id);
-            _workTimeRepository.ChangeWorkTimeStatus(orderOldWorkTime, false);
+                order.Service.Clear();
+            }
+            else
+            {
+                order.Service = new List<DAL.Entity.Serviсe>();
+            }
+            foreach (var item in orderModel.Services)
+            {
+                order.Service.Add(_serviceRepository.GetServiceById(item.Id));
             }
 
-            var workTime = _workTimeRepository.GetWorkTimeById(orderModel.SitterWorkTime.Id);
-
-            if (workTime == null)
+            if (order.SitterWorkTime != null)
             {
-                throw new WorkTimeBusyException("This worktime is busy");
+                var orderOldWorkTime = _workTimeRepository.GetWorkTimeById(order.SitterWorkTime.Id);
+                _workTimeRepository.ChangeWorkTimeStatus(orderOldWorkTime, false);
             }
-
-            _workTimeRepository.ChangeWorkTimeStatus(workTime, true);
-
-            var user = _userRepository.GetUserById(userId);
-            if ((user.Role == Role.Customer && orderModel.Customer.Id != userId))
+            if (orderModel.SitterWorkTime != null)
             {
-                throw new AccessException("Not enough rights");
+
+                var workTime = _workTimeRepository.GetWorkTimeById(orderModel.SitterWorkTime.Id);
+
+                if (workTime == null)
+                {
+                    throw new WorkTimeBusyException("This worktime is busy");
+                }
+
+                _workTimeRepository.ChangeWorkTimeStatus(workTime, true);
+
             }
             if (order.Status == Status.Created)
             {
-                _rep.Update(order, _map.Map<Order>(orderModel));
+                _rep.Update(order);
             }
             else
             {

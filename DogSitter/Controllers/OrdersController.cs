@@ -58,6 +58,7 @@ namespace DogSitter.API.Controllers
             //newOrder.Sitter = newSitter;
             //newOrder.Services = newServiceList;
             //newOrder.SitterWorkTime = newWorkTime;
+
             _service.Update(userId.Value, _mapper.Map<OrderModel>(order));
             return Ok();
         }
