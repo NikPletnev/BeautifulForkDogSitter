@@ -2,14 +2,10 @@
 using DogSitter.DAL.Enums;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
-    public class LeaveCommentAndRateOrderTestCaseSource: IEnumerable
+    public class LeaveCommentAndRateOrderTestCaseSource : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
@@ -20,7 +16,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Price = 100,
                 Status = Status.Created,
                 Mark = 5,
-                Comment = new Comment() { Id = 23, Text = "All right", Date = new DateTime(2000,11,11), IsDeleted = false },
+                Comment = new Comment() { Id = 23, Text = "All right", Date = new DateTime(2000, 11, 11), IsDeleted = false },
                 IsDeleted = false
             };
 
@@ -33,7 +29,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 IsDeleted = false
             };
 
-  
+
 
 
             yield return new object[] { dbOrder, order };

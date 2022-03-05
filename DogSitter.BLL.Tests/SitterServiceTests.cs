@@ -47,21 +47,20 @@ namespace DogSitter.BLL.Tests
             _sitterRepositoryMock.Verify(m => m.GetAll(), Times.Once);
         }
 
-        [Test]
-        public void GetSitterById()
+        [TestCaseSource(typeof(GetSitterByIdTestCaseSource))]
+        public void GetSitterById(Sitter sitter)
         {
-            var expected = SitterTestCaseSourse.GetMockSitter();
-            _sitterRepositoryMock.Setup(x => x.GetById(expected.Id)).Returns(expected);
+            _sitterRepositoryMock.Setup(x => x.GetById(sitter.Id)).Returns(sitter);
 
-            var actual = _service.GetById(expected.Id);
+            var actual = _service.GetById(sitter.Id);
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.FirstName, actual.FirstName);
-            Assert.AreEqual(expected.LastName, actual.LastName);
-            Assert.AreEqual(expected.Password, actual.Password);
-            Assert.AreEqual(expected.Information, actual.Information);
-            Assert.AreEqual(expected.IsDeleted, actual.IsDeleted);
-            _sitterRepositoryMock.Verify(m => m.GetById(expected.Id), Times.Once);
+            Assert.AreEqual(sitter.FirstName, actual.FirstName);
+            Assert.AreEqual(sitter.LastName, actual.LastName);
+            Assert.AreEqual(sitter.Password, actual.Password);
+            Assert.AreEqual(sitter.Information, actual.Information);
+            Assert.AreEqual(sitter.IsDeleted, actual.IsDeleted);
+            _sitterRepositoryMock.Verify(m => m.GetById(sitter.Id), Times.Once);
         }
 
         [Test]
@@ -261,6 +260,28 @@ namespace DogSitter.BLL.Tests
 
             Assert.Throws<EntityNotFoundException>(() =>
             _service.GetAllSittersWithWorkTimeBySubwayStation(new SubwayStationModel()));
+        }
+
+        [TestCaseSource(typeof(GetAllSittersWithServicesTestCaseSourse))]
+        public void GetAllSittersWithServicesTest_ShouldReturnSittersWithServices(List<Sitter> sitters)
+        {
+            var expected = sitters;
+            _sitterRepositoryMock.Setup(x => x.GetAllSitterWithService()).Returns(expected);
+
+            var actual = _service.GetAllSittersWithServices();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Count, actual.Count);
+            _sitterRepositoryMock.Verify(m => m.GetAllSitterWithService(), Times.Once);
+        }
+
+        [Test]
+        public void GetAllSittersWithServicesTest_ShouldReturnException()
+        {
+            _sitterRepositoryMock.Setup(x => x.GetAllSitterWithService()).Returns((List<Sitter>)null);
+
+            Assert.Throws<EntityNotFoundException>(() => _service.GetAllSittersWithServices());
+            _sitterRepositoryMock.Verify(m => m.GetAllSitterWithService(), Times.Once);
         }
     };
 }

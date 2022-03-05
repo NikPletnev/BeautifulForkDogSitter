@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
+using DogSitter.BLL.Services.Interfaces;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
-using DogSitter.BLL.Services.Interfaces;
 
 namespace DogSitter.BLL.Services
 {
@@ -104,7 +104,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Customer {id} was not found");
             }
-            
+
             if (_userRepository.GetUserById(userId).Role != Role.Admin && userId != id)
             {
                 throw new AccessException("Not enough rights");
@@ -116,7 +116,7 @@ namespace DogSitter.BLL.Services
         {
             var entity = _rep.GetById(id);
             var sitter = _sitterRepository.GetById(entity.Sitter.Id);
-            
+
             if (entity == null)
             {
                 throw new EntityNotFoundException($"Order was not found");

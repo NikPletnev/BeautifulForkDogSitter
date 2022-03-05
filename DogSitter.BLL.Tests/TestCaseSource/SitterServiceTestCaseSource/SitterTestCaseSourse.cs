@@ -1,5 +1,6 @@
 ﻿using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
+using System;
 using System.Collections.Generic;
 
 namespace DogSitter.BLL.Tests.TestCaseSource
@@ -42,7 +43,22 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Information = "SITTERs GOD",
                 AddressId = 3,
                 PassportId = 3,
-                IsDeleted = false
+                IsDeleted = false,
+                Passport = new Passport()
+                {
+                    Id= 4,
+                    FirstName = "Хьюго",
+                    LastName = "Флюгер",
+                    DateOfBirth = new DateTime(1987, 11, 11),
+                    Seria = "4556",
+                    Number = "123456",
+                    IssueDate = new DateTime(1987, 11, 11),
+                    Division = "МВД по РТ",
+                    DivisionCode = "160-098",
+                    Registration = "г. Казань, ул. Фучика, д. 45, кв. 4",
+                    IsDeleted = false
+
+                }
             };
         public static SitterModel GetMockSitterModel() =>
             new SitterModel()
@@ -52,7 +68,22 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 LastName = "Хьюгер",
                 Password = "hug123",
                 Information = "SITTERs DEVIL",
-                IsDeleted = false
+                IsDeleted = false,
+                Passport = new PassportModel()
+                {
+                    Id = 4,
+                    FirstName = "",
+                    LastName = "Иван",
+                    DateOfBirth = new DateTime(1987, 11, 11),
+                    Seria = "4556",
+                    Number = "123456",
+                    IssueDate = new DateTime(1987, 11, 11),
+                    Division = "МВД по РТ",
+                    DivisionCode = "160-098",
+                    Registration = "г. Казань, ул. Фучика, д. 45, кв. 4",
+                    IsDeleted = false
+
+                }
             };
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
@@ -30,6 +31,15 @@ namespace DogSitter.BLL.Services
             }
 
             var passport = _map.Map<Passport>(passportModel);
+
+            passport.FirstName = Crypter.Encrypt(passport.FirstName);
+            passport.LastName = Crypter.Encrypt(passport.LastName);
+            passport.Seria = Crypter.Encrypt(passport.Seria);
+            passport.Number = Crypter.Encrypt(passport.Number);
+            passport.Division = Crypter.Encrypt(passport.Division);
+            passport.DivisionCode = Crypter.Encrypt(passport.DivisionCode);
+            passport.Registration = Crypter.Encrypt(passport.Registration);
+
             var entity = _rep.GetPassportById(id);
 
             if (entity == null)

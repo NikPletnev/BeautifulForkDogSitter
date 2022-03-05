@@ -20,10 +20,12 @@ namespace DogSitter.DAL.Repositories
         public SubwayStation GetSubwayStationById(int id) =>
             _context.SubwayStations.FirstOrDefault(s => s.Id == id);
 
-        public void AddSubwayStation(SubwayStation subwayStation)
+        public int AddSubwayStation(SubwayStation subwayStation)
         {
             _context.SubwayStations.Add(subwayStation);
             _context.SaveChanges();
+
+            return subwayStation.Id;
         }
 
         public void UpdateSubwayStation(SubwayStation exitingSubwayStation, SubwayStation subwayStationToUpdate)

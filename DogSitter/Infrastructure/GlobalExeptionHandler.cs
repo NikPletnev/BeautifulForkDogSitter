@@ -1,5 +1,6 @@
-﻿using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Exeptions;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text.Json;
 
 namespace DogSitter.API.Infrastructure
