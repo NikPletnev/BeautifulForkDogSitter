@@ -38,7 +38,7 @@ namespace DogSitter.API.Controllers
             _workTimeService = workTimeService;
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [AuthorizeRole(Role.Admin, Role.Customer)]
         [SwaggerOperation(Summary = "Update order")]
         [SwaggerResponse(204, "NoContent")]
@@ -47,7 +47,7 @@ namespace DogSitter.API.Controllers
         [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
-        public ActionResult UpdateOrder([FromRoute] int id, [FromBody] OrderUpdateInputModel order)
+        public ActionResult UpdateOrder([FromBody] OrderUpdateInputModel order)
         {
             var userId = this.GetUserId();
             if (userId == null)

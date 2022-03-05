@@ -4,7 +4,7 @@ namespace DogSitter.DAL.Repositories
 {
     public interface IOrderRepository
     {
-        void Add(Order order, Customer customer);
+        int Add(Order order, Customer customer);
         void EditOrderStatusByOrderId(Order order, int status);
         List<Order> GetAll();
         List<Order> GetAllOrdersByCustomerId(int id);

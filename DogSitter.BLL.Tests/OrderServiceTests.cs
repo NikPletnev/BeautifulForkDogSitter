@@ -21,6 +21,8 @@ namespace DogSitter.BLL.Tests
         private Mock<ISitterRepository> _sitterRepMock;
         private Mock<IUserRepository> _userRepMock;
         private Mock<IWorkTimeRepository> _workTimeRepositoryMock;
+        private Mock<IDogRepository> _dogRepositoryMock;
+        private Mock<IServiceRepository> _serviceRepositoryMock;
         private IMapper _mapper;
         private OrderService _service;
 
@@ -33,9 +35,10 @@ namespace DogSitter.BLL.Tests
             _sitterRepMock = new Mock<ISitterRepository>();
             _userRepMock = new Mock<IUserRepository>();
             _workTimeRepositoryMock = new Mock<IWorkTimeRepository>();
-
+            _dogRepositoryMock = new Mock<IDogRepository> ();
+            _serviceRepositoryMock = new Mock<IServiceRepository> ();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new OrderService(_orderRepositoryMock.Object, _customerRepMock.Object, _sitterRepMock.Object, _mapper, _userRepMock.Object, _workTimeRepositoryMock.Object);
+            _service = new OrderService(_orderRepositoryMock.Object, _customerRepMock.Object, _sitterRepMock.Object, _mapper, _userRepMock.Object, _workTimeRepositoryMock.Object, _dogRepositoryMock.Object, _serviceRepositoryMock.Object);
         }
 
         [TestCaseSource(typeof(UpdateOrderTestCaseSource))]
@@ -43,13 +46,13 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
-            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>())).Verifiable();
+            _orderRepositoryMock.Setup(x => x.Update(It.IsAny<Order>())).Verifiable();
             _userRepMock.Setup(x => x.GetUserById(entity.Customer.Id)).Returns(entity.Customer);
             //when       
             _service.Update(entity.Customer.Id, model);
             //then            
             _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
-            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Once);
+            _orderRepositoryMock.Verify(x => x.Update(It.IsAny<Order>()), Times.Once);
         }
 
         [TestCaseSource(typeof(UpdateOrderTestCaseSource))]
@@ -57,14 +60,14 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _orderRepositoryMock.Setup(x => x.GetById(id));
-            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>()));
+            _orderRepositoryMock.Setup(x => x.Update(It.IsAny<Order>()));
             _userRepMock.Setup(x => x.GetUserById(entity.Customer.Id)).Returns(entity.Customer);
             //when       
 
             //then            
             Assert.Throws<EntityNotFoundException>(() => _service.Update(entity.Customer.Id, model));
             _orderRepositoryMock.Verify(x => x.GetById(id));
-            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
+            _orderRepositoryMock.Verify(x => x.Update(It.IsAny<Order>()), Times.Never);
         }
 
         [TestCaseSource(typeof(UpdateOrderWhenOrderHasBeenAcceptedTestCaseSource))]
@@ -72,14 +75,14 @@ namespace DogSitter.BLL.Tests
         {
             //given
             _orderRepositoryMock.Setup(x => x.GetById(id)).Returns(entity);
-            _orderRepositoryMock.Setup(x => x.Update(entity, It.IsAny<Order>()));
+            _orderRepositoryMock.Setup(x => x.Update(It.IsAny<Order>()));
             _userRepMock.Setup(x => x.GetUserById(entity.Customer.Id)).Returns(entity.Customer);
             //when       
 
             //then            
             Assert.Throws<Exception>(() => _service.Update(entity.Customer.Id, model));
             _orderRepositoryMock.Verify(x => x.GetById(id), Times.Once);
-            _orderRepositoryMock.Verify(x => x.Update(entity, It.IsAny<Order>()), Times.Never);
+            _orderRepositoryMock.Verify(x => x.Update(It.IsAny<Order>()), Times.Never);
         }
 
         [TestCase(1, 2)]

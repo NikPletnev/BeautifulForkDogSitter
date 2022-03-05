@@ -54,10 +54,9 @@ namespace DogSitter.API.Configs
                 .ForMember(m => m.Sitter, opt => opt.MapFrom(o => new SitterModel { Id = o.SitterId }))
                 .ForMember(m => m.Services, opt => opt.MapFrom(o => o.ServicesId ))
                 .ForMember(m => m.SitterWorkTime, opt => opt.MapFrom(o => new WorkTimeModel { Id = o.SitterWorkTimeId}));
-                
-            
-                
+                              
             CreateMap<OrderInsertInputModel, OrderOutputModel>();
+            CreateMap<OrderInsertInputModel, OrderModel>();
 
             CreateMap<WorkTimeModel, WorkTimeOutputModel>();
             CreateMap<WorkTimeUpdateInputModel, WorkTimeModel>();

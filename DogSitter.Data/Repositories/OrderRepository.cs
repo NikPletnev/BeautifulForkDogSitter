@@ -13,7 +13,7 @@ namespace DogSitter.DAL.Repositories
             _context = context;
         }
 
-        public void Add(Order order, Customer customer)
+        public int Add(Order order, Customer customer)
         {
             order.Customer = customer;
             if (customer.Orders == null)
@@ -21,9 +21,9 @@ namespace DogSitter.DAL.Repositories
                 customer.Orders = new List<Order>();
             }
             customer.Orders.Add(order);
-            _context.Orders.Add(order);
+            var orderId = _context.Orders.Add(order);
             _context.SaveChanges();
-            return entity.Entity.Id;
+            return orderId.Entity.Id;
         }
 
         public Order GetById(int id) =>

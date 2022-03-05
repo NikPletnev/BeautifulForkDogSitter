@@ -95,7 +95,7 @@ namespace DogSitter.DAL.Tests
                 },
                 IsDeleted = false
             };
-            _repository.Update(expected, order);
+            _repository.Update(order);
             var actual = _context.Orders.First(x => x.Id == order.Id);
 
             Assert.AreEqual(expected.Id, actual.Id);

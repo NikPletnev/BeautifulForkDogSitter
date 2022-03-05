@@ -42,7 +42,9 @@ namespace DogSitter.BLL.Services
 
             orderModel.Price = GetOrderTotalSum(orderModel);
             var customer = (Customer)_userRepository.GetUserById(userId);
-            _rep.Add(_map.Map<Order>(orderModel), customer);
+            var orderId = _rep.Add(_map.Map<Order>(orderModel), customer);
+
+            return orderId;
         }
 
         public void Update(int userId, OrderModel orderModel)
