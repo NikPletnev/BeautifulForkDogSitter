@@ -65,7 +65,7 @@ namespace DogSitter.DAL.Tests
 
             var actual = _context.Sitters.FirstOrDefault(x => x.Id == expected.Id);
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Id, actual.Id);
         }
 
         [Test]

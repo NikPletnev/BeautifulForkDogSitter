@@ -26,7 +26,7 @@ namespace DogSitter.BLL.Services
             _userRepository = userRepository;
         }
 
-        public void Add(int userId, OrderModel orderModel)
+        public int Add(int userId, OrderModel orderModel)
         {
             if (orderModel.OrderDate == DateTime.MinValue ||
                 orderModel.Price == 0 ||
@@ -36,7 +36,8 @@ namespace DogSitter.BLL.Services
             }
             orderModel.Price = GetOrderTotalSum(orderModel);
             orderModel.Customer = _map.Map<CustomerModel>(_customerRepository.GetCustomerById(userId));
-            _rep.Add(_map.Map<Order>(orderModel));
+            var id = _rep.Add(_map.Map<Order>(orderModel));
+            return id;
         }
 
         public void Update(int userId, OrderModel orderModel)

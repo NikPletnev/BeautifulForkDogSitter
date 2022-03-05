@@ -15,8 +15,8 @@ namespace DogSitter.API.Models
         [RegularExpression(@"^([1-9]\d*)?\d$")]
         public int House { get; set; }
         public int Apartament { get; set; }
-        [Required]
-        [RegularExpression(@"^([1-9]\d*)?\d$")]
+        [Required(ErrorMessage = "Укажите станцию метро")]
+        [StringLength(50, MinimumLength = 3)]
         public List<SubwayStationInputModel> SubwayStations { get; set; }
     }
 }

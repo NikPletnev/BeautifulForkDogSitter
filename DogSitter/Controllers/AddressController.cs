@@ -5,6 +5,7 @@ using DogSitter.API.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.API.Controllers
 {
@@ -21,8 +22,13 @@ namespace DogSitter.API.Controllers
             _mapper = mapper;
         }
 
-        [AuthorizeRole(Role.Admin)]
         [HttpGet]
+        [AuthorizeRole(Role.Admin)]
+        [SwaggerOperation(Summary = "Get all adresses")]
+        [SwaggerResponse(200, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<List<AddressOutputModel>> GetAllAddresses()
         {
             var userId = this.GetUserId();
@@ -35,8 +41,14 @@ namespace DogSitter.API.Controllers
             return Ok(_mapper.Map<List<AddressOutputModel>>(addresses));
         }
 
-        [AuthorizeRole(Role.Admin, Role.Customer)]
         [HttpDelete("{id}")]
+        [AuthorizeRole(Role.Admin, Role.Customer)]
+        [SwaggerOperation(Summary = "Delete address")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult DeleteAddress(int id)
         {
             var userId = this.GetUserId();
@@ -49,8 +61,14 @@ namespace DogSitter.API.Controllers
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        [AuthorizeRole(Role.Admin)]
         [HttpPatch]
+        [AuthorizeRole(Role.Admin)]
+        [SwaggerOperation(Summary = "Restore address")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult RestoreAddress(int id)
         {
             var userId = this.GetUserId();
