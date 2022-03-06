@@ -59,6 +59,7 @@ namespace DogSitter.API.Configs
             CreateMap<OrderInsertInputModel, OrderModel>();
 
             CreateMap<WorkTimeModel, WorkTimeOutputModel>();
+            CreateMap<WorkTimeInsertInputModel, WorkTimeModel>();
             CreateMap<WorkTimeUpdateInputModel, WorkTimeModel>();
 
             CreateMap<CommentModel, CommentForAdminOutputModel>();
