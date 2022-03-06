@@ -33,6 +33,7 @@ namespace DogSitter.API.Configs
             CreateMap<ServiceInsertInputModel, ServiceOutputModel>();
 
             CreateMap<SitterInsertInputModel, SitterModel>();
+            CreateMap<SitterUpdateInputModel, SitterModel>();
             CreateMap<SitterModel, SitterOutputModel>();
             CreateMap<SitterModel, SitterForAdminOutputModel>();
 
