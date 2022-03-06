@@ -18,7 +18,7 @@ namespace DogSitter.API.Models.InputModels
         [Required]
         public PassportInsertInputModel Passport { get; set; }
         [Required]
-        public SubwayStationInputModel SubwayStation { get; set; }
+        public int SubwayStationId { get; set; }
         public string Information { get; set; }
 
     }
