@@ -4,7 +4,7 @@ namespace DogSitter.DAL.Repositories
 {
     public interface IDogRepository
     {
-        void AddDog(Dog dog);
+        int AddDog(Dog dog);
         List<Dog> GetAllDogs();
         List<Dog> GetAllDogsByCustomerId(int id);
         Dog GetDogById(int id);

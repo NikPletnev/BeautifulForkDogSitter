@@ -17,10 +17,11 @@ namespace DogSitter.DAL.Repositories
         public List<Address> GetAllAddress() =>
             _context.Addresses.Where(d => !d.IsDeleted).ToList();
 
-        public void AddAddress(Address address)
+        public int AddAddress(Address address)
         {
-            _context.Addresses.Add(address);
+            var entity = _context.Addresses.Add(address);
             _context.SaveChanges();
+            return entity.Entity.Id;
         }
 
         public void UpdateAddress(Address address)

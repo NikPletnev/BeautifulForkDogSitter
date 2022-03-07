@@ -6,6 +6,7 @@ using DogSitter.API.Models.OutputModels;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace DogSitter.API.Controllers
 {
@@ -24,6 +25,11 @@ namespace DogSitter.API.Controllers
 
         [AuthorizeRole(Role.Admin)]
         [HttpGet]
+        [SwaggerOperation(Summary = "Get all comments")]
+        [SwaggerResponse(200, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult<List<CommentOutputModel>> GetAllComments()
         {
             var userId = this.GetUserId();
@@ -38,6 +44,12 @@ namespace DogSitter.API.Controllers
 
         [AuthorizeRole(Role.Admin)]
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Delete comment")]
+        [SwaggerResponse(204, "NoContent")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
+        [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         public ActionResult DeleteComment(int id)
         {
             var userId = this.GetUserId();
@@ -52,6 +64,11 @@ namespace DogSitter.API.Controllers
 
         [AuthorizeRole(Role.Customer, Role.Sitter, Role.Admin)]
         [HttpGet("sitters/{id}")]
+        [SwaggerOperation(Summary = "Get comments by sitterId")]
+        [SwaggerResponse(201, "Ok")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        [SwaggerResponse(401, "Unauthorized")]
+        [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         public ActionResult GetAllCommentsBySitter(int id)
         {
             var userId = this.GetUserId();

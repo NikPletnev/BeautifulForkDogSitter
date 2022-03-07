@@ -65,7 +65,7 @@ namespace DogSitter.DAL.Tests
 
             var actual = _context.Sitters.FirstOrDefault(x => x.Id == expected.Id);
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Id, actual.Id);
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace DogSitter.DAL.Tests
                 IsDeleted = false
             };
 
-            _repository.Update(expected);
+            _repository.Update(sitter, expected);
             var actual = _context.Sitters.First(x => x.Id == sitter.Id);
 
             Assert.AreEqual(expected.Id, actual.Id);
@@ -120,7 +120,7 @@ namespace DogSitter.DAL.Tests
             _context.Sitters.Add(sitter);
             _context.SaveChanges();
 
-            _repository.Update(sitter.Id, true);
+            _repository.UpdateOrDelete(sitter, true);
 
             Assert.AreEqual(sitter.IsDeleted, true);
         }

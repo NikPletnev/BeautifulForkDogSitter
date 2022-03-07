@@ -48,9 +48,12 @@ namespace DogSitter.BLL.Services
             return _mapper.Map<List<SitterModel>>(sitters);
         }
 
-        public void Add(SitterModel sitterModel)
+        public int Add(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
+            var subwayStation = _subwayStationRepository.GetSubwayStationById(sitterModel.SubwayStation.Id);
+
+            sitter.SubwayStation = subwayStation;
             sitter.Role = Role.Sitter;
             sitter.Password = PasswordHash.HashPassword(sitter.Password);
             sitter.Passport.FirstName = Crypter.Encrypt(sitter.Passport.FirstName);
@@ -60,7 +63,9 @@ namespace DogSitter.BLL.Services
             sitter.Passport.Division = Crypter.Encrypt(sitter.Passport.Division);
             sitter.Passport.DivisionCode = Crypter.Encrypt(sitter.Passport.DivisionCode);
             sitter.Passport.Registration = Crypter.Encrypt(sitter.Passport.Registration);
-            _sitterRepository.Add(sitter);
+
+            var id = _sitterRepository.Add(sitter);
+            return id;
         }
 
         public void Update(int id, SitterModel sitterModel)
@@ -69,13 +74,13 @@ namespace DogSitter.BLL.Services
             {
                 throw new AccessException("Not enough rights");
             }
-            var sitter = _mapper.Map<Sitter>(sitterModel);
-            var entity = _sitterRepository.GetById(sitterModel.Id);
-            if (entity == null)
+            var sitterToUpdate = _mapper.Map<Sitter>(sitterModel);
+            var exitingSitter = _sitterRepository.GetById(sitterModel.Id);
+            if (exitingSitter is null)
             {
                 throw new EntityNotFoundException($"Sitter {sitterModel.Id} was not found");
             }
-            _sitterRepository.Update(sitter);
+            _sitterRepository.Update(exitingSitter, sitterToUpdate);
         }
 
         public void DeleteById(int userId, int id)
@@ -90,8 +95,7 @@ namespace DogSitter.BLL.Services
                 throw new AccessException("Not enough rights");
             }
 
-            bool delete = true;
-            _sitterRepository.Update(id, delete);
+            _sitterRepository.UpdateOrDelete(entity, true);
             _sitterRepository.EditProfileStateBySitterId(id, false);
         }
 
@@ -102,7 +106,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
-            _sitterRepository.Update(id, false);
+            _sitterRepository.UpdateOrDelete(entity, false);
         }
 
         public void ConfirmProfileSitterById(int id)
