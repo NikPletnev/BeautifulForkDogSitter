@@ -56,7 +56,7 @@ namespace DogSitter.BLL.Services
         public void Update(int userId, OrderModel orderModel)
         {
             var user = _userRepository.GetUserById(userId);
-            if (user.Role != Role.Customer)
+            if ((user.Role == Role.Customer && orderModel.Customer.Id != userId))
             {
                 throw new AccessException("Not enough rights");
             }
