@@ -14,6 +14,7 @@ namespace DogSitter.API.Models
         public string LastName { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         [MinLength(4)]
         public string Password { get; set; }
 

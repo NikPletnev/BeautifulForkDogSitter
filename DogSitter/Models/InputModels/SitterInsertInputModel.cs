@@ -5,6 +5,7 @@ namespace DogSitter.API.Models.InputModels
     public class SitterInsertInputModel
     {
         [Required]
+        [DataType(DataType.Password)]
         [MinLength(4)]
         public string Password { get; set; }
         [Required]

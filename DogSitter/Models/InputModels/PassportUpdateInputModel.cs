@@ -1,4 +1,4 @@
-﻿using DogSitter.API.Attribute;
+﻿using DogSitter.API.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.API.Models
@@ -28,6 +28,7 @@ namespace DogSitter.API.Models
 
         [Required]
         [DataType(DataType.Date)]
+        [CorrectPassportIssueDate]
         public DateTime IssueDate { get; set; }
 
         [Required]

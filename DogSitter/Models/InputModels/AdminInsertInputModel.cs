@@ -8,6 +8,7 @@ namespace DogSitter.API.Models
     {
         //добавление
         [Required]
+        [DataType(DataType.Password)]
         [MinLength(4)]
         public string Password { get; set; }
         [Required]
