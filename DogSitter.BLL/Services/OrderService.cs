@@ -30,7 +30,8 @@ namespace DogSitter.BLL.Services
         {
             if (orderModel.OrderDate == DateTime.MinValue ||
                 orderModel.Price == 0 ||
-                orderModel.Status == 0)
+                orderModel.Status == 0 ||
+                orderModel.Sitter == null)
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
             }
@@ -51,7 +52,6 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
-
             var user = _userRepository.GetUserById(userId);
             if ((user.Role == Role.Customer && orderModel.Customer.Id != userId))
             {
