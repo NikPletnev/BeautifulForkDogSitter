@@ -34,12 +34,6 @@ namespace DogSitter.BLL.Services
 
         public int Add(int userId, OrderModel orderModel)
         {
-            if (orderModel.OrderDate == DateTime.MinValue ||
-                orderModel.Status == 0)
-            {
-                throw new ServiceNotEnoughDataExeption($"There is not enough data to create new order");
-            }
-
             orderModel.Price = GetOrderTotalSum(orderModel);
             var customer = (Customer)_userRepository.GetUserById(userId);
             var orderId = _rep.Add(_map.Map<Order>(orderModel), customer);
