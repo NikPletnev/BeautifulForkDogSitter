@@ -71,17 +71,20 @@ namespace DogSitter.BLL.Services
         public void Update(int id, SitterModel sitterModel)
         {
             var exitingSitter = _sitterRepository.GetById(id);
+            if (exitingSitter is null)
+            {
+                throw new EntityNotFoundException($"Sitter was not found");
+            }
 
             if (id != exitingSitter.Id)
             {
                 throw new AccessException("Not enough rights");
             }
-            var sitterToUpdate = _mapper.Map<Sitter>(sitterModel);
 
-            if (exitingSitter is null)
-            {
-                throw new EntityNotFoundException($"Sitter {sitterModel.Id} was not found");
-            }
+            var sitterToUpdate = _mapper.Map<Sitter>(sitterModel);
+            var subwayStation = _subwayStationRepository.GetSubwayStationById(sitterModel.SubwayStation.Id);
+            sitterToUpdate.SubwayStation = subwayStation;
+
             _sitterRepository.Update(exitingSitter, sitterToUpdate);
         }
 

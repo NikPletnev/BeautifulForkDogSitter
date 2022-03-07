@@ -33,6 +33,9 @@ namespace DogSitter.API.Configs
 
             CreateMap<SitterInsertInputModel, SitterModel>()
                 .ForPath(dest => dest.SubwayStation.Id, opt => opt.MapFrom(srs => srs.SubwayStationId));
+            CreateMap<SitterUpdateInputModel, SitterModel>()
+                .ForPath(dest => dest.SubwayStation.Id, opt => opt.MapFrom(srs => srs.SubwayStationId));
+
             CreateMap<SitterModel, SitterOutputModel>();
             CreateMap<SitterModel, SitterForAdminOutputModel>();
 

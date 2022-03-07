@@ -10,6 +10,7 @@ namespace DogSitter.API.Models
         [Required]
         [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
         public string LastName { get; set; }
-        public SubwayStationInputModel SubwayStation { get; set; }
+        public int SubwayStationId { get; set; }
+        public string Information { get; set; }
     }
 }

@@ -44,9 +44,10 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 AddressId = 3,
                 PassportId = 3,
                 IsDeleted = false,
+                SubwayStation = new SubwayStation() { Id = 1 },
                 Passport = new Passport()
                 {
-                    Id= 4,
+                    Id = 4,
                     FirstName = "Хьюго",
                     LastName = "Флюгер",
                     DateOfBirth = new DateTime(1987, 11, 11),
@@ -57,7 +58,33 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     DivisionCode = "160-098",
                     Registration = "г. Казань, ул. Фучика, д. 45, кв. 4",
                     IsDeleted = false
-
+                }
+            };
+        public static Sitter GetMockSitterToUpdate() =>
+            new Sitter()
+            {
+                Id = 3,
+                FirstName = "Хьюго",
+                LastName = "Флюгер",
+                Password = "flug123",
+                Information = "SITTERs GOD",
+                AddressId = 3,
+                PassportId = 3,
+                IsDeleted = false,
+                SubwayStation = new SubwayStation() { Id = 2 },
+                Passport = new Passport()
+                {
+                    Id = 4,
+                    FirstName = "Хьюго",
+                    LastName = "Флюгер",
+                    DateOfBirth = new DateTime(1987, 11, 11),
+                    Seria = "4556",
+                    Number = "123456",
+                    IssueDate = new DateTime(1987, 11, 11),
+                    Division = "МВД по РТ",
+                    DivisionCode = "160-098",
+                    Registration = "г. Казань, ул. Фучика, д. 45, кв. 4",
+                    IsDeleted = false
                 }
             };
         public static SitterModel GetMockSitterModel() =>
@@ -69,6 +96,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Password = "hug123",
                 Information = "SITTERs DEVIL",
                 IsDeleted = false,
+                SubwayStation = new SubwayStationModel() { Id = 1 },
                 Passport = new PassportModel()
                 {
                     Id = 4,
