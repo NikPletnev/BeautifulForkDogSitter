@@ -30,10 +30,9 @@ namespace DogSitter.API.Configs
             CreateMap<ServiceInsertInputModel, ServiceModel>();
             CreateMap<ServiceUpdateInputModel, ServiceModel>();
             CreateMap<ServiceModel, ServiceOutputModel>();
-            CreateMap<ServiceInsertInputModel, ServiceOutputModel>();
 
-            CreateMap<SitterInsertInputModel, SitterModel>();
-            CreateMap<SitterUpdateInputModel, SitterModel>();
+            CreateMap<SitterInsertInputModel, SitterModel>()
+                .ForPath(dest => dest.SubwayStation.Id, opt => opt.MapFrom(srs => srs.SubwayStationId));
             CreateMap<SitterModel, SitterOutputModel>();
             CreateMap<SitterModel, SitterForAdminOutputModel>();
 
@@ -60,6 +59,7 @@ namespace DogSitter.API.Configs
             CreateMap<OrderInsertInputModel, OrderModel>();
 
             CreateMap<WorkTimeModel, WorkTimeOutputModel>();
+            CreateMap<WorkTimeInsertInputModel, WorkTimeModel>();
             CreateMap<WorkTimeUpdateInputModel, WorkTimeModel>();
 
             CreateMap<CommentModel, CommentForAdminOutputModel>();
