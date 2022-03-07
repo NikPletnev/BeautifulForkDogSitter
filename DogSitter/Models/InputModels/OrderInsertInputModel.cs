@@ -10,6 +10,7 @@ namespace DogSitter.API.Models.InputModels
         public DateTime Date { get; set; }
 
         [Required]
+        [Range(0, 100000, ErrorMessage = "Недопустимая цена")]
         public decimal Price { get; set; }
 
         [Required]

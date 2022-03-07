@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DogSitter.API.Attributes.CustomAttributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.API.Models.InputModels
 {
@@ -8,18 +9,24 @@ namespace DogSitter.API.Models.InputModels
         [DataType(DataType.Password)]
         [MinLength(4)]
         public string Password { get; set; }
+
         [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         public string FirstName { get; set; }
+
         [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         public string LastName { get; set; }
+
         [Required]
         public List<ContactInsertInputModel> Contacts { get; set; }
+
         [Required]
         public PassportInsertInputModel Passport { get; set; }
+
         [Required]
         public int SubwayStationId { get; set; }
+
         public string Information { get; set; }
 
     }

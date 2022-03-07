@@ -2,13 +2,11 @@
 using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Models;
-using System.Linq.Expressions;
 
 namespace DogSitter.API.Configs
 {
     public class BuisnessMapper : Profile
     {
-
         public BuisnessMapper()
         {
             CreateMap<AdminInsertInputModel, AdminModel>();
@@ -35,7 +33,6 @@ namespace DogSitter.API.Configs
                 .ForPath(dest => dest.SubwayStation.Id, opt => opt.MapFrom(srs => srs.SubwayStationId));
             CreateMap<SitterUpdateInputModel, SitterModel>()
                 .ForPath(dest => dest.SubwayStation.Id, opt => opt.MapFrom(srs => srs.SubwayStationId));
-
             CreateMap<SitterModel, SitterOutputModel>();
             CreateMap<SitterModel, SitterForAdminOutputModel>();
 
@@ -55,9 +52,9 @@ namespace DogSitter.API.Configs
             CreateMap<OrderUpdateInputModel, OrderModel>()
                 .ForMember(m => m.Dog, opt => opt.MapFrom(o => new DogModel { Id = o.DogId }))
                 .ForMember(m => m.Sitter, opt => opt.MapFrom(o => new SitterModel { Id = o.SitterId }))
-                .ForMember(m => m.Services, opt => opt.MapFrom(o => o.ServicesId ))
-                .ForMember(m => m.SitterWorkTime, opt => opt.MapFrom(o => new WorkTimeModel { Id = o.SitterWorkTimeId}));
-                              
+                .ForMember(m => m.Services, opt => opt.MapFrom(o => o.ServicesId))
+                .ForMember(m => m.SitterWorkTime, opt => opt.MapFrom(o => new WorkTimeModel { Id = o.SitterWorkTimeId }));
+
             CreateMap<OrderInsertInputModel, OrderOutputModel>();
             CreateMap<OrderInsertInputModel, OrderModel>();
 

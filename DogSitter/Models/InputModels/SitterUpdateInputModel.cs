@@ -1,14 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DogSitter.API.Attributes.CustomAttributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.API.Models
 {
     public class SitterUpdateInputModel
     {
         [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         public string FirstName { get; set; }
+
         [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         public string LastName { get; set; }
         public int SubwayStationId { get; set; }
         public string Information { get; set; }
