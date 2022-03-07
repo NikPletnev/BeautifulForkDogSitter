@@ -20,11 +20,11 @@ namespace DogSitter.API.Models
         public DateTime DateOfBirth { get; set; }
 
         [Required]
-        [NumbersOnly]
+        [RegularExpression(@"^([0-9]{2}\s{1}[0-9]{2})?$")]
         public string Seria { get; set; }
 
         [Required]
-        [NumbersOnly]
+        [RegularExpression(@"^([0-9]{6})?$")]
         public string Number { get; set; }
 
         [Required]
@@ -37,7 +37,7 @@ namespace DogSitter.API.Models
         public string Division { get; set; }
 
         [Required]
-        [NumbersOnly]
+        [RegularExpression(@"^([0-9]{3}[-]{1}[0-9]{3})?$")]
         public string DivisionCode { get; set; }
         public string Registration { get; set; }
     }
