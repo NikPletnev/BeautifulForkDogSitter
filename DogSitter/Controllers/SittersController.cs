@@ -26,7 +26,7 @@ namespace DogSitter.API.Controllers
 
         //api/sitters
         [HttpGet("{id}")]
-        [AuthorizeRole(Role.Admin, Role.Customer)]
+        [AuthorizeRole(Role.Admin, Role.Customer, Role.Sitter)]
         [SwaggerOperation(Summary = "Get sitter by id")]
         [SwaggerResponse(200, "OK", typeof(SitterOutputModel))]
         [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
