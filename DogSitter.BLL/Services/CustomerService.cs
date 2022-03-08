@@ -40,13 +40,17 @@ namespace DogSitter.BLL.Services
 
         public int AddCustomer(CustomerModel customerModel)
         {
-            if (customerModel.FirstName == String.Empty ||
-                customerModel.LastName == String.Empty ||
-                customerModel.Password == String.Empty ||
-                customerModel.Contacts.Count == 0)
+            if(customerModel.Address.SubwayStations.Count != 0)
             {
-                throw new ServiceNotEnoughDataExeption($"There is not enough data to add new customer");
+                foreach (var item in customerModel.Address.SubwayStations)
+                {
+                    if(item.Id < 0 && item.Id >72)
+                    {
+                        throw new ServiceNotEnoughDataExeption($"Subway stantion {item.Id} has no exist");
+                    }
+                }
             }
+
             var customer = _mapper.Map<Customer>(customerModel);
             customer.Role = Role.Customer;
             customer.Password = PasswordHash.HashPassword(customer.Password);
@@ -56,12 +60,15 @@ namespace DogSitter.BLL.Services
 
         public void UpdateCustomer(int id, CustomerModel customer)
         {
-            if (customer.FirstName == String.Empty ||
-                customer.LastName == String.Empty ||
-                customer.Password == String.Empty ||
-                customer.Contacts.Count == 0)
+            if (customer.Address.SubwayStations.Count != 0)
             {
-                throw new ServiceNotEnoughDataExeption($"There is not enough data to update customer");
+                foreach (var item in customer.Address.SubwayStations)
+                {
+                    if (item.Id < 0 && item.Id > 72)
+                    {
+                        throw new ServiceNotEnoughDataExeption($"Subway stantion {item.Id} has no exist");
+                    }
+                }
             }
             var customerModel = _mapper.Map<Customer>(customer);
             var entity = _repository.GetCustomerById(id);

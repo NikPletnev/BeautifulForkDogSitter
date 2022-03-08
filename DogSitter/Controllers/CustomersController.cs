@@ -86,7 +86,7 @@ namespace DogSitter.Controllers
         [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
-        public ActionResult UpdateCustomer([FromBody] CustomerInputModel customer)
+        public ActionResult UpdateCustomer([FromBody] CustomerUpdateInputModel customer)
         {
             var userId = this.GetUserId();
             if (userId == null)
