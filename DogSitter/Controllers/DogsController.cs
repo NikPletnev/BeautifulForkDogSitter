@@ -77,7 +77,7 @@ namespace DogSitter.API.Controllers
         [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
-        public IActionResult UpdateDog(int idDog, [FromBody] DogUpdateInputModel dog)
+        public IActionResult UpdateDog(int id, [FromBody] DogUpdateInputModel dog)
         {
             var userId = this.GetUserId();
             if (userId == null)
@@ -85,7 +85,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _service.UpdateDog(userId.Value, idDog, _map.Map<DogModel>(dog));
+            _service.UpdateDog(userId.Value, id, _map.Map<DogModel>(dog));
             return NoContent();
         }
 

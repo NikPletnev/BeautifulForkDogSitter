@@ -1,4 +1,5 @@
 ﻿
+using DogSitter.API.Attributes.CustomAttributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.API.Models
@@ -6,24 +7,24 @@ namespace DogSitter.API.Models
     public class AddressInputModel
     {
         [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         public string Name { get; set; }
-        [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+
+        [Required(ErrorMessage = "Укажите город")]
+        [TextOnly] 
         public string City { get; set; }
-        [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+
+        [Required(ErrorMessage = "Укажите улицу")]
+        [TextOnly]
         public string Street { get; set; }
-        [Required]
-        [RegularExpression(@"^([1-9]\d*)?\d$")]
+
+        [Required(ErrorMessage = "Укажите номер дома")]
+        [Range(1, 1000, ErrorMessage = "Неверный номер дома")]
         public int House { get; set; }
 
-        [Required]
-        [Range(0, 100, ErrorMessage = "Укажите номер квартиры")]
+        [Required(ErrorMessage = "Укажите номер квартиры")]
+        [Range(1, 1000, ErrorMessage = "Неверный номер квартры")]
         public int Apartament { get; set; }
-
-        [Required(ErrorMessage = "Укажите станцию метро")]
-        [StringLength(50, MinimumLength = 3)]
-        public List<SubwayStationInputModel> SubwayStations { get; set; }
+        public List<int> SubwayStationsId { get; set; }
     }
 }

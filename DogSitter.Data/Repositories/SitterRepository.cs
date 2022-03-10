@@ -12,13 +12,19 @@ namespace DogSitter.DAL.Repositories
             _context = context;
         }
 
-        public Sitter GetById(int id) =>
-            _context.Sitters.Where(x => x.Id == id)
+        public Sitter GetById(int id)
+        {
+            var sitter = _context.Sitters.Where(x => x.Id == id)
             .Include(w => w.Customers)
             .Include(w => w.Orders)
             .Include(w => w.Services)
             .Include(w => w.WorkTime)
             .FirstOrDefault();
+            var passport = _context.Passports.FirstOrDefault(x => x.Id == sitter.PassportId);
+            sitter.Passport = passport;
+            return sitter;
+        } 
+            
 
         public List<Sitter> GetAll() =>
             _context.Sitters.Where(d => !d.IsDeleted).Include(w => w.WorkTime).ToList();

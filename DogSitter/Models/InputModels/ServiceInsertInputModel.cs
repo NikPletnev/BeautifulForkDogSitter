@@ -1,16 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DogSitter.API.Attributes.CustomAttributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.API.Models
 {
     public class ServiceInsertInputModel
     {
         [Required(ErrorMessage = "Укажите название")]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         [StringLength(50, MinimumLength = 5)]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Укажите описание")]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         [StringLength(1000, MinimumLength = 0)]
         public string Description { get; set; }
 

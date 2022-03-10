@@ -1,5 +1,4 @@
-﻿
-
+﻿using DogSitter.API.Attributes.CustomAttributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.API.Models
@@ -7,13 +6,14 @@ namespace DogSitter.API.Models
     public class CustomerInputModel
     {
         [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         public string FirstName { get; set; }
         [Required]
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         public string LastName { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         [MinLength(4)]
         public string Password { get; set; }
 

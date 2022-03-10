@@ -1,4 +1,5 @@
 ﻿using DogSitter.DAL.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogSitter.DAL.Repositories
 {
@@ -15,7 +16,9 @@ namespace DogSitter.DAL.Repositories
                     _context.Dogs.Where(d => !d.IsDeleted).ToList();
 
         public Dog GetDogById(int id) =>
-                     _context.Dogs.FirstOrDefault(x => x.Id == id);
+                     _context.Dogs.Where(x => x.Id == id)
+                     .Include(w => w.Customer)
+                     .FirstOrDefault();
 
         public int AddDog(Dog dog)
         {

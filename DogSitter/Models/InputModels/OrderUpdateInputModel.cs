@@ -8,10 +8,12 @@ namespace DogSitter.API.Models
     public class OrderUpdateInputModel
     {
         public int Id { get; set; }
+
         [Required]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
         public int SitterId { get; set; }
         public int SitterWorkTimeId { get; set; }

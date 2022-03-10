@@ -42,7 +42,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new AccessException("Not enough rights");
             }
-
+            dogModel.Id = id;
             var entity = _mapper.Map<Dog>(dogModel);
             _rep.UpdateDog(entity);
         }
@@ -86,8 +86,10 @@ namespace DogSitter.BLL.Services
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new dog");
             }
-            dogModel.Customer = _mapper.Map<CustomerModel>(_userRepository.GetUserById(userId));
-            return _rep.AddDog(_mapper.Map<Dog>(dogModel));
+            Customer customer = (Customer)_customerRepository.GetCustomerById(userId);
+            var dogEntity = _mapper.Map<Dog>(dogModel);
+            customer.Dogs.Add(dogEntity);
+            return _rep.AddDog(dogEntity);
         }
 
         public List<DogModel> GetAllDogs()

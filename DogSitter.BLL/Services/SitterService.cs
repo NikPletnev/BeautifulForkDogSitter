@@ -51,6 +51,9 @@ namespace DogSitter.BLL.Services
         public int Add(SitterModel sitterModel)
         {
             var sitter = _mapper.Map<Sitter>(sitterModel);
+            var subwayStation = _subwayStationRepository.GetSubwayStationById(sitterModel.SubwayStation.Id);
+
+            sitter.SubwayStation = subwayStation;
             sitter.Role = Role.Sitter;
             sitter.Password = PasswordHash.HashPassword(sitter.Password);
             sitter.Passport.FirstName = Crypter.Encrypt(sitter.Passport.FirstName);
@@ -60,22 +63,28 @@ namespace DogSitter.BLL.Services
             sitter.Passport.Division = Crypter.Encrypt(sitter.Passport.Division);
             sitter.Passport.DivisionCode = Crypter.Encrypt(sitter.Passport.DivisionCode);
             sitter.Passport.Registration = Crypter.Encrypt(sitter.Passport.Registration);
+
             var id = _sitterRepository.Add(sitter);
             return id;
         }
 
         public void Update(int id, SitterModel sitterModel)
         {
-            if (id != sitterModel.Id)
+            var exitingSitter = _sitterRepository.GetById(id);
+            if (exitingSitter is null)
+            {
+                throw new EntityNotFoundException($"Sitter was not found");
+            }
+
+            if (id != exitingSitter.Id)
             {
                 throw new AccessException("Not enough rights");
             }
+
             var sitterToUpdate = _mapper.Map<Sitter>(sitterModel);
-            var exitingSitter = _sitterRepository.GetById(sitterModel.Id);
-            if (exitingSitter is null)
-            {
-                throw new EntityNotFoundException($"Sitter {sitterModel.Id} was not found");
-            }
+            var subwayStation = _subwayStationRepository.GetSubwayStationById(sitterModel.SubwayStation.Id);
+            sitterToUpdate.SubwayStation = subwayStation;
+
             _sitterRepository.Update(exitingSitter, sitterToUpdate);
         }
 

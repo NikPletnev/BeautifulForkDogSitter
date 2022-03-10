@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DogSitter.API.Attributes.CustomAttributes;
 
 namespace DogSitter.API.Models
 {
     public class AdminUpdateInputModel //изменение
     {
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         public string FirstName { get; set; }
-        [RegularExpression(@"^([а-яёА-ЯЁ\s]+|[a-zA-Z\s]+)$")]
+        [TextOnly]
         public string LastName { get; set; }
 
     }
