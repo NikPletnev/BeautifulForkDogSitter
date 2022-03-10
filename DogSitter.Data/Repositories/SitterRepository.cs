@@ -38,13 +38,10 @@ namespace DogSitter.DAL.Repositories
 
         public void Update(Sitter exitingSitter, Sitter sitterToUpdate)
         {
-            exitingSitter.Passport = sitterToUpdate.Passport;
             exitingSitter.FirstName = sitterToUpdate.FirstName;
             exitingSitter.LastName = sitterToUpdate.LastName;
-            exitingSitter.Contacts = sitterToUpdate.Contacts;
             exitingSitter.SubwayStation = sitterToUpdate.SubwayStation;
             exitingSitter.Information = sitterToUpdate.Information;
-            exitingSitter.Services = sitterToUpdate.Services;
             _context.SaveChanges();
         }
 
