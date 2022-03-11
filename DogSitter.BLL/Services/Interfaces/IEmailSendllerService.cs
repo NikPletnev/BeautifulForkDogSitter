@@ -1,4 +1,4 @@
-﻿namespace DogSitter.BLL.Helpers
+﻿namespace DogSitter.BLL.Services
 {
     public interface IEmailSendllerService
     {

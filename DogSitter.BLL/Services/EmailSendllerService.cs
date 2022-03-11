@@ -8,7 +8,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DogSitter.BLL.Helpers
+namespace DogSitter.BLL.Services
 {
     public class EmailSendllerService : IEmailSendllerService
     {
