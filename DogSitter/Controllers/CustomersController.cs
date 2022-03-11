@@ -2,6 +2,7 @@
 using DogSitter.API.Attribute;
 using DogSitter.API.Extensions;
 using DogSitter.API.Models;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;
@@ -17,11 +18,13 @@ namespace DogSitter.Controllers
     {
         private readonly ICustomerService _service;
         private readonly IMapper _mapper;
+        private readonly IEmailSendllerService _email;
 
-        public CustomersController(IMapper CustomMapper, ICustomerService customerService)
+        public CustomersController(IMapper CustomMapper, ICustomerService customerService, IEmailSendllerService email)
         {
             _mapper = CustomMapper;
             _service = customerService;
+            _email = email;
         }
 
         [AuthorizeRole(Role.Admin, Role.Customer)]
@@ -74,6 +77,8 @@ namespace DogSitter.Controllers
         public ActionResult RegisterCustomer([FromBody] CustomerInputModel customer)
         {
            var id = _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
+            _email.SendEmailDefault();
+            _email.SendEmailCustom();
             return StatusCode(StatusCodes.Status201Created, id);
         }
 

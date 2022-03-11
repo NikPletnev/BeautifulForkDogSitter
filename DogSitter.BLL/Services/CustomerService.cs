@@ -40,13 +40,16 @@ namespace DogSitter.BLL.Services
 
         public int AddCustomer(CustomerModel customerModel)
         {
-            if(customerModel.Address.SubwayStations.Count != 0)
+            if (customerModel.Address.SubwayStations != null)
             {
-                foreach (var item in customerModel.Address.SubwayStations)
+                if (customerModel.Address.SubwayStations.Count != 0)
                 {
-                    if(item.Id < 0 && item.Id >72)
+                    foreach (var item in customerModel.Address.SubwayStations)
                     {
-                        throw new ServiceNotEnoughDataExeption($"Subway stantion {item.Id} has no exist");
+                        if (item.Id < 0 && item.Id > 72)
+                        {
+                            throw new ServiceNotEnoughDataExeption($"Subway stantion {item.Id} has no exist");
+                        }
                     }
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using DogSitter.BLL.Configs;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Services.Interfaces;
 using DogSitter.DAL;
@@ -27,6 +28,7 @@ namespace DogSitter.API.Extensions
             services.AddScoped<ISitterService, SitterService>();
             services.AddScoped<ISubwayStationService, SubwayStationService>();
             services.AddScoped<IWorkTimeService, WorkTimeService>();
+            services.AddScoped<IEmailSendllerService, EmailSendllerService>();
         }
 
         public static void RegisterDogSitterRepositories(this IServiceCollection services)
