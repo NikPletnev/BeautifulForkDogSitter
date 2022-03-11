@@ -73,7 +73,7 @@ namespace DogSitter.BLL.Helpers
 
                 using (var smtpClient = new SmtpClient("smtp.gmail.com"))
                 {
-                    smtpClient.Credentials = new NetworkCredential("alianakass2806@gmail.com", "НЕ РАБОТАЕТ БЕЗ ПАРОЛЯ");
+                    smtpClient.Credentials = new NetworkCredential("alianakass2806@gmail.com", "inihog2801");
                     smtpClient.Port = 587;
                     smtpClient.EnableSsl = true;
 
