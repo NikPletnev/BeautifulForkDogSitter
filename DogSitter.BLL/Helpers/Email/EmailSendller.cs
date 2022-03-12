@@ -27,7 +27,7 @@ namespace DogSitter.BLL.Helpers
             {
                 if (c.ContactType == ContactType.Mail)
                 {               
-                    SendEmailCustom(mess, c.Value, topic);
+                    SendEmailCustom(topic, mess, c.Value);
                     break;
                 }
             }
@@ -38,7 +38,7 @@ namespace DogSitter.BLL.Helpers
             try
             {
                 MimeMessage message = new MimeMessage();
-                message.From.Add(new MailboxAddress("DogSitter", "DogSitterClub2022@gmail.com"));
+                message.From.Add(new MailboxAddress("DogSitter", "dogsitterclub2022@gmail.com"));
                 message.To.Add(new MailboxAddress(email, email));
                 message.Subject = topic;
                 message.Body = new BodyBuilder() { HtmlBody = $"<div style=\"color: green;\">{mess}</div>" }.ToMessageBody();
@@ -46,7 +46,7 @@ namespace DogSitter.BLL.Helpers
                 using (MailKit.Net.Smtp.SmtpClient client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.Connect("smtp.gmail.com", 465, true);
-                    client.Authenticate("DogSitterClub2022@gmail.com", "devedu2022!");
+                    client.Authenticate("dogsitterclub2022@gmail.com", "devedu2022!");
                     client.Send(message);
                     client.Disconnect(true);
                     _logger.LogInformation("Message sent successfully");
