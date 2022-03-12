@@ -23,6 +23,9 @@ namespace DogSitter.BLL.Helpers
 
         public const string ProfileRestore = "We are glad to see you again, your profile has been restored!";
 
+        public const string PasswordChange = "Your password has been successfully changed. If it was not you, " +
+            "please inform the administration of the site about it.";
+
         public static string SitterCreatedForAdmin(int id) => $"Created a new sitter with id {id}, check its docs";
 
         public static string NewOrderForSitter(int id) => $"You have received a new order {id}";
@@ -33,7 +36,9 @@ namespace DogSitter.BLL.Helpers
 
         public static string NewOrderStatus(int idOrder, Status status) => $"Order{idOrder} status updated to {status}";
 
-        public static string UpdateRatingSitter(double oldRating, double newRating) => $"You have been given a new mark. Your rating has been updated. Old rating: {oldRating}. New rating: {newRating}.";
+        public static string UpdateRatingSitter(double oldRating, double newRating) => $"You have been given a new mark. " +
+            $"Your rating has been updated. Old rating: {oldRating}. New rating: {newRating}.";
+
 
     }
 }

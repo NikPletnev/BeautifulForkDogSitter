@@ -19,6 +19,7 @@ namespace DogSitter.BLL.Helpers
         public const string UpdateRating = "You have been given a new rating";
         public const string NewCommentForSitter = "You have a new review";
         public const string NewCommentForAdmin = "The website has a new review";
+        public const string PasswordChange = "Your password has been successfully changed";
 
     }
 }
