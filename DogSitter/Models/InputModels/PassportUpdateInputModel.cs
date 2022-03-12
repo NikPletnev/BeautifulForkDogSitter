@@ -20,7 +20,7 @@ namespace DogSitter.API.Models
         public DateTime DateOfBirth { get; set; }
 
         [Required]
-        [RegularExpression(@"^([0-9]{2}\s{1}[0-9]{2})?$")]
+        [RegularExpression(@"^([0-9]{4})?$")]
         public string Seria { get; set; }
 
         [Required]
