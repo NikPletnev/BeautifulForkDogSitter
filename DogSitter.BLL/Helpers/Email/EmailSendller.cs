@@ -60,7 +60,7 @@ namespace DogSitter.BLL.Helpers
         }
 
         //устаревшая библиотека, просто хотела посмотреть разницу
-        public void SendEmailDefault(string mess, string email)
+        public void SendEmailDefault(string topic, string mess, string email)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace DogSitter.BLL.Helpers
                 message.IsBodyHtml = true;
                 message.From = new MailAddress("DogSitterClub2022@gmail.com", "DogSitter");
                 message.To.Add(email);
-                message.Subject = mess;
+                message.Subject = topic;
                 message.Body = $"<div style=\"color: red;\">{mess}</div>";
 
                 using (var smtpClient = new SmtpClient("smtp.gmail.com"))
