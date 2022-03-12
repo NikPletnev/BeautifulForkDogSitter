@@ -21,26 +21,26 @@ namespace DogSitter.BLL.Helpers
             this._logger = logger;
         }
 
-        public void SendMessage(UserModel user, string mess)
+        public void SendMessage(UserModel user, string mess, string topic)
         {
             foreach (var c in user.Contacts)
             {
                 if (c.ContactType == ContactType.Mail)
                 {               
-                    SendEmailCustom(mess, c.Value);
+                    SendEmailCustom(mess, c.Value, topic);
                     break;
                 }
             }
         }
 
-        public void SendEmailCustom(string mess, string email)
+        public void SendEmailCustom(string topic, string mess, string email)
         {
             try
             {
                 MimeMessage message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Название компании", "alianakass2806@gmail.com"));
+                message.From.Add(new MailboxAddress("DogSitter", "alianakass2806@gmail.com"));
                 message.To.Add(new MailboxAddress(email, email));
-                message.Subject = mess;
+                message.Subject = topic;
                 message.Body = new BodyBuilder() { HtmlBody = $"<div style=\"color: green;\">{mess}</div>" }.ToMessageBody();
 
                 using (MailKit.Net.Smtp.SmtpClient client = new MailKit.Net.Smtp.SmtpClient())
@@ -66,7 +66,7 @@ namespace DogSitter.BLL.Helpers
             {
                 MailMessage message = new MailMessage();
                 message.IsBodyHtml = true;
-                message.From = new MailAddress("alianakass2806@gmail.com", "Название компании");
+                message.From = new MailAddress("alianakass2806@gmail.com", "DogSitter");
                 message.To.Add(email);
                 message.Subject = mess;
                 message.Body = $"<div style=\"color: red;\">{mess}</div>";

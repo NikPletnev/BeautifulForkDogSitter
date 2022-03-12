@@ -71,14 +71,14 @@ namespace DogSitter.BLL.Services
 
             var id = _sitterRepository.Add(sitter);
             EmailSendller emailSendller = new EmailSendller(_logger);
-            emailSendller.SendMessage(sitterModel, EmailMessage.SitterCreated);
+            emailSendller.SendMessage(sitterModel, EmailMessage.SitterCreated, EmailTopic.ProfileCreated);
 
             var admins = _adminRepository.GetAllAdminWithContacts();
             var adminsModel = _mapper.Map<List<AdminModel>>(admins);
 
             foreach (var a in adminsModel)
             {
-                emailSendller.SendMessage(a, EmailMessage.SitterCreatedForAdmin(id));
+                emailSendller.SendMessage(a, EmailMessage.SitterCreatedForAdmin(id), EmailTopic.NewSitter);
             }
 
             return id;
@@ -118,6 +118,8 @@ namespace DogSitter.BLL.Services
 
             _sitterRepository.UpdateOrDelete(entity, true);
             _sitterRepository.EditProfileStateBySitterId(id, false);
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.ProfileDeleted, EmailTopic.ProfileDeleted);
         }
 
         public void Restore(int id)
@@ -128,6 +130,9 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
             _sitterRepository.UpdateOrDelete(entity, false);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.ProfileRestore, EmailTopic.Restore);
         }
 
         public void ConfirmProfileSitterById(int id)
@@ -141,7 +146,7 @@ namespace DogSitter.BLL.Services
             {
                 _sitterRepository.EditProfileStateBySitterId(id, true);
                 EmailSendller emailSendller = new EmailSendller(_logger);
-                emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.SitterVerified);
+                emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.SitterVerified, EmailTopic.Verify);
             }
         }
 
@@ -154,7 +159,7 @@ namespace DogSitter.BLL.Services
             }
             _sitterRepository.EditProfileStateBySitterId(id, false);
             EmailSendller emailSendller = new EmailSendller(_logger);
-            emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.SitterBlocked);
+            emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.SitterBlocked, EmailTopic.Block);
         }
 
         public List<SitterModel> GetAllSittersWithWorkTimeBySubwayStation(SubwayStationModel subwayStationModel)

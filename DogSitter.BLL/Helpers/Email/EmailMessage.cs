@@ -19,6 +19,9 @@ namespace DogSitter.BLL.Helpers
 
         public const string CustomerCreated = "The profile has been successfully created";
 
+        public const string ProfileDeleted = "Your profile has been deleted, please contact the site administration to restore it";
+
+        public const string ProfileRestore = "We are glad to see you again, your profile has been restored!";
 
         public static string SitterCreatedForAdmin(int id)
         {
@@ -32,15 +35,27 @@ namespace DogSitter.BLL.Helpers
             return mess;
         }
 
-        public static string NewComment(int idOrder, int idComment)
+        public static string UpdateOrderForSitter(int id)
         {
-            string mess = $"New comment{idComment} left on order {idOrder}";
+            string mess = $"The customer made changes to the order {id}";
+            return mess;
+        }
+
+        public static string NewComment(int idOrder)
+        {
+            string mess = $"New comment left on order {idOrder}. Visit the site to see";
             return mess;
         }
 
         public static string NewOrderStatus(int idOrder, Status status)
         {
             string mess = $"Order{idOrder} status updated to {status}";
+            return mess;
+        }
+
+        public static string UpdateRatingSitter(double oldRating, double newRating)
+        {
+            string mess = $"You have been given a new mark. Your rating has been updated. Old rating: {oldRating}. New rating: {newRating}.";
             return mess;
         }
 

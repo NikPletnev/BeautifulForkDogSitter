@@ -5,6 +5,7 @@ using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace DogSitter.BLL.Services
 {
@@ -13,12 +14,14 @@ namespace DogSitter.BLL.Services
         private ICustomerRepository _repository;
         private IMapper _mapper;
         private IUserRepository _userRepository;
+        private ILogger<EmailSendller> _logger;
 
-        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository)
+        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository, ILogger<EmailSendller> logger)
         {
             _repository = repository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         public CustomerModel GetCustomerById(int id)
@@ -58,6 +61,10 @@ namespace DogSitter.BLL.Services
             customer.Role = Role.Customer;
             customer.Password = PasswordHash.HashPassword(customer.Password);
             var id = _repository.AddCustomer(customer);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(customerModel, EmailMessage.CustomerCreated, EmailTopic.ProfileCreated);
+
             return id;
         }
 
@@ -98,6 +105,9 @@ namespace DogSitter.BLL.Services
 
             bool Delete = true;
             _repository.UpdateCustomer(id, Delete);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_mapper.Map<CustomerModel>(entity), EmailMessage.ProfileDeleted, EmailTopic.ProfileDeleted);
         }
 
         public void RestoreCustomer(int id)
@@ -110,6 +120,9 @@ namespace DogSitter.BLL.Services
             }
             bool Delete = false;
             _repository.UpdateCustomer(id, Delete);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_mapper.Map<CustomerModel>(entity), EmailMessage.ProfileRestore, EmailTopic.Restore);
         }
 
     }
