@@ -38,7 +38,7 @@ namespace DogSitter.BLL.Helpers
             try
             {
                 MimeMessage message = new MimeMessage();
-                message.From.Add(new MailboxAddress("DogSitter", "alianakass2806@gmail.com"));
+                message.From.Add(new MailboxAddress("DogSitter", "DogSitterClub2022@gmail.com"));
                 message.To.Add(new MailboxAddress(email, email));
                 message.Subject = topic;
                 message.Body = new BodyBuilder() { HtmlBody = $"<div style=\"color: green;\">{mess}</div>" }.ToMessageBody();
@@ -46,7 +46,7 @@ namespace DogSitter.BLL.Helpers
                 using (MailKit.Net.Smtp.SmtpClient client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.Connect("smtp.gmail.com", 465, true);
-                    client.Authenticate("alianakass2806@gmail.com", "inihog2801");
+                    client.Authenticate("DogSitterClub2022@gmail.com", "devedu2022!");
                     client.Send(message);
                     client.Disconnect(true);
                     _logger.LogInformation("Message sent successfully");
@@ -66,14 +66,14 @@ namespace DogSitter.BLL.Helpers
             {
                 MailMessage message = new MailMessage();
                 message.IsBodyHtml = true;
-                message.From = new MailAddress("alianakass2806@gmail.com", "DogSitter");
+                message.From = new MailAddress("DogSitterClub2022@gmail.com", "DogSitter");
                 message.To.Add(email);
                 message.Subject = mess;
                 message.Body = $"<div style=\"color: red;\">{mess}</div>";
 
                 using (var smtpClient = new SmtpClient("smtp.gmail.com"))
                 {
-                    smtpClient.Credentials = new NetworkCredential("alianakass2806@gmail.com", "inihog2801");
+                    smtpClient.Credentials = new NetworkCredential("DogSitterClub2022@gmail.com", "devedu2022!");
                     smtpClient.Port = 587;
                     smtpClient.EnableSsl = true;
 

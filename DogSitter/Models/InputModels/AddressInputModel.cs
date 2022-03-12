@@ -25,7 +25,6 @@ namespace DogSitter.API.Models
         [Required(ErrorMessage = "Укажите номер квартиры")]
         [Range(1, 1000, ErrorMessage = "Неверный номер квартры")]
         public int Apartament { get; set; }
-        [Range(1, 72)]
         public List<int> SubwayStationsId { get; set; }
     }
 }
