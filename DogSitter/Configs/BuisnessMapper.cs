@@ -22,8 +22,16 @@ namespace DogSitter.API.Configs
             CreateMap<PassportUpdateInputModel, PassportModel>();
             CreateMap<PassportModel, PassportOutputModel>();
 
+            CreateMap<SubwayStationModel, SubwayStationOutputModel>();
+            CreateMap<SubwayStationInputModel, SubwayStationModel>();
+            CreateMap<int, SubwayStationModel>()
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src));
+
             CreateMap<AddressModel, AddressOutputModel>();
-            CreateMap<AddressInputModel, AddressModel>();
+            CreateMap<AddressInputModel, AddressModel>()
+                .ForMember(m => m.SubwayStations, opt => opt.MapFrom(o => o.SubwayStationsId));
+
+
 
             CreateMap<ServiceInsertInputModel, ServiceModel>();
             CreateMap<ServiceUpdateInputModel, ServiceModel>();
@@ -40,8 +48,6 @@ namespace DogSitter.API.Configs
             CreateMap<CustomerInputModel, CustomerModel>();
             CreateMap<CustomerUpdateInputModel, CustomerModel>();
 
-            CreateMap<SubwayStationModel, SubwayStationOutputModel>();
-            CreateMap<SubwayStationInputModel, SubwayStationModel>();
 
             CreateMap<DogModel, DogOutputModel>();
             CreateMap<DogUpdateInputModel, DogModel>();

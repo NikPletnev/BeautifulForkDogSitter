@@ -19,6 +19,7 @@ namespace DogSitter.DAL.Repositories
 
         public SubwayStation GetSubwayStationById(int id) =>
             _context.SubwayStations.FirstOrDefault(s => s.Id == id);
+            
 
         public int AddSubwayStation(SubwayStation subwayStation)
         {

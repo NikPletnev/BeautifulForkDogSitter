@@ -9,6 +9,7 @@ namespace DogSitter.DAL.Entity
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
         public virtual ICollection<Sitter> Sitters { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
 
         public override bool Equals(object obj)
         {
