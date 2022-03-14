@@ -18,8 +18,7 @@ namespace DogSitter.BLL.Services
         private ISubwayStationRepository _subwayStationRepository;
         private ILogger<EmailSendller> _logger;
 
-        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository, ISubwayStationRepository subwayStationRepository)
-        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository, ILogger<EmailSendller> logger)
+        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository, ISubwayStationRepository subwayStationRepository, ILogger<EmailSendller> logger)
         {
             _repository = repository;
             _mapper = mapper;

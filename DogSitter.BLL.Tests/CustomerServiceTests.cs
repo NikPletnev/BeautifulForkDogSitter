@@ -30,8 +30,7 @@ namespace DogSitter.BLL.Tests
             _userRepositoryMock = new Mock<IUserRepository>();
             _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new CustomerService(_customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object, _subwayStationRepositoryMock.Object);
-            _service = new CustomerService(_customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object, new Mock<ILogger<EmailSendller>>().Object);
+            _service = new CustomerService(_customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object, _subwayStationRepositoryMock.Object, new Mock<ILogger<EmailSendller>>().Object);
         }
 
 
