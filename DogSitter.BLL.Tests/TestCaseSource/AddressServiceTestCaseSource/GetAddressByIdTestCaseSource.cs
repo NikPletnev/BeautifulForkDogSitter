@@ -14,7 +14,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "TestCity",
                 Street = "TestStreet",
-                House = 1,
+                House = "1",
                 Apartament = 1,
                 IsDeleted = false,
                 Customer = new Customer()
@@ -32,7 +32,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "TestCity",
                 Street = "TestStreet",
-                House = 1,
+                House = "1",
                 Apartament = 1,
                 IsDeleted = false,
             };

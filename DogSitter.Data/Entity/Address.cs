@@ -12,7 +12,7 @@ namespace DogSitter.DAL.Entity
         [Required]
         public string Street { get; set; }
         [Required]
-        public int House { get; set; }
+        public string House { get; set; }
         [Required]
         public int Apartament { get; set; }
         public bool IsDeleted { get; set; }

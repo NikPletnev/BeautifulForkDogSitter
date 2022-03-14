@@ -13,7 +13,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "",
                 City = "TestCity",
                 Street = "TestStreet",
-                House = 1,
+                House = "1",
                 Apartament = 1,
                 IsDeleted = false,
             };
@@ -23,7 +23,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "",
                 Street = "TestStreet",
-                House = 1,
+                House = "1",
                 Apartament = 1,
                 IsDeleted = false,
             };
@@ -33,7 +33,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "TestCity",
                 Street = "",
-                House = 1,
+                House = "1",
                 Apartament = 1,
                 IsDeleted = false,
             };
@@ -43,7 +43,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "TestCity",
                 Street = "TestStreet",
-                House = 0,
+                House = "1",
                 Apartament = 1,
                 IsDeleted = false,
             };
@@ -53,7 +53,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "TestCity",
                 Street = "TestStreet",
-                House = 1,
+                House = "0",
                 Apartament = 0,
                 IsDeleted = false,
             };
@@ -63,7 +63,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "TestCity",
                 Street = "TestStreet",
-                House = 1,
+                House = "1",
                 Apartament = 1,
                 IsDeleted = false,
             };

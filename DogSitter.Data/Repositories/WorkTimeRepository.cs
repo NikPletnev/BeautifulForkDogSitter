@@ -17,13 +17,16 @@ namespace DogSitter.DAL.Repositories
         public int AddWorkTime(WorkTime workTime, Sitter sitter)
         {
             workTime.Sitter = sitter;
+
             if(sitter.WorkTime == null)
             {
                 sitter.WorkTime = new List<WorkTime>();
             }
+
             sitter.WorkTime.Add(workTime);
             var workTimeId = _context.WorkTimes.Add(workTime);
             _context.SaveChanges();
+
             return workTimeId.Entity.Id;
         }
 

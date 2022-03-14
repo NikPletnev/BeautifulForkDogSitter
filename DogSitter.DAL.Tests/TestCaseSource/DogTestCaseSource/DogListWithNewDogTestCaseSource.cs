@@ -27,6 +27,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                   Weight = 2,
                   Description = "TestDescription2",
                   Breed = "TestBreed2",
+                  Customer = new Customer(){ FirstName = "FirstName1", LastName = "LastName1", Password = "Password1"},
                   IsDeleted = false
               },
               new Dog()
