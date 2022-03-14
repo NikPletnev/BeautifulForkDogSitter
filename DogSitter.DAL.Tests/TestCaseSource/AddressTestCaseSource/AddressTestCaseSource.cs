@@ -13,7 +13,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "TestCity",
                 Street = "TestStreet",
-                House = 1,
+                House = "3",
                 Apartament = 1,
                 IsDeleted = false,
             };
@@ -23,7 +23,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Name = "TestName2",
                 City = "TestCity2",
                 Street = "TestStreet2",
-                House = 2,
+                House = "3",
                 Apartament = 2,
                 IsDeleted = false,
             };
@@ -33,7 +33,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Name = "TestName3",
                 City = "TestCity3",
                 Street = "TestStreet3",
-                House = 3,
+                House = "3",
                 Apartament = 3,
                 IsDeleted = true,
             };
