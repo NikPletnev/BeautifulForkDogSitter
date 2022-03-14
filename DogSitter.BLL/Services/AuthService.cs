@@ -5,6 +5,7 @@ using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,12 +18,14 @@ namespace DogSitter.BLL.Services
         private readonly IContactRepository _contactRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _map;
+        private readonly ILogger<EmailSendller> _logger;
 
-        public AuthService(IContactRepository contactRepository, IUserRepository userRepository, IMapper mapper)
+        public AuthService(IContactRepository contactRepository, IUserRepository userRepository, IMapper mapper, ILogger<EmailSendller> logger)
         {
             _contactRepository = contactRepository;
             _userRepository = userRepository;
             _map = mapper;
+            _logger = logger;
         }
 
         public string GetToken(UserModel user)
@@ -75,6 +78,9 @@ namespace DogSitter.BLL.Services
 
             string hashPassword = PasswordHash.HashPassword(newPassword);
             _userRepository.ChangeUserPassword(hashPassword, user);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_map.Map<UserModel>(user), EmailMessage.PasswordChange, EmailTopic.PasswordChange);
         }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using Castle.Core.Logging;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -30,7 +33,9 @@ namespace DogSitter.BLL.Tests
             _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
             _userRepMock = new Mock<IUserRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new SitterService(_sitterRepositoryMock.Object, _subwayStationRepositoryMock.Object, _mapper, _userRepMock.Object);
+            _service = new SitterService(_sitterRepositoryMock.Object, 
+                _subwayStationRepositoryMock.Object, _mapper, _userRepMock.Object, new Mock<ILogger<EmailSendller>>().Object,
+                new Mock <IAdminRepository>().Object);
             _sitterTestCase = new SitterTestCaseSourse();
         }
 

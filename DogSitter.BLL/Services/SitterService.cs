@@ -5,6 +5,7 @@ using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace DogSitter.BLL.Services
 {
@@ -14,15 +15,19 @@ namespace DogSitter.BLL.Services
         private ISubwayStationRepository _subwayStationRepository;
         private IMapper _mapper;
         private IUserRepository _userRepository;
+        private ILogger<EmailSendller> _logger;
+        private IAdminRepository _adminRepository;
 
         public SitterService(ISitterRepository sitterRepository, ISubwayStationRepository subwayStationRepository,
-            IMapper mapper, IUserRepository userRepository)
+            IMapper mapper, IUserRepository userRepository, ILogger<EmailSendller> logger, IAdminRepository adminRepository)
         {
             _sitterRepository = sitterRepository;
             _sitterRepository = sitterRepository;
             _subwayStationRepository = subwayStationRepository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _logger = logger;
+            _adminRepository = adminRepository;
         }
 
         public SitterModel GetById(int id)
@@ -65,6 +70,17 @@ namespace DogSitter.BLL.Services
             sitter.Passport.Registration = Crypter.Encrypt(sitter.Passport.Registration);
 
             var id = _sitterRepository.Add(sitter);
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(sitterModel, EmailMessage.SitterCreated, EmailTopic.ProfileCreated);
+
+            var admins = _adminRepository.GetAllAdminWithContacts();
+            var adminsModel = _mapper.Map<List<AdminModel>>(admins);
+
+            foreach (var a in adminsModel)
+            {
+                emailSendller.SendMessage(a, EmailMessage.SitterCreatedForAdmin(id), EmailTopic.NewSitter);
+            }
+
             return id;
         }
 
@@ -102,6 +118,8 @@ namespace DogSitter.BLL.Services
 
             _sitterRepository.UpdateOrDelete(entity, true);
             _sitterRepository.EditProfileStateBySitterId(id, false);
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.ProfileDeleted, EmailTopic.ProfileDeleted);
         }
 
         public void Restore(int id)
@@ -112,6 +130,9 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
             _sitterRepository.UpdateOrDelete(entity, false);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.ProfileRestore, EmailTopic.Restore);
         }
 
         public void ConfirmProfileSitterById(int id)
@@ -124,6 +145,8 @@ namespace DogSitter.BLL.Services
             if (!entity.IsDeleted)
             {
                 _sitterRepository.EditProfileStateBySitterId(id, true);
+                EmailSendller emailSendller = new EmailSendller(_logger);
+                emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.SitterVerified, EmailTopic.Verify);
             }
         }
 
@@ -135,17 +158,9 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Sitter {id} was not found");
             }
             _sitterRepository.EditProfileStateBySitterId(id, false);
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.SitterBlocked, EmailTopic.Block);
         }
-
-        //public List<SitterModel> GetAllSitterByServiceId(int id)
-        //{
-        //    var service = _serviceRepository.GetServiceById(id);
-
-        //    if (service is null)
-        //        throw new EntityNotFoundException($"Service {id} was not found");
-
-        //    return _mapper.Map<List<SitterModel>>(_sitterRepository.GetAllSitterByServiceId(id));
-        //}
 
         public List<SitterModel> GetAllSittersWithWorkTimeBySubwayStation(SubwayStationModel subwayStationModel)
         {
@@ -168,6 +183,6 @@ namespace DogSitter.BLL.Services
             }
 
             return _mapper.Map<List<SitterModel>>(sitters);
-        }
+        }       
     }
 }

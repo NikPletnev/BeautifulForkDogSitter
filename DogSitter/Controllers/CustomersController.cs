@@ -2,6 +2,7 @@
 using DogSitter.API.Attribute;
 using DogSitter.API.Extensions;
 using DogSitter.API.Models;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.DAL.Enums;

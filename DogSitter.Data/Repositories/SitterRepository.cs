@@ -19,9 +19,11 @@ namespace DogSitter.DAL.Repositories
             .Include(w => w.Orders)
             .Include(w => w.Services)
             .Include(w => w.WorkTime)
+            .Include(w => w.Passport)
+            .Include(w => w.Contacts)
             .FirstOrDefault();
-            var passport = _context.Passports.FirstOrDefault(x => x.Id == sitter.PassportId);
-            sitter.Passport = passport;
+            //var passport = _context.Passports.FirstOrDefault(x => x.Id == sitter.PassportId);
+            //sitter.Passport = passport;
             return sitter;
         } 
             

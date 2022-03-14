@@ -8,6 +8,7 @@ using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using NUnit.Framework;
@@ -29,7 +30,7 @@ namespace DogSitter.BLL.Tests
             _contactRepositoryMock = new Mock<IContactRepository>();
             _userRepositoryMock = new Mock<IUserRepository>();
             _map = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new AuthService(_contactRepositoryMock.Object, _userRepositoryMock.Object, _map);
+            _service = new AuthService(_contactRepositoryMock.Object, _userRepositoryMock.Object, _map, new Mock<ILogger<EmailSendller>>().Object);
         }
 
         [TestCaseSource(typeof(LoginAdminTestCaseSource))]
