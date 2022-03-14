@@ -80,7 +80,16 @@ namespace DogSitter.BLL.Services
                     }
                 }
             }
+
+            var subwayStantionsEnitityList = new List<SubwayStation>();
+
+            foreach (var stantion in customer.Address.SubwayStations)
+            {
+                subwayStantionsEnitityList.Add(_subwayStationRepository.GetSubwayStationById(stantion.Id));
+            }
+
             var customerModel = _mapper.Map<Customer>(customer);
+            customerModel.Address.SubwayStations = subwayStantionsEnitityList;
             var entity = _repository.GetCustomerById(id);
             if (entity == null)
             {
