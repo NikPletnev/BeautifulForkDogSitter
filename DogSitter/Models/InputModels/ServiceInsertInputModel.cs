@@ -11,7 +11,6 @@ namespace DogSitter.API.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Укажите описание")]
-        [TextOnly]
         [StringLength(1000, MinimumLength = 0)]
         public string Description { get; set; }
 
