@@ -17,6 +17,7 @@ namespace DogSitter.BLL.Tests
     {
         private Mock<ICustomerRepository> _customerRepositoryMock;
         private Mock<IUserRepository> _userRepositoryMock;
+        private Mock<ISubwayStationRepository> _subwayStationRepositoryMock;
         private IMapper _mapper;
         private CustomerService _service;
 
@@ -25,8 +26,9 @@ namespace DogSitter.BLL.Tests
         {
             _customerRepositoryMock = new Mock<ICustomerRepository>();
             _userRepositoryMock = new Mock<IUserRepository>();
+            _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new CustomerService(_customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object);
+            _service = new CustomerService(_customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object, _subwayStationRepositoryMock.Object);
         }
 
 

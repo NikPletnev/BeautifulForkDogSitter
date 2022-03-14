@@ -5,6 +5,7 @@ using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
+using System.Collections.Generic;
 
 namespace DogSitter.BLL.Services
 {
@@ -13,12 +14,14 @@ namespace DogSitter.BLL.Services
         private ICustomerRepository _repository;
         private IMapper _mapper;
         private IUserRepository _userRepository;
+        private ISubwayStationRepository _subwayStationRepository;
 
-        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository)
+        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository, ISubwayStationRepository subwayStationRepository)
         {
             _repository = repository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _subwayStationRepository = subwayStationRepository;
         }
 
         public CustomerModel GetCustomerById(int id)
@@ -51,9 +54,16 @@ namespace DogSitter.BLL.Services
                 }
             }
 
+            var subwayStantionsEnitityList = new List<SubwayStation>();
+
+            foreach (var stantion in customerModel.Address.SubwayStations)
+            {
+                subwayStantionsEnitityList.Add(_subwayStationRepository.GetSubwayStationById(stantion.Id));
+            }
             var customer = _mapper.Map<Customer>(customerModel);
             customer.Role = Role.Customer;
             customer.Password = PasswordHash.HashPassword(customer.Password);
+            customer.Address.SubwayStations = subwayStantionsEnitityList;
             var id = _repository.AddCustomer(customer);
             return id;
         }
@@ -70,7 +80,16 @@ namespace DogSitter.BLL.Services
                     }
                 }
             }
+
+            var subwayStantionsEnitityList = new List<SubwayStation>();
+
+            foreach (var stantion in customer.Address.SubwayStations)
+            {
+                subwayStantionsEnitityList.Add(_subwayStationRepository.GetSubwayStationById(stantion.Id));
+            }
+
             var customerModel = _mapper.Map<Customer>(customer);
+            customerModel.Address.SubwayStations = subwayStantionsEnitityList;
             var entity = _repository.GetCustomerById(id);
             if (entity == null)
             {
