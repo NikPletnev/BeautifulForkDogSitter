@@ -107,10 +107,7 @@ namespace DogSitter.DAL.Tests
             Assert.AreEqual(expected.FirstName, actual.FirstName);
             Assert.AreEqual(expected.LastName, actual.LastName);
             Assert.AreEqual(expected.Information, actual.Information);
-            Assert.AreEqual(expected.Orders, actual.Orders);
             Assert.AreEqual(expected.WorkTime, actual.WorkTime);
-            Assert.AreEqual(expected.Contacts, actual.Contacts);
-            Assert.AreEqual(expected.Passport, actual.Passport);
         }
 
         [Test]

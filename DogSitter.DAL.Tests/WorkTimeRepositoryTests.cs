@@ -52,7 +52,12 @@ namespace DogSitter.DAL.Tests
         {
             //given
             var expected = WorkTimeMock.GetWorkTime();
-            var sitter = new Sitter();
+            var sitter = new Sitter()
+            {
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                Password = "Password1"
+            };
 
             //when
             _workTimeRepository.AddWorkTime(expected, sitter);

@@ -17,7 +17,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "TestCity",
                 Street = "TestStreet",
-                House = 1,
+                House = "1",
                 Apartament = 1,
                 IsDeleted = false,
                 SubwayStations = new List<SubwayStation>() { }
@@ -27,7 +27,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName2",
                 City = "TestCity2",
                 Street = "TestStreet2",
-                House = 2,
+                House = "1",
                 Apartament = 2,
                 IsDeleted = false,
                 SubwayStations = new List<SubwayStation>() { }
@@ -42,7 +42,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName",
                 City = "TestCity",
                 Street = "TestStreet",
-                House = 1,
+                House = "1",
                 Apartament = 1,
                 IsDeleted = false,
                 SubwayStations = new List<SubwayStationModel>() { }
@@ -52,7 +52,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 Name = "TestName2",
                 City = "TestCity2",
                 Street = "TestStreet2",
-                House = 2,
+                House = "1",
                 Apartament = 2,
                 IsDeleted = false,
                 SubwayStations = new List<SubwayStationModel>() { }

@@ -21,7 +21,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                     Name = "Не мой дом",
                     City = "Город",
                     Street = "Улица",
-                    House = 1,
+                    House = "3",
                     Apartament = 1,
                     IsDeleted = false,
                 },

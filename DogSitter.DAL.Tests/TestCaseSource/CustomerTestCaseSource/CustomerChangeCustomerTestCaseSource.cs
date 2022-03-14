@@ -31,7 +31,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Name = "TestName2",
                 City = "TestCity2",
                 Street = "TestStreet2",
-                House = 2,
+                House = "3",
                 Apartament = 2,
                 IsDeleted = false
             };
