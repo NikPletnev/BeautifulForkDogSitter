@@ -18,6 +18,10 @@ namespace DogSitter.API.Attributes
             {
                 return new ValidationResult("Sorry, you are not old enough");
             }
+            if (bday < new DateTime(1900, 01, 01))
+            {
+                return new ValidationResult("Incorrect date");
+            }
             
             return null;
         }
