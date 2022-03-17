@@ -1,5 +1,6 @@
 ﻿using DogSitter.API.Attribute;
 using DogSitter.API.Extensions;
+using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,20 @@ namespace DogSitter.API.Controllers
         public AuthController(IAuthService authService)
         {
             _authService = authService;
+        }
+
+        [HttpPost("forgot-password")]
+        public ActionResult ForgotPassword([FromBody] string email)
+        {
+            _authService.ForgotPassword(email);
+            return Ok(new { message = "Please check your email for password reset instructions" });
+        }
+
+        [HttpPost("reset-password")]
+        public ActionResult ResetPassword(ResetPasswordInputModel model )
+        {
+            _authService.ResetPassword(model.NewPassword, model.Token);
+            return NoContent();
         }
 
         [HttpPost("login")]
