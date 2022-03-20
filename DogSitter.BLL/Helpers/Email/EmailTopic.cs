@@ -20,6 +20,8 @@ namespace DogSitter.BLL.Helpers
         public const string NewCommentForSitter = "You have a new review";
         public const string NewCommentForAdmin = "The website has a new review";
         public const string PasswordChange = "Your password has been successfully changed";
+        public const string ConfirmNewEmail = "Confirm that this is your email";
+        public const string EmailChange = "Your email has been changed";
 
     }
 }

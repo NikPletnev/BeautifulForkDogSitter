@@ -19,5 +19,12 @@ namespace DogSitter.DAL.Repositories
             user.Password = password;
             _context.SaveChanges();
         }
+
+        public void AddTokenForResetPasswordAndEditEmail(User user, string token, DateTime date)
+        {
+            user.ResetToken = token;
+            user.ResetTokenExpires = date;
+            _context.SaveChanges();
+        }
     }
 }

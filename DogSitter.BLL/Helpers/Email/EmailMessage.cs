@@ -26,6 +26,11 @@ namespace DogSitter.BLL.Helpers
         public const string PasswordChange = "Your password has been successfully changed. If it was not you, " +
             "please inform the administration of the site about it.";
 
+        public const string ChangeUserEmailForNewEmail = "Your email has been successfully updated.";
+
+        public const string ChangeUserEmailForOldEmail = "Your email has been successfully updated. " +
+            "This email is no longer linked to your account, if this action was not committed by you, please contact the site administration.";
+
         public static string SitterCreatedForAdmin(int id) => $"Created a new sitter with id {id}, check its docs";
 
         public static string NewOrderForSitter(int id) => $"You have received a new order {id}";
@@ -38,6 +43,9 @@ namespace DogSitter.BLL.Helpers
 
         public static string UpdateRatingSitter(double oldRating, double newRating) => $"You have been given a new mark. " +
             $"Your rating has been updated. Old rating: {oldRating}. New rating: {newRating}.";
+
+        public static string ConfirmNewEmail(string token) => $"To confirm your mail, use the following token {token}";
+
 
 
     }
