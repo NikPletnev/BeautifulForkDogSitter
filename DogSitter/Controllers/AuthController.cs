@@ -22,13 +22,19 @@ namespace DogSitter.API.Controllers
         }
 
         [HttpPost("forgot-password")]
-        public ActionResult ForgotPassword([FromBody] string email)
+        [SwaggerOperation(Summary = "Forgot Password")]
+        [SwaggerResponse(200, "OK")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        public ActionResult ForgotPassword([FromBody] string contact)
         {
-            _authService.ForgotPassword(email);
+            _authService.ForgotPassword(contact);
             return Ok(new { message = "Please check your email for password reset instructions" });
         }
 
         [HttpPost("reset-password")]
+        [SwaggerOperation(Summary = "Reset Password")]
+        [SwaggerResponse(200, "OK")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
         public ActionResult ResetPassword(ResetPasswordInputModel model )
         {
             _authService.ResetPassword(model.NewPassword, model.Token);
