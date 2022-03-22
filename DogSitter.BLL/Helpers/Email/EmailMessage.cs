@@ -45,7 +45,8 @@ namespace DogSitter.BLL.Helpers
             $"Your rating has been updated. Old rating: {oldRating}. New rating: {newRating}.";
 
         public static string ConfirmNewEmail(string token) => $"To confirm your mail, use the following token {token}";
-
+        public static string RestorePessword(string token) => $"Use this token to recover your password {token} . If it was not you, " +
+            "please inform the administration of the site about it.";
 
 
     }

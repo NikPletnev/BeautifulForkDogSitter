@@ -22,6 +22,7 @@ namespace DogSitter.BLL.Helpers
         public const string PasswordChange = "Your password has been successfully changed";
         public const string ConfirmNewEmail = "Confirm that this is your email";
         public const string EmailChange = "Your email has been changed";
+        public const string ResetPassword = "Reset your password";
 
     }
 }

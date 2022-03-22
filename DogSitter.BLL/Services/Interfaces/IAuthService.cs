@@ -9,5 +9,7 @@ namespace DogSitter.BLL.Services
         void ChangeUserPassword(int id, string newPassword, string oldPassword);
         void ChangeUserEmail(int id, string oldContact, string newContact, string token);
         void ConfirmNewEmail(int id, string contact);
+        void ForgotPassword(string email);
+        void ResetPassword(string password, string token);
     }
 }

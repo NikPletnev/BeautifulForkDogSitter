@@ -1,5 +1,6 @@
 ﻿using DogSitter.API.Attribute;
 using DogSitter.API.Extensions;
+using DogSitter.API.Models;
 using DogSitter.API.Models.InputModels;
 using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -62,6 +63,26 @@ namespace DogSitter.API.Controllers
             _authService.ChangeUserEmail(userId.Value, oldContact, newContact, token);
 
             return Ok();
+        }
+
+        [HttpPost("forgot-password")]
+        [SwaggerOperation(Summary = "Forgot Password")]
+        [SwaggerResponse(200, "OK")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        public ActionResult ForgotPassword([FromBody] string contact)
+        {
+            _authService.ForgotPassword(contact);
+            return Ok(new { message = "Please check your email for password reset instructions" });
+        }
+
+        [HttpPost("reset-password")]
+        [SwaggerOperation(Summary = "Reset Password")]
+        [SwaggerResponse(200, "OK")]
+        [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
+        public ActionResult ResetPassword(ResetPasswordInputModel model )
+        {
+            _authService.ResetPassword(model.NewPassword, model.Token);
+            return NoContent();
         }
 
         [HttpPost("login")]

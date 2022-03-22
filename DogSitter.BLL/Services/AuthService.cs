@@ -56,6 +56,34 @@ namespace DogSitter.BLL.Services
 
         }
 
+        public void ForgotPassword(string email)
+        {
+            var foundContact = _contactRepository.GetContactByValue(email);
+            if (foundContact == null || foundContact.User == null || foundContact.User.IsDeleted)
+            {
+                throw new EntityNotFoundException("Invalid username or password entered");
+            }
+            var resetToken = randomTokenString();
+            var resetTokenExpires = DateTime.Now.AddMinutes(5);
+            _userRepository.ForgorPassword(foundContact.User, resetToken, resetTokenExpires);
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_map.Map<UserModel>(foundContact.User), EmailMessage.RestorePessword(resetToken), EmailTopic.ResetPassword);
+        }
+
+        public void ResetPassword(string password, string token)
+        {
+            var user = _userRepository.GetUserByResetToken(token);
+            if(user == null || user.ResetTokenExpires < DateTime.Now)
+            {
+                throw new Exception("Invalid token");
+            }
+            string hashPassword = PasswordHash.HashPassword(password);
+            _userRepository.ResetPassword(hashPassword, user);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_map.Map<UserModel>(user), EmailMessage.PasswordChange, EmailTopic.PasswordChange);
+        }
+
         public string GetToken(UserModel user)
         {
             var claims = new List<Claim> {
@@ -113,6 +141,7 @@ namespace DogSitter.BLL.Services
 
         private string randomTokenString()
         {
+
             var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
             byte[] randomBytes = new byte[40];
             rngCryptoServiceProvider.GetBytes(randomBytes);
