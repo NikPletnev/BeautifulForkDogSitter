@@ -65,7 +65,7 @@ namespace DogSitter.BLL.Services
             }
             var resetToken = randomTokenString();
             var resetTokenExpires = DateTime.Now.AddMinutes(5);
-            _userRepository.ForgorPassword(foundContact.User, resetToken, resetTokenExpires);
+            _userRepository.AddTokenForResetPasswordAndEditEmail(foundContact.User, resetToken, resetTokenExpires);
             EmailSendller emailSendller = new EmailSendller(_logger);
             emailSendller.SendMessage(_map.Map<UserModel>(foundContact.User), EmailMessage.RestorePessword(resetToken), EmailTopic.ResetPassword);
         }
