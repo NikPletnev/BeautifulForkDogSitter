@@ -6,7 +6,6 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 
 namespace DogSitter.BLL.Services
 {

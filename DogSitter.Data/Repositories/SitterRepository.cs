@@ -25,15 +25,15 @@ namespace DogSitter.DAL.Repositories
             //var passport = _context.Passports.FirstOrDefault(x => x.Id == sitter.PassportId);
             //sitter.Passport = passport;
             return sitter;
-        } 
-            
+        }
+
 
         public List<Sitter> GetAll() =>
             _context.Sitters.Where(d => !d.IsDeleted).Include(w => w.WorkTime).ToList();
 
         public int Add(Sitter sitter)
         {
-            var entity =  _context.Sitters.Add(sitter);
+            var entity = _context.Sitters.Add(sitter);
             _context.SaveChanges();
             return entity.Entity.Id;
         }

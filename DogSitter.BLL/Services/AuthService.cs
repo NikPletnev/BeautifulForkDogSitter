@@ -7,7 +7,6 @@ using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -73,7 +72,7 @@ namespace DogSitter.BLL.Services
         public void ResetPassword(string password, string token)
         {
             var user = _userRepository.GetUserByResetToken(token);
-            if(user == null || user.ResetTokenExpires < DateTime.Now)
+            if (user == null || user.ResetTokenExpires < DateTime.Now)
             {
                 throw new Exception("Invalid token");
             }

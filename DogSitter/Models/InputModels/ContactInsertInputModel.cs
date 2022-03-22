@@ -8,7 +8,7 @@ namespace DogSitter.API.Models
         public string Value { get; set; }
 
         [Required]
-        [RegularExpression(@"^(Phone|Mail)$")]     
+        [RegularExpression(@"^(Phone|Mail)$")]
         public string ContactType { get; set; }
     }
 }

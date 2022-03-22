@@ -18,7 +18,7 @@ namespace DogSitter.DAL.Repositories
         {
             workTime.Sitter = sitter;
 
-            if(sitter.WorkTime == null)
+            if (sitter.WorkTime == null)
             {
                 sitter.WorkTime = new List<WorkTime>();
             }
@@ -49,7 +49,7 @@ namespace DogSitter.DAL.Repositories
             var result = _context.WorkTimes.Where(w => w.Sitter.Id == id).ToList();
             return result;
         }
-        
+
         public void ChangeWorkTimeStatus(WorkTime workTime, bool isBusy)
         {
             workTime.IsBusy = isBusy;

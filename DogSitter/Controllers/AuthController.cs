@@ -6,7 +6,6 @@ using DogSitter.BLL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel;
 
 namespace DogSitter.API.Controllers
 {
@@ -79,7 +78,7 @@ namespace DogSitter.API.Controllers
         [SwaggerOperation(Summary = "Reset Password")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
-        public ActionResult ResetPassword(ResetPasswordInputModel model )
+        public ActionResult ResetPassword(ResetPasswordInputModel model)
         {
             _authService.ResetPassword(model.NewPassword, model.Token);
             return NoContent();

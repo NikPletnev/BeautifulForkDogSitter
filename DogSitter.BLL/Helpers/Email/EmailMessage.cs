@@ -1,9 +1,4 @@
 ﻿using DogSitter.DAL.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.BLL.Helpers
 {
@@ -12,7 +7,7 @@ namespace DogSitter.BLL.Helpers
 
         public const string SitterCreated = "The profile has been successfully created, " +
             "when your documents pass the verification, you will receive an email. Thanks!";
-        
+
         public const string SitterVerified = "Your profile has been verified";
 
         public const string SitterBlocked = "Your profile is blocked, to find out more contact the site administration";

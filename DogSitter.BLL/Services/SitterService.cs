@@ -183,6 +183,6 @@ namespace DogSitter.BLL.Services
             }
 
             return _mapper.Map<List<SitterModel>>(sitters);
-        }       
+        }
     }
 }

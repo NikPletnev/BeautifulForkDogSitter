@@ -11,7 +11,7 @@ namespace DogSitter.API.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Укажите город")]
-        [TextOnly] 
+        [TextOnly]
         public string City { get; set; }
 
         [Required(ErrorMessage = "Укажите улицу")]

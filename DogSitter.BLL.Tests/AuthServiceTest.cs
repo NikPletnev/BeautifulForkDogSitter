@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace DogSitter.BLL.Tests
@@ -169,7 +168,7 @@ namespace DogSitter.BLL.Tests
             _userRepositoryMock.Setup(m => m.ChangeUserPassword(newPassword, user));
             _userRepositoryMock.Setup(m => m.GetUserById(user.Id)).Returns(user);
 
-            Assert.Throws<PasswordException>(() => 
+            Assert.Throws<PasswordException>(() =>
             _service.ChangeUserPassword(user.Id, newPassword, oldPassword));
         }
 

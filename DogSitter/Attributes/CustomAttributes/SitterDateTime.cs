@@ -3,7 +3,7 @@
 namespace DogSitter.API.Attributes.CustomAttributes
 {
     public class SitterDateTime : ValidationAttribute
-    { 
+    {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             DateTime workTime = DateTime.Parse(value.ToString());

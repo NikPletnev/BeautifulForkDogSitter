@@ -33,7 +33,7 @@ namespace DogSitter.BLL.Services
             _workTimeRepository = workTimeRepository;
             _dogRepository = dogRepository;
             _serviceRepository = serviceRepository;
-            _logger = logger;   
+            _logger = logger;
         }
 
         public int Add(int userId, OrderModel orderModel)
@@ -149,7 +149,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Customer {id} was not found");
             }
-            
+
             return _map.Map<List<OrderModel>>(_rep.GetAllOrdersByCustomerId(id));
         }
 
@@ -190,12 +190,12 @@ namespace DogSitter.BLL.Services
                 sitter.Rating = SitterNewRating;
                 _sitterRepository.ChangeRating(sitter);
                 emailSendller.SendMessage(_map.Map<SitterModel>(order.Sitter), EmailMessage.UpdateRatingSitter(sitter.Rating, SitterNewRating), EmailTopic.UpdateRating);
-            }        
+            }
         }
 
         private decimal GetOrderTotalSum(OrderModel orderModel)
         {
-            if(orderModel.Services == null)
+            if (orderModel.Services == null)
             {
                 return 0;
             }
@@ -205,7 +205,7 @@ namespace DogSitter.BLL.Services
         public OrderModel GetOrderById(int id)
         {
             var order = _rep.GetById(id);
-            if(order == null)
+            if (order == null)
             {
                 throw new EntityNotFoundException("Order not found");
             }

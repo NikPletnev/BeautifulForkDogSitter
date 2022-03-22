@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Castle.Core.Logging;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Helpers;
@@ -33,9 +32,9 @@ namespace DogSitter.BLL.Tests
             _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
             _userRepMock = new Mock<IUserRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new SitterService(_sitterRepositoryMock.Object, 
+            _service = new SitterService(_sitterRepositoryMock.Object,
                 _subwayStationRepositoryMock.Object, _mapper, _userRepMock.Object, new Mock<ILogger<EmailSendller>>().Object,
-                new Mock <IAdminRepository>().Object);
+                new Mock<IAdminRepository>().Object);
             _sitterTestCase = new SitterTestCaseSourse();
         }
 

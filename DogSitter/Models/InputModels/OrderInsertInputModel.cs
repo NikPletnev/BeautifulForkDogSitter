@@ -1,5 +1,4 @@
 ﻿using DogSitter.API.Attributes.CustomAttributes;
-using DogSitter.BLL.Models;
 using DogSitter.DAL.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,7 +20,7 @@ namespace DogSitter.API.Models.InputModels
 
         [Range(0, 5, ErrorMessage = "Недопустимая оценка")]
         public int Mark { get; set; }
-        
+
 
     }
 }
