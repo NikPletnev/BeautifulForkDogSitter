@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace DogSitter.BLL.Services
 {
@@ -26,6 +27,34 @@ namespace DogSitter.BLL.Services
             _userRepository = userRepository;
             _map = mapper;
             _logger = logger;
+        }
+
+        public void ForgotPassword(string email)
+        {
+            var foundContact = _contactRepository.GetContactByValue(email);
+            if (foundContact == null || foundContact.User == null || foundContact.User.IsDeleted)
+            {
+                throw new EntityNotFoundException("Invalid username or password entered");
+            }
+            var resetToken = randomTokenString();
+            var resetTokenExpires = DateTime.Now.AddMinutes(5);
+            _userRepository.ForgorPassword(foundContact.User, resetToken, resetTokenExpires);
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_map.Map<UserModel>(foundContact.User), EmailMessage.RestorePessword(resetToken), EmailTopic.ResetPassword);
+        }
+
+        public void ResetPassword(string password, string token)
+        {
+            var user = _userRepository.GetUserByResetToken(token);
+            if(user == null || user.ResetTokenExpires < DateTime.Now)
+            {
+                throw new Exception("Invalid token");
+            }
+            string hashPassword = PasswordHash.HashPassword(password);
+            _userRepository.ResetPassword(hashPassword, user);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_map.Map<UserModel>(user), EmailMessage.PasswordChange, EmailTopic.PasswordChange);
         }
 
         public string GetToken(UserModel user)
@@ -81,6 +110,15 @@ namespace DogSitter.BLL.Services
 
             EmailSendller emailSendller = new EmailSendller(_logger);
             emailSendller.SendMessage(_map.Map<UserModel>(user), EmailMessage.PasswordChange, EmailTopic.PasswordChange);
+        }
+
+        private string randomTokenString()
+        {
+
+            var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
+            byte[] randomBytes = new byte[40];
+            rngCryptoServiceProvider.GetBytes(randomBytes);
+            return BitConverter.ToString(randomBytes).Replace("-", "");
         }
     }
 }

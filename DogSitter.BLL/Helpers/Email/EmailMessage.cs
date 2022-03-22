@@ -39,6 +39,9 @@ namespace DogSitter.BLL.Helpers
         public static string UpdateRatingSitter(double oldRating, double newRating) => $"You have been given a new mark. " +
             $"Your rating has been updated. Old rating: {oldRating}. New rating: {newRating}.";
 
+        public static string RestorePessword(string token) => $"Use this token to recover your password {token} . If it was not you, " +
+            "please inform the administration of the site about it.";
+
 
     }
 }
