@@ -27,6 +27,8 @@ namespace DogSitter.DAL.Repositories
         public void UpdateContact(Contact contact, string value)
         {
             contact.Value = value;
+            contact.User.ResetToken = null;
+            contact.User.ResetTokenExpires = null;
             _context.SaveChanges();
         }
 
