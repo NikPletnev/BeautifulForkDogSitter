@@ -29,6 +29,33 @@ namespace DogSitter.BLL.Services
             _logger = logger;
         }
 
+        public void ConfirmNewEmail(int id, string contact)
+        {
+            var user = _userRepository.GetUserById(id);
+            var resetToken = randomTokenString();
+            var resetTokenExpires = DateTime.Now.AddMinutes(5);
+            _userRepository.AddTokenForResetPasswordAndEditEmail(user, resetToken, resetTokenExpires);
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendEmailCustom(contact, EmailMessage.ConfirmNewEmail(resetToken), EmailTopic.ConfirmNewEmail);
+        }
+
+        public void ChangeUserEmail(int id, string oldContact, string newContact, string token)
+        {
+            var user = _userRepository.GetUserById(id);
+            if (user == null || user.ResetTokenExpires < DateTime.Now || user.ResetToken != token)
+            {
+                throw new Exception("Invalid token");
+            }
+
+            var contact = _contactRepository.GetContactByValue(oldContact);
+            _contactRepository.UpdateContact(contact, newContact);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendEmailCustom(newContact, EmailMessage.ChangeUserEmailForNewEmail, EmailTopic.EmailChange);
+            emailSendller.SendEmailCustom(oldContact, EmailMessage.ChangeUserEmailForOldEmail, EmailTopic.EmailChange);
+
+        }
+
         public void ForgotPassword(string email)
         {
             var foundContact = _contactRepository.GetContactByValue(email);
@@ -38,7 +65,7 @@ namespace DogSitter.BLL.Services
             }
             var resetToken = randomTokenString();
             var resetTokenExpires = DateTime.Now.AddMinutes(5);
-            _userRepository.ForgorPassword(foundContact.User, resetToken, resetTokenExpires);
+            _userRepository.AddTokenForResetPasswordAndEditEmail(foundContact.User, resetToken, resetTokenExpires);
             EmailSendller emailSendller = new EmailSendller(_logger);
             emailSendller.SendMessage(_map.Map<UserModel>(foundContact.User), EmailMessage.RestorePessword(resetToken), EmailTopic.ResetPassword);
         }

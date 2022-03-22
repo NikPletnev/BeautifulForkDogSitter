@@ -24,5 +24,13 @@ namespace DogSitter.DAL.Repositories
         public List<Contact> GetAllContactsByCustomerId(int id)
            => _context.Customers.FirstOrDefault(x => x.Id == id).Contacts.Where(c => !c.IsDeleted).ToList();
 
+        public void UpdateContact(Contact contact, string value)
+        {
+            contact.Value = value;
+            contact.User.ResetToken = null;
+            contact.User.ResetTokenExpires = null;
+            _context.SaveChanges();
+        }
+
     }
 }

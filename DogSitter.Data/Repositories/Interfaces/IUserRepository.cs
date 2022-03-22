@@ -6,7 +6,7 @@ namespace DogSitter.DAL.Repositories
     {
         User GetUserById(int id);
         void ChangeUserPassword(string password, User user);
-        void ForgorPassword(User user, string token, DateTime date);
+        void AddTokenForResetPasswordAndEditEmail(User user, string token, DateTime date);
         User GetUserByResetToken(string token);
         void ResetPassword(string password, User user);
     }

@@ -21,13 +21,6 @@ namespace DogSitter.DAL.Repositories
             _context.SaveChanges();
         }
 
-        public void ForgorPassword(User user, string token, DateTime date)
-        {
-            user.ResetToken = token;
-            user.ResetTokenExpires = date;
-            _context.SaveChanges();
-        }
-
         public void ResetPassword(string password, User user)
         {
             user.Password = password;
@@ -40,5 +33,11 @@ namespace DogSitter.DAL.Repositories
             _context.Users.Include(x => x.Contacts).FirstOrDefault(x => x.ResetToken == token);
 
 
+        public void AddTokenForResetPasswordAndEditEmail(User user, string token, DateTime date)
+        {
+            user.ResetToken = token;
+            user.ResetTokenExpires = date;
+            _context.SaveChanges();
+        }
     }
 }
