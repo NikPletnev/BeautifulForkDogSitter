@@ -93,7 +93,7 @@ namespace DogSitter.DAL.Tests
                 Name = "TestNamUpdate",
                 City = "TestCityUpdate",
                 Street = "TestStreetUpdate",
-                House = 3,
+                House = "3",
                 Apartament = 4,
                 IsDeleted = true
             };

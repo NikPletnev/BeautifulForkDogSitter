@@ -125,6 +125,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Mark = 1,
                 Sitter = new Sitter()
                 {
+                    Id = 33,
                     FirstName = " ",
                     LastName = " ",
                     Password = " "

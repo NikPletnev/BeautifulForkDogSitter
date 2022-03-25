@@ -21,7 +21,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         Name = "Мой дом",
                         City = "Город",
                         Street = "Улица",
-                        House = 1,
+                        House = "3",
                         Apartament = 1,
                         IsDeleted = false,
                     }
@@ -38,7 +38,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Name = "Мой дом",
                     City = "Город",
                     Street = "Улица",
-                    House = 1,
+                    House = "3",
                     Apartament = 1,
                     IsDeleted = false,
                 };
@@ -57,7 +57,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         Name = "ДомДом",
                         City = "Город",
                         Street = "Улица",
-                        House = 3,
+                        House = "3",
                         Apartament = 3,
                         IsDeleted = false,
                     }
@@ -73,7 +73,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Name = "ДомДом",
                     City = "Город",
                     Street = "Улица",
-                    House = 3,
+                    House = "3",
                     Apartament = 3,
                     IsDeleted = false,
                 }
@@ -107,7 +107,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         Name = "TestName3",
                         City = "TestCity3",
                         Street = "TestStreet3",
-                        House = 3,
+                        House = "3",
                         Apartament = 3,
                         IsDeleted = true,
                     }
@@ -123,7 +123,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Name = "TestName3",
                 City = "TestCity3",
                 Street = "TestStreet3",
-                House = 3,
+                House = "3",
                 Apartament = 3,
                 IsDeleted = true,
             };

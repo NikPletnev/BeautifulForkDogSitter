@@ -11,7 +11,7 @@ namespace DogSitter.API.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Укажите город")]
-        [TextOnly] 
+        [TextOnly]
         public string City { get; set; }
 
         [Required(ErrorMessage = "Укажите улицу")]
@@ -19,8 +19,7 @@ namespace DogSitter.API.Models
         public string Street { get; set; }
 
         [Required(ErrorMessage = "Укажите номер дома")]
-        [Range(1, 1000, ErrorMessage = "Неверный номер дома")]
-        public int House { get; set; }
+        public string House { get; set; }
 
         [Required(ErrorMessage = "Укажите номер квартиры")]
         [Range(1, 1000, ErrorMessage = "Неверный номер квартры")]

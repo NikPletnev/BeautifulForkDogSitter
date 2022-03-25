@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -35,10 +37,11 @@ namespace DogSitter.BLL.Tests
             _sitterRepMock = new Mock<ISitterRepository>();
             _userRepMock = new Mock<IUserRepository>();
             _workTimeRepositoryMock = new Mock<IWorkTimeRepository>();
-            _dogRepositoryMock = new Mock<IDogRepository> ();
-            _serviceRepositoryMock = new Mock<IServiceRepository> ();
+            _dogRepositoryMock = new Mock<IDogRepository>();
+            _serviceRepositoryMock = new Mock<IServiceRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new OrderService(_orderRepositoryMock.Object, _customerRepMock.Object, _sitterRepMock.Object, _mapper, _userRepMock.Object, _workTimeRepositoryMock.Object, _dogRepositoryMock.Object, _serviceRepositoryMock.Object);
+            _service = new OrderService(_orderRepositoryMock.Object, new Mock<ILogger<EmailSendller>>().Object, new Mock<IAdminRepository>().Object,
+            _sitterRepMock.Object, _mapper, _userRepMock.Object, _workTimeRepositoryMock.Object, _dogRepositoryMock.Object, _serviceRepositoryMock.Object);
         }
 
         [TestCaseSource(typeof(UpdateOrderTestCaseSource))]

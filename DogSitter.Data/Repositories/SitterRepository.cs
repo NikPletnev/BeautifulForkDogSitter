@@ -19,32 +19,31 @@ namespace DogSitter.DAL.Repositories
             .Include(w => w.Orders)
             .Include(w => w.Services)
             .Include(w => w.WorkTime)
+            .Include(w => w.Passport)
+            .Include(w => w.Contacts)
             .FirstOrDefault();
-            var passport = _context.Passports.FirstOrDefault(x => x.Id == sitter.PassportId);
-            sitter.Passport = passport;
+            //var passport = _context.Passports.FirstOrDefault(x => x.Id == sitter.PassportId);
+            //sitter.Passport = passport;
             return sitter;
-        } 
-            
+        }
+
 
         public List<Sitter> GetAll() =>
             _context.Sitters.Where(d => !d.IsDeleted).Include(w => w.WorkTime).ToList();
 
         public int Add(Sitter sitter)
         {
-            var entity =  _context.Sitters.Add(sitter);
+            var entity = _context.Sitters.Add(sitter);
             _context.SaveChanges();
             return entity.Entity.Id;
         }
 
         public void Update(Sitter exitingSitter, Sitter sitterToUpdate)
         {
-            exitingSitter.Passport = sitterToUpdate.Passport;
             exitingSitter.FirstName = sitterToUpdate.FirstName;
             exitingSitter.LastName = sitterToUpdate.LastName;
-            exitingSitter.Contacts = sitterToUpdate.Contacts;
             exitingSitter.SubwayStation = sitterToUpdate.SubwayStation;
             exitingSitter.Information = sitterToUpdate.Information;
-            exitingSitter.Services = sitterToUpdate.Services;
             _context.SaveChanges();
         }
 

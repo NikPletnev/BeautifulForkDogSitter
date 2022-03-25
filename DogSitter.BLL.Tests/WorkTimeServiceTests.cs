@@ -43,8 +43,8 @@ namespace DogSitter.BLL.Tests
             _service.AddWorkTime(workTime.Sitter.Id, _mapper.Map<WorkTimeModel>(workTime));
 
             //then
-            _workTimeRepositoryMock.Verify(m => m.AddWorkTime(It.IsAny<WorkTime>(), It.IsAny<Sitter>()),Times.Once);
-            
+            _workTimeRepositoryMock.Verify(m => m.AddWorkTime(It.IsAny<WorkTime>(), It.IsAny<Sitter>()), Times.Once);
+
         }
 
         [Test]

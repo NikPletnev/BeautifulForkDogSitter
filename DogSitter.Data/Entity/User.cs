@@ -14,7 +14,8 @@ namespace DogSitter.DAL.Entity
         [Required]
         public string LastName { get; set; }
         public bool IsDeleted { get; set; }
-
+        public string ResetToken { get; set; }
+        public DateTime? ResetTokenExpires { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
 
     }

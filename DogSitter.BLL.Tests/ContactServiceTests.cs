@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Configs;
-using DogSitter.BLL.Exeptions;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
-using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
 using Moq;
 using NUnit.Framework;

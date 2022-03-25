@@ -1,5 +1,4 @@
-﻿using DogSitter.API.Attribute;
-using DogSitter.DAL.Entity;
+﻿using DogSitter.DAL.Entity;
 using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.API.Models

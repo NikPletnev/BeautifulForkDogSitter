@@ -2,9 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogSitter.DAL.Tests.TestCaseSource
 {
@@ -13,7 +10,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
         public IEnumerator GetEnumerator()
         {
             List<Sitter> sitters = new List<Sitter>()
-                { 
+                {
                     new Sitter()
                       {
                         Id = 17,

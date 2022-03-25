@@ -4,7 +4,6 @@ using DogSitter.DAL.Repositories;
 using DogSitter.DAL.Tests.TestCaseSource;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,7 +38,12 @@ namespace DogSitter.DAL.Tests
         public void AddOrderTest()
         {
             var expected = OrderTestCaseSourse.GetOrder();
-            var cust = new Customer();
+            var cust = new Customer()
+            {
+                FirstName = "FirstName1",
+                LastName = "LastName1",
+                Password = "Password1"
+            };
 
             _repository.Add(expected, cust);
             var actual = _context.Orders.FirstOrDefault(x => x.Id == expected.Id);
@@ -79,12 +83,13 @@ namespace DogSitter.DAL.Tests
             var expected = new Order()
             {
                 Id = 3,
-                OrderDate = DateTime.Now,
+                OrderDate = order.OrderDate,
                 Price = 303,
                 Status = Status.Created,
                 Mark = 1,
                 Sitter = new Sitter()
                 {
+                    Id = 33,
                     FirstName = " ",
                     LastName = " ",
                     Password = " "

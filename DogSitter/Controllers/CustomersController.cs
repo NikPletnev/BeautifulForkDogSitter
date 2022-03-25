@@ -73,7 +73,7 @@ namespace DogSitter.Controllers
         [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
         public ActionResult RegisterCustomer([FromBody] CustomerInputModel customer)
         {
-           var id = _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
+            var id = _service.AddCustomer(_mapper.Map<CustomerModel>(customer));
             return StatusCode(StatusCodes.Status201Created, id);
         }
 

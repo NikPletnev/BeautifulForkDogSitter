@@ -5,7 +5,7 @@ namespace DogSitter.API.Attributes.CustomAttributes
 {
     public class EndTimeMoreThanStartTime : CompareAttribute
     {
-        public EndTimeMoreThanStartTime(string otherProperty) : base(otherProperty) {}
+        public EndTimeMoreThanStartTime(string otherProperty) : base(otherProperty) { }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {

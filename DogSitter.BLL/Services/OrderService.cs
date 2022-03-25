@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services.Interfaces;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace DogSitter.BLL.Services
 {
@@ -13,23 +15,25 @@ namespace DogSitter.BLL.Services
         private readonly IOrderRepository _rep;
         private IMapper _map;
         private ISitterRepository _sitterRepository;
-        private ICustomerRepository _customerRepository;
         private IUserRepository _userRepository;
         private IWorkTimeRepository _workTimeRepository;
         private IDogRepository _dogRepository;
         private IServiceRepository _serviceRepository;
+        private ILogger<EmailSendller> _logger;
+        private IAdminRepository _adminRepository;
 
-        public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository,
+        public OrderService(IOrderRepository orderRepository, ILogger<EmailSendller> logger, IAdminRepository adminRepository,
             ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository, IWorkTimeRepository workTimeRepository, IDogRepository dogRepository, IServiceRepository serviceRepository)
         {
             _rep = orderRepository;
-            _customerRepository = customerRepository;
             _sitterRepository = sitterRepository;
+            _adminRepository = adminRepository;
             _map = mapper;
             _userRepository = userRepository;
             _workTimeRepository = workTimeRepository;
             _dogRepository = dogRepository;
             _serviceRepository = serviceRepository;
+            _logger = logger;
         }
 
         public int Add(int userId, OrderModel orderModel)
@@ -37,6 +41,9 @@ namespace DogSitter.BLL.Services
             orderModel.Price = GetOrderTotalSum(orderModel);
             var customer = (Customer)_userRepository.GetUserById(userId);
             var orderId = _rep.Add(_map.Map<Order>(orderModel), customer);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(orderModel.Sitter, EmailMessage.NewOrderForSitter(orderId), EmailTopic.NewOrder);
 
             return orderId;
         }
@@ -93,6 +100,8 @@ namespace DogSitter.BLL.Services
             if (order.Status == Status.Created)
             {
                 _rep.Update(order);
+                EmailSendller emailSendller = new EmailSendller(_logger);
+                emailSendller.SendMessage(orderModel.Sitter, EmailMessage.UpdateOrderForSitter(order.Id), EmailTopic.UpdateOrder);
             }
             else
             {
@@ -114,6 +123,9 @@ namespace DogSitter.BLL.Services
                 throw new AccessException("Not enough rights");
             }
             _rep.EditOrderStatusByOrderId(order, status);
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_map.Map<SitterModel>(order.Sitter), EmailMessage.NewOrderStatus(order.Id, (Status)status), EmailTopic.UpdateOrder);
+            emailSendller.SendMessage(_map.Map<CustomerModel>(order.Customer), EmailMessage.NewOrderStatus(order.Id, (Status)status), EmailTopic.UpdateOrder);
         }
 
         public List<OrderModel> GetAllOrdersBySitterId(int userId, int id)
@@ -137,7 +149,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new EntityNotFoundException($"Customer {id} was not found");
             }
-            
+
             return _map.Map<List<OrderModel>>(_rep.GetAllOrdersByCustomerId(id));
         }
 
@@ -151,8 +163,20 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Order was not found");
             }
             _rep.LeaveCommentAndRateOrder(entity, _map.Map<Order>(order));
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_map.Map<SitterModel>(order.Sitter), EmailMessage.NewComment(order.Id), EmailTopic.UpdateOrder);
+
+            var admins = _adminRepository.GetAllAdminWithContacts();
+            var adminsModel = _map.Map<List<AdminModel>>(admins);
+
+            foreach (var a in adminsModel)
+            {
+                emailSendller.SendMessage(a, EmailMessage.NewComment(order.Id), EmailTopic.NewCommentForAdmin);
+            }
+
             var orders = _sitterRepository.GetAllSitterOrders(sitter);
-            int SitterNewRating = 0;
+            double SitterNewRating = 0;
             foreach (var item in orders)
             {
                 SitterNewRating += item.Mark.Value;
@@ -161,13 +185,17 @@ namespace DogSitter.BLL.Services
             {
                 SitterNewRating /= orders.Count;
             }
-            sitter.Rating = SitterNewRating;
-            _sitterRepository.ChangeRating(sitter);
+            if (sitter.Rating != SitterNewRating)
+            {
+                sitter.Rating = SitterNewRating;
+                _sitterRepository.ChangeRating(sitter);
+                emailSendller.SendMessage(_map.Map<SitterModel>(order.Sitter), EmailMessage.UpdateRatingSitter(sitter.Rating, SitterNewRating), EmailTopic.UpdateRating);
+            }
         }
 
         private decimal GetOrderTotalSum(OrderModel orderModel)
         {
-            if(orderModel.Services == null)
+            if (orderModel.Services == null)
             {
                 return 0;
             }
@@ -177,7 +205,7 @@ namespace DogSitter.BLL.Services
         public OrderModel GetOrderById(int id)
         {
             var order = _rep.GetById(id);
-            if(order == null)
+            if (order == null)
             {
                 throw new EntityNotFoundException("Order not found");
             }

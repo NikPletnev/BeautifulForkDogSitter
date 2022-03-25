@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using DogSitter.BLL.Configs;
 using DogSitter.BLL.Exeptions;
+using DogSitter.BLL.Helpers;
 using DogSitter.BLL.Models;
 using DogSitter.BLL.Services;
 using DogSitter.BLL.Tests.TestCaseSource;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -17,6 +19,7 @@ namespace DogSitter.BLL.Tests
     {
         private Mock<ICustomerRepository> _customerRepositoryMock;
         private Mock<IUserRepository> _userRepositoryMock;
+        private Mock<ISubwayStationRepository> _subwayStationRepositoryMock;
         private IMapper _mapper;
         private CustomerService _service;
 
@@ -25,8 +28,9 @@ namespace DogSitter.BLL.Tests
         {
             _customerRepositoryMock = new Mock<ICustomerRepository>();
             _userRepositoryMock = new Mock<IUserRepository>();
+            _subwayStationRepositoryMock = new Mock<ISubwayStationRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new CustomerService(_customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object);
+            _service = new CustomerService(_customerRepositoryMock.Object, _mapper, _userRepositoryMock.Object, _subwayStationRepositoryMock.Object, new Mock<ILogger<EmailSendller>>().Object);
         }
 
 

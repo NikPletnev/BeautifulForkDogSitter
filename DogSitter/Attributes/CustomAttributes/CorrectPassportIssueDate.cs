@@ -8,7 +8,7 @@ namespace DogSitter.API.Attributes
         {
             DateTime issueDate = DateTime.Parse(value.ToString());
 
-            if (issueDate > DateTime.Today | issueDate == DateTime.Today | issueDate < new DateTime(1993, 06, 12))
+            if (issueDate >= DateTime.Today | issueDate < new DateTime(1993, 06, 12))
             {
                 return new ValidationResult("Incorrect issue date");
             }

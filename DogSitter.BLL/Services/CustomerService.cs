@@ -5,6 +5,7 @@ using DogSitter.BLL.Models;
 using DogSitter.DAL.Entity;
 using DogSitter.DAL.Enums;
 using DogSitter.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace DogSitter.BLL.Services
 {
@@ -13,12 +14,16 @@ namespace DogSitter.BLL.Services
         private ICustomerRepository _repository;
         private IMapper _mapper;
         private IUserRepository _userRepository;
+        private ISubwayStationRepository _subwayStationRepository;
+        private ILogger<EmailSendller> _logger;
 
-        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository)
+        public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository, ISubwayStationRepository subwayStationRepository, ILogger<EmailSendller> logger)
         {
             _repository = repository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _subwayStationRepository = subwayStationRepository;
+            _logger = logger;
         }
 
         public CustomerModel GetCustomerById(int id)
@@ -40,21 +45,35 @@ namespace DogSitter.BLL.Services
 
         public int AddCustomer(CustomerModel customerModel)
         {
-            if(customerModel.Address.SubwayStations.Count != 0)
+            if (customerModel.Address.SubwayStations != null)
             {
-                foreach (var item in customerModel.Address.SubwayStations)
+                if (customerModel.Address.SubwayStations.Count != 0)
                 {
-                    if(item.Id < 0 && item.Id >72)
+                    foreach (var item in customerModel.Address.SubwayStations)
                     {
-                        throw new ServiceNotEnoughDataExeption($"Subway stantion {item.Id} has no exist");
+                        if (item.Id < 0 && item.Id > 72)
+                        {
+                            throw new ServiceNotEnoughDataExeption($"Subway stantion {item.Id} has no exist");
+                        }
                     }
                 }
             }
 
+            var subwayStantionsEnitityList = new List<SubwayStation>();
+
+            foreach (var stantion in customerModel.Address.SubwayStations)
+            {
+                subwayStantionsEnitityList.Add(_subwayStationRepository.GetSubwayStationById(stantion.Id));
+            }
             var customer = _mapper.Map<Customer>(customerModel);
             customer.Role = Role.Customer;
             customer.Password = PasswordHash.HashPassword(customer.Password);
+            customer.Address.SubwayStations = subwayStantionsEnitityList;
             var id = _repository.AddCustomer(customer);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(customerModel, EmailMessage.CustomerCreated, EmailTopic.ProfileCreated);
+
             return id;
         }
 
@@ -70,7 +89,16 @@ namespace DogSitter.BLL.Services
                     }
                 }
             }
+
+            var subwayStantionsEnitityList = new List<SubwayStation>();
+
+            foreach (var stantion in customer.Address.SubwayStations)
+            {
+                subwayStantionsEnitityList.Add(_subwayStationRepository.GetSubwayStationById(stantion.Id));
+            }
+
             var customerModel = _mapper.Map<Customer>(customer);
+            customerModel.Address.SubwayStations = subwayStantionsEnitityList;
             var entity = _repository.GetCustomerById(id);
             if (entity == null)
             {
@@ -95,6 +123,9 @@ namespace DogSitter.BLL.Services
 
             bool Delete = true;
             _repository.UpdateCustomer(id, Delete);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_mapper.Map<CustomerModel>(entity), EmailMessage.ProfileDeleted, EmailTopic.ProfileDeleted);
         }
 
         public void RestoreCustomer(int id)
@@ -107,6 +138,9 @@ namespace DogSitter.BLL.Services
             }
             bool Delete = false;
             _repository.UpdateCustomer(id, Delete);
+
+            EmailSendller emailSendller = new EmailSendller(_logger);
+            emailSendller.SendMessage(_mapper.Map<CustomerModel>(entity), EmailMessage.ProfileRestore, EmailTopic.Restore);
         }
 
     }

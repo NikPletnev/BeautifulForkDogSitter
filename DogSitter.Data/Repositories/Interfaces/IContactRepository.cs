@@ -8,5 +8,6 @@ namespace DogSitter.DAL.Repositories
         List<Contact> GetAllContactsBySitterId(int id);
         List<Contact> GetAllContacts();
         Contact GetContactByValue(string value);
+        void UpdateContact(Contact contact, string value);
     }
 }
