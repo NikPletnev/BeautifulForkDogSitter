@@ -8,7 +8,7 @@ namespace DogSitter.DAL.Repositories
         void EditProfileStateBySitterId(int id, bool verify);
         List<Sitter> GetAll();
         //List<Sitter> GetAllSitterByServiceId(int id);
-        List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation);
+        List<Sitter> GetAllSittersWithWorkTimeBySubwayStationId(int subwaystationId);
         Sitter GetById(int id);
         void UpdateOrDelete(Sitter sitter, bool isDeleted);
         void Update(Sitter exitingSitter, Sitter sitterToUpdate);

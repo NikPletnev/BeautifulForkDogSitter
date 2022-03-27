@@ -9,8 +9,7 @@ namespace DogSitter.BLL.Services
         void ConfirmProfileSitterById(int id);
         void DeleteById(int userId, int id);
         List<SitterModel> GetAll();
-        //List<SitterModel> GetAllSitterByServiceId(int id);
-        List<SitterModel> GetAllSittersWithWorkTimeBySubwayStation(SubwayStationModel subwayStationModel);
+        List<SitterModel> GetAllSittersWithWorkTimeBySubwayStationId(int subwayStationId);
         SitterModel GetById(int id);
         void Restore(int id);
         void Update(int id, SitterModel sitterModel);

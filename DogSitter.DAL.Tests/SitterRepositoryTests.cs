@@ -152,7 +152,7 @@ namespace DogSitter.DAL.Tests
         }
 
         [TestCaseSource(typeof(GetAllSittersWithWorkTimeBySubwayStationTestCaseSource))]
-        public void GetAllSittersWithWorkTimeBySubwayStationTest(SubwayStation subwayStation,
+        public void GetAllSittersWithWorkTimeBySubwayStationIdTest(SubwayStation subwayStation,
             List<Sitter> sitters, List<Sitter> expected)
         {
             //given
@@ -160,7 +160,7 @@ namespace DogSitter.DAL.Tests
             _context.SaveChanges();
 
             //when
-            var actual = _repository.GetAllSittersWithWorkTimeBySubwayStation(subwayStation);
+            var actual = _repository.GetAllSittersWithWorkTimeBySubwayStationId(subwayStation.Id);
 
             //then
             Assert.AreEqual(expected, actual);

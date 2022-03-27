@@ -250,16 +250,16 @@ namespace DogSitter.BLL.Tests
             //given
             _subwayStationRepositoryMock.Setup(ss => ss.GetSubwayStationById(subwayStation.Id))
                 .Returns(subwayStation);
-            _sitterRepositoryMock.Setup(s => s.GetAllSittersWithWorkTimeBySubwayStation(subwayStation))
+            _sitterRepositoryMock.Setup(s => s.GetAllSittersWithWorkTimeBySubwayStationId(subwayStation.Id))
                 .Returns(sitters);
 
             //when
-            var actual = _service.GetAllSittersWithWorkTimeBySubwayStation(subwayStationModel);
+            var actual = _service.GetAllSittersWithWorkTimeBySubwayStationId(subwayStationModel.Id);
 
             //then
             _subwayStationRepositoryMock.Verify(ss => ss.GetSubwayStationById(subwayStation.Id), Times.Once);
             _sitterRepositoryMock.Verify(s =>
-            s.GetAllSittersWithWorkTimeBySubwayStation(subwayStation), Times.Once);
+            s.GetAllSittersWithWorkTimeBySubwayStationId(subwayStation.Id), Times.Once);
         }
 
         [Test]
@@ -269,7 +269,7 @@ namespace DogSitter.BLL.Tests
                 .Returns((SubwayStation)null);
 
             Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetAllSittersWithWorkTimeBySubwayStation(new SubwayStationModel()));
+            _service.GetAllSittersWithWorkTimeBySubwayStationId(It.IsAny<int>()));
         }
 
         [TestCaseSource(typeof(GetAllSittersWithServicesTestCaseSourse))]
