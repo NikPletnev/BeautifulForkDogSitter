@@ -63,8 +63,8 @@ namespace DogSitter.DAL.Repositories
             }
         }
 
-        public List<Sitter> GetAllSittersWithWorkTimeBySubwayStation(SubwayStation subwaystation) =>
-            _context.Sitters.Where(s => s.SubwayStation.Id == subwaystation.Id && !s.IsDeleted)
+        public List<Sitter> GetAllSittersWithWorkTimeBySubwayStationId(int subwaystationId) =>
+            _context.Sitters.Where(s => s.SubwayStation.Id == subwaystationId && !s.IsDeleted)
             .Include(s => s.WorkTime).ToList();
 
         public void ChangeRating(Sitter sitter)

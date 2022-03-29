@@ -19,6 +19,7 @@ namespace DogSitter.DAL.Repositories
             .Include(w => w.Sitter)
             .Include(w => w.Contacts)
             .Include(w => w.Comments)
+
             .FirstOrDefault();
 
         public List<Customer> GetAllCustomers() =>
@@ -35,7 +36,6 @@ namespace DogSitter.DAL.Repositories
         {
             entity.FirstName = customer.FirstName;
             entity.LastName = customer.LastName;
-            entity.Contacts = customer.Contacts;
             entity.Dogs = customer.Dogs;
             entity.Sitter = customer.Sitter;
             entity.Address = customer.Address;

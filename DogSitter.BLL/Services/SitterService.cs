@@ -162,15 +162,15 @@ namespace DogSitter.BLL.Services
             emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.SitterBlocked, EmailTopic.Block);
         }
 
-        public List<SitterModel> GetAllSittersWithWorkTimeBySubwayStation(SubwayStationModel subwayStationModel)
+        public List<SitterModel> GetAllSittersWithWorkTimeBySubwayStationId(int subwayStationId)
         {
-            var subwayStation = _subwayStationRepository.GetSubwayStationById(subwayStationModel.Id);
+            var subwayStation = _subwayStationRepository.GetSubwayStationById(subwayStationId);
 
             if (subwayStation is null)
                 throw new EntityNotFoundException($"Subway station {subwayStation} was not found");
 
             return _mapper.Map<List<SitterModel>>(_sitterRepository
-                .GetAllSittersWithWorkTimeBySubwayStation(subwayStation));
+                .GetAllSittersWithWorkTimeBySubwayStationId(subwayStation.Id));
         }
 
         public List<SitterModel> GetAllSittersWithServices()

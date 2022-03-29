@@ -187,13 +187,13 @@ namespace DogSitter.API.Controllers
 
         [HttpGet("subwaystation/{id}")]
         [AuthorizeRole(Role.Admin, Role.Customer)]
-        [SwaggerOperation(Summary = "Get all sitters by subway station")]
+        [SwaggerOperation(Summary = "Get all sitters by subway station Id")]
         [SwaggerResponse(200, "OK", typeof(SitterOutputModel))]
         [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
         [SwaggerResponse(401, "Unauthorized")]
         [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         [SwaggerResponse(404, "Not Found", typeof(ExceptionResponse))]
-        public ActionResult<List<SitterOutputModel>> GetAllSittersWithWorkTimeBySubwayStation([FromBody] SubwayStationInputModel subwayStation)
+        public ActionResult<List<SitterOutputModel>> GetAllSittersWithWorkTimeBySubwayStationId(int id)
         {
             var userId = this.GetUserId();
             if (userId == null)
@@ -201,8 +201,8 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            var sitters = _service.GetAllSittersWithWorkTimeBySubwayStation(_mapper.Map<SubwayStationModel>(subwayStation));
-            var sittersModel = _mapper.Map<SitterOutputModel>(sitters);
+            var sitters = _service.GetAllSittersWithWorkTimeBySubwayStationId(id);
+            var sittersModel = _mapper.Map<List<SitterOutputModel>>(sitters);
             return Ok(sittersModel);
         }
 
