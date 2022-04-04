@@ -24,8 +24,9 @@ namespace DogSitter.DAL
         public DbSet<Passport> Passports { get; set; }
         public DbSet<Serviсe> Services { get; set; }
         public DbSet<SubwayStation> SubwayStations { get; set; }
-        public DbSet<WorkTime> WorkTimes { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<BusyTime> BusyTimes { get; set; }
+        public DbSet<Timesheet> Timesheets { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -102,14 +103,9 @@ namespace DogSitter.DAL
             .Property(s => s.IsDeleted)
             .HasDefaultValue(0);
 
-            modelBuilder.Entity<WorkTime>()
+            modelBuilder.Entity<Timesheet>()
             .Property(w => w.IsDeleted)
             .HasDefaultValue(0);
-
-            modelBuilder.Entity<WorkTime>()
-            .Property(w => w.IsBusy)
-            .HasDefaultValue(0);
-
 
             #endregion
 

@@ -11,17 +11,14 @@ namespace DogSitter.BLL.Configs
         {
             CreateMap<Address, AddressModel>().ReverseMap();
             CreateMap<Customer, CustomerModel>().ReverseMap();
-            CreateMap<Sitter, SitterModel>()
-
-                .ReverseMap();
+            CreateMap<Sitter, SitterModel>().ReverseMap();
             CreateMap<Comment, CommentModel>().ReverseMap();
             CreateMap<Serviсe, ServiceModel>().ReverseMap();
-            CreateMap<WorkTime, WorkTimeModel>().ReverseMap();
+            CreateMap<Timesheet, TimesheetModel>().ReverseMap();
             CreateMap<Admin, AdminModel>().ReverseMap();
             CreateMap<Contact, ContactModel>().ReverseMap();
             CreateMap<Dog, DogModel>().ReverseMap();
             CreateMap<Passport, PassportModel>().ReverseMap();
-            CreateMap<WorkTime, WorkTimeModel>().ReverseMap();
             CreateMap<Order, OrderModel>().ReverseMap();
             CreateMap<SubwayStation, SubwayStationModel>().ReverseMap();
             CreateMap<Address, AddressModel>().ReverseMap();

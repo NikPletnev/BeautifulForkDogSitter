@@ -42,7 +42,8 @@ namespace DogSitter.API.Extensions
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<ISitterRepository, SitterRepository>();
             services.AddScoped<ISubwayStationRepository, SubwayStationRepository>();
-            services.AddScoped<IWorkTimeRepository, WorkTimeRepository>();
+            services.AddScoped<IBusyTimeRepository, BusyTimeRepository>();
+            services.AddScoped<ITimesheetRepository, TimesheetRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
         }
 
