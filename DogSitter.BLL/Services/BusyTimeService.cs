@@ -6,7 +6,7 @@ using DogSitter.DAL.Repositories;
 
 namespace DogSitter.BLL.Services
 {
-    public class BusyTimeService 
+    public class BusyTimeService : IBusyTimeService
     {
         private readonly IBusyTimeRepository _busyTimeRepository;
         private readonly IMapper _mapper;
@@ -69,6 +69,16 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"BusyTime wasn't found!");
             }
             return _mapper.Map<BusyTimeModel>(busyTime);
+        }
+
+        public bool CheckAvailableTime(int sitterId, BusyTimeModel busyTime)
+        {
+            Sitter sitter = (Sitter)_userRepository.GetUserById(sitterId);
+            foreach (var item in sitter.BusyTime)
+            {
+                if()
+            }
+            
         }
     }
 }

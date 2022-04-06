@@ -14,7 +14,14 @@ namespace DogSitter.BLL.Configs
             CreateMap<Sitter, SitterModel>().ReverseMap();
             CreateMap<Comment, CommentModel>().ReverseMap();
             CreateMap<Serviсe, ServiceModel>().ReverseMap();
-            CreateMap<Timesheet, TimesheetModel>().ReverseMap();
+            CreateMap<Timesheet, TimesheetModel>()
+                .ForMember(dest => dest.TimeRange.Start, act => act.MapFrom(src => src.Start))
+                .ForMember(dest => dest.TimeRange.End, act => act.MapFrom(src => src.End))
+                .ReverseMap();
+            CreateMap<BusyTime, BusyTimeModel>()
+                .ForMember(dest => dest.TimeRange.Start, act => act.MapFrom(src => src.Start))
+                .ForMember(dest => dest.TimeRange.End, act => act.MapFrom(src => src.End))
+                .ReverseMap();
             CreateMap<Admin, AdminModel>().ReverseMap();
             CreateMap<Contact, ContactModel>().ReverseMap();
             CreateMap<Dog, DogModel>().ReverseMap();

@@ -1,21 +1,22 @@
-﻿using DogSitter.DAL.Entity;
+﻿using DogSitter.BLL.Helpers.Time;
+using DogSitter.DAL.Entity;
 
 namespace DogSitter.BLL.Models
 {
     public class BusyTimeModel
     {
         public int Id { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public TimeRange TimeRange {get; set;}
         public Weekday Weekday { get; set; }
         public SitterModel Sitter { get; set; }
+
         public override bool Equals(object obj)
         {
-            return obj is WorkTimeModel model &&
+            return obj is BusyTimeModel model &&
                    Id == model.Id &&
-                   Start == model.Start &&
-                   End == model.End &&
-                   Weekday == model.Weekday;
+                   EqualityComparer<TimeRange>.Default.Equals(TimeRange, model.TimeRange) &&
+                   Weekday == model.Weekday &&
+                   EqualityComparer<SitterModel>.Default.Equals(Sitter, model.Sitter);
         }
     }
 }
