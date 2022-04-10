@@ -4,7 +4,7 @@ namespace DogSitter.DAL.Repositories
 {
     public class PassportRepository : IPassportRepository
     {
-        private DogSitterContext _context;
+        private readonly DogSitterContext _context;
 
         public PassportRepository(DogSitterContext context)
         {

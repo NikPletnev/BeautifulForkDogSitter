@@ -13,14 +13,14 @@ namespace DogSitter.BLL.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _rep;
-        private IMapper _map;
-        private ISitterRepository _sitterRepository;
-        private IUserRepository _userRepository;
-        private IWorkTimeRepository _workTimeRepository;
-        private IDogRepository _dogRepository;
-        private IServiceRepository _serviceRepository;
-        private ILogger<EmailSendller> _logger;
-        private IAdminRepository _adminRepository;
+        private readonly IMapper _map;
+        private readonly ISitterRepository _sitterRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IWorkTimeRepository _workTimeRepository;
+        private readonly IDogRepository _dogRepository;
+        private readonly IServiceRepository _serviceRepository;
+        private readonly ILogger<EmailSendller> _logger;
+        private readonly IAdminRepository _adminRepository;
 
         public OrderService(IOrderRepository orderRepository, ILogger<EmailSendller> logger, IAdminRepository adminRepository,
             ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository, IWorkTimeRepository workTimeRepository, IDogRepository dogRepository, IServiceRepository serviceRepository)

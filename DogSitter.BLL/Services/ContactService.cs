@@ -9,7 +9,7 @@ namespace DogSitter.BLL.Services
     public class ContactService : IContactService
     {
         private readonly IContactRepository _rep;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly IAdminRepository _adminRepository;
         private readonly ISitterRepository _sitterRepository;
         private readonly ICustomerRepository _customerRepository;

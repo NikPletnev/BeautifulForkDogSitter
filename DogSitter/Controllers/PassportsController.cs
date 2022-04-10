@@ -14,8 +14,8 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class PassportsController : Controller
     {
-        private IPassportService _service;
-        private IMapper _map;
+        private readonly IPassportService _service;
+        private readonly IMapper _map;
 
         public PassportsController(IMapper CustomMapper, IPassportService passportService)
         {

@@ -5,7 +5,7 @@ namespace DogSitter.DAL.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private DogSitterContext _context;
+        private readonly DogSitterContext _context;
 
         public UserRepository(DogSitterContext context)
         {
