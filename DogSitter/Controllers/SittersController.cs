@@ -45,6 +45,11 @@ namespace DogSitter.API.Controllers
                 var sitterModel = _mapper.Map<SitterForAdminOutputModel>(sitter);
                 return Ok(sitterModel);
             }
+            if (User.IsInRole("Sitter"))
+            {
+                var sitterModel = _mapper.Map<SitterForSitterOutputModel>(sitter);
+                return Ok(sitterModel);
+            }
             else
             {
                 var sitterModel = _mapper.Map<SitterOutputModel>(sitter);
