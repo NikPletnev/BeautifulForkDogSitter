@@ -20,16 +20,16 @@ namespace DogSitter.API.Controllers
             _authService = authService;
         }
 
-        [HttpPut("confirm-new-email")]
+        [HttpPost("change-email")]
         [Authorize]
-        [SwaggerOperation(Summary = "Confirm new email")]
+        [SwaggerOperation(Summary = "Change email")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
         [SwaggerResponse(401, "Unauthorized")]
         [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
-        public ActionResult ConfirmNewEmail(string newContact)
+        public ActionResult ConfirmNewEmail(ConfirmNewEmailInputModel newContact)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -37,12 +37,12 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _authService.ConfirmNewEmail(userId.Value, newContact);
+            _authService.ConfirmNewEmail(userId.Value, newContact.Email);
 
             return Ok();
         }
 
-        [HttpPut("change-user-email")]
+        [HttpPatch("email")]
         [Authorize]
         [SwaggerOperation(Summary = "Change user email")]
         [SwaggerResponse(200, "OK")]
@@ -51,7 +51,7 @@ namespace DogSitter.API.Controllers
         [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
-        public ActionResult ChangeUserEmail(string oldContact, string newContact, string token)
+        public ActionResult ChangeUserEmail(ChangeEmailInputModel model)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -59,7 +59,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _authService.ChangeUserEmail(userId.Value, oldContact, newContact, token);
+            _authService.ChangeUserEmail(userId.Value, model.OldEmail, model.NewEmail, model.Token);
 
             return Ok();
         }
