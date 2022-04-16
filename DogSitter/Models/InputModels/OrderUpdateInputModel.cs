@@ -13,7 +13,7 @@ namespace DogSitter.API.Models
         [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
         public int SitterId { get; set; }
-        public int SitterWorkTimeId { get; set; }
+        public BusyTimeInsertInputModel OrderBusyTime { get; set; }
         public int DogId { get; set; }
         public List<int> ServicesId { get; set; }
     }

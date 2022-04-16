@@ -81,12 +81,14 @@ namespace DogSitter.BLL.Services
             }
             if (orderModel.SitterBusyTime != null)
             {
+
+                _busyTimeRepository.DeleteBusyTime(orderEntity.SitterBusyTime);
                 var listSitterGraffics = _map.Map<List<TimesheetModel>>(orderEntity.Sitter.Timesheets);
                 var listSitterBusyTime = _map.Map<List<BusyTimeModel>>(orderEntity.Sitter.BusyTime);
                 var orderModelBusyTime = orderModel.SitterBusyTime.TimeRange;
                 foreach (var item in listSitterGraffics)
                 {
-                    if (orderModelBusyTime.CheckTimeCrossing(item.TimeRange))
+                    if (!orderModelBusyTime.CheckTimeCrossing(item.TimeRange))
                     {
                         throw new WorkTimeBusyException("This worktime is busy");
                     }
@@ -99,12 +101,13 @@ namespace DogSitter.BLL.Services
                     }
                 }
                 orderEntity.SitterBusyTime = _map.Map<BusyTime>(orderModel.SitterBusyTime);
+                orderEntity.SitterBusyTime.Sitter = orderEntity.Sitter;
             }
             if (orderEntity.Status == Status.Created)
             {
                 _rep.Update(orderEntity);
                 EmailSendller emailSendller = new EmailSendller(_logger);
-                emailSendller.SendMessage(orderModel.Sitter, EmailMessage.UpdateOrderForSitter(orderEntity.Id), EmailTopic.UpdateOrder);
+                emailSendller.SendMessage(_map.Map<SitterModel>(orderEntity.Sitter), EmailMessage.UpdateOrderForSitter(orderEntity.Id), EmailTopic.UpdateOrder);
             }
             else
             {
@@ -126,6 +129,14 @@ namespace DogSitter.BLL.Services
                 throw new AccessException("Not enough rights");
             }
             _rep.EditOrderStatusByOrderId(order, status);
+            if ((Status)status == Status.CanceledBySitter 
+                || (Status)status == Status.CancelledByCustomer
+                || (Status)status == Status.CanceledByAdmin
+                || (Status)status == Status.Completed)
+            {
+                _busyTimeRepository.DeleteBusyTime(order.SitterBusyTime);
+            }
+
             EmailSendller emailSendller = new EmailSendller(_logger);
             emailSendller.SendMessage(_map.Map<SitterModel>(order.Sitter), EmailMessage.NewOrderStatus(order.Id, (Status)status), EmailTopic.UpdateOrder);
             emailSendller.SendMessage(_map.Map<CustomerModel>(order.Customer), EmailMessage.NewOrderStatus(order.Id, (Status)status), EmailTopic.UpdateOrder);
