@@ -16,22 +16,20 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class OrdersController : Controller
     {
-        private readonly IOrderService _service;
-        private readonly IMapper _mapper;
-        private readonly IDogService _dogService;
-        private readonly ISitterService _sitterService;
-        private readonly IServiceService _serviceService;
-        private readonly IWorkTimeService _workTimeService;
+        private IOrderService _service;
+        private IMapper _mapper;
+        private IDogService _dogService;
+        private ISitterService _sitterService;
+        private IServiceService _serviceService;
 
         public OrdersController(IMapper mapper, IOrderService orderService, IDogService dogService,
-            ISitterService sitterService, IServiceService serviceService, IWorkTimeService workTimeService)
+            ISitterService sitterService, IServiceService serviceService)
         {
             _service = orderService;
             _mapper = mapper;
             _dogService = dogService;
             _sitterService = sitterService;
             _serviceService = serviceService;
-            _workTimeService = workTimeService;
         }
 
         [HttpPut]

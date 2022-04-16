@@ -12,7 +12,7 @@ namespace DogSitter.BLL.Models
         public bool IsDeleted { get; set; }
         public CustomerModel Customer { get; set; }
         public SitterModel Sitter { get; set; }
-        public WorkTimeModel SitterWorkTime { get; set; }
+        public BusyTimeModel SitterBusyTime { get; set; }
         public DogModel Dog { get; set; }
         public List<ServiceModel> Services { get; set; }
         public CommentModel Comment { get; set; }

@@ -13,7 +13,7 @@ namespace DogSitter.API.Models
         public int? Mark { get; set; }
         public bool IsDeleted { get; set; }
         public SitterOutputModel Sitter { get; set; }
-        public WorkTimeModel SitterWorkTime { get; set; }
+        public BusyTimeModel SitterBusyTime { get; set; }
         public DogOutputModel Dog { get; set; }
         public List<ServiceOutputModel> Services { get; set; }
         public CommentOutputModel Comment { get; set; }

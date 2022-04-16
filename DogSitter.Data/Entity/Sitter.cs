@@ -14,7 +14,8 @@ namespace DogSitter.DAL.Entity
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Serviсe> Services { get; set; }
-        public virtual ICollection<WorkTime> WorkTime { get; set; }
+        public virtual ICollection<BusyTime> BusyTime { get; set; }
+        public virtual ICollection<Timesheet> Timesheets { get; set; }
         public virtual SubwayStation SubwayStation { get; set; }
 
         public override bool Equals(object obj)

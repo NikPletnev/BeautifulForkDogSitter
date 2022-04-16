@@ -58,24 +58,49 @@ namespace DogSitter.API.Configs
                 .ForMember(m => m.Dog, opt => opt.MapFrom(o => new DogModel { Id = o.DogId }))
                 .ForMember(m => m.Sitter, opt => opt.MapFrom(o => new SitterModel { Id = o.SitterId }))
                 .ForMember(m => m.Services, opt => opt.MapFrom(o => o.ServicesId))
-                .ForMember(m => m.SitterWorkTime, opt => opt.MapFrom(o => new WorkTimeModel { Id = o.SitterWorkTimeId }));
+                .ForMember(m => m.SitterBusyTime, opt => opt.MapFrom(o => new BusyTimeModel { Id = o.SitterWorkTimeId }));
 
             CreateMap<OrderInsertInputModel, OrderOutputModel>();
             CreateMap<OrderInsertInputModel, OrderModel>();
 
-            CreateMap<WorkTimeModel, WorkTimeOutputModel>();
-            CreateMap<WorkTimeModel, WorkTimeShortOutputModel>();
-            CreateMap<WorkTimeInsertInputModel, WorkTimeModel>();
-            CreateMap<WorkTimeUpdateInputModel, WorkTimeModel>();
+            CreateMap<TimesheetModel, TimesheetOutputModel>();
+            CreateMap<TimesheetOutputModel, TimesheetModel>();
+            CreateMap<TimesheetOutputModel, TimesheetModel>();
+            CreateMap<TimesheetInsertInputModel, TimesheetOutputModel>();
+            CreateMap<TimesheetModel, TimesheetInsertInputModel>()
+                .ForMember(m => m.Start, opt => opt.MapFrom(o => o.TimeRange.Start))
+                .ForMember(m => m.End, opt => opt.MapFrom(o => o.TimeRange.End));
+            CreateMap<TimesheetInsertInputModel, TimesheetModel>()
+               .ForPath(m => m.TimeRange.Start, opt => opt.MapFrom(o => o.Start))
+               .ForPath(m => m.TimeRange.End, opt => opt.MapFrom(o => o.End))
+               .ForMember(m => m.Sitter, opt => opt.MapFrom(o => new SitterModel()));
+
+            CreateMap<BusyTimeModel, BusyTimeOutputModel>();
+            CreateMap<BusyTimeOutputModel, BusyTimeModel>();
+            CreateMap<BusyTimeOutputModel, BusyTimeModel>();
+            CreateMap<BusyTimeInsertInputModel, BusyTimeOutputModel>()
+                .ForMember(m => m.TimeRange, opt => opt.MapFrom(o => o.Start))
+                .ForMember(m => m.TimeRange, opt => opt.MapFrom(o => o.End));
+            CreateMap<BusyTimeInsertInputModel, BusyTimeModel>()
+                .ForMember(m => m.TimeRange, opt => opt.MapFrom(o => o.Start))
+                .ForMember(m => m.TimeRange, opt => opt.MapFrom(o => o.End));
 
             CreateMap<CommentModel, CommentForAdminOutputModel>();
             CreateMap<CommentModel, ContactOutputModel>();
             CreateMap<CommentInsertInputModel, CommentModel>();
 
-            CreateMap<WorkTimeModel, WorkTimeOutputModel>();
-            CreateMap<WorkTimeModel, WorkTimeShortOutputModel>();
-            CreateMap<WorkTimeInsertInputModel, WorkTimeOutputModel>();
-            CreateMap<WorkTimeInsertInputModel, WorkTimeModel>();
+            CreateMap<DateTime, TimeOnly>()
+                .ForMember(m => m.Hour, opt => opt.MapFrom(o => o.Hour))
+                .ForMember(m => m.Minute, opt => opt.MapFrom(o => o.Minute))
+                .ForMember(m => m.Second, opt => opt.MapFrom(o => o.Second));
+
+            CreateMap<TimeOnly, DateTime>()
+                .ForMember(m => m.Hour, opt => opt.MapFrom(o => o.Hour))
+                .ForMember(m => m.Minute, opt => opt.MapFrom(o => o.Minute))
+                .ForMember(m => m.Second, opt => opt.MapFrom(o => o.Second));
+
+
+
 
         }
     }

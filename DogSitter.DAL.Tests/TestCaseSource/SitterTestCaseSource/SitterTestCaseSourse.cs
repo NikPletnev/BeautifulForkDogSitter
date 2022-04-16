@@ -18,7 +18,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Information ="GOOD SITTER",
                     Verified = true,
                     Orders = new List<Order>(),
-                    WorkTime = new List<WorkTime>(),
+                    Timesheets = new List<Timesheet>(),
                     Contacts = new List<Contact>(),
                     Passport = new Passport()
                     {
@@ -42,7 +42,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     Information ="BAD SITTER",
                     Verified = false,
                     Orders = new List<Order>(),
-                    WorkTime = new List<WorkTime>(),
+                    Timesheets = new List<Timesheet>(),
                     Contacts = new List<Contact>(),
                     Passport = new Passport()
                     {
@@ -67,7 +67,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 Information = "SITTERs GOD",
                 Verified = true,
                 Orders = new List<Order>(),
-                WorkTime = new List<WorkTime>(),
+                Timesheets = new List<Timesheet>(),
                 Contacts = new List<Contact>(),
                 Passport = new Passport()
                 {

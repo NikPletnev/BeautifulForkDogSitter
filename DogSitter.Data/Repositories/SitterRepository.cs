@@ -18,18 +18,25 @@ namespace DogSitter.DAL.Repositories
             .Include(w => w.Customers)
             .Include(w => w.Orders)
             .Include(w => w.Services)
-            .Include(w => w.WorkTime)
+            .Include(w => w.Timesheets)
+            .Include(w => w.BusyTime)
             .Include(w => w.Passport)
             .Include(w => w.Contacts)
             .FirstOrDefault();
-            //var passport = _context.Passports.FirstOrDefault(x => x.Id == sitter.PassportId);
-            //sitter.Passport = passport;
             return sitter;
         }
 
 
         public List<Sitter> GetAll() =>
-            _context.Sitters.Where(d => !d.IsDeleted).Include(w => w.WorkTime).ToList();
+            _context.Sitters.Where(d => !d.IsDeleted)
+            .Include(w => w.Customers)
+            .Include(w => w.Orders)
+            .Include(w => w.Services)
+            .Include(w => w.Timesheets)
+            .Include(w => w.BusyTime)
+            .Include(w => w.Passport)
+            .Include(w => w.Contacts)
+            .ToList();
 
         public int Add(Sitter sitter)
         {
@@ -63,9 +70,10 @@ namespace DogSitter.DAL.Repositories
             }
         }
 
-        public List<Sitter> GetAllSittersWithWorkTimeBySubwayStationId(int subwaystationId) =>
+        public List<Sitter> GetAllSittersWithTimesheetsBySubwayStationId(int subwaystationId) =>
             _context.Sitters.Where(s => s.SubwayStation.Id == subwaystationId && !s.IsDeleted)
-            .Include(s => s.WorkTime).ToList();
+            .Include(w => w.Timesheets)
+            .ToList();
 
         public void ChangeRating(Sitter sitter)
         {
