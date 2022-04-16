@@ -58,7 +58,7 @@ namespace DogSitter.API.Configs
                 .ForMember(m => m.Dog, opt => opt.MapFrom(o => new DogModel { Id = o.DogId }))
                 .ForMember(m => m.Sitter, opt => opt.MapFrom(o => new SitterModel { Id = o.SitterId }))
                 .ForMember(m => m.Services, opt => opt.MapFrom(o => o.ServicesId))
-                .ForMember(m => m.SitterBusyTime, opt => opt.MapFrom(o => new BusyTimeModel { Id = o.SitterWorkTimeId }));
+                .ForMember(m => m.SitterBusyTime, opt => opt.MapFrom(o => o.OrderBusyTime));
 
             CreateMap<OrderInsertInputModel, OrderOutputModel>();
             CreateMap<OrderInsertInputModel, OrderModel>();
@@ -82,8 +82,9 @@ namespace DogSitter.API.Configs
                 .ForMember(m => m.TimeRange, opt => opt.MapFrom(o => o.Start))
                 .ForMember(m => m.TimeRange, opt => opt.MapFrom(o => o.End));
             CreateMap<BusyTimeInsertInputModel, BusyTimeModel>()
-                .ForMember(m => m.TimeRange, opt => opt.MapFrom(o => o.Start))
-                .ForMember(m => m.TimeRange, opt => opt.MapFrom(o => o.End));
+                .ForPath(m => m.TimeRange.Start, opt => opt.MapFrom(o => o.Start))
+                .ForPath(m => m.TimeRange.End, opt => opt.MapFrom(o => o.End))
+                .ForMember(m => m.Sitter, opt => opt.MapFrom(o => new SitterModel()));
 
             CreateMap<CommentModel, CommentForAdminOutputModel>();
             CreateMap<CommentModel, ContactOutputModel>();
