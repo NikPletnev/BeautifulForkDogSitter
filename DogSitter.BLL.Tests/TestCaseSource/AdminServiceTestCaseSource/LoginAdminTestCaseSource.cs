@@ -29,7 +29,7 @@ namespace DogSitter.BLL.Tests.TestCaseSource
                 IsDeleted = false
             };
 
-            Contact contact = new Contact() { Id = 1, Value = "12345678", ContactType = ContactType.Phone, User = (User)admin };
+            Contact contact = new Contact() { Id = 1, Value = "12345678", ContactType = ContactType.Phone, User = admin };
 
             string password = "123456";
 

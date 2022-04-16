@@ -1,4 +1,4 @@
-﻿namespace DogSitter.API.Models.OutputModels
+﻿namespace DogSitter.API.Models
 {
     public class SitterForSitterOutputModel
     {

@@ -10,7 +10,7 @@ namespace DogSitter.BLL.Services
     public class PassportService : IPassportService
     {
         private readonly IPassportRepository _rep;
-        private IMapper _map;
+        private readonly IMapper _map;
 
         public PassportService(IPassportRepository passportRepository, IMapper mapper)
         {

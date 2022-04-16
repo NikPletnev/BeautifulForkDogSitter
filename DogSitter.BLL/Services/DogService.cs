@@ -9,10 +9,10 @@ namespace DogSitter.BLL.Services
 {
     public class DogService : IDogService
     {
-        private IDogRepository _rep;
-        private ICustomerRepository _customerRepository;
-        private IUserRepository _userRepository;
-        private IMapper _mapper;
+        private readonly IDogRepository _rep;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
         public DogService(IMapper mapper, IDogRepository dogRepository, ICustomerRepository customerRepository, IUserRepository userRepository)
         {
@@ -86,7 +86,7 @@ namespace DogSitter.BLL.Services
             {
                 throw new ServiceNotEnoughDataExeption($"There is not enough data to create new dog");
             }
-            Customer customer = (Customer)_customerRepository.GetCustomerById(userId);
+            Customer customer = _customerRepository.GetCustomerById(userId);
             var dogEntity = _mapper.Map<Dog>(dogModel);
             customer.Dogs.Add(dogEntity);
             return _rep.AddDog(dogEntity);

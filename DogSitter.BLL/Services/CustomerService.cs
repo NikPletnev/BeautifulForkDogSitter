@@ -11,11 +11,11 @@ namespace DogSitter.BLL.Services
 {
     public class CustomerService : ICustomerService
     {
-        private ICustomerRepository _repository;
-        private IMapper _mapper;
-        private IUserRepository _userRepository;
-        private ISubwayStationRepository _subwayStationRepository;
-        private ILogger<EmailSendller> _logger;
+        private readonly ICustomerRepository _repository;
+        private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+        private readonly ISubwayStationRepository _subwayStationRepository;
+        private readonly ILogger<EmailSendller> _logger;
 
         public CustomerService(ICustomerRepository repository, IMapper mapper, IUserRepository userRepository, ISubwayStationRepository subwayStationRepository, ILogger<EmailSendller> logger)
         {

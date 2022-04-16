@@ -6,7 +6,6 @@
         public string LastName { get; set; }
         public double Raiting { get; set; }
         public string Information { get; set; }
-        public SubwayStationOutputModel SubwayStation { get; set; }
         public AddressOutputModel Address { get; set; }
         public List<CustomerOutputModel> Customers { get; set; }
         public List<OrderOutputModel> Orders { get; set; }

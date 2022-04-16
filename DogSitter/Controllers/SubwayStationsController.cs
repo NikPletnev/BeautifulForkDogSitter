@@ -15,8 +15,8 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class SubwayStationsController : Controller
     {
-        private ISubwayStationService _subwayStationService;
-        private IMapper _mapper;
+        private readonly ISubwayStationService _subwayStationService;
+        private readonly IMapper _mapper;
 
         public SubwayStationsController(ISubwayStationService subwayStationService, IMapper mapper)
         {
