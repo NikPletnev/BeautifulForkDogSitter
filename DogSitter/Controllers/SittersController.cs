@@ -209,20 +209,17 @@ namespace DogSitter.API.Controllers
             if (User.IsInRole("Admin"))
             {
                 var sittersForAdmin = _mapper.Map<List<SitterForAdminOutputModel>>(
-                    _service.GetAllSittersWithWorkTimeBySubwayStationId(id));
+                    _service.GetAllSittersWithTimesheetsBySubwayStationId(id));
 
                 return Ok(sittersForAdmin);
             }
             else
             {
                 var sitters = _mapper.Map<List<SitterOutputModel>>(
-                    _service.GetAllSittersWithWorkTimeBySubwayStationId(id));
+                    _service.GetAllSittersWithTimesheetsBySubwayStationId(id));
 
                 return Ok(sitters);
             }
-            var sitters = _service.GetAllSittersWithTimesheetsBySubwayStationId(id);
-            var sittersModel = _mapper.Map<List<SitterOutputModel>>(sitters);
-            return Ok(sittersModel);
         }
 
         [HttpGet("with-services")]
