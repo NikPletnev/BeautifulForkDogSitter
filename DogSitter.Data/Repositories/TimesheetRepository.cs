@@ -30,7 +30,7 @@ namespace DogSitter.DAL.Repositories
             return timesheetId.Entity.Id;
         }
 
-        public void UpdateTimesheet(BusyTime exitingTimesheet, BusyTime timesheetToUpdate)
+        public void UpdateTimesheet(Timesheet exitingTimesheet, Timesheet timesheetToUpdate)
         {
             exitingTimesheet.Start = timesheetToUpdate.Start;
             exitingTimesheet.End = timesheetToUpdate.End;

@@ -73,12 +73,13 @@ namespace DogSitter.BLL.Services
 
         public bool CheckAvailableTime(int sitterId, BusyTimeModel busyTime)
         {
-            Sitter sitter = (Sitter)_userRepository.GetUserById(sitterId);
-            foreach (var item in sitter.BusyTime)
+            var sitter = _mapper.Map<SitterModel>((Sitter)_userRepository.GetUserById(sitterId));
+            bool checkFlag = false;
+            foreach (var item in sitter.BusyTimes)
             {
-                if()
+                checkFlag = !busyTime.TimeRange.CheckTimeCrossing(item.TimeRange);
             }
-            
+            return checkFlag;
         }
     }
 }

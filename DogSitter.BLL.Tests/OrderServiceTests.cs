@@ -22,7 +22,7 @@ namespace DogSitter.BLL.Tests
         private Mock<ICustomerRepository> _customerRepMock;
         private Mock<ISitterRepository> _sitterRepMock;
         private Mock<IUserRepository> _userRepMock;
-        private Mock<IWorkTimeRepository> _workTimeRepositoryMock;
+        private Mock<ITimesheetRepository> _timesheetRepositorMock;
         private Mock<IDogRepository> _dogRepositoryMock;
         private Mock<IServiceRepository> _serviceRepositoryMock;
         private IMapper _mapper;
@@ -36,12 +36,12 @@ namespace DogSitter.BLL.Tests
             _customerRepMock = new Mock<ICustomerRepository>();
             _sitterRepMock = new Mock<ISitterRepository>();
             _userRepMock = new Mock<IUserRepository>();
-            _workTimeRepositoryMock = new Mock<IWorkTimeRepository>();
+            //_workTimeRepositoryMock = new Mock<IWorkTimeRepository>();
             _dogRepositoryMock = new Mock<IDogRepository>();
             _serviceRepositoryMock = new Mock<IServiceRepository>();
             _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DataMapper>()));
-            _service = new OrderService(_orderRepositoryMock.Object, new Mock<ILogger<EmailSendller>>().Object, new Mock<IAdminRepository>().Object,
-            _sitterRepMock.Object, _mapper, _userRepMock.Object, _workTimeRepositoryMock.Object, _dogRepositoryMock.Object, _serviceRepositoryMock.Object);
+            //_service = new OrderService(_orderRepositoryMock.Object, new Mock<ILogger<EmailSendller>>().Object, new Mock<IAdminRepository>().Object,
+           // _sitterRepMock.Object, _mapper, _userRepMock.Object, _workTimeRepositoryMock.Object, _dogRepositoryMock.Object, _serviceRepositoryMock.Object);
         }
 
         [TestCaseSource(typeof(UpdateOrderTestCaseSource))]

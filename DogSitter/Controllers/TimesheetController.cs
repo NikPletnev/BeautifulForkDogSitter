@@ -12,41 +12,42 @@ namespace DogSitter.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class WorkTimesController : Controller
+    public class TimesheetController : Controller
     {
-        private readonly IWorkTimeService _workTimeService;
+        private readonly ITimesheetService _timesheetService;
         private readonly IMapper _mapper;
 
-        public WorkTimesController(IWorkTimeService workTimeService, IMapper mapper)
+        public TimesheetController(ITimesheetService timesheetService, IMapper mapper)
         {
-            _workTimeService = workTimeService;
+            _timesheetService = timesheetService;
             _mapper = mapper;
         }
 
         [HttpPost]
-        [SwaggerOperation(Summary = "Add work time")]
+        [SwaggerOperation(Summary = "Add timesheet")]
         [AuthorizeRole(Role.Sitter)]
         [SwaggerResponse(201, "Created", typeof(ServiceOutputModel))]
         [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
         [SwaggerResponse(401, "Unauthorized")]
         [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
-        public ActionResult<WorkTimeOutputModel> AddWorkTime([FromBody] WorkTimeInsertInputModel workTime)
+        public ActionResult<TimesheetOutputModel> AddWorkTime([FromBody] TimesheetInsertInputModel timesheet)
         {
             var userId = this.GetUserId();
             if (userId is null)
             {
                 return Unauthorized("Invalid token, please try again");
             }
+            var model = _mapper.Map<TimesheetModel>(timesheet);
 
-            int id = _workTimeService.AddWorkTime(userId.Value, _mapper.Map<WorkTimeModel>(workTime));
+            int id = _timesheetService.AddTimesheet(userId.Value, model);
 
             return StatusCode(StatusCodes.Status201Created, id);
         }
 
         //api/workTim/77
         [HttpPut("{id}")]
-        [SwaggerOperation(Summary = "Update work time")]
+        [SwaggerOperation(Summary = "Update timesheet")]
         [AuthorizeRole(Role.Sitter)]
         [SwaggerResponse(204, "NoContent")]
         [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
@@ -54,7 +55,7 @@ namespace DogSitter.API.Controllers
         [SwaggerResponse(403, "Forbidden", typeof(ExceptionResponse))]
         [SwaggerResponse(404, "NotFound", typeof(ExceptionResponse))]
         [SwaggerResponse(422, "Unprocessable Entity", typeof(ValidationExceptionResponse))]
-        public ActionResult UpdateWorkTime(int id, [FromBody] WorkTimeUpdateInputModel workTime)
+        public ActionResult UpdateWorkTime(int id, [FromBody] TimesheetInsertInputModel timesheet)
         {
             var userId = this.GetUserId();
             if (userId is null)
@@ -62,14 +63,14 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _workTimeService.UpdateWorkTime(userId.Value, id, _mapper.Map<WorkTimeModel>(workTime));
+            _timesheetService.UpdateTimesheet(userId.Value, id, _mapper.Map<TimesheetModel>(timesheet));
 
             return NoContent();
         }
 
         //api/workTime/77
         [HttpDelete("{id}")]
-        [SwaggerOperation(Summary = "Delete work time")]
+        [SwaggerOperation(Summary = "Delete timesheet")]
         [AuthorizeRole(Role.Sitter)]
         [SwaggerResponse(204, "NoContent")]
         [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
@@ -84,14 +85,14 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _workTimeService.DeleteWorkTime(userId.Value, id);
+            _timesheetService.DeleteTimesheet(userId.Value, id);
 
             return NoContent();
         }
 
         //api/workTime/77
         [HttpPatch("{id}")]
-        [SwaggerOperation(Summary = "Restore work time")]
+        [SwaggerOperation(Summary = "Restore timesheet")]
         [AuthorizeRole(Role.Admin)]
         [SwaggerResponse(204, "NoContent")]
         [SwaggerResponse(400, "Bad Request", typeof(ExceptionResponse))]
@@ -106,7 +107,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            _workTimeService.RestoreWorkTime(id);
+            _timesheetService.RestoreTimesheet(id);
 
             return NoContent();
         }

@@ -9,7 +9,7 @@ namespace DogSitter.API.Attributes.CustomAttributes
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var valueDateTime = validationContext.ObjectInstance as WorkTimeInsertInputModel;
+            var valueDateTime = validationContext.ObjectInstance as TimesheetInsertInputModel;
 
             if (DateTime.Compare(valueDateTime.Start, valueDateTime.End) >= 0)
             {

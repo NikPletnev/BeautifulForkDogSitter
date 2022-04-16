@@ -21,9 +21,9 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         FirstName = "FirstName1",
                         LastName = "LastName1",
                         Password = "Password1",
-                        WorkTime = new List<WorkTime>()
+                        Timesheets = new List<Timesheet>()
                         {
-                            new WorkTime()
+                            new Timesheet()
                             {
                                 Id = 11,
                                 Start = DateTime.Now,
@@ -44,7 +44,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         FirstName = "FirstName2",
                         LastName = "LastName2",
                         Password = "Password2",
-                        WorkTime = new List<WorkTime>(),
+                        Timesheets = new List<Timesheet>(),
                         IsDeleted = false
                     }
                   },
@@ -59,9 +59,9 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     FirstName = "FirstName1",
                     LastName = "LastName1",
                     Password = "Password1",
-                    WorkTime = new List<WorkTime>()
+                    Timesheets = new List<Timesheet>()
                     {
-                        new WorkTime()
+                        new Timesheet()
                         {
                             Id = 1,
                             Start = DateTime.Now,
@@ -83,7 +83,7 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                 FirstName = "FirstName2",
                 LastName = "LastName2",
                 Password = "Password2",
-                WorkTime = new List<WorkTime>(),
+                Timesheets = new List<Timesheet>(),
                 IsDeleted = false
             }
 
@@ -97,9 +97,9 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                         FirstName = "FirstName1",
                         LastName = "LastName1",
                         Password = "Password1",
-                        WorkTime = new List<WorkTime>()
+                        Timesheets = new List<Timesheet>()
                         {
-                            new WorkTime()
+                            new Timesheet()
                             {
                                 Id = 11,
                                 Start = DateTime.Now,
@@ -119,9 +119,9 @@ namespace DogSitter.DAL.Tests.TestCaseSource
                     FirstName = "FirstName1",
                     LastName = "LastName1",
                     Password = "Password1",
-                    WorkTime = new List<WorkTime>()
+                    Timesheets = new List<Timesheet>()
                     {
-                        new WorkTime()
+                        new Timesheet()
                         {
                             Id = 11,
                             Start = DateTime.Now,

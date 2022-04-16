@@ -6,9 +6,9 @@ namespace DogSitter.DAL.Entity
     {
         public int Id { get; set; }
         [Required]
-        public TimeOnly Start { get; set; }
+        public DateTime Start { get; set; }
         [Required]
-        public TimeOnly End { get; set; }
+        public DateTime End { get; set; }
         [Required]
         public Weekday Weekday { get; set; }
         public bool IsDeleted { get; set; }

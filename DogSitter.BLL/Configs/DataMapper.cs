@@ -15,12 +15,12 @@ namespace DogSitter.BLL.Configs
             CreateMap<Comment, CommentModel>().ReverseMap();
             CreateMap<Serviсe, ServiceModel>().ReverseMap();
             CreateMap<Timesheet, TimesheetModel>()
-                .ForMember(dest => dest.TimeRange.Start, act => act.MapFrom(src => src.Start))
-                .ForMember(dest => dest.TimeRange.End, act => act.MapFrom(src => src.End))
+                .ForPath(dest => dest.TimeRange.Start, act => act.MapFrom(src => src.Start))
+                .ForPath(dest => dest.TimeRange.End, act => act.MapFrom(src => src.End))
                 .ReverseMap();
             CreateMap<BusyTime, BusyTimeModel>()
-                .ForMember(dest => dest.TimeRange.Start, act => act.MapFrom(src => src.Start))
-                .ForMember(dest => dest.TimeRange.End, act => act.MapFrom(src => src.End))
+                .ForPath(dest => dest.TimeRange.Start, act => act.MapFrom(src => src.Start))
+                .ForPath(dest => dest.TimeRange.End, act => act.MapFrom(src => src.End))
                 .ReverseMap();
             CreateMap<Admin, AdminModel>().ReverseMap();
             CreateMap<Contact, ContactModel>().ReverseMap();
@@ -30,6 +30,15 @@ namespace DogSitter.BLL.Configs
             CreateMap<SubwayStation, SubwayStationModel>().ReverseMap();
             CreateMap<Address, AddressModel>().ReverseMap();
             CreateMap<User, UserModel>().ReverseMap();
+            CreateMap<DateTime, TimeOnly>()
+                .ForMember(m => m.Hour, opt => opt.MapFrom(o => o.Hour))
+                .ForMember(m => m.Minute, opt => opt.MapFrom(o => o.Minute))
+                .ForMember(m => m.Second, opt => opt.MapFrom(o => o.Second));
+
+            CreateMap<TimeOnly, DateTime>()
+                .ForMember(m => m.Hour, opt => opt.MapFrom(o => o.Hour))
+                .ForMember(m => m.Minute, opt => opt.MapFrom(o => o.Minute))
+                .ForMember(m => m.Second, opt => opt.MapFrom(o => o.Second));
         }
 
     }

@@ -201,7 +201,7 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            var sitters = _service.GetAllSittersWithWorkTimeBySubwayStationId(id);
+            var sitters = _service.GetAllSittersWithTimesheetsBySubwayStationId(id);
             var sittersModel = _mapper.Map<List<SitterOutputModel>>(sitters);
             return Ok(sittersModel);
         }

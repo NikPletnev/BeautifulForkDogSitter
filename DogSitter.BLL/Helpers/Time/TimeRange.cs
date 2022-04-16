@@ -10,17 +10,22 @@ namespace DogSitter.BLL.Helpers.Time
     {
         public TimeOnly Start { get; set; }
         public TimeOnly End { get; set; }
+        public TimeRange()
+        {
+
+        }
         public TimeRange(TimeOnly start, TimeOnly end)
         {
             Start = start;
             End = end;
         }
 
+
         public bool CheckTimeCrossing(TimeRange timeRange)
         {
            return this.Start < timeRange.End && timeRange.Start < this.End;
         }
-
+        
         public override bool Equals(object obj)
         {
             return obj is TimeRange range &&

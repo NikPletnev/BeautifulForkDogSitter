@@ -45,7 +45,7 @@ namespace DogSitter.BLL.Services
             var orderId = _rep.Add(_map.Map<Order>(orderModel), customer);
 
             EmailSendller emailSendller = new EmailSendller(_logger);
-            emailSendller.SendMessage(orderModel.Sitter, EmailMessage.NewOrderForSitter(orderId), EmailTopic.NewOrder);
+            //emailSendller.SendMessage(orderModel.Sitter, EmailMessage.NewOrderForSitter(orderId), EmailTopic.NewOrder);
 
             return orderId;
         }

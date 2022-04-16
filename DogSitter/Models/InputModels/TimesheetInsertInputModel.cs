@@ -4,19 +4,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DogSitter.API.Models
 {
-    public class WorkTimeInsertInputModel
+    public class TimesheetInsertInputModel
     {
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:dd/MM/yyyy hh:mm:ss tt")]
-        [SitterDateTime]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:hh:mm:ss")]
+        //[SitterDateTime]
         public DateTime Start { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:dd/MM/yyyy hh:mm:ss tt")]
-        [EndTimeMoreThanStartTime(nameof(Start))]
-        [SitterDateTime]
+       // [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "0:hh:mm:ss")]
+        //[EndTimeMoreThanStartTime(nameof(Start))]
+       // [SitterDateTime]
         public DateTime End { get; set; }
 
         [Display(Name = "День недели")]
         [Range(1, 7)]
         public Weekday Weekday { get; set; }
+
     }
 }

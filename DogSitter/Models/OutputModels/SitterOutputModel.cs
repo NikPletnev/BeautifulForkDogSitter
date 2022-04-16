@@ -11,6 +11,8 @@
         public List<CustomerOutputModel> Customers { get; set; }
         public List<OrderOutputModel> Orders { get; set; }
         public List<ServiceOutputModel> Services { get; set; }
-        public List<WorkTimeOutputModel> WorkTime { get; set; }
+        public List<TimesheetOutputModel> Timesheets { get; set; }
+        public List<BusyTimeOutputModel> BusyTimes { get; set; }
+
     }
 }

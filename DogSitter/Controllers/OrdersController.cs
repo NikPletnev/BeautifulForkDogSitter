@@ -21,17 +21,15 @@ namespace DogSitter.API.Controllers
         private IDogService _dogService;
         private ISitterService _sitterService;
         private IServiceService _serviceService;
-        private IWorkTimeService _workTimeService;
 
         public OrdersController(IMapper mapper, IOrderService orderService, IDogService dogService,
-            ISitterService sitterService, IServiceService serviceService, IWorkTimeService workTimeService)
+            ISitterService sitterService, IServiceService serviceService)
         {
             _service = orderService;
             _mapper = mapper;
             _dogService = dogService;
             _sitterService = sitterService;
             _serviceService = serviceService;
-            _workTimeService = workTimeService;
         }
 
         [HttpPut]
