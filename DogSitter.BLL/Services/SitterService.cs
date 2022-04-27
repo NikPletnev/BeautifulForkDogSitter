@@ -11,12 +11,12 @@ namespace DogSitter.BLL.Services
 {
     public class SitterService : ISitterService
     {
-        private ISitterRepository _sitterRepository;
-        private ISubwayStationRepository _subwayStationRepository;
-        private IMapper _mapper;
-        private IUserRepository _userRepository;
-        private ILogger<EmailSendller> _logger;
-        private IAdminRepository _adminRepository;
+        private readonly ISitterRepository _sitterRepository;
+        private readonly ISubwayStationRepository _subwayStationRepository;
+        private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+        private readonly ILogger<EmailSendller> _logger;
+        private readonly IAdminRepository _adminRepository;
 
         public SitterService(ISitterRepository sitterRepository, ISubwayStationRepository subwayStationRepository,
             IMapper mapper, IUserRepository userRepository, ILogger<EmailSendller> logger, IAdminRepository adminRepository)
@@ -162,7 +162,7 @@ namespace DogSitter.BLL.Services
             emailSendller.SendMessage(_mapper.Map<SitterModel>(entity), EmailMessage.SitterBlocked, EmailTopic.Block);
         }
 
-        public List<SitterModel> GetAllSittersWithWorkTimeBySubwayStationId(int subwayStationId)
+        public List<SitterModel> GetAllSittersWithTimesheetsBySubwayStationId(int subwayStationId)
         {
             var subwayStation = _subwayStationRepository.GetSubwayStationById(subwayStationId);
 
@@ -170,7 +170,7 @@ namespace DogSitter.BLL.Services
                 throw new EntityNotFoundException($"Subway station {subwayStation} was not found");
 
             return _mapper.Map<List<SitterModel>>(_sitterRepository
-                .GetAllSittersWithWorkTimeBySubwayStationId(subwayStation.Id));
+                .GetAllSittersWithTimesheetsBySubwayStationId(subwayStation.Id));
         }
 
         public List<SitterModel> GetAllSittersWithServices()

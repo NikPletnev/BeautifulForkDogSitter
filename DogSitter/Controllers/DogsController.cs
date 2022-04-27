@@ -16,8 +16,8 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class DogsController : Controller
     {
-        private IDogService _service;
-        private IMapper _map;
+        private readonly IDogService _service;
+        private readonly IMapper _map;
 
         public DogsController(IMapper mapper, IDogService dogService)
         {

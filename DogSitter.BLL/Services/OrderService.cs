@@ -16,21 +16,23 @@ namespace DogSitter.BLL.Services
         private IMapper _map;
         private ISitterRepository _sitterRepository;
         private IUserRepository _userRepository;
-        private IWorkTimeRepository _workTimeRepository;
+        private ITimesheetRepository _timesheetRepository;
+        private IBusyTimeRepository _busyTimeRepository;
         private IDogRepository _dogRepository;
         private IServiceRepository _serviceRepository;
         private ILogger<EmailSendller> _logger;
         private IAdminRepository _adminRepository;
 
         public OrderService(IOrderRepository orderRepository, ILogger<EmailSendller> logger, IAdminRepository adminRepository,
-            ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository, IWorkTimeRepository workTimeRepository, IDogRepository dogRepository, IServiceRepository serviceRepository)
+            ISitterRepository sitterRepository, IMapper mapper, IUserRepository userRepository, ITimesheetRepository timesheetRepository, IBusyTimeRepository busyTimeRepository, IDogRepository dogRepository, IServiceRepository serviceRepository)
         {
             _rep = orderRepository;
             _sitterRepository = sitterRepository;
             _adminRepository = adminRepository;
             _map = mapper;
             _userRepository = userRepository;
-            _workTimeRepository = workTimeRepository;
+            _timesheetRepository = timesheetRepository;
+            _busyTimeRepository = busyTimeRepository;
             _dogRepository = dogRepository;
             _serviceRepository = serviceRepository;
             _logger = logger;
@@ -43,7 +45,7 @@ namespace DogSitter.BLL.Services
             var orderId = _rep.Add(_map.Map<Order>(orderModel), customer);
 
             EmailSendller emailSendller = new EmailSendller(_logger);
-            emailSendller.SendMessage(orderModel.Sitter, EmailMessage.NewOrderForSitter(orderId), EmailTopic.NewOrder);
+            //emailSendller.SendMessage(orderModel.Sitter, EmailMessage.NewOrderForSitter(orderId), EmailTopic.NewOrder);
 
             return orderId;
         }
@@ -56,52 +58,53 @@ namespace DogSitter.BLL.Services
                 throw new AccessException("Not enough rights");
             }
 
-            var order = _rep.GetById(orderModel.Id);
-            if (order == null)
+            var orderEntity = _rep.GetById(orderModel.Id);
+            if (orderEntity == null)
             {
                 throw new EntityNotFoundException($"Order {orderModel.Id} was not found");
             }
 
-            order.OrderDate = orderModel.OrderDate;
-            order.Sitter = _sitterRepository.GetById(orderModel.Sitter.Id);
-            order.Dog = _dogRepository.GetDogById(orderModel.Dog.Id);
-            if (order.Service != null)
+            //order.OrderDate = orderModel.OrderDate;
+            orderEntity.Sitter = _sitterRepository.GetById(orderModel.Sitter.Id);
+            orderEntity.Dog = _dogRepository.GetDogById(orderModel.Dog.Id);
+            if (orderEntity.Service != null)
             {
-                order.Service.Clear();
+                orderEntity.Service.Clear();
             }
             else
             {
-                order.Service = new List<DAL.Entity.Serviсe>();
+                orderEntity.Service = new List<DAL.Entity.Serviсe>();
             }
             foreach (var item in orderModel.Services)
             {
-                order.Service.Add(_serviceRepository.GetServiceById(item.Id));
+                orderEntity.Service.Add(_serviceRepository.GetServiceById(item.Id));
             }
-
-            if (order.SitterWorkTime != null)
+            if (orderModel.SitterBusyTime != null)
             {
-                var orderOldWorkTime = _workTimeRepository.GetWorkTimeById(order.SitterWorkTime.Id);
-                _workTimeRepository.ChangeWorkTimeStatus(orderOldWorkTime, false);
-            }
-            if (orderModel.SitterWorkTime != null)
-            {
-
-                var workTime = _workTimeRepository.GetWorkTimeById(orderModel.SitterWorkTime.Id);
-
-                if (workTime == null)
+                var listSitterGraffics = _map.Map<List<TimesheetModel>>(orderEntity.Sitter.Timesheets);
+                var listSitterBusyTime = _map.Map<List<BusyTimeModel>>(orderEntity.Sitter.BusyTime);
+                var orderModelBusyTime = orderModel.SitterBusyTime.TimeRange;
+                foreach (var item in listSitterGraffics)
                 {
-                    throw new WorkTimeBusyException("This worktime is busy");
+                    if (orderModelBusyTime.CheckTimeCrossing(item.TimeRange))
+                    {
+                        throw new WorkTimeBusyException("This worktime is busy");
+                    }
                 }
-
-                _workTimeRepository.ChangeWorkTimeStatus(workTime, true);
-                order.SitterWorkTime = workTime;
-
+                foreach (var item in listSitterBusyTime)
+                {
+                    if (orderModelBusyTime.CheckTimeCrossing(item.TimeRange)) { }
+                    {
+                        throw new WorkTimeBusyException("This worktime is busy");
+                    }
+                }
+                orderEntity.SitterBusyTime = _map.Map<BusyTime>(orderModel.SitterBusyTime);
             }
-            if (order.Status == Status.Created)
+            if (orderEntity.Status == Status.Created)
             {
-                _rep.Update(order);
+                _rep.Update(orderEntity);
                 EmailSendller emailSendller = new EmailSendller(_logger);
-                emailSendller.SendMessage(orderModel.Sitter, EmailMessage.UpdateOrderForSitter(order.Id), EmailTopic.UpdateOrder);
+                emailSendller.SendMessage(orderModel.Sitter, EmailMessage.UpdateOrderForSitter(orderEntity.Id), EmailTopic.UpdateOrder);
             }
             else
             {

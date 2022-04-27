@@ -15,8 +15,8 @@ namespace DogSitter.API.Controllers
     [Route("api/[controller]")]
     public class AdminsController : Controller
     {
-        private IAdminService _service;
-        private IMapper _map;
+        private readonly IAdminService _service;
+        private readonly IMapper _map;
 
         public AdminsController(IMapper CustomMapper, IAdminService adminService)
         {

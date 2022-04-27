@@ -89,6 +89,33 @@ namespace DogSitter.DAL.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("DogSitter.DAL.Entity.BusyTime", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("SitterId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Weekday")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SitterId");
+
+                    b.ToTable("BusyTimes");
+                });
+
             modelBuilder.Entity("DogSitter.DAL.Entity.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -223,10 +250,10 @@ namespace DogSitter.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("SitterId")
+                    b.Property<int?>("SitterBusyTimeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SitterWorkTimeId")
+                    b.Property<int?>("SitterId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -244,9 +271,9 @@ namespace DogSitter.DAL.Migrations
 
                     b.HasIndex("DogId");
 
-                    b.HasIndex("SitterId");
+                    b.HasIndex("SitterBusyTimeId");
 
-                    b.HasIndex("SitterWorkTimeId");
+                    b.HasIndex("SitterId");
 
                     b.ToTable("Orders");
                 });
@@ -795,6 +822,38 @@ namespace DogSitter.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DogSitter.DAL.Entity.Timesheet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int?>("SitterId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Weekday")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SitterId");
+
+                    b.ToTable("Timesheets");
+                });
+
             modelBuilder.Entity("DogSitter.DAL.Entity.User", b =>
                 {
                     b.Property<int>("Id")
@@ -834,43 +893,6 @@ namespace DogSitter.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("DogSitter.DAL.Entity.WorkTime", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("End")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsBusy")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<int?>("SitterId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Start")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Weekday")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SitterId");
-
-                    b.ToTable("WorkTimes");
                 });
 
             modelBuilder.Entity("OrderServiсe", b =>
@@ -972,6 +994,15 @@ namespace DogSitter.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DogSitter.DAL.Entity.BusyTime", b =>
+                {
+                    b.HasOne("DogSitter.DAL.Entity.Sitter", "Sitter")
+                        .WithMany("BusyTime")
+                        .HasForeignKey("SitterId");
+
+                    b.Navigation("Sitter");
+                });
+
             modelBuilder.Entity("DogSitter.DAL.Entity.Comment", b =>
                 {
                     b.HasOne("DogSitter.DAL.Entity.Customer", "Customer")
@@ -1017,13 +1048,13 @@ namespace DogSitter.DAL.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("DogId");
 
+                    b.HasOne("DogSitter.DAL.Entity.BusyTime", "SitterBusyTime")
+                        .WithMany()
+                        .HasForeignKey("SitterBusyTimeId");
+
                     b.HasOne("DogSitter.DAL.Entity.Sitter", "Sitter")
                         .WithMany("Orders")
                         .HasForeignKey("SitterId");
-
-                    b.HasOne("DogSitter.DAL.Entity.WorkTime", "SitterWorkTime")
-                        .WithMany()
-                        .HasForeignKey("SitterWorkTimeId");
 
                     b.Navigation("Comment");
 
@@ -1033,7 +1064,7 @@ namespace DogSitter.DAL.Migrations
 
                     b.Navigation("Sitter");
 
-                    b.Navigation("SitterWorkTime");
+                    b.Navigation("SitterBusyTime");
                 });
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Serviсe", b =>
@@ -1045,10 +1076,10 @@ namespace DogSitter.DAL.Migrations
                     b.Navigation("Sitter");
                 });
 
-            modelBuilder.Entity("DogSitter.DAL.Entity.WorkTime", b =>
+            modelBuilder.Entity("DogSitter.DAL.Entity.Timesheet", b =>
                 {
                     b.HasOne("DogSitter.DAL.Entity.Sitter", "Sitter")
-                        .WithMany("WorkTime")
+                        .WithMany("Timesheets")
                         .HasForeignKey("SitterId");
 
                     b.Navigation("Sitter");
@@ -1159,11 +1190,13 @@ namespace DogSitter.DAL.Migrations
 
             modelBuilder.Entity("DogSitter.DAL.Entity.Sitter", b =>
                 {
+                    b.Navigation("BusyTime");
+
                     b.Navigation("Orders");
 
                     b.Navigation("Services");
 
-                    b.Navigation("WorkTime");
+                    b.Navigation("Timesheets");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,7 @@ namespace DogSitter.DAL.Repositories
 {
     public class ContactRepository : IContactRepository
     {
-        private DogSitterContext _context;
+        private readonly DogSitterContext _context;
 
         public ContactRepository(DogSitterContext context)
         {

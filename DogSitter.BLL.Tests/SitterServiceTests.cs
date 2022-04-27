@@ -243,34 +243,34 @@ namespace DogSitter.BLL.Tests
             //Assert.Throws<EntityNotFoundException>(() => _service.GetAllSitterByServiceId(It.IsAny<int>()));
         }
 
-        [TestCaseSource(typeof(GetAllSittersWithWorkTimeBySubwayStationTestCaseSource))]
-        public void GetAllSittersWithWorkTimeBySubwayStationTest(SubwayStation subwayStation,
-            SubwayStationModel subwayStationModel, List<Sitter> sitters)
-        {
-            //given
-            _subwayStationRepositoryMock.Setup(ss => ss.GetSubwayStationById(subwayStation.Id))
-                .Returns(subwayStation);
-            _sitterRepositoryMock.Setup(s => s.GetAllSittersWithWorkTimeBySubwayStationId(subwayStation.Id))
-                .Returns(sitters);
+        //[TestCaseSource(typeof(GetAllSittersWithWorkTimeBySubwayStationTestCaseSource))]
+        //public void GetAllSittersWithWorkTimeBySubwayStationTest(SubwayStation subwayStation,
+        //    SubwayStationModel subwayStationModel, List<Sitter> sitters)
+        //{
+        //    //given
+        //    _subwayStationRepositoryMock.Setup(ss => ss.GetSubwayStationById(subwayStation.Id))
+        //        .Returns(subwayStation);
+        //    _sitterRepositoryMock.Setup(s => s.GetAllSittersWithWorkTimeBySubwayStationId(subwayStation.Id))
+        //        .Returns(sitters);
 
-            //when
-            var actual = _service.GetAllSittersWithWorkTimeBySubwayStationId(subwayStationModel.Id);
+        //    //when
+        //    var actual = _service.GetAllSittersWithWorkTimeBySubwayStationId(subwayStationModel.Id);
 
-            //then
-            _subwayStationRepositoryMock.Verify(ss => ss.GetSubwayStationById(subwayStation.Id), Times.Once);
-            _sitterRepositoryMock.Verify(s =>
-            s.GetAllSittersWithWorkTimeBySubwayStationId(subwayStation.Id), Times.Once);
-        }
+        //    //then
+        //    _subwayStationRepositoryMock.Verify(ss => ss.GetSubwayStationById(subwayStation.Id), Times.Once);
+        //    _sitterRepositoryMock.Verify(s =>
+        //    s.GetAllSittersWithWorkTimeBySubwayStationId(subwayStation.Id), Times.Once);
+        //}
 
-        [Test]
-        public void GetAllSittersWithWorkTimeBySubwayStationNegativeTest()
-        {
-            _subwayStationRepositoryMock.Setup(ss => ss.GetSubwayStationById(It.IsAny<int>()))
-                .Returns((SubwayStation)null);
+        //[Test]
+        //public void GetAllSittersWithWorkTimeBySubwayStationNegativeTest()
+        //{
+        //    _subwayStationRepositoryMock.Setup(ss => ss.GetSubwayStationById(It.IsAny<int>()))
+        //        .Returns((SubwayStation)null);
 
-            Assert.Throws<EntityNotFoundException>(() =>
-            _service.GetAllSittersWithWorkTimeBySubwayStationId(It.IsAny<int>()));
-        }
+        //    Assert.Throws<EntityNotFoundException>(() =>
+        //    _service.GetAllSittersWithWorkTimeBySubwayStationId(It.IsAny<int>()));
+        //}
 
         [TestCaseSource(typeof(GetAllSittersWithServicesTestCaseSourse))]
         public void GetAllSittersWithServicesTest_ShouldReturnSittersWithServices(List<Sitter> sitters)

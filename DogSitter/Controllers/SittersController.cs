@@ -45,6 +45,11 @@ namespace DogSitter.API.Controllers
                 var sitterModel = _mapper.Map<SitterForAdminOutputModel>(sitter);
                 return Ok(sitterModel);
             }
+            if (User.IsInRole("Sitter"))
+            {
+                var sitterModel = _mapper.Map<SitterForSitterOutputModel>(sitter);
+                return Ok(sitterModel);
+            }
             else
             {
                 var sitterModel = _mapper.Map<SitterOutputModel>(sitter);
@@ -201,9 +206,20 @@ namespace DogSitter.API.Controllers
                 return Unauthorized("Invalid token, please try again");
             }
 
-            var sitters = _service.GetAllSittersWithWorkTimeBySubwayStationId(id);
-            var sittersModel = _mapper.Map<List<SitterOutputModel>>(sitters);
-            return Ok(sittersModel);
+            if (User.IsInRole("Admin"))
+            {
+                var sittersForAdmin = _mapper.Map<List<SitterForAdminOutputModel>>(
+                    _service.GetAllSittersWithTimesheetsBySubwayStationId(id));
+
+                return Ok(sittersForAdmin);
+            }
+            else
+            {
+                var sitters = _mapper.Map<List<SitterOutputModel>>(
+                    _service.GetAllSittersWithTimesheetsBySubwayStationId(id));
+
+                return Ok(sitters);
+            }
         }
 
         [HttpGet("with-services")]
@@ -214,8 +230,8 @@ namespace DogSitter.API.Controllers
         public ActionResult<List<SitterOutputModel>> GetAllSittersWithServices()
         {
             var sitters = _service.GetAllSittersWithServices();
-            var sittersModel = _mapper.Map<List<SitterOutputModel>>(sitters);
-            return Ok(sittersModel);
+            var sitterModels = _mapper.Map<List<SitterOutputModel>>(sitters);
+            return Ok(sitterModels);
         }
     }
 }

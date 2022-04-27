@@ -8,9 +8,9 @@ namespace DogSitter.BLL.Services
 {
     public class AddressService : IAddressService
     {
-        private IAddressRepository _repository;
-        private ICustomerRepository _customerRepository;
-        private IMapper _mapper;
+        private readonly IAddressRepository _repository;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
 
         public AddressService(IMapper mapper, IAddressRepository addressRepository,

@@ -17,7 +17,7 @@ namespace DogSitter.DAL.Entity
         [Required]
         public virtual Customer Customer { get; set; }
         public virtual Sitter Sitter { get; set; }
-        public virtual WorkTime SitterWorkTime { get; set; }
+        public virtual BusyTime SitterBusyTime { get; set; }
         public int? CommentId { get; set; }
         public virtual Comment Comment { get; set; }
         public virtual Dog Dog { get; set; }

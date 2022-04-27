@@ -6,7 +6,7 @@ namespace DogSitter.DAL.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        private DogSitterContext _context;
+        private readonly DogSitterContext _context;
 
         public OrderRepository(DogSitterContext context)
         {
@@ -31,7 +31,7 @@ namespace DogSitter.DAL.Repositories
             .Include(w => w.Customer)
             .Include(w => w.Service)
             .Include(w => w.Sitter)
-            .Include(w => w.SitterWorkTime)
+            .Include(w => w.SitterBusyTime)
             .FirstOrDefault();
 
         public List<Order> GetAll() =>
